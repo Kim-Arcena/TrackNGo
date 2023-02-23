@@ -1,0 +1,6 @@
+package com.example.trackngo
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity: FlutterActivity() {
+}
