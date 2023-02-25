@@ -12,7 +12,7 @@ class MySplashScreen extends StatefulWidget {
 
 class _MySplashScreenState extends State<MySplashScreen> {
   startTimer() {
-    Timer(const Duration(seconds: 30), () async {
+    Timer(const Duration(seconds: 5), () async {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => MainScreen()));
     });
@@ -25,7 +25,8 @@ class _MySplashScreenState extends State<MySplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Material(
+        child: Container(
       color: Colors.white,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -46,13 +47,12 @@ class _MySplashScreenState extends State<MySplashScreen> {
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.black,
-                fontSize: 10,
-                fontWeight: FontWeight.bold,
+                fontSize: 11,
               ),
             ),
           ),
         ],
       ),
-    );
+    ));
   }
 }
