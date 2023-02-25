@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trackngo/splashScreen/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -8,14 +9,7 @@ void main() async {
     theme: ThemeData(
       primarySwatch: Colors.blue,
     ),
-    home: Scaffold(
-      appBar: AppBar(
-        title: const Text('TrackNGo'),
-      ),
-      body: const Center(
-        child: Text('Hello Worlds'),
-      ),
-    ),
+    home: MySplashScreen(),
     debugShowCheckedModeBanner: false,
   )));
 }
