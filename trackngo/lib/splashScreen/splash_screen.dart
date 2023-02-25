@@ -12,7 +12,7 @@ class MySplashScreen extends StatefulWidget {
 
 class _MySplashScreenState extends State<MySplashScreen> {
   startTimer() {
-    Timer(const Duration(seconds: 3), () async {
+    Timer(const Duration(seconds: 30), () async {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => MainScreen()));
     });
@@ -26,9 +26,32 @@ class _MySplashScreenState extends State<MySplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.black12,
-      child: const Center(
-        child: Text('Splash Screen'),
+      color: Colors.white,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(
+            child: Center(
+              child: Image.asset(
+                "images/banner.png",
+                width: 200,
+                height: 200,
+              ),
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 50),
+            child: Text(
+              "Copyright © 2023 by TrackNGo UPV III.\nAll rights reserved.",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 10,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
