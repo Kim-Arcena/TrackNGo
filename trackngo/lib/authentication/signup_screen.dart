@@ -8,6 +8,9 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,9 +21,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Padding(
-                padding: const EdgeInsets.all(30.0),
-                child: const Text(
+              const Padding(
+                padding: EdgeInsets.all(30.0),
+                child: Text(
                   "Choose Account Type",
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -43,6 +46,69 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                 ],
               ),
+              Padding(
+                padding: const EdgeInsets.all(50.0),
+                child: Column(
+                  children: [
+                    TextField(
+                      controller: _emailController,
+                      style: const TextStyle(
+                        color: Color(0xFFCCCCCC),
+                        fontSize: 14,
+                      ),
+                      decoration: InputDecoration(
+                        labelText: 'Email',
+                        hintText: 'emailr@address.com',
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          borderSide: BorderSide(color: Color(0xFFCCCCCC)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          borderSide: BorderSide(color: Color(0xFFCCCCCC)),
+                        ),
+                        hintStyle: const TextStyle(
+                          color: Color(0xFFCCCCCC),
+                          fontSize: 16,
+                        ),
+                        labelStyle: const TextStyle(
+                          color: Color(0xFF2b2b2b),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+                    TextField(
+                      controller: _passwordController,
+                      style: const TextStyle(
+                        color: Color(0xFFCCCCCC),
+                        fontSize: 14,
+                      ),
+                      decoration: InputDecoration(
+                        labelText: 'Password',
+                        hintText: 'email@adtdress.com',
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          borderSide: BorderSide(color: Color(0xFFCCCCCC)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          borderSide: BorderSide(color: Color(0xFFCCCCCC)),
+                        ),
+                        hintStyle: const TextStyle(
+                          color: Color(0xFFCCCCCC),
+                          fontSize: 16,
+                        ),
+                        labelStyle: const TextStyle(
+                          color: Color(0xFF2b2b2b),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
         ),
