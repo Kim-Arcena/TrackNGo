@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:trackngo/authentication/signup_commuter.dart';
-import 'package:trackngo/tabPages/home_tab.dart';
-import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:trackngo/authentication/signup_driver.dart';
 
-class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({super.key});
+class SignUpDriver extends StatefulWidget {
+  const SignUpDriver({super.key});
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  State<SignUpDriver> createState() => _SignUpDriver();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _SignUpDriver extends State<SignUpDriver> {
+  TextEditingController _firstNameController = TextEditingController();
+  TextEditingController _lastNameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-  String? selectedImage;
+  TextEditingController _contactNumberController = TextEditingController();
+  TextEditingController _plateNumberController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +25,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Padding(
-                padding: EdgeInsets.all(30.0),
+                padding: EdgeInsets.only(top: 30),
                 child: Text(
-                  "Choose Account Type",
+                  "Choose Driver's Type",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 22,
@@ -38,79 +36,72 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        selectedImage = 'images/commuter.png';
-                      });
-                    },
-                    child: Neumorphic(
-                      margin: const EdgeInsets.all(5),
-                      style: NeumorphicStyle(
-                        boxShape: NeumorphicBoxShape.roundRect(
-                            BorderRadius.circular(20)),
-                        depth: 5,
-                        lightSource: LightSource.topLeft,
-                        color: Colors.white,
-                        shadowDarkColor: selectedImage == 'images/commuter.png'
-                            ? Color(0xFF8DE0F4)
-                            : Color(0xFFDFDFDF),
-                        shadowLightColor: selectedImage == 'images/commuter.png'
-                            ? Color(0xFF8DE0F4)
-                            : Color(0xFFDFDFDF),
-                      ),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(250),
-                        ),
-                        child: Image.asset(
-                          'images/commuter.png',
-                          width: 140,
-                        ),
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        selectedImage = 'images/driver.png';
-                      });
-                    },
-                    child: Neumorphic(
-                      margin: const EdgeInsets.all(5),
-                      style: NeumorphicStyle(
-                        boxShape: NeumorphicBoxShape.roundRect(
-                            BorderRadius.circular(20)),
-                        depth: 5,
-                        lightSource: LightSource.topLeft,
-                        color: Colors.white,
-                        shadowDarkColor: selectedImage == 'images/driver.png'
-                            ? Color(0xFFF6D09D)
-                            : Color(0xFFDFDFDF),
-                        shadowLightColor: selectedImage == 'images/driver.png'
-                            ? Color(0xFFF6D09D)
-                            : Color(0xFFDFDFDF),
-                      ),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(250),
-                        ),
-                        child: Image.asset(
-                          'images/driver.png',
-                          width: 140,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
               Padding(
                 padding: const EdgeInsets.all(45.0),
                 child: Column(
                   children: [
+                    TextField(
+                      controller: _firstNameController,
+                      style: const TextStyle(
+                        color: Color(0xFF3a3a3a),
+                        fontSize: 14,
+                      ),
+                      decoration: InputDecoration(
+                        labelText: 'First Name',
+                        hintText: 'Juan',
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          borderSide: BorderSide(color: Color(0xFFCCCCCC)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          borderSide: BorderSide(color: Color(0xFFCCCCCC)),
+                        ),
+                        hintStyle: const TextStyle(
+                          color: Color(0xFFCCCCCC),
+                          fontSize: 16,
+                        ),
+                        labelStyle: const TextStyle(
+                          color: Color(0xFF2b2b2b),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    TextField(
+                      controller: _lastNameController,
+                      style: const TextStyle(
+                        color: Color(0xFF3a3a3a),
+                        fontSize: 14,
+                      ),
+                      decoration: InputDecoration(
+                        labelText: 'Last Name',
+                        hintText: 'Dela Cruz',
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          borderSide: BorderSide(color: Color(0xFFCCCCCC)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          borderSide: BorderSide(color: Color(0xFFCCCCCC)),
+                        ),
+                        hintStyle: const TextStyle(
+                          color: Color(0xFFCCCCCC),
+                          fontSize: 16,
+                        ),
+                        labelStyle: const TextStyle(
+                          color: Color(0xFF2b2b2b),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     TextField(
                       controller: _emailController,
                       style: const TextStyle(
@@ -140,19 +131,48 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
                     TextField(
-                      controller: _passwordController,
-                      keyboardType: TextInputType.text,
-                      obscureText: true,
+                      controller: _contactNumberController,
                       style: const TextStyle(
                         color: Color(0xFF3a3a3a),
                         fontSize: 14,
                       ),
                       decoration: InputDecoration(
-                        labelText: 'Password',
-                        hintText: '********',
+                        labelText: 'Contact Number',
+                        hintText: '+63| 9XX-XXX-XXXX',
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          borderSide: BorderSide(color: Color(0xFFCCCCCC)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          borderSide: BorderSide(color: Color(0xFFCCCCCC)),
+                        ),
+                        hintStyle: const TextStyle(
+                          color: Color(0xFFCCCCCC),
+                          fontSize: 16,
+                        ),
+                        labelStyle: const TextStyle(
+                          color: Color(0xFF2b2b2b),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    TextField(
+                      controller: _plateNumberController,
+                      style: const TextStyle(
+                        color: Color(0xFF3a3a3a),
+                        fontSize: 14,
+                      ),
+                      decoration: InputDecoration(
+                        labelText: 'Plate Number',
+                        hintText: 'XXX-XXXXXXX',
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20.0),
                           borderSide: BorderSide(color: Color(0xFFCCCCCC)),
@@ -176,28 +196,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       margin: const EdgeInsets.only(top: 60, bottom: 10),
                       child: ElevatedButton(
                           onPressed: () {
-                            if (selectedImage == 'images/driver.png') {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => SignUpDriver()),
-                              );
-                            } else {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => SignUpCommuter()),
-                              );
-                            }
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SignUpDriver()),
+                            );
                           },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Color(0xFF4E8C6F),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(50),
                               ),
-                              fixedSize: Size(550, 55)),
+                              fixedSize: const Size(550, 55)),
                           child: const Text(
-                            "Get Started",
+                            "Next",
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 16,
