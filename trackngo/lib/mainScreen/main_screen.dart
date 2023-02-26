@@ -40,30 +40,52 @@ class _MainScreenState extends State<MainScreen>
           RatingsTabPage(),
         ],
       ),
-      bottomNavigationBar: SizedBox(
-        height: 90,
-        child: BottomNavigationBar(
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.attach_money),
-              label: 'Earnings',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.star),
-              label: 'Ratings',
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.2),
+              blurRadius: 25.0,
+              offset: Offset(0, -15), // changes position of shadow
             ),
           ],
-          unselectedItemColor: Color(0xFFc4c4c4),
-          selectedItemColor: Color(0xFF4E8C6F), // set selected color to green
-          backgroundColor: Color(0xFFF1FFF8),
-          type: BottomNavigationBarType.fixed,
-          showUnselectedLabels: true,
-          currentIndex: selectedIndex,
-          onTap: onItemClicked,
+        ),
+        child: SizedBox(
+          height: 90,
+          child: Material(
+            elevation: 10,
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(30),
+              topRight: Radius.circular(30),
+            ),
+            borderOnForeground: true,
+            clipBehavior: Clip.antiAlias,
+            child: BottomNavigationBar(
+              items: const [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.explore),
+                  label: 'Home',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.attach_money),
+                  label: 'Earnings',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.settings),
+                  label: 'Settings',
+                ),
+              ],
+              unselectedItemColor: Color(0xFF7c7c7c),
+              selectedItemColor: Color(0xFF4E8C6F),
+              backgroundColor: Color(0xFFF1FFF8),
+              type: BottomNavigationBarType.fixed,
+              selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
+              showUnselectedLabels: true,
+              currentIndex: selectedIndex,
+              onTap: onItemClicked,
+              elevation: 20,
+            ),
+          ),
         ),
       ),
     );
