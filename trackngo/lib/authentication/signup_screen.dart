@@ -53,12 +53,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     TextField(
                       controller: _emailController,
                       style: const TextStyle(
-                        color: Color(0xFFCCCCCC),
+                        color: Color(0xFF3a3a3a),
                         fontSize: 14,
                       ),
                       decoration: InputDecoration(
                         labelText: 'Email',
-                        hintText: 'emailr@address.com',
+                        hintText: 'email@address.com',
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20.0),
                           borderSide: BorderSide(color: Color(0xFFCCCCCC)),
@@ -73,20 +73,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         labelStyle: const TextStyle(
                           color: Color(0xFF2b2b2b),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
                         ),
                       ),
                     ),
+                    const SizedBox(
+                      height: 20,
+                    ),
                     TextField(
                       controller: _passwordController,
+                      keyboardType: TextInputType.text,
+                      obscureText: true,
                       style: const TextStyle(
-                        color: Color(0xFFCCCCCC),
+                        color: Color(0xFF3a3a3a),
                         fontSize: 14,
                       ),
                       decoration: InputDecoration(
                         labelText: 'Password',
-                        hintText: 'email@adtdress.com',
+                        hintText: '********',
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20.0),
                           borderSide: BorderSide(color: Color(0xFFCCCCCC)),
@@ -101,9 +106,32 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         labelStyle: const TextStyle(
                           color: Color(0xFF2b2b2b),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
                         ),
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 60),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          //todo
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xFF4E8C6F),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 125, vertical: 15),
+                        ),
+                        child: const Text(
+                          "Next",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                          ),
+                        )
                       ),
                     ),
                   ],
