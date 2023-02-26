@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:trackngo/tabPages/home_tab.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -10,6 +12,7 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+  String? selectedImage;
 
   @override
   Widget build(BuildContext context) {
@@ -36,13 +39,69 @@ class _SignUpScreenState extends State<SignUpScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset(
-                    "images/commuter.png",
-                    width: 140,
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selectedImage = 'images/commuter.png';
+                      });
+                    },
+                    child: Neumorphic(
+                      margin: const EdgeInsets.all(5),
+                      style: NeumorphicStyle(
+                        boxShape: NeumorphicBoxShape.roundRect(
+                            BorderRadius.circular(20)),
+                        depth: 5,
+                        lightSource: LightSource.topLeft,
+                        color: Colors.white,
+                        shadowDarkColor: selectedImage == 'images/commuter.png'
+                            ? Color(0xFF81B49B)
+                            : Color(0xFFDFDFDF),
+                        shadowLightColor: selectedImage == 'images/commuter.png'
+                            ? Color(0xFF81B49B)
+                            : Color(0xFFDFDFDF),
+                      ),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(250),
+                        ),
+                        child: Image.asset(
+                          'images/commuter.png',
+                          width: 140,
+                        ),
+                      ),
+                    ),
                   ),
-                  Image.asset(
-                    "images/driver.png",
-                    width: 140,
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selectedImage = 'images/driver.png';
+                      });
+                    },
+                    child: Neumorphic(
+                      margin: const EdgeInsets.all(5),
+                      style: NeumorphicStyle(
+                        boxShape: NeumorphicBoxShape.roundRect(
+                            BorderRadius.circular(20)),
+                        depth: 5,
+                        lightSource: LightSource.topLeft,
+                        color: Colors.white,
+                        shadowDarkColor: selectedImage == 'images/driver.png'
+                            ? Color(0xFF81B49B)
+                            : Color(0xFFDFDFDF),
+                        shadowLightColor: selectedImage == 'images/driver.png'
+                            ? Color(0xFF81B49B)
+                            : Color(0xFFDFDFDF),
+                      ),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(250),
+                        ),
+                        child: Image.asset(
+                          'images/driver.png',
+                          width: 140,
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),

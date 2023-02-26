@@ -30,7 +30,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  flutter_neumorphic: ^3.1.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -63,7 +63,6 @@ flutter:
     - images/banner.png
     - images/commuter.png
     - images/driver.png
-    
 
 
   #   - images/a_dot_burr.jpeg
