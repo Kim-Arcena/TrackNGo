@@ -112,28 +112,48 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                     ),
                     Container(
-                      margin: const EdgeInsets.only(top: 60),
+                      margin: const EdgeInsets.only(top: 60, bottom: 10),
                       child: ElevatedButton(
-                        onPressed: () {
-                          //todo
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFF4E8C6F),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50),
+                          onPressed: () {
+                            //todo
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Color(0xFF4E8C6F),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 125, vertical: 15),
                           ),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 125, vertical: 15),
-                        ),
-                        child: const Text(
-                          "Next",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                          ),
-                        )
-                      ),
+                          child: const Text(
+                            "Next",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                            ),
+                          )),
                     ),
+                    RichText(
+                      text: const TextSpan(
+                        style: TextStyle(
+                          color: Color(0xFFC7C8CC),
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: 'Have an account already? ',
+                          ),
+                          TextSpan(
+                            text: 'Login',
+                            style: TextStyle(
+                              color: Color(0xFF487E65),
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
                   ],
                 ),
               )
