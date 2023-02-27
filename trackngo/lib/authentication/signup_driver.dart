@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trackngo/authentication/signup_driver2.dart';
 
 class SignUpDriver extends StatefulWidget {
   const SignUpDriver({super.key});
@@ -12,7 +13,7 @@ class _SignUpDriver extends State<SignUpDriver> {
   TextEditingController _lastNameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _contactNumberController = TextEditingController();
-  TextEditingController _plateNumberController = TextEditingController();
+  TextEditingController _plateNumberController = TextEditingController(); 
 
   @override
   Widget build(BuildContext context) {
@@ -199,7 +200,7 @@ class _SignUpDriver extends State<SignUpDriver> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => SignUpDriver()),
+                                  builder: (context) => SignUpDriver2()),
                             );
                           },
                           style: ElevatedButton.styleFrom(
