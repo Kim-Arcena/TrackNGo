@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:trackngo/authentication/signup_commuter.dart';
-import 'package:trackngo/tabPages/home_tab.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:trackngo/authentication/signup_driver.dart';
+import 'package:trackngo/authentication/login_screen.dart';
+import 'package:flutter/gestures.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -205,26 +206,34 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           )),
                     ),
                     RichText(
-                      text: const TextSpan(
-                        style: TextStyle(
+                      text: TextSpan(
+                        style: const TextStyle(
                           color: Color(0xFFC7C8CC),
                           fontSize: 15,
                           fontWeight: FontWeight.w500,
                         ),
                         children: [
-                          TextSpan(
+                          const TextSpan(
                             text: 'Have an account already? ',
                           ),
                           TextSpan(
                             text: 'Login',
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Color(0xFF487E65),
                               fontWeight: FontWeight.bold,
                             ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => LoginScreen()),
+                                );
+                              },
                           ),
                         ],
                       ),
-                    )
+                    ),
                   ],
                 ),
               )

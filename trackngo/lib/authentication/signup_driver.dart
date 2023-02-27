@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trackngo/authentication/signup_driver2.dart';
+import 'package:trackngo/authentication/login_screen.dart';
+import 'package:flutter/gestures.dart';
 
 class SignUpDriver extends StatefulWidget {
   const SignUpDriver({super.key});
@@ -13,7 +15,7 @@ class _SignUpDriver extends State<SignUpDriver> {
   TextEditingController _lastNameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _contactNumberController = TextEditingController();
-  TextEditingController _plateNumberController = TextEditingController(); 
+  TextEditingController _plateNumberController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -218,26 +220,34 @@ class _SignUpDriver extends State<SignUpDriver> {
                           )),
                     ),
                     RichText(
-                      text: const TextSpan(
-                        style: TextStyle(
+                      text: TextSpan(
+                        style: const TextStyle(
                           color: Color(0xFFC7C8CC),
                           fontSize: 15,
                           fontWeight: FontWeight.w500,
                         ),
                         children: [
-                          TextSpan(
+                          const TextSpan(
                             text: 'Have an account already? ',
                           ),
                           TextSpan(
                             text: 'Login',
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Color(0xFF487E65),
                               fontWeight: FontWeight.bold,
                             ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => LoginScreen()),
+                                );
+                              },
                           ),
                         ],
                       ),
-                    )
+                    ),
                   ],
                 ),
               )
