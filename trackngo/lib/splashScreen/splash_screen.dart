@@ -1,6 +1,7 @@
 import "dart:async";
 
 import "package:flutter/material.dart";
+import "package:trackngo/authentication/login_screen.dart";
 import "package:trackngo/authentication/signup_screen.dart";
 import "package:trackngo/mainScreen/main_screen.dart";
 
@@ -13,9 +14,8 @@ class MySplashScreen extends StatefulWidget {
 
 class _MySplashScreenState extends State<MySplashScreen> {
   startTimer() {
-    Timer(const Duration(seconds: 5), () async {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (c) => SignUpScreen()));
+    Timer(const Duration(seconds: 3), () async {
+      Navigator.push(context, MaterialPageRoute(builder: (c) => LoginScreen()));
     });
   }
 
