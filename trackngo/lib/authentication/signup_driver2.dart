@@ -1,10 +1,17 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:trackngo/authentication/login_screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:trackngo/mainScreen/main_screen.dart';
+import 'package:trackngo/authentication/signup_driver.dart';
+
+import '../global/global.dart';
 
 class SignUpDriver2 extends StatefulWidget {
-  const SignUpDriver2({super.key});
+  final Map<String, dynamic> driverInfoDataMap;
+  const SignUpDriver2({Key? key, required this.driverInfoDataMap})
+      : super(key: key);
 
   @override
   State<SignUpDriver2> createState() => _SignUpDriver2State();
@@ -17,6 +24,46 @@ class _SignUpDriver2State extends State<SignUpDriver2> {
   TextEditingController _confirmPasswordController = TextEditingController();
   List<String> busTypeList = ['Regular', 'Air-Conditioned'];
   String? selectedBusType;
+
+  Map<String, dynamic> driverInfoDataMap = {};
+
+  validateForm() {
+    if (_licenseNumberController.text.isEmpty ||
+        _operatorIdController.text.isEmpty ||
+        selectedBusType == null ||
+        _passwordController.text.isEmpty ||
+        _confirmPasswordController.text.isEmpty) {
+      Fluttertoast.showToast(msg: "Please fill all the fields");
+    } else if (_passwordController.text != _confirmPasswordController.text) {
+      Fluttertoast.showToast(msg: "Password does not match");
+    }
+  }
+
+  void saveDriverInfo() {
+    driverInfoDataMap.addAll(widget.driverInfoDataMap);
+    driverInfoDataMap.addAll({
+      "license_number": _licenseNumberController.text.trim(),
+      "operator_id": _operatorIdController.text.trim(),
+      "bus_type": selectedBusType,
+      "password": _passwordController.text.trim(),
+      "confirm_password": _confirmPasswordController.text.trim(),
+    });
+
+    // ignore: deprecated_member_use
+    DatabaseReference usersRef = FirebaseDatabase(
+      databaseURL:
+          "https://trackngo-d7aa0-default-rtdb.asia-southeast1.firebasedatabase.app/",
+    ).ref().child("users");
+    usersRef
+        .child(currentFirebaseUser!.uid)
+        .child("drivers_child")
+        .set(driverInfoDataMap);
+
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => MainScreen()));
+
+    Fluttertoast.showToast(msg: "Driver added successfully");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -201,11 +248,8 @@ class _SignUpDriver2State extends State<SignUpDriver2> {
                       margin: const EdgeInsets.only(top: 60, bottom: 10),
                       child: ElevatedButton(
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => SignUpDriver2()),
-                            );
+                            validateForm();
+                            saveDriverInfo();
                           },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Color(0xFF4E8C6F),

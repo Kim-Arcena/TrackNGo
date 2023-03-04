@@ -22,6 +22,8 @@ class _SignUpDriver extends State<SignUpDriver> {
   TextEditingController _contactNumberController = TextEditingController();
   TextEditingController _plateNumberController = TextEditingController();
 
+  Map<String, dynamic> driverInfoDataMap = {};
+
   validateForm() {
     if (_firstNameController.text.isEmpty ||
         _lastNameController.text.isEmpty ||
@@ -37,30 +39,24 @@ class _SignUpDriver extends State<SignUpDriver> {
       if (_plateNumberController.text.length < 7) {
         Fluttertoast.showToast(msg: "Invalid Plate Number");
       }
-    } else {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => SignUpDriver2()));
     }
   }
 
-  saveDriverInfo() {
-    Map driverInfoDataMap = {
+  void saveDriverInfo() {
+    driverInfoDataMap = {
       "firstName": _firstNameController.text.trim(),
       "lastName": _lastNameController.text.trim(),
       "contactNumber": _contactNumberController.text.trim(),
       "plateNumber": _plateNumberController.text.trim(),
     };
 
-    // ignore: deprecated_member_use
-    DatabaseReference usersRef = FirebaseDatabase(
-            databaseURL:
-                "https://trackngo-d7aa0-default-rtdb.asia-southeast1.firebasedatabase.app/")
-        .ref()
-        .child("users");
-    usersRef
-        .child(currentFirebaseUser!.uid)
-        .child("drivers_child")
-        .set(driverInfoDataMap);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+            SignUpDriver2(driverInfoDataMap: driverInfoDataMap),
+      ),
+    );
 
     Fluttertoast.showToast(msg: "Driver's Information Saved Successfully");
   }
@@ -247,7 +243,7 @@ class _SignUpDriver extends State<SignUpDriver> {
                       margin: const EdgeInsets.only(top: 60, bottom: 10),
                       child: ElevatedButton(
                           onPressed: () {
-                            // validateForm();
+                            validateForm();
                             saveDriverInfo();
                           },
                           style: ElevatedButton.styleFrom(
