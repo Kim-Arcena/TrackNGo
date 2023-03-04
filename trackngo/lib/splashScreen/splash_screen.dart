@@ -5,6 +5,8 @@ import "package:trackngo/authentication/login_screen.dart";
 import "package:trackngo/authentication/signup_screen.dart";
 import "package:trackngo/mainScreen/main_screen.dart";
 
+import "../global/global.dart";
+
 class MySplashScreen extends StatefulWidget {
   const MySplashScreen({super.key});
 
@@ -15,7 +17,16 @@ class MySplashScreen extends StatefulWidget {
 class _MySplashScreenState extends State<MySplashScreen> {
   startTimer() {
     Timer(const Duration(seconds: 3), () async {
-      Navigator.push(context, MaterialPageRoute(builder: (c) => SignUpScreen()));
+      if (fAuth.currentUser != null) {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (c) => const MainScreen()));
+      } else {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (c) => const LoginScreen()));
+      }
+
+      Navigator.push(
+          context, MaterialPageRoute(builder: (c) => SignUpScreen()));
     });
   }
 
