@@ -19,6 +19,7 @@ class _MySplashScreenState extends State<MySplashScreen> {
     Timer(const Duration(seconds: 3), () async {
       if (await fAuth.currentUser != null) {
         // ignore: use_build_context_synchronously
+        currentFirebaseUser = await fAuth.currentUser;
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (c) => const MainScreen()));
       } else {

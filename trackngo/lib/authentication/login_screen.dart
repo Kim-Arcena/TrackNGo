@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:trackngo/authentication/signup_screen.dart';
 import 'package:trackngo/mainScreen/main_screen.dart';
 import 'package:flutter/gestures.dart';
+
+import '../global/global.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -18,9 +21,32 @@ class _LoginScreenState extends State<LoginScreen> {
   validateForm() {
     if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
       Fluttertoast.showToast(msg: "Please fill up all the fields");
+    }
+    if (!_emailController.text.contains("@")) {
+      Fluttertoast.showToast(msg: "Please enter a valid email");
     } else {
+      loginDriverNow();
+    }
+  }
+
+  loginDriverNow() async {
+    final User? firebaseUser = (await fAuth
+            .signInWithEmailAndPassword(
+                email: _emailController.text,
+                password: _passwordController.text)
+            .catchError((errMsg) {
+      Fluttertoast.showToast(msg: "Error: " + errMsg.toString());
+    }))
+        .user;
+    if (firebaseUser != null) {
+      currentFirebaseUser = firebaseUser;
+      Fluttertoast.showToast(msg: "Logged in Successfully");
+      // ignore: use_build_context_synchronously
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => MainScreen()));
+          context, MaterialPageRoute(builder: (context) => const MainScreen()));
+    } else {
+      Navigator.pop(context);
+      Fluttertoast.showToast(msg: "Login Failed");
     }
   }
 
@@ -113,11 +139,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       margin: const EdgeInsets.only(top: 60, bottom: 10),
                       child: ElevatedButton(
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => MainScreen()),
-                            );
+                            validateForm();
                           },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Color(0xFF4E8C6F),

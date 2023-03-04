@@ -40,9 +40,14 @@ class _SignUpDriver extends State<SignUpDriver> {
         Fluttertoast.showToast(msg: "Invalid Plate Number");
       }
     }
+    if (_contactNumberController.text.length < 5) {
+      Fluttertoast.showToast(msg: "Invalid Contact Number");
+    } else {
+      saveDriverInfo();
+    }
   }
 
-  void saveDriverInfo() {
+  saveDriverInfo() {
     driverInfoDataMap = {
       "firstName": _firstNameController.text.trim(),
       "lastName": _lastNameController.text.trim(),
@@ -244,7 +249,6 @@ class _SignUpDriver extends State<SignUpDriver> {
                       child: ElevatedButton(
                           onPressed: () {
                             validateForm();
-                            saveDriverInfo();
                           },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Color(0xFF4E8C6F),

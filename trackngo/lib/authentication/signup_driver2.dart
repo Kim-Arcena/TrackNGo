@@ -36,6 +36,8 @@ class _SignUpDriver2State extends State<SignUpDriver2> {
       Fluttertoast.showToast(msg: "Please fill all the fields");
     } else if (_passwordController.text != _confirmPasswordController.text) {
       Fluttertoast.showToast(msg: "Password does not match");
+    } else {
+      saveDriverInfo();
     }
   }
 
@@ -249,7 +251,6 @@ class _SignUpDriver2State extends State<SignUpDriver2> {
                       child: ElevatedButton(
                           onPressed: () {
                             validateForm();
-                            saveDriverInfo();
                           },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Color(0xFF4E8C6F),

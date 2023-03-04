@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:trackngo/authentication/signup_driver2.dart';
 import 'package:trackngo/authentication/login_screen.dart';
 import 'package:flutter/gestures.dart';
@@ -16,6 +17,16 @@ class _SignUpCommuter extends State<SignUpCommuter> {
   TextEditingController _lastNameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _contactNumberController = TextEditingController();
+
+  validateForm(){
+    if(_firstNameController.text.isEmpty || _lastNameController.text.isEmpty || _emailController.text.isEmpty || _contactNumberController.text.isEmpty){
+      Fluttertoast.showToast(msg: "Please fill up all the fields");
+    }
+    else{
+      Navigator.push(context, MaterialPageRoute(builder: (context) => const MainScreen()));
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
