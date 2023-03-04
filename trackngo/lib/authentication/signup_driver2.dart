@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trackngo/authentication/login_screen.dart';
 import 'package:flutter/gestures.dart';
+import 'package:trackngo/mainScreen/main_screen.dart';
 
 class SignUpDriver2 extends StatefulWidget {
   const SignUpDriver2({super.key});
@@ -107,6 +108,8 @@ class _SignUpDriver2State extends State<SignUpDriver2> {
                     ),
                     TextField(
                       controller: _passwordController,
+                      keyboardType: TextInputType.text,
+                      obscureText: true,
                       style: const TextStyle(
                         color: Color(0xFF3a3a3a),
                         fontSize: 14,
@@ -138,6 +141,8 @@ class _SignUpDriver2State extends State<SignUpDriver2> {
                     ),
                     TextField(
                       controller: _confirmPasswordController,
+                      keyboardType: TextInputType.text,
+                      obscureText: true,
                       style: const TextStyle(
                         color: Color(0xFF3a3a3a),
                         fontSize: 14,
