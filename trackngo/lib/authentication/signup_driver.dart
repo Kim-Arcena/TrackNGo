@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:trackngo/authentication/signup_driver2.dart';
 import 'package:trackngo/authentication/login_screen.dart';
 import 'package:flutter/gestures.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class SignUpDriver extends StatefulWidget {
   const SignUpDriver({super.key});
@@ -16,6 +17,30 @@ class _SignUpDriver extends State<SignUpDriver> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _contactNumberController = TextEditingController();
   TextEditingController _plateNumberController = TextEditingController();
+
+  validateForm() {
+    if (_firstNameController.text.isEmpty ||
+        _lastNameController.text.isEmpty ||
+        _emailController.text.isEmpty ||
+        _contactNumberController.text.isEmpty ||
+        _plateNumberController.text.isEmpty) {
+      Fluttertoast.showToast(msg: "Kindly fill up all fields.");
+    }
+    
+    if (!_emailController.text.contains('@')) {
+      Fluttertoast.showToast(msg: "Invalid Email");
+
+    if(_plateNumberController.text.length < 7){
+      Fluttertoast.showToast(msg: "Invalid Plate Number");
+    }
+    
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => SignUpDriver2()),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -199,11 +224,7 @@ class _SignUpDriver extends State<SignUpDriver> {
                       margin: const EdgeInsets.only(top: 60, bottom: 10),
                       child: ElevatedButton(
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => SignUpDriver2()),
-                            );
+                            validateForm();
                           },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Color(0xFF4E8C6F),

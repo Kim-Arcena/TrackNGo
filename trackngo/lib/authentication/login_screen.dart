@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:trackngo/authentication/signup_screen.dart';
 import 'package:trackngo/mainScreen/main_screen.dart';
 import 'package:flutter/gestures.dart';
@@ -13,6 +14,15 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+
+  validateForm() {
+    if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
+      Fluttertoast.showToast(msg: "Please fill up all the fields");
+    } else {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => MainScreen()));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -142,6 +152,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
+                                validateForm();
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(

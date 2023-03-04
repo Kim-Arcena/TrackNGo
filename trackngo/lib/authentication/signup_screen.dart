@@ -4,6 +4,7 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:trackngo/authentication/signup_driver.dart';
 import 'package:trackngo/authentication/login_screen.dart';
 import 'package:flutter/gestures.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -16,6 +17,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   String? selectedImage;
+
+  validateForm() {
+    if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
+      Fluttertoast.showToast(msg: "Please fill up all the fields");
+    } else {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => SignUpCommuter()));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -177,6 +187,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       margin: const EdgeInsets.only(top: 60, bottom: 10),
                       child: ElevatedButton(
                           onPressed: () {
+                            validateForm();
                             if (selectedImage == 'images/driver.png') {
                               Navigator.push(
                                 context,
