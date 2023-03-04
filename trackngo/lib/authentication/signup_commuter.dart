@@ -1,9 +1,12 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:trackngo/authentication/signup_driver2.dart';
 import 'package:trackngo/authentication/login_screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:trackngo/mainScreen/main_screen.dart';
+
+import '../global/global.dart';
 
 class SignUpCommuter extends StatefulWidget {
   const SignUpCommuter({super.key});
@@ -18,15 +21,40 @@ class _SignUpCommuter extends State<SignUpCommuter> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _contactNumberController = TextEditingController();
 
-  validateForm(){
-    if(_firstNameController.text.isEmpty || _lastNameController.text.isEmpty || _emailController.text.isEmpty || _contactNumberController.text.isEmpty){
+  validateForm() {
+    if (_firstNameController.text.isEmpty ||
+        _lastNameController.text.isEmpty ||
+        _emailController.text.isEmpty ||
+        _contactNumberController.text.isEmpty) {
       Fluttertoast.showToast(msg: "Please fill up all the fields");
-    }
-    else{
-      Navigator.push(context, MaterialPageRoute(builder: (context) => const MainScreen()));
+    } else {
+      saveCommutersInfo();
     }
   }
 
+  saveCommutersInfo() {
+    Map commutersInfoMap = {
+      "firstName": _firstNameController.text,
+      "lastName": _lastNameController.text,
+      "email": _emailController.text,
+      "contactNumber": _contactNumberController.text,
+    };
+
+    // ignore: deprecated_member_use
+    DatabaseReference usersRef = FirebaseDatabase(
+      databaseURL:
+          "https://trackngo-d7aa0-default-rtdb.asia-southeast1.firebasedatabase.app/",
+    ).ref().child("users");
+    usersRef
+        .child(currentFirebaseUser!.uid)
+        .child("commuters_child")
+        .set(commutersInfoMap);
+
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => MainScreen()));
+
+    Fluttertoast.showToast(msg: "Driver added successfully");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -182,11 +210,7 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                       margin: const EdgeInsets.only(top: 45, bottom: 10),
                       child: ElevatedButton(
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => MainScreen()),
-                            );
+                            validateForm();
                           },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Color(0xFF4E8C6F),
