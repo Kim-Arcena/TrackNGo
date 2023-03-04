@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:trackngo/authentication/signup_driver2.dart';
 import 'package:trackngo/authentication/login_screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:trackngo/global/global.dart';
 
 class SignUpDriver extends StatefulWidget {
   const SignUpDriver({super.key});
@@ -14,6 +17,7 @@ class SignUpDriver extends StatefulWidget {
 class _SignUpDriver extends State<SignUpDriver> {
   TextEditingController _firstNameController = TextEditingController();
   TextEditingController _lastNameController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _contactNumberController = TextEditingController();
   TextEditingController _plateNumberController = TextEditingController();
@@ -26,20 +30,39 @@ class _SignUpDriver extends State<SignUpDriver> {
         _plateNumberController.text.isEmpty) {
       Fluttertoast.showToast(msg: "Kindly fill up all fields.");
     }
-    
+
     if (!_emailController.text.contains('@')) {
       Fluttertoast.showToast(msg: "Invalid Email");
 
-    if(_plateNumberController.text.length < 7){
-      Fluttertoast.showToast(msg: "Invalid Plate Number");
-    }
-    
+      if (_plateNumberController.text.length < 7) {
+        Fluttertoast.showToast(msg: "Invalid Plate Number");
+      }
     } else {
       Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => SignUpDriver2()),
-      );
+          context, MaterialPageRoute(builder: (context) => SignUpDriver2()));
     }
+  }
+
+  saveDriverInfo() {
+    Map driverInfoDataMap = {
+      "firstName": _firstNameController.text.trim(),
+      "lastName": _lastNameController.text.trim(),
+      "contactNumber": _contactNumberController.text.trim(),
+      "plateNumber": _plateNumberController.text.trim(),
+    };
+
+    // ignore: deprecated_member_use
+    DatabaseReference usersRef = FirebaseDatabase(
+            databaseURL:
+                "https://trackngo-d7aa0-default-rtdb.asia-southeast1.firebasedatabase.app/")
+        .ref()
+        .child("users");
+    usersRef
+        .child(currentFirebaseUser!.uid)
+        .child("drivers_child")
+        .set(driverInfoDataMap);
+
+    Fluttertoast.showToast(msg: "Driver's Information Saved Successfully");
   }
 
   @override
@@ -224,7 +247,8 @@ class _SignUpDriver extends State<SignUpDriver> {
                       margin: const EdgeInsets.only(top: 60, bottom: 10),
                       child: ElevatedButton(
                           onPressed: () {
-                            validateForm();
+                            // validateForm();
+                            saveDriverInfo();
                           },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Color(0xFF4E8C6F),

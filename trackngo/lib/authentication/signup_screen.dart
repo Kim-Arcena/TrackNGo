@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:trackngo/authentication/signup_commuter.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
@@ -5,6 +7,7 @@ import 'package:trackngo/authentication/signup_driver.dart';
 import 'package:trackngo/authentication/login_screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:trackngo/global/global.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -22,8 +25,45 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
       Fluttertoast.showToast(msg: "Please fill up all the fields");
     } else {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => SignUpCommuter()));
+      saveDriverInfo();
+    }
+  }
+
+  saveDriverInfo() async {
+    final User? firebaseUser = (await fAuth
+            .createUserWithEmailAndPassword(
+      email: _emailController.text.trim(),
+      password: _passwordController.text.trim(),
+    )
+            .catchError((err) {
+      Fluttertoast.showToast(msg: err.message);
+    }))
+        .user;
+
+    if (firebaseUser != null) {
+      Map userDataMap = {
+        "id": firebaseUser.uid,
+        "email": _emailController.text.trim(),
+        "password": _passwordController.text.trim(),
+        "type": selectedImage,
+      };
+
+      DatabaseReference usersRef =
+          FirebaseDatabase.instance.ref().child("users");
+      usersRef.child(firebaseUser.uid).set(userDataMap);
+
+      currentFirebaseUser = firebaseUser;
+      Fluttertoast.showToast(msg: "Account has been initialized.");
+      if (selectedImage == 'images/commuter.png') {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => SignUpCommuter()));
+      } else {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => SignUpDriver()));
+      }
+    } else {
+      Navigator.pop(context);
+      Fluttertoast.showToast(msg: "Account has not been registered");
     }
   }
 
