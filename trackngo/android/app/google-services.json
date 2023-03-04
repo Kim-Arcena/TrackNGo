@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "832587200514",
+    "project_id": "trackngo-d7aa0",
+    "storage_bucket": "trackngo-d7aa0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:832587200514:android:10113cf4750a09f7614f1b",
+        "android_client_info": {
+          "package_name": "com.example.trackngo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "832587200514-55iucqoenpsmitfah43oecfb7i6fkrfk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2ycGH0gSWS2psX9OFz2cKbKAUWfxUzIU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "832587200514-55iucqoenpsmitfah43oecfb7i6fkrfk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
