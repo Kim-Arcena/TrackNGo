@@ -22,11 +22,18 @@ class _SignUpCommuter extends State<SignUpCommuter> {
   TextEditingController _contactNumberController = TextEditingController();
 
   validateForm() {
+    RegExp digitRegex = RegExp(r'^\d+$');
     if (_firstNameController.text.isEmpty ||
         _lastNameController.text.isEmpty ||
         _emailController.text.isEmpty ||
         _contactNumberController.text.isEmpty) {
       Fluttertoast.showToast(msg: "Please fill up all the fields");
+    } else if (_emailController.text.contains("@") == false ||
+        _emailController.text.contains(".com") == false) {
+      Fluttertoast.showToast(msg: "Invalid Email Address");
+    } else if (_contactNumberController.text.length != 11 ||
+        !digitRegex.hasMatch(_contactNumberController.text)) {
+      Fluttertoast.showToast(msg: "Invalid Contact Number");
     } else {
       saveCommutersInfo();
     }
@@ -51,9 +58,9 @@ class _SignUpCommuter extends State<SignUpCommuter> {
         .set(commutersInfoMap);
 
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => MainScreen()));
+        context, MaterialPageRoute(builder: (context) => const MainScreen()));
 
-    Fluttertoast.showToast(msg: "Driver added successfully");
+    Fluttertoast.showToast(msg: "Commuter registered successfully");
   }
 
   @override
@@ -69,7 +76,7 @@ class _SignUpCommuter extends State<SignUpCommuter> {
               const Padding(
                 padding: EdgeInsets.only(top: 30),
                 child: Text(
-                  "Choose Commuters's Type",
+                  "Create Commuters's Account",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 22,
@@ -219,7 +226,7 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                               ),
                               fixedSize: const Size(550, 55)),
                           child: const Text(
-                            "SignUp",
+                            "Sign Up",
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 16,

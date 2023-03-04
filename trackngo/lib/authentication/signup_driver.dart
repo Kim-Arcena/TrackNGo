@@ -25,22 +25,22 @@ class _SignUpDriver extends State<SignUpDriver> {
   Map<String, dynamic> driverInfoDataMap = {};
 
   validateForm() {
+    RegExp digitRegex = RegExp(r'^\d+$');
+
     if (_firstNameController.text.isEmpty ||
         _lastNameController.text.isEmpty ||
         _emailController.text.isEmpty ||
         _contactNumberController.text.isEmpty ||
         _plateNumberController.text.isEmpty) {
       Fluttertoast.showToast(msg: "Kindly fill up all fields.");
-    }
-
-    if (!_emailController.text.contains('@')) {
+    } else if (_emailController.text.contains('@') ||
+        _emailController.text.contains('.com')) {
       Fluttertoast.showToast(msg: "Invalid Email");
-
-      if (_plateNumberController.text.length < 7) {
-        Fluttertoast.showToast(msg: "Invalid Plate Number");
-      }
+    } else if (_plateNumberController.text.length != 7) {
+      Fluttertoast.showToast(msg: "Invalid Plate Number");
     }
-    if (_contactNumberController.text.length < 5) {
+    if (_contactNumberController.text.length != 11 ||
+        !digitRegex.hasMatch(_contactNumberController.text)) {
       Fluttertoast.showToast(msg: "Invalid Contact Number");
     } else {
       saveDriverInfo();
@@ -79,7 +79,7 @@ class _SignUpDriver extends State<SignUpDriver> {
               const Padding(
                 padding: EdgeInsets.only(top: 30),
                 child: Text(
-                  "Choose Driver's Type",
+                  "Create Driver's Account",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 22,

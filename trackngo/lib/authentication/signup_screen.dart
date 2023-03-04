@@ -24,6 +24,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
   validateForm() {
     if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
       Fluttertoast.showToast(msg: "Please fill up all the fields");
+    } else if (_emailController.text.contains('@') == false) {
+      Fluttertoast.showToast(msg: "Please enter a valid email");
+    } else if (_passwordController.text.length < 6) {
+      Fluttertoast.showToast(msg: "Password must be at least 6 characters");
+    } else if (selectedImage == null) {
+      Fluttertoast.showToast(msg: "Please select an account type");
     } else {
       saveDriverInfo();
     }
@@ -228,19 +234,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       child: ElevatedButton(
                           onPressed: () {
                             validateForm();
-                            if (selectedImage == 'images/driver.png') {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => SignUpDriver()),
-                              );
-                            } else {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => SignUpCommuter()),
-                              );
-                            }
                           },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Color(0xFF4E8C6F),

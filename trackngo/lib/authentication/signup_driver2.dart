@@ -28,14 +28,22 @@ class _SignUpDriver2State extends State<SignUpDriver2> {
   Map<String, dynamic> driverInfoDataMap = {};
 
   validateForm() {
+    RegExp digitRegex = RegExp(r'^\d+$');
     if (_licenseNumberController.text.isEmpty ||
         _operatorIdController.text.isEmpty ||
         selectedBusType == null ||
         _passwordController.text.isEmpty ||
         _confirmPasswordController.text.isEmpty) {
       Fluttertoast.showToast(msg: "Please fill all the fields");
+    } else if (_licenseNumberController.text.length != 4 ||
+        !digitRegex.hasMatch(_licenseNumberController.text)) {
+      Fluttertoast.showToast(msg: "Invalid Contact Number");
+    } else if (_passwordController.text.length < 6) {
+      Fluttertoast.showToast(msg: "Password must be at least 6 characters");
     } else if (_passwordController.text != _confirmPasswordController.text) {
       Fluttertoast.showToast(msg: "Password does not match");
+    } else if (_operatorIdController.text.length != 4 ||
+        !digitRegex.hasMatch(_operatorIdController.text)) {
     } else {
       saveDriverInfo();
     }
@@ -62,9 +70,9 @@ class _SignUpDriver2State extends State<SignUpDriver2> {
         .set(driverInfoDataMap);
 
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => MainScreen()));
+        context, MaterialPageRoute(builder: (context) => const MainScreen()));
 
-    Fluttertoast.showToast(msg: "Driver added successfully");
+    Fluttertoast.showToast(msg: "Driver registered successfully");
   }
 
   @override
@@ -80,7 +88,7 @@ class _SignUpDriver2State extends State<SignUpDriver2> {
               const Padding(
                 padding: EdgeInsets.only(top: 30),
                 child: Text(
-                  "Choose Driver's Type",
+                  "Create Driver's Account",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 22,
@@ -259,7 +267,7 @@ class _SignUpDriver2State extends State<SignUpDriver2> {
                               ),
                               fixedSize: const Size(550, 55)),
                           child: const Text(
-                            "Next",
+                            "Sign Up",
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 16,
