@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:trackngo/authentication/signup_driver2.dart';
 import 'package:trackngo/authentication/login_screen.dart';
 import 'package:flutter/gestures.dart';
+import 'package:trackngo/mainScreen/commuter_screen.dart';
 import 'package:trackngo/mainScreen/main_screen.dart';
 
 import '../global/global.dart';
@@ -57,8 +58,8 @@ class _SignUpCommuter extends State<SignUpCommuter> {
         .child("commuters_child")
         .set(commutersInfoMap);
 
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const MainScreen()));
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const CommuterScreen()));
 
     Fluttertoast.showToast(msg: "Commuter registered successfully");
   }

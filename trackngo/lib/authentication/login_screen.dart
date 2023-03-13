@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:trackngo/authentication/signup_screen.dart';
+import 'package:trackngo/mainScreen/commuter_screen.dart';
 import 'package:trackngo/mainScreen/main_screen.dart';
 import 'package:flutter/gestures.dart';
 
@@ -42,8 +43,8 @@ class _LoginScreenState extends State<LoginScreen> {
       currentFirebaseUser = firebaseUser;
       Fluttertoast.showToast(msg: "Logged in Successfully");
       // ignore: use_build_context_synchronously
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const MainScreen()));
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const CommuterScreen()));
     } else {
       Navigator.pop(context);
       Fluttertoast.showToast(msg: "Login Failed");
