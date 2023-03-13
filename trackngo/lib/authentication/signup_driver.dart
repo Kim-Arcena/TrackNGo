@@ -33,14 +33,9 @@ class _SignUpDriver extends State<SignUpDriver> {
         _contactNumberController.text.isEmpty ||
         _plateNumberController.text.isEmpty) {
       Fluttertoast.showToast(msg: "Kindly fill up all fields.");
-    } else if (_emailController.text.contains('@') ||
-        _emailController.text.contains('.com')) {
-      Fluttertoast.showToast(msg: "Invalid Email");
     } else if (_plateNumberController.text.length != 7) {
       Fluttertoast.showToast(msg: "Invalid Plate Number");
-    }
-    if (_contactNumberController.text.length != 11 ||
-        !digitRegex.hasMatch(_contactNumberController.text)) {
+    } else if (_contactNumberController.text.length != 11) {
       Fluttertoast.showToast(msg: "Invalid Contact Number");
     } else {
       saveDriverInfo();

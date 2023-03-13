@@ -35,15 +35,12 @@ class _SignUpDriver2State extends State<SignUpDriver2> {
         _passwordController.text.isEmpty ||
         _confirmPasswordController.text.isEmpty) {
       Fluttertoast.showToast(msg: "Please fill all the fields");
-    } else if (_licenseNumberController.text.length != 4 ||
-        !digitRegex.hasMatch(_licenseNumberController.text)) {
-      Fluttertoast.showToast(msg: "Invalid Contact Number");
-    } else if (_passwordController.text.length < 6) {
-      Fluttertoast.showToast(msg: "Password must be at least 6 characters");
-    } else if (_passwordController.text != _confirmPasswordController.text) {
-      Fluttertoast.showToast(msg: "Password does not match");
-    } else if (_operatorIdController.text.length != 4 ||
-        !digitRegex.hasMatch(_operatorIdController.text)) {
+      // } else if (_passwordController.text.length < 6) {
+      //   Fluttertoast.showToast(msg: "Password must be at least 6 characters");
+      // } else if (_passwordController.text != _confirmPasswordController.text) {
+      //   Fluttertoast.showToast(msg: "Password does not match");
+      // } else if (_operatorIdController.text.length != 4 ||
+      //     !digitRegex.hasMatch(_operatorIdController.text)) {
     } else {
       saveDriverInfo();
     }
