@@ -299,54 +299,58 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                         ),
                       ),
                     ),
-                    Container(
-                      margin: const EdgeInsets.only(top: 45, bottom: 10),
-                      child: ElevatedButton(
-                          onPressed: () {
-                            validateForm();
-                          },
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xFF4E8C6F),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50),
-                              ),
-                              fixedSize: const Size(550, 55)),
-                          child: const Text(
-                            "Sign Up",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                            ),
-                          )),
-                    ),
-                    RichText(
-                      text: TextSpan(
-                        style: const TextStyle(
-                          color: Color(0xFFC7C8CC),
-                          fontSize: 15,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        children: [
-                          const TextSpan(
-                            text: 'Have an account already? ',
-                          ),
-                          TextSpan(
-                            text: 'Login',
-                            style: const TextStyle(
-                              color: Color(0xFF487E65),
-                              fontWeight: FontWeight.bold,
-                            ),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => LoginScreen()),
-                                );
+                    Column(
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(top: 45, bottom: 10),
+                          child: ElevatedButton(
+                              onPressed: () {
+                                validateForm();
                               },
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: Color(0xFF4E8C6F),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(50),
+                                  ),
+                                  fixedSize: const Size(550, 55)),
+                              child: const Text(
+                                "Sign Up",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                ),
+                              )),
+                        ),
+                        RichText(
+                          text: TextSpan(
+                            style: const TextStyle(
+                              color: Color(0xFFC7C8CC),
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            children: [
+                              const TextSpan(
+                                text: 'Have an account already? ',
+                              ),
+                              TextSpan(
+                                text: 'Login',
+                                style: const TextStyle(
+                                  color: Color(0xFF487E65),
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => LoginScreen()),
+                                    );
+                                  },
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

@@ -11,64 +11,88 @@ class CommuterScreen extends StatefulWidget {
 }
 
 class _CommuterScreenState extends State<CommuterScreen> {
+  LatLng _initialcameraposition = LatLng(20.5937, 78.9629);
   final Completer<GoogleMapController> _controllerGoogleMap =
       Completer<GoogleMapController>();
   GoogleMapController? newGoogleMapController;
+  Location _location = Location();
 
-  CameraPosition _currentPosition = CameraPosition(
-    target: LatLng(10.641004, -237.772466),
-    zoom: 14.4746,
-  );
-
-  bool _isLocationAvailable = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _getCurrentLocation();
-  }
-
-  Future<void> _getCurrentLocation() async {
-    LocationData currentLocation;
-
-    var location = Location();
-    try {
-      currentLocation = await location.getLocation();
-      setState(() {
-        _currentPosition = CameraPosition(
-          target: LatLng(
-            currentLocation.latitude ?? 0.0,
-            currentLocation.longitude ?? 0.0,
-          ),
-          zoom: 14.0,
-        );
-        _isLocationAvailable = true;
-      });
-    } catch (e) {
-      print('Could not get location: $e');
-    }
+  void _onMapCreated(GoogleMapController _cntlr) {
+    newGoogleMapController = _cntlr;
+    _location.onLocationChanged.listen((l) {
+      newGoogleMapController?.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(target: LatLng(l.latitude!, l.longitude!), zoom: 25),
+        ),
+      );
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          GoogleMap(
-            mapType: MapType.normal,
-            myLocationButtonEnabled: true,
-            initialCameraPosition: _isLocationAvailable
-                ? _currentPosition
-                : CameraPosition(
-                    target: LatLng(10.641004, -237.772466),
-                    zoom: 18.4746,
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        child: Stack(
+          children: [
+            GoogleMap(
+              initialCameraPosition:
+                  CameraPosition(target: _initialcameraposition),
+              mapType: MapType.normal,
+              onMapCreated: _onMapCreated,
+              myLocationEnabled: true,
+            ),
+            Positioned(
+                left: 40.0,
+                top: 80.0,
+                child: Container(
+                  width: 50.0,
+                  height: 50.0,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color(0xffd4dbdd),
+                        blurRadius: 10,
+                        spreadRadius: 2,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
                   ),
-            onMapCreated: (GoogleMapController controller) {
-              _controllerGoogleMap.complete(controller);
-              newGoogleMapController = controller;
-            },
-          ),
-        ],
+                  child: IconButton(
+                    onPressed: () {},
+                    icon: Icon(Icons.qr_code_rounded),
+                  ),
+                )),
+            Positioned(
+                right: 40.0,
+                top: 80.0,
+                child: Container(
+                  width: 50.0,
+                  height: 50.0,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color(0xffd4dbdd),
+                        blurRadius: 12,
+                        spreadRadius: 2,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.location_on_sharp,
+                    ),
+                  ),
+                )),
+          ],
+        ),
       ),
     );
   }
