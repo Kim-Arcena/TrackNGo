@@ -21,55 +21,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController _passwordController = TextEditingController();
   String? selectedImage;
 
-  validateForm() {
-    if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
-      Fluttertoast.showToast(msg: "Please fill up all the fields");
-    } else if (_emailController.text.contains('@') == false) {
-      Fluttertoast.showToast(msg: "Please enter a valid email");
-    } else if (_passwordController.text.length < 6) {
-      Fluttertoast.showToast(msg: "Password must be at least 6 characters");
-    } else if (selectedImage == null) {
-      Fluttertoast.showToast(msg: "Please select an account type");
-    } else {
-      saveDriverInfo();
-    }
-  }
-
   saveDriverInfo() async {
-    final User? firebaseUser = (await fAuth
-            .createUserWithEmailAndPassword(
-      email: _emailController.text.trim(),
-      password: _passwordController.text.trim(),
-    )
-            .catchError((err) {
-      Fluttertoast.showToast(msg: err.message);
-    }))
-        .user;
-
-    if (firebaseUser != null) {
-      Map userDataMap = {
-        "id": firebaseUser.uid,
-        "email": _emailController.text.trim(),
-        "password": _passwordController.text.trim(),
-        "type": selectedImage,
-      };
-
-      DatabaseReference usersRef =
-          FirebaseDatabase.instance.ref().child("users");
-      usersRef.child(firebaseUser.uid).set(userDataMap);
-
-      currentFirebaseUser = firebaseUser;
-      Fluttertoast.showToast(msg: "Account has been initialized.");
-      if (selectedImage == 'images/commuter.png') {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => SignUpCommuter()));
-      } else {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => SignUpDriver()));
-      }
+    if (selectedImage == 'images/commuter.png') {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => SignUpCommuter()));
     } else {
-      Navigator.pop(context);
-      Fluttertoast.showToast(msg: "Account has not been registered");
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => SignUpDriver()));
     }
   }
 
@@ -168,72 +126,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 padding: const EdgeInsets.all(45.0),
                 child: Column(
                   children: [
-                    TextField(
-                      controller: _emailController,
-                      style: const TextStyle(
-                        color: Color(0xFF3a3a3a),
-                        fontSize: 14,
-                      ),
-                      decoration: InputDecoration(
-                        labelText: 'Email',
-                        hintText: 'email@address.com',
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                          borderSide: BorderSide(color: Color(0xFFCCCCCC)),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                          borderSide: BorderSide(color: Color(0xFFCCCCCC)),
-                        ),
-                        hintStyle: const TextStyle(
-                          color: Color(0xFFCCCCCC),
-                          fontSize: 16,
-                        ),
-                        labelStyle: const TextStyle(
-                          color: Color(0xFF2b2b2b),
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    TextField(
-                      controller: _passwordController,
-                      keyboardType: TextInputType.text,
-                      obscureText: true,
-                      style: const TextStyle(
-                        color: Color(0xFF3a3a3a),
-                        fontSize: 14,
-                      ),
-                      decoration: InputDecoration(
-                        labelText: 'Password',
-                        hintText: '********',
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                          borderSide: BorderSide(color: Color(0xFFCCCCCC)),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                          borderSide: BorderSide(color: Color(0xFFCCCCCC)),
-                        ),
-                        hintStyle: const TextStyle(
-                          color: Color(0xFFCCCCCC),
-                          fontSize: 16,
-                        ),
-                        labelStyle: const TextStyle(
-                          color: Color(0xFF2b2b2b),
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
                     Container(
                       margin: const EdgeInsets.only(top: 60, bottom: 10),
                       child: ElevatedButton(
                           onPressed: () {
-                            validateForm();
+                            saveDriverInfo();
                           },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Color(0xFF4E8C6F),

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -21,6 +22,8 @@ class _SignUpCommuter extends State<SignUpCommuter> {
   TextEditingController _lastNameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _contactNumberController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  TextEditingController _confirmPasswordController = TextEditingController();
 
   validateForm() {
     RegExp digitRegex = RegExp(r'^\d+$');
@@ -46,8 +49,11 @@ class _SignUpCommuter extends State<SignUpCommuter> {
       "lastName": _lastNameController.text,
       "email": _emailController.text,
       "contactNumber": _contactNumberController.text,
+      "password": _passwordController.text,
+      "confirmPassword": _confirmPasswordController.text,
     };
 
+    saveCommuterAuthInfo();
     // ignore: deprecated_member_use
     DatabaseReference usersRef = FirebaseDatabase(
       databaseURL:
@@ -64,6 +70,35 @@ class _SignUpCommuter extends State<SignUpCommuter> {
     Fluttertoast.showToast(msg: "Commuter registered successfully");
   }
 
+  saveCommuterAuthInfo() async {
+    final User? firebaseUser = (await fAuth
+            .createUserWithEmailAndPassword(
+      email: _emailController.text.trim(),
+      password: _passwordController.text.trim(),
+    )
+            .catchError((err) {
+      Fluttertoast.showToast(msg: err.message);
+    }))
+        .user;
+
+    if (firebaseUser != null) {
+      Map userDataMap = {
+        "id": firebaseUser.uid,
+        "email": _emailController.text.trim(),
+        "password": _passwordController.text.trim(),
+      };
+
+      DatabaseReference usersRef =
+          FirebaseDatabase.instance.ref().child("users");
+      usersRef.child(firebaseUser.uid).set(userDataMap);
+
+      currentFirebaseUser = firebaseUser;
+    } else {
+      Navigator.pop(context);
+      Fluttertoast.showToast(msg: "Account has not been registered");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,7 +110,7 @@ class _SignUpCommuter extends State<SignUpCommuter> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Padding(
-                padding: EdgeInsets.only(top: 30),
+                padding: EdgeInsets.only(top: 50),
                 child: Text(
                   "Create Commuters's Account",
                   textAlign: TextAlign.center,
@@ -88,7 +123,9 @@ class _SignUpCommuter extends State<SignUpCommuter> {
               ),
               Padding(
                 padding: const EdgeInsets.all(45.0),
-                child: Column(
+                child: Wrap(
+                  spacing: 20,
+                  runSpacing: 20,
                   children: [
                     TextField(
                       controller: _firstNameController,
@@ -118,9 +155,6 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
                     TextField(
                       controller: _lastNameController,
                       style: const TextStyle(
@@ -148,9 +182,6 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                           fontSize: 16,
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 10,
                     ),
                     TextField(
                       controller: _emailController,
@@ -180,9 +211,6 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
                     TextField(
                       controller: _contactNumberController,
                       style: const TextStyle(
@@ -211,8 +239,65 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 10,
+                    TextField(
+                      controller: _passwordController,
+                      keyboardType: TextInputType.text,
+                      obscureText: true,
+                      style: const TextStyle(
+                        color: Color(0xFF3a3a3a),
+                        fontSize: 14,
+                      ),
+                      decoration: InputDecoration(
+                        labelText: 'Password',
+                        hintText: '*********',
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          borderSide: BorderSide(color: Color(0xFFCCCCCC)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          borderSide: BorderSide(color: Color(0xFFCCCCCC)),
+                        ),
+                        hintStyle: const TextStyle(
+                          color: Color(0xFFCCCCCC),
+                          fontSize: 16,
+                        ),
+                        labelStyle: const TextStyle(
+                          color: Color(0xFF2b2b2b),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    TextField(
+                      controller: _confirmPasswordController,
+                      keyboardType: TextInputType.text,
+                      obscureText: true,
+                      style: const TextStyle(
+                        color: Color(0xFF3a3a3a),
+                        fontSize: 14,
+                      ),
+                      decoration: InputDecoration(
+                        labelText: 'Confirm Password',
+                        hintText: '*********',
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          borderSide: BorderSide(color: Color(0xFFCCCCCC)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          borderSide: BorderSide(color: Color(0xFFCCCCCC)),
+                        ),
+                        hintStyle: const TextStyle(
+                          color: Color(0xFFCCCCCC),
+                          fontSize: 16,
+                        ),
+                        labelStyle: const TextStyle(
+                          color: Color(0xFF2b2b2b),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                        ),
+                      ),
                     ),
                     Container(
                       margin: const EdgeInsets.only(top: 45, bottom: 10),

@@ -67,9 +67,9 @@ class _SignUpDriver2State extends State<SignUpDriver2> {
         .set(driverInfoDataMap);
 
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const MainScreen()));
+        context, MaterialPageRoute(builder: (context) => MainScreen()));
 
-    Fluttertoast.showToast(msg: "Driver registered successfully");
+    Fluttertoast.showToast(msg: "Driver added successfully");
   }
 
   @override
