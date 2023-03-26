@@ -42,7 +42,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Padding(
-                padding: EdgeInsets.all(30.0),
+                padding: EdgeInsets.symmetric(vertical: 50, horizontal: 10),
                 child: Text(
                   "Choose Account Type",
                   textAlign: TextAlign.center,
@@ -127,7 +127,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 child: Column(
                   children: [
                     Container(
-                      margin: const EdgeInsets.only(top: 60, bottom: 10),
+                      margin: const EdgeInsets.only(top: 30, bottom: 10),
                       child: ElevatedButton(
                           onPressed: () {
                             saveDriverInfo();

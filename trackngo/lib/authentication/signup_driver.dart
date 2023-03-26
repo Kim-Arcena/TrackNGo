@@ -48,7 +48,7 @@ class _SignUpDriver extends State<SignUpDriver> {
     }
   }
 
-  saveDriverInfo() {
+  saveDriverInfo() async {
     Map driverInfoDataMap = {
       "firstName": _firstNameController.text.trim(),
       "lastName": _lastNameController.text.trim(),
@@ -58,11 +58,35 @@ class _SignUpDriver extends State<SignUpDriver> {
       "licenseNumber": _licenseNumberController.text.trim(),
       "operatorId": _operatorIdController.text.trim(),
       "busType": selectedBusType,
-      "password": _passwordController.text.trim(),
-      "confirmPassword": _confirmPasswordController.text.trim(),
     };
 
-    saveDriverAuthInfo();
+    final User? firebaseUser = (await fAuth
+            .createUserWithEmailAndPassword(
+      email: _emailController.text.trim(),
+      password: _passwordController.text.trim(),
+    )
+            .catchError((err) {
+      Fluttertoast.showToast(msg: err.message);
+    }))
+        .user;
+
+    if (firebaseUser != null) {
+      Map userDataMap = {
+        "id": firebaseUser.uid,
+        "email": _emailController.text.trim(),
+        "password": _passwordController.text.trim(),
+      };
+
+      DatabaseReference usersRef =
+          FirebaseDatabase.instance.ref().child("users");
+      usersRef.child(firebaseUser.uid).set(userDataMap);
+
+      currentFirebaseUser = firebaseUser;
+    } else {
+      Navigator.pop(context);
+      Fluttertoast.showToast(msg: "Account has not been registered");
+    }
+    
     // ignore: deprecated_member_use
     DatabaseReference usersRef = FirebaseDatabase(
             databaseURL:
