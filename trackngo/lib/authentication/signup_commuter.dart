@@ -43,7 +43,7 @@ class _SignUpCommuter extends State<SignUpCommuter> {
     }
   }
 
-  saveCommutersInfo() {
+  saveCommutersInfo() async {
     Map commutersInfoMap = {
       "firstName": _firstNameController.text,
       "lastName": _lastNameController.text,
@@ -53,14 +53,39 @@ class _SignUpCommuter extends State<SignUpCommuter> {
       "confirmPassword": _confirmPasswordController.text,
     };
 
-    saveCommuterAuthInfo();
+    final User? firebaseUser = (await fAuth
+            .createUserWithEmailAndPassword(
+      email: _emailController.text.trim(),
+      password: _passwordController.text.trim(),
+    )
+            .catchError((err) {
+      Fluttertoast.showToast(msg: err.message);
+    }))
+        .user;
+
+    if (firebaseUser != null) {
+      Map userDataMap = {
+        "id": firebaseUser.uid,
+        "email": _emailController.text.trim(),
+        "password": _passwordController.text.trim(),
+      };
+
+      DatabaseReference usersRef =
+          FirebaseDatabase.instance.ref().child("users");
+      usersRef.child(firebaseUser.uid).set(userDataMap);
+
+      currentFirebaseUser = firebaseUser;
+    } else {
+      Navigator.pop(context);
+      Fluttertoast.showToast(msg: "Account has not been registered");
+    }
     // ignore: deprecated_member_use
     DatabaseReference usersRef = FirebaseDatabase(
       databaseURL:
           "https://trackngo-d7aa0-default-rtdb.asia-southeast1.firebasedatabase.app/",
     ).ref().child("users");
     usersRef
-        .child(currentFirebaseUser!.uid)
+        .child(firebaseUser!.uid)
         .child("commuters_child")
         .set(commutersInfoMap);
 

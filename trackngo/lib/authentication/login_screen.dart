@@ -42,7 +42,6 @@ class _LoginScreenState extends State<LoginScreen> {
         .user;
     if (firebaseUser != null) {
       print("this is firebase user: " + firebaseUser.uid);
-      // ignore: deprecated_member_use
       DatabaseReference usersRef = FirebaseDatabase(
               databaseURL:
                   "https://trackngo-d7aa0-default-rtdb.asia-southeast1.firebasedatabase.app/")
@@ -50,10 +49,15 @@ class _LoginScreenState extends State<LoginScreen> {
           .child("users");
 
       var user = await usersRef.child(firebaseUser.uid).get();
-      var userMap = user.value;
-      // ignore: avoid_print
-      print("This is the chid of the user: " + userMap.toString());
-      
+      var userMap = user.value as Map<dynamic, dynamic>?;
+      if (userMap != null && userMap.containsKey("drivers_child")) {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const MainScreen()));
+      }
+      if (userMap != null && userMap.containsKey("commuters_child")) {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const CommuterScreen()));
+      }
     }
   }
 
