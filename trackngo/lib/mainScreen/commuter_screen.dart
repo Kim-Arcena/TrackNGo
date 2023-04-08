@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:location/location.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:geolocator/geolocator.dart';
 
 class CommuterScreen extends StatefulWidget {
   const CommuterScreen({Key? key});
@@ -16,6 +17,7 @@ class _CommuterScreenState extends State<CommuterScreen> {
       Completer<GoogleMapController>();
   GoogleMapController? newGoogleMapController;
   Location _location = Location();
+  LocationPermission? _locationPermission;
 
   void _onMapCreated(GoogleMapController _cntlr) {
     newGoogleMapController = _cntlr;
@@ -26,6 +28,21 @@ class _CommuterScreenState extends State<CommuterScreen> {
         ),
       );
     });
+  }
+
+  checkIfLocationPermissionGranted() async {
+    _locationPermission = await Geolocator.requestPermission();
+    if (_locationPermission == LocationPermission.denied) {
+      _locationPermission = await Geolocator.requestPermission();
+    } 
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    checkIfLocationPermissionGranted();
   }
 
   @override
@@ -85,7 +102,51 @@ class _CommuterScreenState extends State<CommuterScreen> {
                     ],
                   ),
                   child: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            title: Text('Enter Pickup and Dropoff Locations'),
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                TextField(
+                                  decoration: InputDecoration(
+                                    prefixIcon: Icon(Icons.location_on),
+                                    hintText: 'Pickup Location',
+                                  ),
+                                ),
+                                SizedBox(height: 16),
+                                TextField(
+                                  decoration: InputDecoration(
+                                    prefixIcon: Icon(Icons.pin_drop),
+                                    hintText: 'Dropoff Location',
+                                  ),
+                                ),
+                              ],
+                            ),
+                            actions: <Widget>[
+                              TextButton(
+                                child: Text('Cancel'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                              TextButton(
+                                child: Text('OK'),
+                                onPressed: () {
+                                  // Do something with the pickup and dropoff locations
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
                     icon: Icon(
                       Icons.location_on_sharp,
                     ),
