@@ -1,20 +1,26 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:trackngo/splashScreen/splash_screen.dart';
+
+import 'infoHandler/app_info.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
   runApp(MyApp(
-      child: MaterialApp(
-    title: 'TrackNGo',
-    theme: ThemeData(
-      primarySwatch: Colors.blue,
-    ),
-    home: MySplashScreen(),
-    debugShowCheckedModeBanner: false,
-  )));
+      child: ChangeNotifierProvider(
+        create: (context) => AppInfo(),
+        child: MaterialApp(
+          title: 'TrackNGo',
+          theme: ThemeData(
+        primarySwatch: Colors.blue,
+          ),
+          home: MySplashScreen(),
+          debugShowCheckedModeBanner: false,
+        ),
+      )));
 }
 
 class MyApp extends StatefulWidget {

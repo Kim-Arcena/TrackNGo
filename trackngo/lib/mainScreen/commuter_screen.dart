@@ -4,8 +4,10 @@ import 'package:location/location.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:provider/provider.dart';
 
 import '../assistants/assistant_methods.dart';
+import '../infoHandler/app_info.dart';
 
 class CommuterScreen extends StatefulWidget {
   const CommuterScreen({Key? key});
@@ -32,7 +34,7 @@ class _CommuterScreenState extends State<CommuterScreen> {
     // Get human readable address for the location
     humanReadableAddress =
         await AssistantMethods.searchAddressForGeographicalCoordinates(
-            position);
+            position, context);
     // Set the camera position to the user's location
     setState(() {
       _initialcameraposition = LatLng(position.latitude, position.longitude);
@@ -43,7 +45,6 @@ class _CommuterScreenState extends State<CommuterScreen> {
         CameraPosition(target: _initialcameraposition, zoom: 25),
       ),
     );
-
   }
 
   checkIfLocationPermissionGranted() async {
@@ -125,7 +126,13 @@ class _CommuterScreenState extends State<CommuterScreen> {
                                 TextField(
                                   decoration: InputDecoration(
                                     prefixIcon: Icon(Icons.location_on),
-                                    hintText: 'Pickup Location',
+                                    hintText: Provider.of<AppInfo>(context)
+                                                .userPickUpLocation !=
+                                            null
+                                        ? Provider.of<AppInfo>(context)
+                                            .userPickUpLocation!
+                                            .locationName!
+                                        : 'Pickup Location',
                                   ),
                                 ),
                                 SizedBox(height: 16),
