@@ -1,8 +1,11 @@
 import 'dart:async';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:location/location.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
+
+import '../assistants/assistant_methods.dart';
 
 class CommuterScreen extends StatefulWidget {
   const CommuterScreen({Key? key});
@@ -18,31 +21,36 @@ class _CommuterScreenState extends State<CommuterScreen> {
   GoogleMapController? newGoogleMapController;
   Location _location = Location();
   LocationPermission? _locationPermission;
+  String humanReadableAddress = "";
 
-  void _onMapCreated(GoogleMapController _cntlr) {
+  void _onMapCreated(GoogleMapController _cntlr) async {
     newGoogleMapController = _cntlr;
-    _location.onLocationChanged.listen((l) {
-      newGoogleMapController?.animateCamera(
-        CameraUpdate.newCameraPosition(
-          CameraPosition(target: LatLng(l.latitude!, l.longitude!), zoom: 25),
-        ),
-      );
+
+    // Get user's current location
+    Position position = await Geolocator.getCurrentPosition();
+
+    // Get human readable address for the location
+    humanReadableAddress =
+        await AssistantMethods.searchAddressForGeographicalCoordinates(
+            position);
+    // Set the camera position to the user's location
+    setState(() {
+      _initialcameraposition = LatLng(position.latitude, position.longitude);
     });
+
+    newGoogleMapController?.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(target: _initialcameraposition, zoom: 25),
+      ),
+    );
+
   }
 
   checkIfLocationPermissionGranted() async {
     _locationPermission = await Geolocator.requestPermission();
     if (_locationPermission == LocationPermission.denied) {
       _locationPermission = await Geolocator.requestPermission();
-    } 
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-
-    checkIfLocationPermissionGranted();
+    }
   }
 
   @override
