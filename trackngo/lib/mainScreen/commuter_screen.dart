@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:trackngo/mainScreen/search_places_screen.dart';
 
 import '../assistants/assistant_methods.dart';
+import '../bottomSheet/first_bottom_sheet.dart';
 import '../infoHandler/app_info.dart';
 
 class CommuterScreen extends StatefulWidget {
@@ -26,6 +27,7 @@ class _CommuterScreenState extends State<CommuterScreen> {
   LocationPermission? _locationPermission;
   String humanReadableAddress = "";
   Set<Marker> _markers = {};
+  bool _bottomSheetVisible = true;
 
   void _onMapCreated(GoogleMapController _cntlr) async {
     newGoogleMapController = _cntlr;
@@ -78,200 +80,204 @@ class _CommuterScreenState extends State<CommuterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        child: Stack(
-          children: [
-            GoogleMap(
-              initialCameraPosition:
-                  CameraPosition(target: _initialcameraposition),
-              mapType: MapType.normal,
-              onMapCreated: _onMapCreated,
-              // myLocationEnabled: true,
-              markers: _markers,
-            ),
-            Positioned(
-                left: 40.0,
-                top: 80.0,
-                child: Container(
-                  width: 50.0,
-                  height: 50.0,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10.0),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color(0xffd4dbdd),
-                        blurRadius: 10,
-                        spreadRadius: 2,
-                        offset: Offset(0, 3),
-                      ),
-                    ],
-                  ),
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.qr_code_rounded),
-                  ),
-                )),
-            Positioned(
-                right: 40.0,
-                top: 80.0,
-                child: Container(
-                  width: 50.0,
-                  height: 50.0,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10.0),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color(0xffd4dbdd),
-                        blurRadius: 12,
-                        spreadRadius: 2,
-                        offset: Offset(0, 3),
-                      ),
-                    ],
-                  ),
-                  child: IconButton(
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            content: SingleChildScrollView(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  const Align(
-                                    alignment: Alignment.topLeft,
-                                    child: Text(
-                                      "Pickup",
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: Color(0xFF4E8C6F),
-                                      ),
+      body: Stack(
+        children: [
+          GoogleMap(
+            initialCameraPosition:
+                CameraPosition(target: _initialcameraposition),
+            mapType: MapType.normal,
+            onMapCreated: _onMapCreated,
+            markers: _markers,
+          ),
+          Positioned(
+              left: 40.0,
+              top: 80.0,
+              child: Container(
+                width: 50.0,
+                height: 50.0,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color(0xffd4dbdd),
+                      blurRadius: 10,
+                      spreadRadius: 2,
+                      offset: Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: IconButton(
+                  onPressed: () {},
+                  icon: Icon(Icons.qr_code_rounded),
+                ),
+              )),
+          Positioned(
+              right: 40.0,
+              top: 80.0,
+              child: Container(
+                width: 50.0,
+                height: 50.0,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color(0xffd4dbdd),
+                      blurRadius: 12,
+                      spreadRadius: 2,
+                      offset: Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: IconButton(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          content: SingleChildScrollView(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                const Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Text(
+                                    "Pickup",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(0xFF4E8C6F),
                                     ),
                                   ),
-                                  Row(
+                                ),
+                                Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.location_pin,
+                                      color: Colors.green,
+                                      size: 30.0,
+                                    ),
+                                    const SizedBox(
+                                        width:
+                                            10.0), // Add some space between the icon and text field
+                                    Expanded(
+                                      child: TextField(
+                                        controller: TextEditingController(
+                                          text: Provider.of<AppInfo>(context)
+                                                      .userPickUpLocation !=
+                                                  null
+                                              ? Provider.of<AppInfo>(context)
+                                                  .userPickUpLocation!
+                                                  .locationName!
+                                              : 'Pickup Location',
+                                        ),
+                                        decoration: InputDecoration(
+                                          hintText: 'Pickup Location',
+                                        ),
+                                        maxLines: null,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 30.0),
+                                const Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Text(
+                                    "Dropoff",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(0xFF4E8C6F),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 10.0),
+                                GestureDetector(
+                                  onTap: () {
+                                    var responseFromSearchScreen =
+                                        Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            SearchPlacesScreen(),
+                                      ),
+                                    );
+
+                                    if (responseFromSearchScreen ==
+                                        "obtainDropOff") {}
+                                  },
+                                  child: Row(
                                     children: [
-                                      const Icon(
+                                      Icon(
                                         Icons.location_pin,
-                                        color: Colors.green,
+                                        color: Color(0xFFA8CEB7),
                                         size: 30.0,
                                       ),
-                                      const SizedBox(
+                                      SizedBox(
                                           width:
                                               10.0), // Add some space between the icon and text field
                                       Expanded(
                                         child: TextField(
                                           controller: TextEditingController(
                                             text: Provider.of<AppInfo>(context)
-                                                        .userPickUpLocation !=
+                                                        .userDropOffLocation !=
                                                     null
                                                 ? Provider.of<AppInfo>(context)
-                                                    .userPickUpLocation!
+                                                    .userDropOffLocation!
                                                     .locationName!
-                                                : 'Pickup Location',
+                                                : 'DropOff Location',
                                           ),
                                           decoration: InputDecoration(
-                                            hintText: 'Pickup Location',
+                                            hintText: 'DropOff Location',
                                           ),
                                           maxLines: null,
                                         ),
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(height: 30.0),
-                                  const Align(
-                                    alignment: Alignment.topLeft,
-                                    child: Text(
-                                      "Dropoff",
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: Color(0xFF4E8C6F),
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 10.0),
-                                  GestureDetector(
-                                    onTap: () {
-                                      var responseFromSearchScreen =
-                                          Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              SearchPlacesScreen(),
-                                        ),
-                                      );
-
-                                      if (responseFromSearchScreen ==
-                                          "obtainDropOff") {}
-                                    },
-                                    child: Row(
-                                      children: [
-                                        Icon(
-                                          Icons.location_pin,
-                                          color: Color(0xFFA8CEB7),
-                                          size: 30.0,
-                                        ),
-                                        SizedBox(
-                                            width:
-                                                10.0), // Add some space between the icon and text field
-                                        Expanded(
-                                          child: TextField(
-                                            controller: TextEditingController(
-                                              text: Provider.of<AppInfo>(
-                                                              context)
-                                                          .userDropOffLocation !=
-                                                      null
-                                                  ? Provider.of<AppInfo>(
-                                                          context)
-                                                      .userDropOffLocation!
-                                                      .locationName!
-                                                  : 'DropOff Location',
-                                            ),
-                                            decoration: InputDecoration(
-                                              hintText: 'DropOff Location',
-                                            ),
-                                            maxLines: null,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                            actions: <Widget>[
-                              TextButton(
-                                child: Text('Cancel'),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                              TextButton(
-                                child: Text('OK'),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    },
-                    icon: Icon(
-                      Icons.location_on_sharp,
-                    ),
+                          ),
+                          actions: <Widget>[
+                            TextButton(
+                              child: Text('Cancel'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                            TextButton(
+                              child: Text('OK'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  icon: Icon(
+                    Icons.location_on_sharp,
                   ),
-                )),
-          ],
-        ),
+                ),
+              )),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: MyBottomSheet(
+              child: Container(
+                height: 30,
+                child: Center(
+                  child: Text('This is my bottom sheet'),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

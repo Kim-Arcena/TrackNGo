@@ -15,3 +15,4 @@ class AppInfo extends ChangeNotifier {
     notifyListeners();
   }
 }
+

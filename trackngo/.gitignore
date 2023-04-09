@@ -44,3 +44,4 @@ app.*.map.json
 /android/app/release
 
 map_key.dart
+place_prediction_tile.dart
