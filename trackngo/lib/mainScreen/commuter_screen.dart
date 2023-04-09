@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
+import 'package:trackngo/mainScreen/search_places_screen.dart';
 
 import '../assistants/assistant_methods.dart';
 import '../infoHandler/app_info.dart';
@@ -136,111 +137,107 @@ class _CommuterScreenState extends State<CommuterScreen> {
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
-                          return Center(
-                            child: Container(
-                              height: 380.0,
-                              width: 450.0,
-                              child: AlertDialog(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                                content: Center(
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      const Align(
-                                        alignment: Alignment.topLeft,
-                                        child: Text(
-                                          "Pickup",
-                                          style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
-                                            color: Color(0xFF4E8C6F),
+                          return AlertDialog(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            content: SingleChildScrollView(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  const Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Text(
+                                      "Pickup",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: Color(0xFF4E8C6F),
+                                      ),
+                                    ),
+                                  ),
+                                  Row(
+                                    children: [
+                                      const Icon(
+                                        Icons.location_pin,
+                                        color: Colors.green,
+                                        size: 30.0,
+                                      ),
+                                      const SizedBox(
+                                          width:
+                                              10.0), // Add some space between the icon and text field
+                                      Expanded(
+                                        child: TextField(
+                                          controller: TextEditingController(
+                                            text: Provider.of<AppInfo>(context)
+                                                        .userPickUpLocation !=
+                                                    null
+                                                ? Provider.of<AppInfo>(context)
+                                                    .userPickUpLocation!
+                                                    .locationName!
+                                                : 'Pickup Location',
                                           ),
+                                          decoration: InputDecoration(
+                                            hintText: 'Pickup Location',
+                                          ),
+                                          maxLines: null,
                                         ),
-                                      ),
-                                      Row(
-                                        children: [
-                                          const Icon(
-                                            Icons.location_pin,
-                                            color: Colors.green,
-                                            size: 30.0,
-                                          ),
-                                          const SizedBox(
-                                              width:
-                                                  10.0), // Add some space between the icon and text field
-                                          Expanded(
-                                            child: TextField(
-                                              controller: TextEditingController(
-                                                text: Provider.of<AppInfo>(
-                                                                context)
-                                                            .userPickUpLocation !=
-                                                        null
-                                                    ? Provider.of<AppInfo>(
-                                                            context)
-                                                        .userPickUpLocation!
-                                                        .locationName!
-                                                    : 'Pickup Location',
-                                              ),
-                                              decoration: InputDecoration(
-                                                hintText: 'Pickup Location',
-                                              ),
-                                              maxLines: null,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 30.0),
-                                      const Align(
-                                        alignment: Alignment.topLeft,
-                                        child: Text(
-                                          "Dropoff",
-                                          style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
-                                            color: Color(0xFF4E8C6F),
-                                          ),
-                                        ),
-                                      ),
-                                      Row(
-                                        children: const [
-                                          Icon(
-                                            Icons.location_pin,
-                                            color: Color(0xFFA8CEB7),
-                                            size: 30.0,
-                                          ),
-                                          SizedBox(
-                                              width:
-                                                  10.0), // Add some space between the icon and text field
-                                          Expanded(
-                                            child: TextField(
-                                              decoration: InputDecoration(
-                                                hintText: 'Pickup Location',
-                                              ),
-                                              maxLines: null,
-                                            ),
-                                          ),
-                                        ],
                                       ),
                                     ],
                                   ),
-                                ),
-                                actions: <Widget>[
-                                  TextButton(
-                                    child: Text('Cancel'),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
+                                  const SizedBox(height: 30.0),
+                                  const Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Text(
+                                      "Dropoff",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: Color(0xFF4E8C6F),
+                                      ),
+                                    ),
                                   ),
-                                  TextButton(
-                                    child: Text('OK'),
-                                    onPressed: () {
-                                      // Do something with the pickup and dropoff locations
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              SearchPlacesScreen(),
+                                        ),
+                                      );
                                     },
+                                    child: Row(
+                                      children: const [
+                                        Icon(
+                                          Icons.location_pin,
+                                          color: Color(0xFFA8CEB7),
+                                          size: 30.0,
+                                        ),
+                                        SizedBox(
+                                            width:
+                                                10.0), // Add some space between the icon and text field
+                                        Text("data"),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
                             ),
+                            actions: <Widget>[
+                              TextButton(
+                                child: Text('Cancel'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                              TextButton(
+                                child: Text('OK'),
+                                onPressed: () {
+                                  // Do something with the pickup and dropoff locations
+                                },
+                              ),
+                            ],
                           );
                         },
                       );
