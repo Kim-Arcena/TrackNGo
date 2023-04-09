@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter/material.dart';
+import 'package:trackngo/assistants/request_assistant.dart';
+
+import '../global/map_key.dart';
 
 class SearchPlacesScreen extends StatefulWidget {
   const SearchPlacesScreen({super.key});
@@ -10,6 +13,20 @@ class SearchPlacesScreen extends StatefulWidget {
 }
 
 class _SearchPlacesScreenState extends State<SearchPlacesScreen> {
+  void findPlaceAutoCompleteSearch(String inputText) async {
+    if (inputText.length > 1) {
+      String urlAutoCompleteSearch =
+          "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$inputText&key=$mapKey&components=country:PH";
+      var responseAutoCompleteSearch =
+          await RequestAssistant.receiveRequest(urlAutoCompleteSearch);
+
+      if (responseAutoCompleteSearch == "Error Occurred") {
+        return;
+      }
+      print("this is the response: $responseAutoCompleteSearch");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,7 +92,9 @@ class _SearchPlacesScreenState extends State<SearchPlacesScreen> {
                           const SizedBox(width: 20),
                           Expanded(
                             child: TextField(
-                              onChanged: (valueTyped) {},
+                              onChanged: (valueTyped) {
+                                findPlaceAutoCompleteSearch(valueTyped);
+                              },
                               decoration: const InputDecoration(
                                 hintText: "Search Drop Off",
                                 hintStyle: TextStyle(
