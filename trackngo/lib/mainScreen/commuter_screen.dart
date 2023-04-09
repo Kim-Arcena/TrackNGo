@@ -24,6 +24,7 @@ class _CommuterScreenState extends State<CommuterScreen> {
   Location _location = Location();
   LocationPermission? _locationPermission;
   String humanReadableAddress = "";
+  Set<Marker> _markers = {};
 
   void _onMapCreated(GoogleMapController _cntlr) async {
     newGoogleMapController = _cntlr;
@@ -35,9 +36,23 @@ class _CommuterScreenState extends State<CommuterScreen> {
     humanReadableAddress =
         await AssistantMethods.searchAddressForGeographicalCoordinates(
             position, context);
+
     // Set the camera position to the user's location
     setState(() {
       _initialcameraposition = LatLng(position.latitude, position.longitude);
+    });
+
+    // Load the custom PNG image
+    BitmapDescriptor customIcon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(48, 48)), 'images/commuter.png');
+
+    // Update the map's markers to use the custom PNG icon
+    setState(() {
+      _markers.clear();
+      _markers.add(Marker(
+          markerId: MarkerId("current_location"),
+          position: _initialcameraposition,
+          icon: customIcon));
     });
 
     newGoogleMapController?.animateCamera(
@@ -72,7 +87,8 @@ class _CommuterScreenState extends State<CommuterScreen> {
                   CameraPosition(target: _initialcameraposition),
               mapType: MapType.normal,
               onMapCreated: _onMapCreated,
-              myLocationEnabled: true,
+              // myLocationEnabled: true,
+              markers: _markers,
             ),
             Positioned(
                 left: 40.0,
