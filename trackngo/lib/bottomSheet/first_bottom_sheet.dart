@@ -24,6 +24,14 @@ class MyBottomSheet extends StatelessWidget {
             controller: scrollController,
             children: <Widget>[
               Container(height: 10),
+              Text(
+                'This is the bottom sheetrrr',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
               child,
             ],
           ),
