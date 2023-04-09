@@ -13,11 +13,12 @@ class AssistantMethods {
       Position position, context) async {
     String humanReadableAddress = "";
     String apiUrl =
-        "https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.latitude},${position.longitude}&key=$mapKey";
+        "https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.latitude},${position.longitude}&result_type=street_address&key=$mapKey";
 
     var requestResponse = await RequestAssistant.receiveRequest(apiUrl);
 
     if (requestResponse != "Error Occurred") {
+      // Get the formatted address from the first result
       humanReadableAddress = requestResponse["results"][0]["formatted_address"];
 
       Directions userPickUpAddress = Directions();
