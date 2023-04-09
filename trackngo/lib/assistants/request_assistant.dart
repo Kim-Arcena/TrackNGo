@@ -13,7 +13,7 @@ class RequestAssistant {
         var decodedData = jsonDecode(responseData);
         return decodedData;
       } else {
-        return "Error Occurred,  Status Code: ${response.statusCode}";
+        return "Error Occurred";
       }
     } catch (e) {
       return "Error Occurred";
