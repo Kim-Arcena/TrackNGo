@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:trackngo/global/map_key.dart';
+import 'package:trackngo/infoHandler/app_info.dart';
 import 'package:trackngo/models/predicted_places.dart';
 
 import '../assistants/request_assistant.dart';
@@ -25,15 +27,16 @@ class PlacePredictionTileDesign extends StatelessWidget {
       Directions directions = Directions();
 
       directions.locationId = placeId;
-      directions.locationName = responseApi["result"]["name"];
+      directions.locationName = responseApi["result"]["formatted_address"];
       directions.locationLatitude =
           responseApi["result"]["geometry"]["location"]["lat"];
       directions.locationLongitude =
           responseApi["result"]["geometry"]["location"]["lng"];
 
-      print("location name: ${directions.locationName}");
-      print("location latitude: ${directions.locationLatitude}");
-      print("location longitude: ${directions.locationLongitude}");
+      Provider.of<AppInfo>(context, listen: false)
+          .updateUserDropOffLocationAddress(directions);
+
+      Navigator.pop(context, "obtainDropOff");
     }
   }
 

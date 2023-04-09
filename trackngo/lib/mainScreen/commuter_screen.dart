@@ -197,18 +197,23 @@ class _CommuterScreenState extends State<CommuterScreen> {
                                       ),
                                     ),
                                   ),
+                                  const SizedBox(width: 10.0),
                                   GestureDetector(
                                     onTap: () {
-                                      Navigator.push(
+                                      var responseFromSearchScreen =
+                                          Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
                                               SearchPlacesScreen(),
                                         ),
                                       );
+
+                                      if (responseFromSearchScreen ==
+                                          "obtainDropOff") {}
                                     },
                                     child: Row(
-                                      children: const [
+                                      children: [
                                         Icon(
                                           Icons.location_pin,
                                           color: Color(0xFFA8CEB7),
@@ -217,7 +222,25 @@ class _CommuterScreenState extends State<CommuterScreen> {
                                         SizedBox(
                                             width:
                                                 10.0), // Add some space between the icon and text field
-                                        Text("data"),
+                                        Expanded(
+                                          child: TextField(
+                                            controller: TextEditingController(
+                                              text: Provider.of<AppInfo>(
+                                                              context)
+                                                          .userDropOffLocation !=
+                                                      null
+                                                  ? Provider.of<AppInfo>(
+                                                          context)
+                                                      .userDropOffLocation!
+                                                      .locationName!
+                                                  : 'DropOff Location',
+                                            ),
+                                            decoration: InputDecoration(
+                                              hintText: 'DropOff Location',
+                                            ),
+                                            maxLines: null,
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -234,7 +257,7 @@ class _CommuterScreenState extends State<CommuterScreen> {
                               TextButton(
                                 child: Text('OK'),
                                 onPressed: () {
-                                  // Do something with the pickup and dropoff locations
+                                  Navigator.of(context).pop();
                                 },
                               ),
                             ],
