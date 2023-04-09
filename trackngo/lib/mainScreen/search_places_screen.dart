@@ -139,7 +139,7 @@ class _SearchPlacesScreenState extends State<SearchPlacesScreen> {
                       },
                       separatorBuilder: (BuildContext context, int index) =>
                           const Divider(
-                        height: 3,
+                        height: 3 ,
                         thickness: 1,
                       ),
                       itemCount: placePredictedList.length,
