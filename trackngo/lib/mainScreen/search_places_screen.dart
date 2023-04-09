@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter/material.dart';
 import 'package:trackngo/assistants/request_assistant.dart';
+import 'package:trackngo/models/predicted_places.dart';
 
 import '../global/map_key.dart';
+import '../widgets/place_prediction_tile.dart';
 
 class SearchPlacesScreen extends StatefulWidget {
   const SearchPlacesScreen({super.key});
@@ -13,6 +15,8 @@ class SearchPlacesScreen extends StatefulWidget {
 }
 
 class _SearchPlacesScreenState extends State<SearchPlacesScreen> {
+  List<PredictedPlaces> placePredictedList = [];
+
   void findPlaceAutoCompleteSearch(String inputText) async {
     if (inputText.length > 1) {
       String urlAutoCompleteSearch =
@@ -23,7 +27,18 @@ class _SearchPlacesScreenState extends State<SearchPlacesScreen> {
       if (responseAutoCompleteSearch == "Error Occurred") {
         return;
       }
-      print("this is the response: $responseAutoCompleteSearch");
+
+      if (responseAutoCompleteSearch["status"] == "OK") {
+        var placesPredictions = responseAutoCompleteSearch["predictions"];
+
+        var placePredictionsList = (placesPredictions as List)
+            .map((jsonData) => PredictedPlaces.fromJson(jsonData))
+            .toList();
+
+        setState(() {
+          placePredictedList = placePredictionsList;
+        });
+      }
     }
   }
 
@@ -111,6 +126,28 @@ class _SearchPlacesScreenState extends State<SearchPlacesScreen> {
                 ),
               ),
             ),
+
+            //display the list of places
+            placePredictedList.length > 0
+                ? Expanded(
+                    child: ListView.separated(
+                      padding: const EdgeInsets.all(0),
+                      itemBuilder: (context, index) {
+                        return PlacePredictionTileDesign(
+                          predictedPlaces: placePredictedList[index],
+                        );
+                      },
+                      separatorBuilder: (BuildContext context, int index) =>
+                          const Divider(
+                        height: 3,
+                        thickness: 1,
+                      ),
+                      itemCount: placePredictedList.length,
+                      shrinkWrap: true,
+                      physics: const ClampingScrollPhysics(),
+                    ),
+                  )
+                : Container(),
           ],
         ),
       ),
