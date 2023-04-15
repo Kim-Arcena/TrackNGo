@@ -218,13 +218,9 @@ class InnerContainer extends StatelessWidget {
                     ),
                   ),
                   Divider(
-                    // Add this Divider widget to separate the Pickup and Dropoff sections
-                    height:
-                        20.0, // You can adjust the height of the divider as needed
-                    thickness:
-                        2.0, // You can adjust the thickness of the divider as needed
-                    color: Colors.grey[
-                        300], // You can adjust the color of the divider as needed
+                    height: 20.0,
+                    thickness: 2.0,
+                    color: Colors.grey[300],
                   ),
                   Row(
                     children: [
@@ -236,9 +232,9 @@ class InnerContainer extends StatelessWidget {
                       Text(
                         "Dropoff",
                         style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                        ),
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF4E8C6F)),
                       ),
                     ],
                   ),
@@ -250,12 +246,7 @@ class InnerContainer extends StatelessWidget {
                     ),
                   ),
                   Divider(
-                      // Add this Divider widget to separate the Pickup and Dropoff sections
-                      height:
-                          10.0, // You can adjust the height of the divider as needed
-                      thickness:
-                          2.0, // You can adjust the thickness of the divider as needed
-                      color: Color(0xFF929895)),
+                      height: 10.0, thickness: 2.0, color: Color(0xFF929895)),
                 ],
               ),
             ),
@@ -266,16 +257,106 @@ class InnerContainer extends StatelessWidget {
             right: 0,
             child: Padding(
               padding: const EdgeInsets.all(40.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
                     "Seats",
-                    textAlign: TextAlign.left,
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(Icons.people_alt_rounded,
+                              size: 24.0, color: Color(0xFF021C0F)),
+                          SizedBox(
+                            width: 5.0,
+                          ),
+                          Text(
+                            "Seats Needed",
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                            width: 30.0,
+                            height: 30.0,
+                            decoration: BoxDecoration(
+                              color: Color(0XFF53906B),
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            child: TextButton(
+                              onPressed: () {},
+                              child: Text(
+                                "1",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12.5,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5.0,
+                          ),
+                          Container(
+                            width: 30.0,
+                            height: 30.0,
+                            decoration: BoxDecoration(
+                              color: Color(0XFFDAD9E2),
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            child: TextButton(
+                              onPressed: () {},
+                              child: Text(
+                                "2",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 12.5,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5.0,
+                          ),
+                          Container(
+                            width: 30.0,
+                            height: 30.0,
+                            decoration: BoxDecoration(
+                              color: Color(0XFFDAD9E2),
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            child: TextButton(
+                              onPressed: () {},
+                              child: Text(
+                                "3",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 12.5,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ],
               ),
