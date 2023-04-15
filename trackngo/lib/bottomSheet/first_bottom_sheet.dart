@@ -212,17 +212,23 @@ class InnerContainer extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Text(
-                    "VHHW+7Q5 New Lucena Public Plaza, New Lucena, Iloilo, Philippines",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                  Padding(
+                    padding: const EdgeInsets.only(left: 30.0),
+                    child: Text(
+                      "VHHW+7Q5 New Lucena Public Plaza, New Lucena, Iloilo, Philippines",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                  Divider(
-                    height: 20.0,
-                    thickness: 2.0,
-                    color: Colors.grey[300],
+                  Padding(
+                    padding: const EdgeInsets.only(left: 30.0),
+                    child: Divider(
+                      height: 20.0,
+                      thickness: 2.0,
+                      color: Colors.grey[300],
+                    ),
                   ),
                   Row(
                     children: [
@@ -240,12 +246,18 @@ class InnerContainer extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Text(
-                    "Burgos Street, Iloilo City Proper, Iloilo, Philippines",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                  Padding(
+                    padding: const EdgeInsets.only(left: 30.0),
+                    child: Text(
+                      "Burgos Street, Iloilo City Proper, Iloilo, Philippines",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
+                  ),
+                  SizedBox(
+                    height: 10,
                   ),
                   Divider(
                       height: 10.0, thickness: 2.0, color: Color(0xFF929895)),
