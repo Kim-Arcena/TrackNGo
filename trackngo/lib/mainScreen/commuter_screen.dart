@@ -270,11 +270,8 @@ class _CommuterScreenState extends State<CommuterScreen> {
             alignment: Alignment.bottomCenter,
             child: MyBottomSheet(
               child: Container(
-                height: 30,
-                child: Center(
-                  child: Text('This is my bottom sheet'),
-                ),
-              ),
+                  // height: 30,
+                  ),
             ),
           ),
         ],
@@ -282,3 +279,94 @@ class _CommuterScreenState extends State<CommuterScreen> {
     );
   }
 }
+
+// Container(
+              //   decoration:
+              //       BoxDecoration(border: Border.all(color: Colors.blueAccent)),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //     children: [
+              //       Container(
+              //         width: 50.0,
+              //         height: 50.0,
+              //         decoration: BoxDecoration(
+              //           color: Colors.white,
+              //           borderRadius: BorderRadius.circular(10.0),
+              //           boxShadow: [
+              //             BoxShadow(
+              //               color: Color(0xffd4dbdd),
+              //               blurRadius: 10,
+              //               spreadRadius: 2,
+              //               offset: Offset(0, 3),
+              //             ),
+              //           ],
+              //         ),
+              //         child: IconButton(
+              //           onPressed: () {},
+              //           icon: Icon(Icons.qr_code_rounded),
+              //         ),
+              //       ),
+              //       Container(
+              //         width: 50.0,
+              //         height: 50.0,
+              //         decoration: BoxDecoration(
+              //           color: Colors.white,
+              //           borderRadius: BorderRadius.circular(10.0),
+              //           boxShadow: [
+              //             BoxShadow(
+              //               color: Color(0xffd4dbdd),
+              //               blurRadius: 10,
+              //               spreadRadius: 2,
+              //               offset: Offset(0, 3),
+              //             ),
+              //           ],
+              //         ),
+              //         child: IconButton(
+              //           onPressed: () {},
+              //           icon: Icon(Icons.qr_code_rounded),
+              //         ),
+              //       ),
+              //       Container(
+              //         width: 50.0,
+              //         height: 50.0,
+              //         decoration: BoxDecoration(
+              //           color: Colors.white,
+              //           borderRadius: BorderRadius.circular(10.0),
+              //           boxShadow: [
+              //             BoxShadow(
+              //               color: Color(0xffd4dbdd),
+              //               blurRadius: 10,
+              //               spreadRadius: 2,
+              //               offset: Offset(0, 3),
+              //             ),
+              //           ],
+              //         ),
+              //         child: IconButton(
+              //           onPressed: () {},
+              //           icon: Icon(Icons.qr_code_rounded),
+              //         ),
+              //       ),
+              //       Container(
+              //         width: 50.0,
+              //         height: 50.0,
+              //         decoration: BoxDecoration(
+              //           color: Colors.white,
+              //           borderRadius: BorderRadius.circular(10.0),
+              //           boxShadow: [
+              //             BoxShadow(
+              //               color: Color(0xffd4dbdd),
+              //               blurRadius: 10,
+              //               spreadRadius: 2,
+              //               offset: Offset(0, 3),
+              //             ),
+              //           ],
+              //         ),
+              //         child: IconButton(
+              //           onPressed: () {},
+              //           icon: Icon(Icons.qr_code_rounded),
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+            
