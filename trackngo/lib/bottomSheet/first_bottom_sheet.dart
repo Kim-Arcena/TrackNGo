@@ -10,7 +10,7 @@ class MyBottomSheet extends StatelessWidget {
     return DraggableScrollableSheet(
       initialChildSize: 0.5,
       minChildSize: 0.2,
-      maxChildSize: 0.8,
+      maxChildSize: 0.6,
       builder: (BuildContext context, ScrollController scrollController) {
         return Container(
           decoration: BoxDecoration(
