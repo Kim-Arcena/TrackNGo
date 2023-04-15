@@ -153,9 +153,131 @@ class InnerContainer extends StatelessWidget {
           topRight: Radius.circular(30),
         ),
       ),
-      child: Text(
-        "This is the inner container",
-        style: TextStyle(fontSize: 18.0),
+      child: Stack(
+        children: <Widget>[
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: Padding(
+              padding: const EdgeInsets.all(40.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    "Trip",
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    "Change",
+                    style: TextStyle(
+                      fontSize: 18,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: 60,
+            left: 0,
+            right: 0,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 20, left: 40, right: 40),
+              child: Column(
+                children: <Widget>[
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.location_pin,
+                        color: Color(0xFFA8CEB7),
+                        size: 30.0,
+                      ),
+                      Text(
+                        "Pickup",
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF4E8C6F)),
+                      ),
+                    ],
+                  ),
+                  Text(
+                    "VHHW+7Q5 New Lucena Public Plaza, New Lucena, Iloilo, Philippines",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Divider(
+                    // Add this Divider widget to separate the Pickup and Dropoff sections
+                    height:
+                        20.0, // You can adjust the height of the divider as needed
+                    thickness:
+                        2.0, // You can adjust the thickness of the divider as needed
+                    color: Colors.grey[
+                        300], // You can adjust the color of the divider as needed
+                  ),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.location_pin,
+                        color: Color(0xFFA8CEB7),
+                        size: 30.0,
+                      ),
+                      Text(
+                        "Dropoff",
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Text(
+                    "Burgos Street, Iloilo City Proper, Iloilo, Philippines",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Divider(
+                      // Add this Divider widget to separate the Pickup and Dropoff sections
+                      height:
+                          10.0, // You can adjust the height of the divider as needed
+                      thickness:
+                          2.0, // You can adjust the thickness of the divider as needed
+                      color: Color(0xFF929895)),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: 220,
+            left: 0,
+            right: 0,
+            child: Padding(
+              padding: const EdgeInsets.all(40.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    "Seats",
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
