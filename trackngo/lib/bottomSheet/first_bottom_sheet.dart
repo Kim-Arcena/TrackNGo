@@ -14,7 +14,11 @@ class MyBottomSheet extends StatelessWidget {
       builder: (BuildContext context, ScrollController scrollController) {
         return Container(
           decoration: BoxDecoration(
-            color: Color(0XFF1D954C),
+            gradient: LinearGradient(
+              colors: [Color(0XFF358855), Color(0XFF247D47), Color(0XFF1C9B4E)],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+            ),
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(30),
               topRight: Radius.circular(30),
