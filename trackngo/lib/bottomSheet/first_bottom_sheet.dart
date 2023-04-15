@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+var maxChildSize = 0.8;
+
 class MyBottomSheet extends StatelessWidget {
   final Widget child;
 
@@ -8,9 +10,9 @@ class MyBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(
-      initialChildSize: 0.25,
+      initialChildSize: 0.2,
       minChildSize: 0.2,
-      maxChildSize: 0.7,
+      maxChildSize: 0.8,
       builder: (BuildContext context, ScrollController scrollController) {
         return Container(
           decoration: BoxDecoration(
@@ -149,7 +151,7 @@ class InnerContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 381,
+      height: maxChildSize * MediaQuery.of(context).size.height * 0.735,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
@@ -355,6 +357,38 @@ class InnerContainer extends StatelessWidget {
                             ),
                           ),
                         ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Container(),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          // add functionality here
+                        },
+                        child: Text(
+                          'Next',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          primary: Color(0xFF53906B),
+                          minimumSize: Size(200, 45),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                        ),
                       ),
                     ],
                   ),
