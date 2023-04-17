@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:trackngo/authentication/signup_commuter.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:trackngo/authentication/signup_driver.dart';
@@ -22,12 +23,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String? selectedImage;
 
   saveDriverInfo() async {
+    // Fluttertoast.showToast(msg: _emailController.text);
+    // Fluttertoast.showToast(msg: _passwordController.text);
     if (selectedImage == 'images/commuter.png') {
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => SignUpCommuter()));
-    } else {
+        context,
+        MaterialPageRoute(
+          builder: (context) => SignUpCommuter(
+              email: _emailController.text, password: _passwordController.text),
+        ),
+      );
+    } else if (selectedImage == 'images/driver.png') {
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => SignUpDriver()));
+        context,
+        MaterialPageRoute(
+          builder: (context) => SignUpDriver(
+              email: _emailController.text, password: _passwordController.text),
+        ),
+      );
+    } else {
+      Fluttertoast.showToast(msg: "Please select an account type");
     }
   }
 
@@ -121,6 +136,78 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                   ),
                 ],
+              ),
+              SizedBox(
+                height: 50,
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 45),
+                child: Column(
+                  children: [
+                    TextField(
+                      controller: _emailController,
+                      style: const TextStyle(
+                        color: Color(0xFF3a3a3a),
+                        fontSize: 14,
+                      ),
+                      decoration: InputDecoration(
+                        labelText: 'Email',
+                        hintText: 'email@address.com',
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          borderSide: BorderSide(color: Color(0xFFCCCCCC)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          borderSide: BorderSide(color: Color(0xFFCCCCCC)),
+                        ),
+                        hintStyle: const TextStyle(
+                          color: Color(0xFFCCCCCC),
+                          fontSize: 16,
+                        ),
+                        labelStyle: const TextStyle(
+                          color: Color(0xFF2b2b2b),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    TextField(
+                      controller: _passwordController,
+                      keyboardType: TextInputType.text,
+                      obscureText: true,
+                      style: const TextStyle(
+                        color: Color(0xFF3a3a3a),
+                        fontSize: 14,
+                      ),
+                      decoration: InputDecoration(
+                        labelText: 'Password',
+                        hintText: '********',
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          borderSide: BorderSide(color: Color(0xFFCCCCCC)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          borderSide: BorderSide(color: Color(0xFFCCCCCC)),
+                        ),
+                        hintStyle: const TextStyle(
+                          color: Color(0xFFCCCCCC),
+                          fontSize: 16,
+                        ),
+                        labelStyle: const TextStyle(
+                          color: Color(0xFF2b2b2b),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.all(45.0),

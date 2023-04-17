@@ -11,7 +11,10 @@ import 'package:trackngo/mainScreen/main_screen.dart';
 import '../global/global.dart';
 
 class SignUpCommuter extends StatefulWidget {
-  const SignUpCommuter({super.key});
+  final String email;
+  final String password;
+
+  SignUpCommuter({required this.email, required this.password});
 
   @override
   State<SignUpCommuter> createState() => _SignUpCommuter();
@@ -24,6 +27,13 @@ class _SignUpCommuter extends State<SignUpCommuter> {
   TextEditingController _contactNumberController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _confirmPasswordController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _emailController.text = widget.email;
+    _passwordController.text = widget.password;
+  }
 
   validateForm() {
     RegExp digitRegex = RegExp(r'^\d+$');

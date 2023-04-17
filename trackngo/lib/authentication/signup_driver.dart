@@ -9,7 +9,10 @@ import 'package:trackngo/global/global.dart';
 import 'package:trackngo/mainScreen/main_screen.dart';
 
 class SignUpDriver extends StatefulWidget {
-  const SignUpDriver({super.key});
+  final String email;
+  final String password;
+
+  const SignUpDriver({required this.email, required this.password});
 
   @override
   State<SignUpDriver> createState() => _SignUpDriver();
@@ -27,6 +30,13 @@ class _SignUpDriver extends State<SignUpDriver> {
   TextEditingController _confirmPasswordController = TextEditingController();
   List<String> busTypeList = ['Regular', 'Air-Conditioned'];
   String? selectedBusType;
+
+  @override
+  void initState() {
+    super.initState();
+    _emailController.text = widget.email;
+    _passwordController.text = widget.password;
+  }
 
   Map<String, dynamic> driverInfoDataMap = {};
 
@@ -86,7 +96,7 @@ class _SignUpDriver extends State<SignUpDriver> {
       Navigator.pop(context);
       Fluttertoast.showToast(msg: "Account has not been registered");
     }
-    
+
     // ignore: deprecated_member_use
     DatabaseReference usersRef = FirebaseDatabase(
             databaseURL:
@@ -228,7 +238,7 @@ class _SignUpDriver extends State<SignUpDriver> {
                         fontSize: 14,
                       ),
                       decoration: InputDecoration(
-                        labelText: 'Email',
+                        labelText: "Email",
                         hintText: 'email@address.com',
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20.0),
