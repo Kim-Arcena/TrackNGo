@@ -20,12 +20,19 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
+  RegExp emailRegex = RegExp(
+      r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$",
+      caseSensitive: false);
+  RegExp passwordRegex = RegExp(
+      r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$');
+
   validateForm() {
     if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
       Fluttertoast.showToast(msg: "Please fill up all the fields");
-    }
-    if (!_emailController.text.contains("@")) {
-      Fluttertoast.showToast(msg: "Please enter a valid email");
+    } else if (!emailRegex.hasMatch(_emailController.text)) {
+      Fluttertoast.showToast(msg: "Invalid Email Address");
+    } else if (!passwordRegex.hasMatch(_passwordController.text)) {
+      Fluttertoast.showToast(msg: "Invalid Password");
     } else {
       loginDriverNow();
     }

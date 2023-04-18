@@ -41,7 +41,16 @@ class _SignUpDriver extends State<SignUpDriver> {
   Map<String, dynamic> driverInfoDataMap = {};
 
   validateForm() {
-    RegExp digitRegex = RegExp(r'^\d+$');
+    RegExp nameRegex = RegExp(r'\b[A-Z][a-z]* [A-Z][a-z]*( [A-Z])?\b');
+    RegExp digitRegex = RegExp(r'^(09)[0-9]{9}$');
+    RegExp licenseRegex = RegExp(r'^[A-Z]{1}[0-9]{10}$');
+    RegExp opcodeRegex = RegExp(r'^[A-Z]{2}[0-9]{4}$');
+    RegExp plateRegex = RegExp(r'^[A-Z]{3}[0-9]{4}$');
+    RegExp emailRegex = RegExp(
+        r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$",
+        caseSensitive: false);
+    RegExp passwordRegex = RegExp(
+        r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$');
 
     if (_firstNameController.text.isEmpty ||
         _lastNameController.text.isEmpty ||
@@ -49,10 +58,26 @@ class _SignUpDriver extends State<SignUpDriver> {
         _contactNumberController.text.isEmpty ||
         _plateNumberController.text.isEmpty) {
       Fluttertoast.showToast(msg: "Kindly fill up all fields.");
-    } else if (_plateNumberController.text.length != 7) {
-      Fluttertoast.showToast(msg: "Invalid Plate Number");
-    } else if (_contactNumberController.text.length != 11) {
+    } else if (!nameRegex.hasMatch(_firstNameController.text) ||
+        !nameRegex.hasMatch(_lastNameController.text)) {
+      Fluttertoast.showToast(msg: "Invalid Name");
+    } else if (!digitRegex.hasMatch(_contactNumberController.text)) {
       Fluttertoast.showToast(msg: "Invalid Contact Number");
+    } else if (!licenseRegex.hasMatch(_licenseNumberController.text)) {
+      Fluttertoast.showToast(msg: "Invalid Driver's License Number");
+    } else if (!opcodeRegex.hasMatch(_operatorIdController.text)) {
+      Fluttertoast.showToast(msg: "Invalid Operator ID");
+    } else if (!plateRegex.hasMatch(_plateNumberController.text)) {
+      Fluttertoast.showToast(msg: "Invalid Operator ID");
+    } else if (selectedBusType != 'Regular' ||
+        selectedBusType != 'Air-Conditioned') {
+      Fluttertoast.showToast(msg: "Select Bus Type");
+    } else if (!emailRegex.hasMatch(_emailController.text)) {
+      Fluttertoast.showToast(msg: "Invalid Email Address");
+    } else if (!passwordRegex.hasMatch(_passwordController.text)) {
+      Fluttertoast.showToast(msg: "Invalid Password");
+    } else if (_passwordController.text != _confirmPasswordController.text) {
+      Fluttertoast.showToast(msg: "Different Passwords Provided");
     } else {
       saveDriverInfo();
     }

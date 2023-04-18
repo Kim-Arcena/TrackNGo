@@ -377,8 +377,8 @@ class _InnerContainerState extends State<InnerContainer> {
                             onTap: () {
                               setState(() {
                                 // use setState
-                                _flag = !_flag;
-                                _flagThree = !_flagThree;
+                                _flag = false;
+                                _flagThree = true;
                                 _flagTwo = !_flagTwo;
                               });
                             },

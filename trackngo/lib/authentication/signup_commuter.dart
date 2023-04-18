@@ -36,18 +36,30 @@ class _SignUpCommuter extends State<SignUpCommuter> {
   }
 
   validateForm() {
-    RegExp digitRegex = RegExp(r'^\d+$');
+    RegExp nameRegex = RegExp(r'\b[A-Z][a-z]* [A-Z][a-z]*( [A-Z])?\b');
+    RegExp digitRegex = RegExp(r'^(09)[0-9]{9}$');
+    RegExp emailRegex = RegExp(
+        r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$",
+        caseSensitive: false);
+    RegExp passwordRegex = RegExp(
+        r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$');
+
     if (_firstNameController.text.isEmpty ||
         _lastNameController.text.isEmpty ||
         _emailController.text.isEmpty ||
         _contactNumberController.text.isEmpty) {
       Fluttertoast.showToast(msg: "Please fill up all the fields");
-    } else if (_emailController.text.contains("@") == false ||
-        _emailController.text.contains(".com") == false) {
-      Fluttertoast.showToast(msg: "Invalid Email Address");
-    } else if (_contactNumberController.text.length != 11 ||
-        !digitRegex.hasMatch(_contactNumberController.text)) {
+    } else if (!nameRegex.hasMatch(_firstNameController.text) ||
+        !nameRegex.hasMatch(_lastNameController.text)) {
+      Fluttertoast.showToast(msg: "Invalid Name");
+    } else if (!digitRegex.hasMatch(_contactNumberController.text)) {
       Fluttertoast.showToast(msg: "Invalid Contact Number");
+    } else if (!emailRegex.hasMatch(_emailController.text)) {
+      Fluttertoast.showToast(msg: "Invalid Email Address");
+    } else if (!passwordRegex.hasMatch(_passwordController.text)) {
+      Fluttertoast.showToast(msg: "Invalid Password");
+    } else if (_passwordController.text != _confirmPasswordController.text) {
+      Fluttertoast.showToast(msg: "Different Passwords Provided");
     } else {
       saveCommutersInfo();
     }
