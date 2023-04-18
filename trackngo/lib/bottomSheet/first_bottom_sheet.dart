@@ -11,8 +11,6 @@ class MyBottomSheet extends StatelessWidget {
 
   MyBottomSheet({required this.child});
 
-  bool _flag = true;
-
   @override
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(
@@ -160,7 +158,7 @@ class InnerContainer extends StatefulWidget {
 }
 
 class _InnerContainerState extends State<InnerContainer> {
-  bool _flag = true;
+  bool _flag = false;
   bool _flagTwo = false;
   bool _flagThree = false;
   @override
@@ -346,7 +344,9 @@ class _InnerContainerState extends State<InnerContainer> {
                             onTap: () {
                               setState(() {
                                 // use setState
-                                _flag = !_flag;
+                                _flag = true;
+                                _flagTwo = false;
+                                _flagThree = false;
                               });
                               print('clicked');
                             },
@@ -363,7 +363,7 @@ class _InnerContainerState extends State<InnerContainer> {
                               child: Text(
                                 "1",
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: _flag ? Colors.white : Colors.black,
                                   fontSize: 12.5,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -378,8 +378,8 @@ class _InnerContainerState extends State<InnerContainer> {
                               setState(() {
                                 // use setState
                                 _flag = false;
-                                _flagThree = true;
-                                _flagTwo = !_flagTwo;
+                                _flagThree = false;
+                                _flagTwo = true;
                               });
                             },
                             child: Container(
@@ -395,7 +395,7 @@ class _InnerContainerState extends State<InnerContainer> {
                               child: Text(
                                 "2",
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: _flagTwo ? Colors.white : Colors.black,
                                   fontSize: 12.5,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -409,7 +409,9 @@ class _InnerContainerState extends State<InnerContainer> {
                             onTap: () {
                               setState(() {
                                 // use setState
-                                _flagThree = !_flagThree;
+                                _flag = false;
+                                _flagTwo = false;
+                                _flagThree = true;
                               });
                             },
                             child: Container(
@@ -425,7 +427,8 @@ class _InnerContainerState extends State<InnerContainer> {
                               child: Text(
                                 "3",
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color:
+                                      _flagThree ? Colors.white : Colors.black,
                                   fontSize: 12.5,
                                   fontWeight: FontWeight.bold,
                                 ),
