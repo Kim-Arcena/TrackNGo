@@ -6,18 +6,16 @@ import '../mainScreen/search_places_screen.dart';
 
 var maxChildSize = 0.8;
 
-class MyBottomSheet extends StatelessWidget {
+class MyBottomSheetTwo extends StatelessWidget {
   final Widget child;
 
-  MyBottomSheet({required this.child});
-
-  bool _flag = true;
+  const MyBottomSheetTwo({required this.child});
 
   @override
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(
-      initialChildSize: 0.2,
-      minChildSize: 0.2,
+      initialChildSize: 0.8,
+      minChildSize: 0.8,
       maxChildSize: 0.8,
       builder: (BuildContext context, ScrollController scrollController) {
         return Container(
@@ -43,7 +41,7 @@ class MyBottomSheet extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Create Trip",
+                      "Create Tripppp",
                       textAlign: TextAlign.left,
                       style: TextStyle(
                           color: Colors.white,
@@ -82,7 +80,7 @@ class MyBottomSheet extends StatelessWidget {
                               width: 40.0,
                               height: 40.0,
                               decoration: BoxDecoration(
-                                color: Color(0XFF021C0F),
+                                color: Color(0XFFDFF1E9),
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
                               child: TextButton(
@@ -90,7 +88,7 @@ class MyBottomSheet extends StatelessWidget {
                                 child: Text(
                                   "2",
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: Colors.black,
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -153,16 +151,7 @@ class MyBottomSheet extends StatelessWidget {
   }
 }
 
-class InnerContainer extends StatefulWidget {
-  // use this
-  @override
-  _InnerContainerState createState() => _InnerContainerState();
-}
-
-class _InnerContainerState extends State<InnerContainer> {
-  bool _flag = true;
-  bool _flagTwo = false;
-  bool _flagThree = false;
+class InnerContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -342,24 +331,15 @@ class _InnerContainerState extends State<InnerContainer> {
                       ),
                       Row(
                         children: [
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                // use setState
-                                _flag = !_flag;
-                              });
-                              print('clicked');
-                            },
-                            child: Container(
-                              alignment: Alignment.center,
-                              width: 30.0,
-                              height: 30.0,
-                              decoration: BoxDecoration(
-                                color: _flag
-                                    ? Color(0xFF7d9988)
-                                    : Color(0XFFDAD9E2),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
+                          Container(
+                            width: 30.0,
+                            height: 30.0,
+                            decoration: BoxDecoration(
+                              color: Color(0XFF53906B),
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            child: TextButton(
+                              onPressed: () {},
                               child: Text(
                                 "1",
                                 style: TextStyle(
@@ -373,29 +353,19 @@ class _InnerContainerState extends State<InnerContainer> {
                           SizedBox(
                             width: 5.0,
                           ),
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                // use setState
-                                _flag = !_flag;
-                                _flagThree = !_flagThree;
-                                _flagTwo = !_flagTwo;
-                              });
-                            },
-                            child: Container(
-                              alignment: Alignment.center,
-                              width: 30.0,
-                              height: 30.0,
-                              decoration: BoxDecoration(
-                                color: _flagTwo
-                                    ? Color(0xFF7d9988)
-                                    : Color(0XFFDAD9E2),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
+                          Container(
+                            width: 30.0,
+                            height: 30.0,
+                            decoration: BoxDecoration(
+                              color: Color(0XFFDAD9E2),
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            child: TextButton(
+                              onPressed: () {},
                               child: Text(
                                 "2",
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: Colors.black,
                                   fontSize: 12.5,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -405,27 +375,19 @@ class _InnerContainerState extends State<InnerContainer> {
                           SizedBox(
                             width: 5.0,
                           ),
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                // use setState
-                                _flagThree = !_flagThree;
-                              });
-                            },
-                            child: Container(
-                              alignment: Alignment.center,
-                              width: 30.0,
-                              height: 30.0,
-                              decoration: BoxDecoration(
-                                color: _flagThree
-                                    ? Color(0xFF7d9988)
-                                    : Color(0XFFDAD9E2),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
+                          Container(
+                            width: 30.0,
+                            height: 30.0,
+                            decoration: BoxDecoration(
+                              color: Color(0XFFDAD9E2),
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            child: TextButton(
+                              onPressed: () {},
                               child: Text(
                                 "3",
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: Colors.black,
                                   fontSize: 12.5,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -447,7 +409,9 @@ class _InnerContainerState extends State<InnerContainer> {
                         child: Container(),
                       ),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          // add functionality here
+                        },
                         child: Text(
                           'Next',
                           style: TextStyle(

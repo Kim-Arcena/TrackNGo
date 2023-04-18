@@ -23,8 +23,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String? selectedImage;
 
   saveDriverInfo() async {
-    // Fluttertoast.showToast(msg: _emailController.text);
-    // Fluttertoast.showToast(msg: _passwordController.text);
     if (selectedImage == 'images/commuter.png') {
       Navigator.push(
         context,
