@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:trackngo/authentication/signup_driver2.dart';
 import 'package:trackngo/authentication/login_screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -19,6 +18,9 @@ class SignUpDriver extends StatefulWidget {
 }
 
 class _SignUpDriver extends State<SignUpDriver> {
+  bool passwordVisible = true;
+  bool confirmedpasswordVisible = true;
+
   TextEditingController _firstNameController = TextEditingController();
   TextEditingController _lastNameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
@@ -257,34 +259,6 @@ class _SignUpDriver extends State<SignUpDriver> {
                       ),
                     ),
                     TextField(
-                      controller: _emailController,
-                      style: const TextStyle(
-                        color: Color(0xFF3a3a3a),
-                        fontSize: 14,
-                      ),
-                      decoration: InputDecoration(
-                        labelText: "Email",
-                        hintText: 'email@address.com',
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                          borderSide: BorderSide(color: Color(0xFFCCCCCC)),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                          borderSide: BorderSide(color: Color(0xFFCCCCCC)),
-                        ),
-                        hintStyle: const TextStyle(
-                          color: Color(0xFFCCCCCC),
-                          fontSize: 16,
-                        ),
-                        labelStyle: const TextStyle(
-                          color: Color(0xFF2b2b2b),
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                    TextField(
                       controller: _contactNumberController,
                       style: const TextStyle(
                         color: Color(0xFF3a3a3a),
@@ -292,35 +266,7 @@ class _SignUpDriver extends State<SignUpDriver> {
                       ),
                       decoration: InputDecoration(
                         labelText: 'Contact Number',
-                        hintText: '+63| 9XX-XXX-XXXX',
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                          borderSide: BorderSide(color: Color(0xFFCCCCCC)),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                          borderSide: BorderSide(color: Color(0xFFCCCCCC)),
-                        ),
-                        hintStyle: const TextStyle(
-                          color: Color(0xFFCCCCCC),
-                          fontSize: 16,
-                        ),
-                        labelStyle: const TextStyle(
-                          color: Color(0xFF2b2b2b),
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                    TextField(
-                      controller: _plateNumberController,
-                      style: const TextStyle(
-                        color: Color(0xFF3a3a3a),
-                        fontSize: 14,
-                      ),
-                      decoration: InputDecoration(
-                        labelText: 'Plate Number',
-                        hintText: 'XXX-XXXXXXX',
+                        hintText: '09XX-XXX-XXXX',
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20.0),
                           borderSide: BorderSide(color: Color(0xFFCCCCCC)),
@@ -347,8 +293,8 @@ class _SignUpDriver extends State<SignUpDriver> {
                         fontSize: 14,
                       ),
                       decoration: InputDecoration(
-                        labelText: 'License Number',
-                        hintText: 'XXXX-XXXXXXX',
+                        labelText: "Driver's License Number",
+                        hintText: 'A12-34-567890',
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20.0),
                           borderSide: BorderSide(color: Color(0xFFCCCCCC)),
@@ -376,7 +322,63 @@ class _SignUpDriver extends State<SignUpDriver> {
                       ),
                       decoration: InputDecoration(
                         labelText: 'Operator ID',
-                        hintText: 'XXXX',
+                        hintText: 'AB-1234',
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          borderSide: BorderSide(color: Color(0xFFCCCCCC)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          borderSide: BorderSide(color: Color(0xFFCCCCCC)),
+                        ),
+                        hintStyle: const TextStyle(
+                          color: Color(0xFFCCCCCC),
+                          fontSize: 16,
+                        ),
+                        labelStyle: const TextStyle(
+                          color: Color(0xFF2b2b2b),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    TextField(
+                      controller: _plateNumberController,
+                      style: const TextStyle(
+                        color: Color(0xFF3a3a3a),
+                        fontSize: 14,
+                      ),
+                      decoration: InputDecoration(
+                        labelText: 'Plate Number',
+                        hintText: 'ABC-1234',
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          borderSide: BorderSide(color: Color(0xFFCCCCCC)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          borderSide: BorderSide(color: Color(0xFFCCCCCC)),
+                        ),
+                        hintStyle: const TextStyle(
+                          color: Color(0xFFCCCCCC),
+                          fontSize: 16,
+                        ),
+                        labelStyle: const TextStyle(
+                          color: Color(0xFF2b2b2b),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    TextField(
+                      controller: _emailController,
+                      style: const TextStyle(
+                        color: Color(0xFF3a3a3a),
+                        fontSize: 14,
+                      ),
+                      decoration: InputDecoration(
+                        labelText: 'Email',
+                        hintText: 'email@address.com',
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20.0),
                           borderSide: BorderSide(color: Color(0xFFCCCCCC)),
@@ -399,7 +401,7 @@ class _SignUpDriver extends State<SignUpDriver> {
                     TextField(
                       controller: _passwordController,
                       keyboardType: TextInputType.text,
-                      obscureText: true,
+                      obscureText: passwordVisible,
                       style: const TextStyle(
                         color: Color(0xFF3a3a3a),
                         fontSize: 14,
@@ -424,12 +426,25 @@ class _SignUpDriver extends State<SignUpDriver> {
                           fontWeight: FontWeight.w600,
                           fontSize: 16,
                         ),
+                        helperStyle: TextStyle(color: Colors.green),
+                        suffixIcon: IconButton(
+                          icon: Icon(passwordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off),
+                          onPressed: () {
+                            setState(
+                              () {
+                                passwordVisible = !passwordVisible;
+                              },
+                            );
+                          },
+                        ),
                       ),
                     ),
                     TextField(
                       controller: _confirmPasswordController,
                       keyboardType: TextInputType.text,
-                      obscureText: true,
+                      obscureText: confirmedpasswordVisible,
                       style: const TextStyle(
                         color: Color(0xFF3a3a3a),
                         fontSize: 14,
@@ -454,35 +469,21 @@ class _SignUpDriver extends State<SignUpDriver> {
                           fontWeight: FontWeight.w600,
                           fontSize: 16,
                         ),
-                      ),
-                    ),
-                    DropdownButton(
-                      hint: const Text(
-                        'Select Bus Type',
-                        style: TextStyle(
-                          color: Color(0xFF3a3a3a),
-                          fontSize: 14,
+                        helperStyle: TextStyle(color: Colors.green),
+                        suffixIcon: IconButton(
+                          icon: Icon(confirmedpasswordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off),
+                          onPressed: () {
+                            setState(
+                              () {
+                                confirmedpasswordVisible =
+                                    !confirmedpasswordVisible;
+                              },
+                            );
+                          },
                         ),
                       ),
-                      value: selectedBusType,
-                      onChanged: (newValue) {
-                        setState(() {
-                          selectedBusType = newValue.toString();
-                        });
-                      },
-                      items: busTypeList.map((bus) {
-                        return DropdownMenuItem(
-                          // ignore: sort_child_properties_last
-                          child: Text(
-                            bus,
-                            style: const TextStyle(
-                                color: Color(0xFF3a3a3a),
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500),
-                          ),
-                          value: bus,
-                        );
-                      }).toList(),
                     ),
                     Column(
                       children: [
@@ -499,7 +500,7 @@ class _SignUpDriver extends State<SignUpDriver> {
                                   ),
                                   fixedSize: const Size(550, 55)),
                               child: const Text(
-                                "Next",
+                                "Sign Up",
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 16,

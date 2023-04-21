@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:trackngo/authentication/alertDialog.dart';
 import 'package:trackngo/authentication/signup_commuter.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:trackngo/authentication/signup_driver.dart';
@@ -18,6 +19,8 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  bool passwordVisible = true;
+
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   String? selectedImage;
@@ -40,6 +43,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
       );
     } else {
+      MyAlertDialog(
+        title: "Please select an account type",
+        content: "Please select an account type",
+      );
       Fluttertoast.showToast(msg: "Please select an account type");
     }
   }
@@ -177,7 +184,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     TextField(
                       controller: _passwordController,
                       keyboardType: TextInputType.text,
-                      obscureText: true,
+                      obscureText: passwordVisible,
                       style: const TextStyle(
                         color: Color(0xFF3a3a3a),
                         fontSize: 14,
@@ -201,6 +208,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           color: Color(0xFF2b2b2b),
                           fontWeight: FontWeight.w600,
                           fontSize: 16,
+                        ),
+                        helperStyle: TextStyle(color: Colors.green),
+                        suffixIcon: IconButton(
+                          icon: Icon(passwordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off),
+                          onPressed: () {
+                            setState(
+                              () {
+                                passwordVisible = !passwordVisible;
+                              },
+                            );
+                          },
                         ),
                       ),
                     ),
