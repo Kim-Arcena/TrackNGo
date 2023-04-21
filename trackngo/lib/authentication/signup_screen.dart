@@ -18,6 +18,8 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  bool passwordVisible = true;
+
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   String? selectedImage;
@@ -177,7 +179,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     TextField(
                       controller: _passwordController,
                       keyboardType: TextInputType.text,
-                      obscureText: true,
+                      obscureText: passwordVisible,
                       style: const TextStyle(
                         color: Color(0xFF3a3a3a),
                         fontSize: 14,
@@ -201,6 +203,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           color: Color(0xFF2b2b2b),
                           fontWeight: FontWeight.w600,
                           fontSize: 16,
+                        ),
+                        helperStyle:TextStyle(color:Colors.green),
+                        suffixIcon: IconButton(
+                          icon: Icon(passwordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off),
+                          onPressed: () {
+                            setState(
+                                  () {
+                                passwordVisible = !passwordVisible;
+                              },
+                            );
+                          },
                         ),
                       ),
                     ),

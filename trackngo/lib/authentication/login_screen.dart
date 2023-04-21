@@ -17,6 +17,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  bool passwordVisible = true;
+
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
@@ -119,7 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     TextField(
                       controller: _passwordController,
                       keyboardType: TextInputType.text,
-                      obscureText: true,
+                      obscureText: passwordVisible,
                       style: const TextStyle(
                         color: Color(0xFF3a3a3a),
                         fontSize: 14,
@@ -143,6 +145,19 @@ class _LoginScreenState extends State<LoginScreen> {
                           color: Color(0xFF2b2b2b),
                           fontWeight: FontWeight.w600,
                           fontSize: 16,
+                        ),
+                        helperStyle:TextStyle(color:Colors.green),
+                        suffixIcon: IconButton(
+                          icon: Icon(passwordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off),
+                          onPressed: () {
+                            setState(
+                                  () {
+                                passwordVisible = !passwordVisible;
+                              },
+                            );
+                          },
                         ),
                       ),
                     ),

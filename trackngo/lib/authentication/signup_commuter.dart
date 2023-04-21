@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:trackngo/authentication/signup_driver2.dart';
 import 'package:trackngo/authentication/login_screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:trackngo/mainScreen/commuter_screen.dart';
@@ -21,6 +20,9 @@ class SignUpCommuter extends StatefulWidget {
 }
 
 class _SignUpCommuter extends State<SignUpCommuter> {
+  bool passwordVisible = true;
+  bool confirmedpasswordVisible = true;
+
   TextEditingController _firstNameController = TextEditingController();
   TextEditingController _lastNameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
@@ -69,8 +71,8 @@ class _SignUpCommuter extends State<SignUpCommuter> {
     Map commutersInfoMap = {
       "firstName": _firstNameController.text,
       "lastName": _lastNameController.text,
-      "email": _emailController.text,
       "contactNumber": _contactNumberController.text,
+      "email": _emailController.text,
       "password": _passwordController.text,
       "confirmPassword": _confirmPasswordController.text,
     };
@@ -231,6 +233,34 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                       ),
                     ),
                     TextField(
+                      controller: _contactNumberController,
+                      style: const TextStyle(
+                        color: Color(0xFF3a3a3a),
+                        fontSize: 14,
+                      ),
+                      decoration: InputDecoration(
+                        labelText: 'Contact Number',
+                        hintText: '09XX-XXX-XXXX',
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          borderSide: BorderSide(color: Color(0xFFCCCCCC)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          borderSide: BorderSide(color: Color(0xFFCCCCCC)),
+                        ),
+                        hintStyle: const TextStyle(
+                          color: Color(0xFFCCCCCC),
+                          fontSize: 16,
+                        ),
+                        labelStyle: const TextStyle(
+                          color: Color(0xFF2b2b2b),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    TextField(
                       controller: _emailController,
                       style: const TextStyle(
                         color: Color(0xFF3a3a3a),
@@ -259,37 +289,9 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                       ),
                     ),
                     TextField(
-                      controller: _contactNumberController,
-                      style: const TextStyle(
-                        color: Color(0xFF3a3a3a),
-                        fontSize: 14,
-                      ),
-                      decoration: InputDecoration(
-                        labelText: 'Contact Number',
-                        hintText: '+63| 9XX-XXX-XXXX',
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                          borderSide: BorderSide(color: Color(0xFFCCCCCC)),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                          borderSide: BorderSide(color: Color(0xFFCCCCCC)),
-                        ),
-                        hintStyle: const TextStyle(
-                          color: Color(0xFFCCCCCC),
-                          fontSize: 16,
-                        ),
-                        labelStyle: const TextStyle(
-                          color: Color(0xFF2b2b2b),
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                    TextField(
                       controller: _passwordController,
                       keyboardType: TextInputType.text,
-                      obscureText: true,
+                      obscureText: passwordVisible,
                       style: const TextStyle(
                         color: Color(0xFF3a3a3a),
                         fontSize: 14,
@@ -314,12 +316,25 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                           fontWeight: FontWeight.w600,
                           fontSize: 16,
                         ),
+                        helperStyle:TextStyle(color:Colors.green),
+                        suffixIcon: IconButton(
+                          icon: Icon(passwordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off),
+                          onPressed: () {
+                            setState(
+                                  () {
+                                passwordVisible = !passwordVisible;
+                              },
+                            );
+                          },
+                        ),
                       ),
                     ),
                     TextField(
                       controller: _confirmPasswordController,
                       keyboardType: TextInputType.text,
-                      obscureText: true,
+                      obscureText: confirmedpasswordVisible,
                       style: const TextStyle(
                         color: Color(0xFF3a3a3a),
                         fontSize: 14,
@@ -343,6 +358,19 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                           color: Color(0xFF2b2b2b),
                           fontWeight: FontWeight.w600,
                           fontSize: 16,
+                        ),
+                        helperStyle:TextStyle(color:Colors.green),
+                        suffixIcon: IconButton(
+                          icon: Icon(confirmedpasswordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off),
+                          onPressed: () {
+                            setState(
+                                  () {
+                                    confirmedpasswordVisible = !confirmedpasswordVisible;
+                              },
+                            );
+                          },
                         ),
                       ),
                     ),
