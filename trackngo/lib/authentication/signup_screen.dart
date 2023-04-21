@@ -43,11 +43,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
       );
     } else {
+      //remove flutter toast and replace with the MyAlertDialog(); edit title and content lng hehe
+      // Fluttertoast.showToast(msg: "Please select an account type");
       MyAlertDialog(
-        title: "Please select an account type",
-        content: "Please select an account type",
-      );
-      Fluttertoast.showToast(msg: "Please select an account type");
+        title: 'Error',
+        content: 'Please select an account type',
+      ).show(context); // call the show method to display the dialog
     }
   }
 
