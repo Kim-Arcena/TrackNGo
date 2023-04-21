@@ -485,6 +485,120 @@ class _SignUpDriver extends State<SignUpDriver> {
                         ),
                       ),
                     ),
+                    TextField(
+                      controller: _emailController,
+                      style: const TextStyle(
+                        color: Color(0xFF3a3a3a),
+                        fontSize: 14,
+                      ),
+                      decoration: InputDecoration(
+                        labelText: 'Email',
+                        hintText: 'email@address.com',
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          borderSide: BorderSide(color: Color(0xFFCCCCCC)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          borderSide: BorderSide(color: Color(0xFFCCCCCC)),
+                        ),
+                        hintStyle: const TextStyle(
+                          color: Color(0xFFCCCCCC),
+                          fontSize: 16,
+                        ),
+                        labelStyle: const TextStyle(
+                          color: Color(0xFF2b2b2b),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    TextField(
+                      controller: _passwordController,
+                      keyboardType: TextInputType.text,
+                      obscureText: passwordVisible,
+                      style: const TextStyle(
+                        color: Color(0xFF3a3a3a),
+                        fontSize: 14,
+                      ),
+                      decoration: InputDecoration(
+                        labelText: 'Password',
+                        hintText: '*********',
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          borderSide: BorderSide(color: Color(0xFFCCCCCC)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          borderSide: BorderSide(color: Color(0xFFCCCCCC)),
+                        ),
+                        hintStyle: const TextStyle(
+                          color: Color(0xFFCCCCCC),
+                          fontSize: 16,
+                        ),
+                        labelStyle: const TextStyle(
+                          color: Color(0xFF2b2b2b),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                        ),
+                        helperStyle:TextStyle(color:Colors.green),
+                        suffixIcon: IconButton(
+                          icon: Icon(passwordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off),
+                          onPressed: () {
+                            setState(
+                                  () {
+                                passwordVisible = !passwordVisible;
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                    TextField(
+                      controller: _confirmPasswordController,
+                      keyboardType: TextInputType.text,
+                      obscureText: confirmedpasswordVisible,
+                      style: const TextStyle(
+                        color: Color(0xFF3a3a3a),
+                        fontSize: 14,
+                      ),
+                      decoration: InputDecoration(
+                        labelText: 'Confirm Password',
+                        hintText: '*********',
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          borderSide: BorderSide(color: Color(0xFFCCCCCC)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          borderSide: BorderSide(color: Color(0xFFCCCCCC)),
+                        ),
+                        hintStyle: const TextStyle(
+                          color: Color(0xFFCCCCCC),
+                          fontSize: 16,
+                        ),
+                        labelStyle: const TextStyle(
+                          color: Color(0xFF2b2b2b),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                        ),
+                        helperStyle:TextStyle(color:Colors.green),
+                        suffixIcon: IconButton(
+                          icon: Icon(confirmedpasswordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off),
+                          onPressed: () {
+                            setState(
+                                  () {
+                                confirmedpasswordVisible = !confirmedpasswordVisible;
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                    ),
                     Column(
                       children: [
                         Container(

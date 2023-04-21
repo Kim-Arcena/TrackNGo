@@ -15,7 +15,7 @@ void main() async {
         child: MaterialApp(
           title: 'TrackNGo',
           theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.green,
           ),
           home: MySplashScreen(),
           debugShowCheckedModeBanner: false,
