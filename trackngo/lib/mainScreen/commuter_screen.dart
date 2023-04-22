@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:math';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:location/location.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +30,9 @@ class _CommuterScreenState extends State<CommuterScreen> {
   String humanReadableAddress = "";
   Set<Marker> _markers = {};
   bool _bottomSheetVisible = true;
+
+  List<LatLng> pLineCoordinatesList = [];
+  Set<Polyline> polyLineSet = {};
 
   void _onMapCreated(GoogleMapController _cntlr) async {
     newGoogleMapController = _cntlr;
@@ -88,6 +93,7 @@ class _CommuterScreenState extends State<CommuterScreen> {
             mapType: MapType.normal,
             onMapCreated: _onMapCreated,
             markers: _markers,
+            polylines: polyLineSet,
           ),
           Positioned(
               left: 40.0,
@@ -304,5 +310,35 @@ class _CommuterScreenState extends State<CommuterScreen> {
 
     print("This is encoded points :: ");
     print(directionDetailsInfo!.e_points);
+
+    PolylinePoints pPoints = PolylinePoints();
+    List<PointLatLng> decodedPolyLinePointsResultList =
+        pPoints.decodePolyline(directionDetailsInfo.e_points!);
+
+    pLineCoordinatesList.clear();
+
+    if (decodedPolyLinePointsResultList.isNotEmpty) {
+      decodedPolyLinePointsResultList.forEach((PointLatLng pointLatLng) {
+        pLineCoordinatesList
+            .add(LatLng(pointLatLng.latitude, pointLatLng.longitude));
+      });
+    }
+
+    polyLineSet.clear();
+
+    setState(() {
+      Polyline polyline = Polyline(
+        polylineId: const PolylineId("PolylineID"),
+        color: Color(0XFF25ba6f),
+        jointType: JointType.round,
+        points: pLineCoordinatesList,
+        width: 5,
+        startCap: Cap.roundCap,
+        endCap: Cap.roundCap,
+        geodesic: true,
+      );
+
+      polyLineSet.add(polyline);
+    });
   }
 }
