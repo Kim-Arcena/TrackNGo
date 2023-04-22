@@ -296,6 +296,7 @@ class _CommuterScreenState extends State<CommuterScreen> {
     var destinationPosition =
         Provider.of<AppInfo>(context, listen: false).userDropOffLocation!;
 
+    //originLatLng
     var sourceLatLng = LatLng(
         sourcePosition.locationLatitude!, sourcePosition.locationLongitude!);
 
@@ -340,5 +341,27 @@ class _CommuterScreenState extends State<CommuterScreen> {
 
       polyLineSet.add(polyline);
     });
+
+    LatLngBounds boundLatLng;
+    if (sourceLatLng.latitude > destinationLatLng.latitude &&
+        sourceLatLng.longitude > destinationLatLng.longitude) {
+      boundLatLng =
+          LatLngBounds(southwest: destinationLatLng, northeast: sourceLatLng);
+    } else if (sourceLatLng.longitude > destinationLatLng.longitude) {
+      boundLatLng = LatLngBounds(
+        southwest: LatLng(sourceLatLng.latitude, destinationLatLng.longitude),
+        northeast: LatLng(destinationLatLng.latitude, sourceLatLng.longitude),
+      );
+    } else if (sourceLatLng.latitude > destinationLatLng.latitude) {
+      boundLatLng = LatLngBounds(
+        southwest: LatLng(destinationLatLng.latitude, sourceLatLng.longitude),
+        northeast: LatLng(sourceLatLng.latitude, destinationLatLng.longitude),
+      );
+    } else {
+      boundLatLng =
+          LatLngBounds(southwest: sourceLatLng, northeast: destinationLatLng);
+    }
+    newGoogleMapController!
+        .animateCamera(CameraUpdate.newLatLngBounds(boundLatLng, 70));
   }
 }
