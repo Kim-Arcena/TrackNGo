@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:trackngo/bottomSheet/second_bottom_sheet.dart';
 
 import '../infoHandler/app_info.dart';
 import '../mainScreen/search_places_screen.dart';
@@ -34,7 +35,8 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
                   colors: [
                     Color(0XFF358855),
                     Color(0XFF247D47),
-                    Color(0XFF1C9B4E)
+                    Color(0XFF1C9B4E),
+                    Color(0XFF358855),
                   ],
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,
@@ -162,44 +164,7 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
                 ],
               ),
             ),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.red,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30),
-                  topRight: Radius.circular(30),
-                ),
-              ),
-              child: ListView(
-                padding: EdgeInsets.zero,
-                controller: scrollController,
-                children: <Widget>[
-                  widget.child,
-                  ElevatedButton(
-                    onPressed: () {
-                      _pageController.animateToPage(0,
-                          duration: Duration(milliseconds: 500),
-                          curve: Curves.easeInOut);
-                    },
-                    child: Text(
-                      'Back',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      primary: Color(0xFF53906B),
-                      minimumSize: Size(200, 45),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            MyBottomSheetTwoContainer(scrollController: scrollController)
           ],
         );
       },
@@ -258,7 +223,7 @@ class _InnerContainerState extends State<InnerContainer> {
             ),
           ),
           Positioned(
-            top: 60,
+            top: 55,
             left: 0,
             right: 0,
             child: Padding(
@@ -347,17 +312,11 @@ class _InnerContainerState extends State<InnerContainer> {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
                   Divider(
-                      height: 10.0, thickness: 2.0, color: Color(0xFF929895)),
+                      height: 40.0, thickness: 2.0, color: Color(0xFF929895)),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      SizedBox(
-                        height: 10,
-                      ),
                       Text(
                         "Seats",
                         style: TextStyle(
@@ -495,36 +454,33 @@ class _InnerContainerState extends State<InnerContainer> {
                       SizedBox(
                         height: 30,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: Container(),
-                          ),
-                          ElevatedButton(
-                            onPressed: () {},
-                            child: Text(
-                              'Next',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              primary: Color(0xFF53906B),
-                              minimumSize: Size(200, 45),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
                     ],
                   ),
                 ],
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: 70,
+            right: 40,
+            child: Container(
+              child: ElevatedButton(
+                onPressed: () {},
+                child: Text(
+                  'Next',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                style: ElevatedButton.styleFrom(
+                  primary: Color(0xFF53906B),
+                  minimumSize: Size(200, 45),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                ),
               ),
             ),
           ),

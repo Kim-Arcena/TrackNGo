@@ -81,6 +81,8 @@ flutter:
     - images/driver.png
     - images/logo.png
     - images/currentLocation.png
+    - images/aircon.png
+    - images/traditional.png
 
 
   #   - images/a_dot_burr.jpeg
