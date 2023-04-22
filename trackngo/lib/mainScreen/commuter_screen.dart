@@ -28,11 +28,13 @@ class _CommuterScreenState extends State<CommuterScreen> {
   Location _location = Location();
   LocationPermission? _locationPermission;
   String humanReadableAddress = "";
-  Set<Marker> _markers = {};
   bool _bottomSheetVisible = true;
 
   List<LatLng> pLineCoordinatesList = [];
   Set<Polyline> polyLineSet = {};
+
+  Set<Marker> markerSet = {};
+  Set<Circle> circleSet = {};
 
   void _onMapCreated(GoogleMapController _cntlr) async {
     newGoogleMapController = _cntlr;
@@ -48,19 +50,6 @@ class _CommuterScreenState extends State<CommuterScreen> {
     // Set the camera position to the user's location
     setState(() {
       _initialcameraposition = LatLng(position.latitude, position.longitude);
-    });
-
-    // Load the custom PNG image
-    BitmapDescriptor customIcon = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(size: Size(48, 48)), 'images/commuter.png');
-
-    // Update the map's markers to use the custom PNG icon
-    setState(() {
-      _markers.clear();
-      _markers.add(Marker(
-          markerId: MarkerId("current_location"),
-          position: _initialcameraposition,
-          icon: customIcon));
     });
 
     newGoogleMapController?.animateCamera(
@@ -92,8 +81,9 @@ class _CommuterScreenState extends State<CommuterScreen> {
                 CameraPosition(target: _initialcameraposition),
             mapType: MapType.normal,
             onMapCreated: _onMapCreated,
-            markers: _markers,
             polylines: polyLineSet,
+            markers: markerSet,
+            circles: circleSet,
           ),
           Positioned(
               left: 40.0,
@@ -363,5 +353,57 @@ class _CommuterScreenState extends State<CommuterScreen> {
     }
     newGoogleMapController!
         .animateCamera(CameraUpdate.newLatLngBounds(boundLatLng, 70));
+
+    // Load the custom PNG image
+    BitmapDescriptor customIconOrigin = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(48, 48)), 'images/commuter.png');
+
+    BitmapDescriptor customIconDestination =
+        await BitmapDescriptor.fromAssetImage(
+            ImageConfiguration(size: Size(48, 48)), 'images/driver.png');
+
+    Marker originMarker = Marker(
+      markerId: const MarkerId("originID"),
+      infoWindow:
+          InfoWindow(title: sourcePosition.locationName, snippet: "Origin"),
+      position: sourceLatLng,
+      icon: customIconOrigin,
+    );
+
+    Marker destinationMarker = Marker(
+      markerId: const MarkerId("destinationID"),
+      infoWindow: InfoWindow(
+          title: destinationPosition.locationName, snippet: "Destination"),
+      position: destinationLatLng,
+      icon: customIconDestination,
+    );
+
+    setState(() {
+      markerSet.add(originMarker);
+      markerSet.add(destinationMarker);
+    });
+
+    Circle originCircle = Circle(
+      circleId: const CircleId("originID"),
+      fillColor: Color(0x225add6c),
+      center: sourceLatLng,
+      radius: 20,
+      strokeWidth: 4,
+      strokeColor: Color(0x225add6c),
+    );
+
+    Circle destinationCircle = Circle(
+      circleId: const CircleId("destinationID"),
+      fillColor: Color(0x225add6c),
+      center: destinationLatLng,
+      radius: 20,
+      strokeWidth: 4,
+      strokeColor: Color(0x22b0e5d9),
+    );
+
+    setState(() {
+      circleSet.add(originCircle);
+      circleSet.add(destinationCircle);
+    });
   }
 }
