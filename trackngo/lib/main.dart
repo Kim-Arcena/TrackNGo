@@ -11,37 +11,16 @@ void main() async {
 
   runApp(MyApp(
       child: ChangeNotifierProvider(
-        create: (context) => AppInfo(),
-        child: MaterialApp(
-          title: 'TrackNGo',
-          theme: ThemeData(
-            primarySwatch: Colors.green,
-            inputDecorationTheme: const InputDecorationTheme(
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20.0),
-                borderSide: BorderSide(color: Color(0xFFCCCCCC)),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20.0),
-                borderSide: BorderSide(color: Color(0xFFCCCCCC)),
-              ),
-              errorBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.red),
-              hintStyle: const TextStyle(
-                color: Color(0xFFCCCCCC),
-                fontSize: 16,
-              ),
-              labelStyle: const TextStyle(
-                color: Color(0xFF2b2b2b),
-                fontWeight: FontWeight.w600,
-                fontSize: 16,
-              ),
-            ),
-          ),
-          home: MySplashScreen(),
-          debugShowCheckedModeBanner: false,
-        ),
-      )));
+    create: (context) => AppInfo(),
+    child: MaterialApp(
+      title: 'TrackNGo',
+      theme: ThemeData(
+        primarySwatch: Colors.green,
+      ),
+      home: MySplashScreen(),
+      debugShowCheckedModeBanner: false,
+    ),
+  )));
 }
 
 class MyApp extends StatefulWidget {
@@ -51,7 +30,7 @@ class MyApp extends StatefulWidget {
 
   static void restartApp(BuildContext context) {
     context.findAncestorStateOfType<_MyAppState>()!.restartApp();
-  } 
+  }
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -68,7 +47,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return KeyedSubtree(
-      child: widget.child!,  
+      child: widget.child!,
       key: key,
     );
   }

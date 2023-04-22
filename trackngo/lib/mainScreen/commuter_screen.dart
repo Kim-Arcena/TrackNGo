@@ -187,7 +187,7 @@ class _CommuterScreenState extends State<CommuterScreen> {
                                 const Align(
                                   alignment: Alignment.topLeft,
                                   child: Text(
-                                    "Dropoff",
+                                    "Dropodddff",
                                     style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
@@ -198,6 +198,7 @@ class _CommuterScreenState extends State<CommuterScreen> {
                                 const SizedBox(width: 10.0),
                                 GestureDetector(
                                   onTap: () {
+                                    //go to search places screen
                                     var responseFromSearchScreen =
                                         Navigator.push(
                                       context,
@@ -206,9 +207,6 @@ class _CommuterScreenState extends State<CommuterScreen> {
                                             SearchPlacesScreen(),
                                       ),
                                     );
-
-                                    if (responseFromSearchScreen ==
-                                        "obtainDropOff") {}
                                   },
                                   child: Row(
                                     children: [
@@ -253,7 +251,14 @@ class _CommuterScreenState extends State<CommuterScreen> {
                             TextButton(
                               child: Text('OK'),
                               onPressed: () {
-                                Navigator.of(context).pop();
+                                if (Provider.of<AppInfo>(context, listen: false)
+                                        .userDropOffLocation ==
+                                    null) {
+                                  Fluttertoast.showToast(
+                                      msg: "Please select a dropoff location");
+                                } else {
+                                  drawPolyLineFromSourceToDestination();
+                                }
                               },
                             ),
                           ],
@@ -277,5 +282,27 @@ class _CommuterScreenState extends State<CommuterScreen> {
         ],
       ),
     );
+  }
+
+  Future<void> drawPolyLineFromSourceToDestination() async {
+    var sourcePosition =
+        Provider.of<AppInfo>(context, listen: false).userPickUpLocation!;
+    var destinationPosition =
+        Provider.of<AppInfo>(context, listen: false).userDropOffLocation!;
+
+    var sourceLatLng = LatLng(
+        sourcePosition.locationLatitude!, sourcePosition.locationLongitude!);
+
+    var destinationLatLng = LatLng(destinationPosition.locationLatitude!,
+        destinationPosition.locationLongitude!);
+
+    var directionDetailsInfo =
+        await AssistantMethods.obtainOriginToDestinationDirectionDetails(
+            sourceLatLng, destinationLatLng);
+
+    Navigator.pop(context);
+
+    print("This is encoded points :: ");
+    print(directionDetailsInfo!.e_points);
   }
 }

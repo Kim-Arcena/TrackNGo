@@ -83,6 +83,7 @@ flutter:
     - images/currentLocation.png
     - images/aircon.png
     - images/traditional.png
+    - images/background.png
 
 
   #   - images/a_dot_burr.jpeg

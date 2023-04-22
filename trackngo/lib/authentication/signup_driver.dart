@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:trackngo/authentication/alertDialog.dart';
 import 'package:trackngo/authentication/login_screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -215,9 +216,12 @@ class _SignUpDriver extends State<SignUpDriver> {
       backgroundColor: Colors.white,
       body: Center(
         child: Stack(
-          children: <Widget> [
+          children: <Widget>[
             Container(
-              decoration: new BoxDecoration(image: new DecorationImage(image: new AssetImage("images/background.png"), fit: BoxFit.fill)),
+              decoration: new BoxDecoration(
+                  image: new DecorationImage(
+                      image: new AssetImage("images/background.png"),
+                      fit: BoxFit.fill)),
             ),
             SingleChildScrollView(
               child: Column(
@@ -473,7 +477,7 @@ class _SignUpDriver extends State<SignUpDriver> {
                                   : Icons.visibility_off),
                               onPressed: () {
                                 setState(
-                                      () {
+                                  () {
                                     passwordVisible = !passwordVisible;
                                   },
                                 );
@@ -516,9 +520,9 @@ class _SignUpDriver extends State<SignUpDriver> {
                                   : Icons.visibility_off),
                               onPressed: () {
                                 setState(
-                                      () {
+                                  () {
                                     confirmedpasswordVisible =
-                                    !confirmedpasswordVisible;
+                                        !confirmedpasswordVisible;
                                   },
                                 );
                               },
@@ -581,14 +585,14 @@ class _SignUpDriver extends State<SignUpDriver> {
                               fontWeight: FontWeight.w600,
                               fontSize: 16,
                             ),
-                            helperStyle:TextStyle(color:Colors.green),
+                            helperStyle: TextStyle(color: Colors.green),
                             suffixIcon: IconButton(
                               icon: Icon(passwordVisible
                                   ? Icons.visibility
                                   : Icons.visibility_off),
                               onPressed: () {
                                 setState(
-                                      () {
+                                  () {
                                     passwordVisible = !passwordVisible;
                                   },
                                 );
@@ -624,15 +628,16 @@ class _SignUpDriver extends State<SignUpDriver> {
                               fontWeight: FontWeight.w600,
                               fontSize: 16,
                             ),
-                            helperStyle:TextStyle(color:Colors.green),
+                            helperStyle: TextStyle(color: Colors.green),
                             suffixIcon: IconButton(
                               icon: Icon(confirmedpasswordVisible
                                   ? Icons.visibility
                                   : Icons.visibility_off),
                               onPressed: () {
                                 setState(
-                                      () {
-                                    confirmedpasswordVisible = !confirmedpasswordVisible;
+                                  () {
+                                    confirmedpasswordVisible =
+                                        !confirmedpasswordVisible;
                                   },
                                 );
                               },
@@ -642,7 +647,8 @@ class _SignUpDriver extends State<SignUpDriver> {
                         Column(
                           children: [
                             Container(
-                              margin: const EdgeInsets.only(top: 20, bottom: 10),
+                              margin:
+                                  const EdgeInsets.only(top: 20, bottom: 10),
                               child: ElevatedButton(
                                   onPressed: () {
                                     validateForm();
@@ -683,7 +689,8 @@ class _SignUpDriver extends State<SignUpDriver> {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (context) => LoginScreen()),
+                                              builder: (context) =>
+                                                  LoginScreen()),
                                         );
                                       },
                                   ),

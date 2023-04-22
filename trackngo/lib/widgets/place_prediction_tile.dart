@@ -34,7 +34,7 @@ class PlacePredictionTileDesign extends StatelessWidget {
           responseApi["result"]["geometry"]["location"]["lng"];
 
       Provider.of<AppInfo>(context, listen: false)
-          .updateUserDropOffLocationAddress(directions);
+          .updateDropOffLocationAddress(directions);
 
       Navigator.pop(context, "obtainDropOff");
     }
