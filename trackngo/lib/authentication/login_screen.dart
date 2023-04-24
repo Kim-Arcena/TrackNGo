@@ -66,6 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: Center(
         child: Stack(
@@ -161,8 +162,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                   fontWeight: FontWeight.w600,
                                   fontSize: 16,
                                 ),
-                                helperStyle: TextStyle(color: Colors.green),
+                                helperStyle:
+                                    TextStyle(color: Color(0xff81B09A)),
                                 suffixIcon: IconButton(
+                                  color: Color(0xff81B09A),
                                   icon: Icon(passwordVisible
                                       ? Icons.visibility
                                       : Icons.visibility_off),

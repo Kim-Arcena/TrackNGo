@@ -13,7 +13,6 @@ class MyAlertDialog {
         return AlertDialog(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15.0),
-            side: BorderSide(color: Colors.red, width: 1),    
           ),
           title: Text(title),
           content: Text(content),

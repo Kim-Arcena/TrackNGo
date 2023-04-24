@@ -35,6 +35,10 @@ class _MainScreenState extends State<MainScreen>
   Set<Marker> markerSet = {};
   Set<Circle> circleSet = {};
 
+  String statusText = "Now Online";
+  Color stateColor = Colors.grey;
+  bool isDriverActive = false;
+
   TabController? tabController;
   int selectedIndex = 0;
   onItemClicked(int index) {
@@ -134,29 +138,63 @@ class _MainScreenState extends State<MainScreen>
                   markers: markerSet,
                   circles: circleSet,
                 ),
+                statusText != "Now Online"
+                    ? Container(
+                        height: MediaQuery.of(context).size.height,
+                        width: double.infinity,
+                        color: Colors.black.withOpacity(0.5),
+                      )
+                    : Container(),
                 Positioned(
-                    left: 40.0,
-                    top: 80.0,
-                    child: Container(
-                      width: 50.0,
-                      height: 50.0,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10.0),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color(0xffd4dbdd),
-                            blurRadius: 10,
-                            spreadRadius: 2,
-                            offset: Offset(0, 3),
-                          ),
-                        ],
-                      ),
-                      child: IconButton(
+                  top: statusText != "Now Online"
+                      ? MediaQuery.of(context).size.height / 2 - 50
+                      : 80,
+                  left: statusText != "Now Online"
+                      ? MediaQuery.of(context).size.width / 2 - 50
+                      : 20,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          padding: statusText == "Now Online"
+                              ? EdgeInsets.all(15)
+                              : null,
+                          primary: statusText != "Now Online"
+                              ? Color(0xFF228348)
+                              : Colors.transparent,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25.0)),
+                          elevation: 0,
+                        ),
                         onPressed: () {},
-                        icon: Icon(Icons.qr_code_rounded),
+                        child: statusText != "Now Online"
+                            ? Text(
+                                "Go Online",
+                                style: TextStyle(
+                                    fontSize: 16, color: Colors.white),
+                              )
+                            : InkResponse(
+                                enableFeedback:
+                                    false, // Set enableFeedback to false to remove the ripple effect
+                                child: Container(
+                                  width: 50,
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15),
+                                    color: Color(0xFF73AD90),
+                                  ),
+                                  child: Icon(
+                                    Icons.logout,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                onTap: () {},
+                              ),
                       ),
-                    )),
+                    ],
+                  ),
+                ),
                 Positioned(
                     right: 40.0,
                     top: 80.0,
@@ -168,8 +206,10 @@ class _MainScreenState extends State<MainScreen>
                         borderRadius: BorderRadius.circular(10.0),
                         boxShadow: [
                           BoxShadow(
-                            color: Color(0xffd4dbdd),
-                            blurRadius: 12,
+                            color: statusText != "Now Online"
+                                ? Color(0xFF494949)
+                                : Color(0xffd4dbdd),
+                            blurRadius: 10,
                             spreadRadius: 2,
                             offset: Offset(0, 3),
                           ),
@@ -194,7 +234,7 @@ class _MainScreenState extends State<MainScreen>
                         boxShadow: [
                           BoxShadow(
                             color: Color(0xffd4dbdd),
-                            blurRadius: 12,
+                            blurRadius: 10,
                             spreadRadius: 2,
                             offset: Offset(0, 3),
                           ),

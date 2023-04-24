@@ -213,6 +213,7 @@ class _SignUpDriver extends State<SignUpDriver> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: Center(
         child: Stack(
@@ -470,8 +471,9 @@ class _SignUpDriver extends State<SignUpDriver> {
                               fontWeight: FontWeight.w600,
                               fontSize: 16,
                             ),
-                            helperStyle: TextStyle(color: Colors.green),
+                            helperStyle: TextStyle(color: Color(0xff81B09A)),
                             suffixIcon: IconButton(
+                              color: Color(0xff81B09A),
                               icon: Icon(passwordVisible
                                   ? Icons.visibility
                                   : Icons.visibility_off),
@@ -513,7 +515,7 @@ class _SignUpDriver extends State<SignUpDriver> {
                               fontWeight: FontWeight.w600,
                               fontSize: 16,
                             ),
-                            helperStyle: TextStyle(color: Colors.green),
+                            helperStyle: TextStyle(color: Color(0xff81B09A)),
                             suffixIcon: IconButton(
                               icon: Icon(confirmedpasswordVisible
                                   ? Icons.visibility
