@@ -3,7 +3,7 @@ import "dart:async";
 import "package:flutter/material.dart";
 import "package:trackngo/authentication/login_screen.dart";
 import "package:trackngo/authentication/signup_screen.dart";
-import "package:trackngo/mainScreen/main_screen.dart";
+import "package:trackngo/mainScreen/driver_screen.dart";
 
 import "../global/global.dart";
 

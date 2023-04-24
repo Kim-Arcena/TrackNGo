@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:trackngo/authentication/signup_screen.dart';
 import 'package:trackngo/mainScreen/commuter_screen.dart';
-import 'package:trackngo/mainScreen/main_screen.dart';
+import 'package:trackngo/mainScreen/driver_screen.dart';
 import 'package:flutter/gestures.dart';
 import 'dart:developer' as developer;
 import '../global/global.dart';

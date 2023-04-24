@@ -6,7 +6,7 @@ import 'package:trackngo/authentication/login_screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:trackngo/global/global.dart';
-import 'package:trackngo/mainScreen/main_screen.dart';
+import 'package:trackngo/mainScreen/driver_screen.dart';
 
 class SignUpDriver extends StatefulWidget {
   final String email;
