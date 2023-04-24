@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:trackngo/bottomSheet/second_bottom_sheet.dart';
+import 'package:trackngo/bottomSheet/third_bottom_sheet.dart';
 
 import '../infoHandler/app_info.dart';
 import '../mainScreen/search_places_screen.dart';
@@ -164,7 +165,8 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
                 ],
               ),
             ),
-            MyBottomSheetTwoContainer(scrollController: scrollController)
+            MyBottomSheetTwoContainer(scrollController: scrollController),
+            MyBottomSheetThreeContainer(scrollController: scrollController)
           ],
         );
       },
