@@ -29,10 +29,9 @@ class _CommuterScreenState extends State<CommuterScreen> {
   LocationPermission? _locationPermission;
   String humanReadableAddress = "";
   bool _bottomSheetVisible = true;
-
   List<LatLng> pLineCoordinatesList = [];
   Set<Polyline> polyLineSet = {};
-
+  var sourceLatLng;
   Set<Marker> markerSet = {};
   Set<Circle> circleSet = {};
 
@@ -57,6 +56,41 @@ class _CommuterScreenState extends State<CommuterScreen> {
         CameraPosition(target: _initialcameraposition, zoom: 25),
       ),
     );
+
+    var sourcePosition =
+        Provider.of<AppInfo>(context, listen: false).userPickUpLocation!;
+
+    //originLatLng
+    sourceLatLng = LatLng(
+        sourcePosition.locationLatitude!, sourcePosition.locationLongitude!);
+
+    print("this is the sourceLatLng int the _onMapCreated:: $sourceLatLng");
+
+    // Load the custom PNG image
+    BitmapDescriptor customIconOrigin = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(48, 48)), 'images/commuter.png');
+
+    Marker originMarker = Marker(
+      markerId: const MarkerId("originID"),
+      infoWindow:
+          InfoWindow(title: sourcePosition.locationName, snippet: "Origin"),
+      position: sourceLatLng,
+      icon: customIconOrigin,
+    );
+
+    Circle originCircle = Circle(
+      circleId: const CircleId("originID"),
+      fillColor: Color(0x225add6c),
+      center: sourceLatLng,
+      radius: 25,
+      strokeWidth: 4,
+      strokeColor: Color(0x225add6c),
+    );
+
+    setState(() {
+      markerSet.add(originMarker);
+      circleSet.add(originCircle);
+    });
   }
 
   checkIfLocationPermissionGranted() async {
@@ -287,8 +321,10 @@ class _CommuterScreenState extends State<CommuterScreen> {
         Provider.of<AppInfo>(context, listen: false).userDropOffLocation!;
 
     //originLatLng
-    var sourceLatLng = LatLng(
+    sourceLatLng = LatLng(
         sourcePosition.locationLatitude!, sourcePosition.locationLongitude!);
+
+    print("this is the sourceLatLng :: $sourceLatLng");
 
     var destinationLatLng = LatLng(destinationPosition.locationLatitude!,
         destinationPosition.locationLongitude!);
@@ -354,21 +390,9 @@ class _CommuterScreenState extends State<CommuterScreen> {
     newGoogleMapController!
         .animateCamera(CameraUpdate.newLatLngBounds(boundLatLng, 70));
 
-    // Load the custom PNG image
-    BitmapDescriptor customIconOrigin = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(size: Size(48, 48)), 'images/commuter.png');
-
     BitmapDescriptor customIconDestination =
         await BitmapDescriptor.fromAssetImage(
             ImageConfiguration(size: Size(48, 48)), 'images/driver.png');
-
-    Marker originMarker = Marker(
-      markerId: const MarkerId("originID"),
-      infoWindow:
-          InfoWindow(title: sourcePosition.locationName, snippet: "Origin"),
-      position: sourceLatLng,
-      icon: customIconOrigin,
-    );
 
     Marker destinationMarker = Marker(
       markerId: const MarkerId("destinationID"),
@@ -376,20 +400,6 @@ class _CommuterScreenState extends State<CommuterScreen> {
           title: destinationPosition.locationName, snippet: "Destination"),
       position: destinationLatLng,
       icon: customIconDestination,
-    );
-
-    setState(() {
-      markerSet.add(originMarker);
-      markerSet.add(destinationMarker);
-    });
-
-    Circle originCircle = Circle(
-      circleId: const CircleId("originID"),
-      fillColor: Color(0x225add6c),
-      center: sourceLatLng,
-      radius: 20,
-      strokeWidth: 4,
-      strokeColor: Color(0x225add6c),
     );
 
     Circle destinationCircle = Circle(
@@ -402,7 +412,7 @@ class _CommuterScreenState extends State<CommuterScreen> {
     );
 
     setState(() {
-      circleSet.add(originCircle);
+      markerSet.add(destinationMarker);
       circleSet.add(destinationCircle);
     });
   }
