@@ -39,7 +39,7 @@ class _SignUpCommuter extends State<SignUpCommuter> {
   }
 
   validateForm() {
-    RegExp nameRegex = RegExp(r'\b[A-Z][a-z]* [A-Z][a-z]*( [A-Z])?\b');
+    RegExp nameRegex = RegExp(r'\b[A-Z][a-z]*( [A-Z])?\b');
     RegExp digitRegex = RegExp(r'^(09)[0-9]{9}$');
     RegExp emailRegex = RegExp(
         r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$",
@@ -166,7 +166,7 @@ class _SignUpCommuter extends State<SignUpCommuter> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      
       backgroundColor: Colors.white,
       body: Center(
         child: Stack(

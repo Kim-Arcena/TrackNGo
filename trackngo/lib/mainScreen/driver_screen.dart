@@ -1,16 +1,16 @@
 import 'dart:async';
 
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_geofire/flutter_geofire.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:location/location.dart';
+import 'package:location/location.dart' hide LocationAccuracy;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:trackngo/assistants/assistant_methods.dart';
-import 'package:trackngo/bottomSheet/first_bottom_sheet.dart';
+import 'package:trackngo/global/global.dart';
 import 'package:trackngo/infoHandler/app_info.dart';
-import 'package:trackngo/tabPages/earning_tab.dart';
-import 'package:trackngo/tabPages/home_tab.dart';
-import 'package:trackngo/tabPages/ratings_tab.dart';
+import 'package:location/location.dart' as loc;
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -31,11 +31,11 @@ class _MainScreenState extends State<MainScreen>
   bool _bottomSheetVisible = true;
   List<LatLng> pLineCoordinatesList = [];
   Set<Polyline> polyLineSet = {};
-  var sourceLatLng;
+  var driverCurrentPosition;
   Set<Marker> markerSet = {};
   Set<Circle> circleSet = {};
 
-  String statusText = "Now Online";
+  String statusText = "Now Offline";
   Color stateColor = Colors.grey;
   bool isDriverActive = false;
 
@@ -70,14 +70,15 @@ class _MainScreenState extends State<MainScreen>
       ),
     );
 
-    var sourcePosition =
+    var currentPosition =
         Provider.of<AppInfo>(context, listen: false).userPickUpLocation!;
 
     //originLatLng
-    sourceLatLng = LatLng(
-        sourcePosition.locationLatitude!, sourcePosition.locationLongitude!);
+    driverCurrentPosition = LatLng(
+        currentPosition.locationLatitude!, currentPosition.locationLongitude!);
 
-    print("this is the sourceLatLng int the _onMapCreated:: $sourceLatLng");
+    print(
+        "this is the driverCurrentPosition int the _onMapCreated:: $driverCurrentPosition");
 
     // Load the custom PNG image
     BitmapDescriptor customIconOrigin = await BitmapDescriptor.fromAssetImage(
@@ -86,15 +87,15 @@ class _MainScreenState extends State<MainScreen>
     Marker originMarker = Marker(
       markerId: const MarkerId("originID"),
       infoWindow:
-          InfoWindow(title: sourcePosition.locationName, snippet: "Origin"),
-      position: sourceLatLng,
+          InfoWindow(title: currentPosition.locationName, snippet: "Origin"),
+      position: driverCurrentPosition,
       icon: customIconOrigin,
     );
 
     Circle originCircle = Circle(
       circleId: const CircleId("originID"),
       fillColor: Color(0x225add6c),
-      center: sourceLatLng,
+      center: driverCurrentPosition,
       radius: 25,
       strokeWidth: 4,
       strokeColor: Color(0x225add6c),
@@ -167,7 +168,9 @@ class _MainScreenState extends State<MainScreen>
                               borderRadius: BorderRadius.circular(25.0)),
                           elevation: 0,
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          driverIsOnlineNow();
+                        },
                         child: statusText != "Now Online"
                             ? Text(
                                 "Go Online",
@@ -248,30 +251,30 @@ class _MainScreenState extends State<MainScreen>
                       ),
                     )),
                 Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(250),
-                          topRight: Radius.circular(250),
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(250),
+                        topRight: Radius.circular(250),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.2),
+                          blurRadius: 25.0,
+                          offset: Offset(0, -15), // changes position of shadow
                         ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.2),
-                            blurRadius: 25.0,
-                            offset:
-                                Offset(0, -15), // changes position of shadow
-                          ),
-                        ],
+                      ],
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(30),
+                        topRight: Radius.circular(30),
                       ),
                       child: SizedBox(
                         height: 90,
                         child: Material(
                           elevation: 10,
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(30),
-                            topRight: Radius.circular(30),
-                          ),
                           borderOnForeground: true,
                           child: BottomNavigationBar(
                             items: const [
@@ -301,12 +304,48 @@ class _MainScreenState extends State<MainScreen>
                           ),
                         ),
                       ),
-                    )),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
         ],
       ),
     );
+  }
+
+  driverIsOnlineNow() async {
+    statusText = "Now Online";
+    stateColor = Color(0xFF73AD90);
+
+    String pathToReference = "Sites";
+
+    Position position = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
+    driverCurrentPosition = position;
+
+    print("driverCurrentPosition" +
+        driverCurrentPosition.latitude.toString() +
+        " " +
+        driverCurrentPosition.longitude.toString());
+
+    Geofire.initialize(pathToReference);
+    Geofire.setLocation(currentFirebaseUser!.uid,
+        driverCurrentPosition!.latitude, driverCurrentPosition!.longitude);
+
+    // ignore: deprecated_member_use
+    DatabaseReference usersRef = FirebaseDatabase(
+            databaseURL:
+                "https://trackngo-d7aa0-default-rtdb.asia-southeast1.firebasedatabase.app/")
+        .ref()
+        .child("users");
+    usersRef
+        .child(currentFirebaseUser!.uid)
+        .child("drivers_child")
+        .child("newRideStatus")
+        .set("idle");
+    usersRef.onValue.listen((event) {});
   }
 }
