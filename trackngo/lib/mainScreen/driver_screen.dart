@@ -107,6 +107,8 @@ class _MainScreenState extends State<MainScreen>
     });
   }
 
+  StreamSubscription<Position>? streamStreamSubscription;
+
   checkIfLocationPermissionGranted() async {
     _locationPermission = await Geolocator.requestPermission();
     if (_locationPermission == LocationPermission.denied) {
@@ -170,6 +172,7 @@ class _MainScreenState extends State<MainScreen>
                         ),
                         onPressed: () {
                           driverIsOnlineNow();
+                          updateDriversLocationAtRealTime();
                         },
                         child: statusText != "Now Online"
                             ? Text(
@@ -344,5 +347,20 @@ class _MainScreenState extends State<MainScreen>
         .child("newRideStatus")
         .set("idle");
     usersRef.onValue.listen((event) {});
+  }
+
+  updateDriversLocationAtRealTime() {
+    streamStreamSubscription =
+        Geolocator.getPositionStream().listen((Position position) {
+      driverCurrentPosition = position;
+      if (isDriverActive == true) {
+        Geofire.setLocation(currentFirebaseUser!.uid,
+            driverCurrentPosition.latitude, driverCurrentPosition.longitude);
+      }
+      LatLng latLng = LatLng(
+          driverCurrentPosition.latitude, driverCurrentPosition.longitude);
+
+      newGoogleMapController!.animateCamera(CameraUpdate.newLatLng(latLng));
+    });
   }
 }
