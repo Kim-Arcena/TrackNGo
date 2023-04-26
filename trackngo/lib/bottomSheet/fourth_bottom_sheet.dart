@@ -6,17 +6,18 @@ import '../infoHandler/app_info.dart';
 
 var maxChildSize = 0.8;
 
-class MyBottomSheetTwoContainer extends StatefulWidget {
+class MyBottomSheetFourContainer extends StatefulWidget {
   final ScrollController scrollController;
 
-  const MyBottomSheetTwoContainer({required this.scrollController});
+  const MyBottomSheetFourContainer({required this.scrollController});
 
   @override
-  _MyBottomSheetTwoContainerState createState() =>
-      _MyBottomSheetTwoContainerState();
+  _MyBottomSheetFourContainerState createState() =>
+      _MyBottomSheetFourContainerState();
 }
 
-class _MyBottomSheetTwoContainerState extends State<MyBottomSheetTwoContainer> {
+class _MyBottomSheetFourContainerState
+    extends State<MyBottomSheetFourContainer> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -105,7 +106,7 @@ class _MyBottomSheetTwoContainerState extends State<MyBottomSheetTwoContainer> {
                           width: 40.0,
                           height: 40.0,
                           decoration: BoxDecoration(
-                            color: Color(0XFF021C0F),
+                            color: Color(0XFFDFF1E9),
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                           child: TextButton(
@@ -113,7 +114,7 @@ class _MyBottomSheetTwoContainerState extends State<MyBottomSheetTwoContainer> {
                             child: Text(
                               "3",
                               style: TextStyle(
-                                color: Colors.white,
+                                color: Colors.black,
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -191,11 +192,17 @@ class _InnerContainerState extends State<InnerContainer> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
-                    "Bus Selected",
+                    "Select Payment Method",
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    "Add New",
+                    style: TextStyle(
+                      fontSize: 18,
                     ),
                   ),
                 ],
@@ -211,7 +218,7 @@ class _InnerContainerState extends State<InnerContainer> {
               child: Column(
                 children: <Widget>[
                   Container(
-                    child: Row(
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         GestureDetector(
@@ -220,62 +227,48 @@ class _InnerContainerState extends State<InnerContainer> {
                               selectedImage = 'images/aircon.png';
                             });
                           },
-                          child: Neumorphic(
-                            style: NeumorphicStyle(
-                              boxShape: NeumorphicBoxShape.roundRect(
-                                  BorderRadius.circular(20)),
-                              depth: 5,
-                              lightSource: LightSource.topLeft,
-                              color: Colors.white,
-                              shadowDarkColor:
-                                  selectedImage == 'images/aircon.png'
-                                      ? Color(0xFF9bddaa)
-                                      : Color(0xFFDFDFDF),
-                              shadowLightColor:
-                                  selectedImage == 'images/aircon.png'
-                                      ? Color(0xFF9bddaa)
-                                      : Color(0xFFDFDFDF),
+                          child: Container(
+                            width: 350,
+                            height: 80,
+                            decoration: BoxDecoration(
+                              color: Color(0xFFE8E8EA),
+                              borderRadius: BorderRadius.circular(20.0),
                             ),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(250),
-                              ),
-                              child: Image.asset(
-                                'images/aircon.png',
-                                width: 140,
-                              ),
-                            ),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              selectedImage = 'images/traditional.png';
-                            });
-                          },
-                          child: Neumorphic(
-                            style: NeumorphicStyle(
-                              boxShape: NeumorphicBoxShape.roundRect(
-                                  BorderRadius.circular(20)),
-                              depth: 5,
-                              lightSource: LightSource.topLeft,
-                              color: Colors.white,
-                              shadowDarkColor:
-                                  selectedImage == 'images/traditional.png'
-                                      ? Color(0xFFF6D09D)
-                                      : Color(0xFFDFDFDF),
-                              shadowLightColor:
-                                  selectedImage == 'images/traditional.png'
-                                      ? Color(0xFFF6D09D)
-                                      : Color(0xFFDFDFDF),
-                            ),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(250),
-                              ),
-                              child: Image.asset(
-                                'images/traditional.png',
-                                width: 140,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 10.0, horizontal: 20.0),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Image.asset(
+                                        'images/visa.png',
+                                      ),
+                                      SizedBox(width: 20.0),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text("Visa Card",
+                                              style: TextStyle(
+                                                  fontSize: 20.0,
+                                                  fontWeight: FontWeight.bold)),
+                                          Text("**** **** **** 1234"),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  Icon(
+                                    Icons.check_circle_rounded,
+                                    color: Color(0xFF81B09A),
+                                    size: 25.0,
+                                  ),
+                                ],
                               ),
                             ),
                           ),
@@ -284,32 +277,13 @@ class _InnerContainerState extends State<InnerContainer> {
                     ),
                   ),
                   Divider(
-                      height: 40.0, thickness: 2.0, color: Color(0xFF929895)),
+                      height: 20.0, thickness: 2.0, color: Color(0xFF929895)),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Row(
                         children: [
-                          Icon(
-                            Icons.map_outlined,
-                            color: Color(0xFF282828),
-                            size: 25.0,
-                          ),
-                          Text("1 km",
-                              style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: Color(0xFF282828),
-                                  fontWeight: FontWeight.bold)),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.watch_later_outlined,
-                            color: Color(0xFF282828),
-                            size: 25.0,
-                          ),
-                          Text("5 mins",
+                          Text("Total Fair",
                               style: TextStyle(
                                   fontSize: 16.0,
                                   color: Color(0xFF282828),
@@ -332,8 +306,6 @@ class _InnerContainerState extends State<InnerContainer> {
                       ),
                     ],
                   ),
-                  Divider(
-                      height: 40.0, thickness: 2.0, color: Color(0xFF929895)),
                 ],
               ),
             ),

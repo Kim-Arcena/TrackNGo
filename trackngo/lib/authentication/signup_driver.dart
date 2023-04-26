@@ -44,82 +44,81 @@ class _SignUpDriver extends State<SignUpDriver> {
   Map<String, dynamic> driverInfoDataMap = {};
 
   validateForm() {
-    saveDriverInfo();
-    // RegExp nameRegex = RegExp(r'\b[A-Z][a-z]*( [A-Z])?\b');
-    // RegExp digitRegex = RegExp(r'^(09)[0-9]{9}$');
-    // RegExp licenseRegex = RegExp(r'^[A-Z]{1}[0-9]{10}$');
-    // RegExp opcodeRegex = RegExp(r'^[A-Z]{2}[0-9]{4}$');
-    // RegExp plateRegex = RegExp(r'^[A-Z]{3}[0-9]{4}$');
-    // RegExp emailRegex = RegExp(
-    //     r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$",
-    //     caseSensitive: false);
-    // RegExp passwordRegex = RegExp(
-    //     r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$');
+    RegExp nameRegex = RegExp(r'\b[A-Z][a-z]*( [A-Z])?\b');
+    RegExp digitRegex = RegExp(r'^(09)[0-9]{9}$');
+    RegExp licenseRegex = RegExp(r'^[A-Z]{1}[0-9]{10}$');
+    RegExp opcodeRegex = RegExp(r'^[A-Z]{2}[0-9]{4}$');
+    RegExp plateRegex = RegExp(r'^[A-Z]{3}[0-9]{4}$');
+    RegExp emailRegex = RegExp(
+        r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$",
+        caseSensitive: false);
+    RegExp passwordRegex = RegExp(
+        r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$');
 
-    // if (_firstNameController.text.isEmpty ||
-    //     _lastNameController.text.isEmpty ||
-    //     _emailController.text.isEmpty ||
-    //     _contactNumberController.text.isEmpty ||
-    //     _plateNumberController.text.isEmpty) {
-    //   Fluttertoast.showToast(msg: "Kindly fill up all fields.");
-    // } else if (!nameRegex.hasMatch(_firstNameController.text) ||
-    //     !nameRegex.hasMatch(_lastNameController.text)) {
-    //   Fluttertoast.showToast(msg: "Invalid Name");
-    // } else if (!digitRegex.hasMatch(_contactNumberController.text)) {
-    //   MyAlertDialog(
-    //     title: 'Invalid Contact Number',
-    //     content: 'Contact Number must:'
-    //         '* start with "09"'
-    //         '* have 11 digits'
-    //         '* no space between digits',
-    //   ).show(context);
-    // } else if (!licenseRegex.hasMatch(_licenseNumberController.text)) {
-    //   MyAlertDialog(
-    //     title: "Invalid Driver's License Number",
-    //     content: "Driver's License must:"
-    //         '* start with an uppercase letter'
-    //         '* followed by 10 digits'
-    //         '* contain 11 characters'
-    //         '* no space between characters',
-    //   ).show(context);
-    // } else if (!opcodeRegex.hasMatch(_operatorIdController.text)) {
-    //   MyAlertDialog(
-    //     title: "Invalid Operator ID",
-    //     content: "Operator ID must:"
-    //         '* start with 2 uppercase letters'
-    //         '* followed by 4 digits'
-    //         '* contain 6 characters'
-    //         '* no space between characters',
-    //   ).show(context);
-    // } else if (!plateRegex.hasMatch(_plateNumberController.text)) {
-    //   MyAlertDialog(
-    //     title: "Invalid Plate Number",
-    //     content: "Plate Number must:"
-    //         '* start with 3 uppercase letters'
-    //         '* followed by 4 digits'
-    //         '* contain 7 characters'
-    //         '* no space between characters',
-    //   ).show(context);
-    // } else if (selectedBusType != 'Regular' ||
-    //     selectedBusType != 'Air-Conditioned') {
-    //   Fluttertoast.showToast(msg: "Select a Bus Type");
-    // } else if (!emailRegex.hasMatch(_emailController.text)) {
-    //   Fluttertoast.showToast(msg: "Invalid Email Address");
-    // } else if (!passwordRegex.hasMatch(_passwordController.text)) {
-    //   MyAlertDialog(
-    //     title: 'Invalid Password',
-    //     content: 'Password must:'
-    //         '* be minimum of 8 characters'
-    //         '* contain lower & uppercase letters'
-    //         '* contain numbers'
-    //         '* contain special symbols, ie. "!, @, # ..."'
-    //         '* space is not considered a special symbol',
-    //   ).show(context);
-    // } else if (_passwordController.text != _confirmPasswordController.text) {
-    //   Fluttertoast.showToast(msg: "Different Passwords Provided");
-    // } else {
-    //   saveDriverInfo();
-    // }
+    if (_firstNameController.text.isEmpty ||
+        _lastNameController.text.isEmpty ||
+        _emailController.text.isEmpty ||
+        _contactNumberController.text.isEmpty ||
+        _plateNumberController.text.isEmpty) {
+      Fluttertoast.showToast(msg: "Kindly fill up all fields.");
+    } else if (!nameRegex.hasMatch(_firstNameController.text) ||
+        !nameRegex.hasMatch(_lastNameController.text)) {
+      Fluttertoast.showToast(msg: "Invalid Name");
+    } else if (!digitRegex.hasMatch(_contactNumberController.text)) {
+      MyAlertDialog(
+        title: 'Invalid Contact Number',
+        content: 'Contact Number must:'
+            '* start with "09"'
+            '* have 11 digits'
+            '* no space between digits',
+      ).show(context);
+    } else if (!licenseRegex.hasMatch(_licenseNumberController.text)) {
+      MyAlertDialog(
+        title: "Invalid Driver's License Number",
+        content: "Driver's License must:"
+            '* start with an uppercase letter'
+            '* followed by 10 digits'
+            '* contain 11 characters'
+            '* no space between characters',
+      ).show(context);
+    } else if (!opcodeRegex.hasMatch(_operatorIdController.text)) {
+      MyAlertDialog(
+        title: "Invalid Operator ID",
+        content: "Operator ID must:"
+            '* start with 2 uppercase letters'
+            '* followed by 4 digits'
+            '* contain 6 characters'
+            '* no space between characters',
+      ).show(context);
+    } else if (!plateRegex.hasMatch(_plateNumberController.text)) {
+      MyAlertDialog(
+        title: "Invalid Plate Number",
+        content: "Plate Number must:"
+            '* start with 3 uppercase letters'
+            '* followed by 4 digits'
+            '* contain 7 characters'
+            '* no space between characters',
+      ).show(context);
+    } else if (selectedBusType != 'Regular' ||
+        selectedBusType != 'Air-Conditioned') {
+      Fluttertoast.showToast(msg: "Select a Bus Type");
+    } else if (!emailRegex.hasMatch(_emailController.text)) {
+      Fluttertoast.showToast(msg: "Invalid Email Address");
+    } else if (!passwordRegex.hasMatch(_passwordController.text)) {
+      MyAlertDialog(
+        title: 'Invalid Password',
+        content: 'Password must:'
+            '* be minimum of 8 characters'
+            '* contain lower & uppercase letters'
+            '* contain numbers'
+            '* contain special symbols, ie. "!, @, # ..."'
+            '* space is not considered a special symbol',
+      ).show(context);
+    } else if (_passwordController.text != _confirmPasswordController.text) {
+      Fluttertoast.showToast(msg: "Different Passwords Provided");
+    } else {
+      saveDriverInfo();
+    }
   }
 
   saveDriverInfo() async {
@@ -471,7 +470,7 @@ class _SignUpDriver extends State<SignUpDriver> {
                               fontWeight: FontWeight.w600,
                               fontSize: 16,
                             ),
-                            helperStyle: TextStyle(color: Color(0xff81B09A)),
+                            helperStyle: TextStyle(color: Color(0xffc4c4c4)),
                             suffixIcon: IconButton(
                               color: Color(0xff81B09A),
                               icon: Icon(passwordVisible
@@ -515,7 +514,7 @@ class _SignUpDriver extends State<SignUpDriver> {
                               fontWeight: FontWeight.w600,
                               fontSize: 16,
                             ),
-                            helperStyle: TextStyle(color: Color(0xff81B09A)),
+                            helperStyle: TextStyle(color: Color(0xffc4c4c4)),
                             suffixIcon: IconButton(
                               icon: Icon(confirmedpasswordVisible
                                   ? Icons.visibility

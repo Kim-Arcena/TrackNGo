@@ -166,7 +166,6 @@ class _SignUpCommuter extends State<SignUpCommuter> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       backgroundColor: Colors.white,
       body: Center(
         child: Stack(
@@ -340,7 +339,7 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                               fontWeight: FontWeight.w600,
                               fontSize: 16,
                             ),
-                            helperStyle: TextStyle(color: Color(0xFF81B09A)),
+                            helperStyle: TextStyle(color: Color(0xFFc4c4c4)),
                             suffixIcon: IconButton(
                               icon: Icon(passwordVisible
                                   ? Icons.visibility
@@ -383,7 +382,7 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                               fontWeight: FontWeight.w600,
                               fontSize: 16,
                             ),
-                            helperStyle: TextStyle(color: Color(0xFF81B09A)),
+                            helperStyle: TextStyle(color: Color(0xFFc4c4c4)),
                             suffixIcon: IconButton(
                               color: Color(0xff81B09A),
                               icon: Icon(confirmedpasswordVisible

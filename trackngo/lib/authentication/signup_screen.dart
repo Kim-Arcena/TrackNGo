@@ -228,7 +228,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   fontSize: 16,
                                 ),
                                 helperStyle:
-                                    TextStyle(color: Color(0xff81B09A)),
+                                    TextStyle(color: Color(0xffc4c4c4)),
                                 suffixIcon: IconButton(
                                   color: Color(0xff81B09A),
                                   icon: Icon(passwordVisible
