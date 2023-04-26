@@ -107,6 +107,8 @@ class _MainScreenState extends State<MainScreen>
     });
   }
 
+  StreamSubscription<Position>? streamStreamSubscription;
+
   checkIfLocationPermissionGranted() async {
     _locationPermission = await Geolocator.requestPermission();
     if (_locationPermission == LocationPermission.denied) {
@@ -170,10 +172,11 @@ class _MainScreenState extends State<MainScreen>
                         ),
                         onPressed: () {
                           driverIsOnlineNow();
+                          updateDriversLocationAtRealTime();
                         },
                         child: statusText != "Now Online"
                             ? Text(
-                                "Go Online",
+                                "Go Onlinee",
                                 style: TextStyle(
                                     fontSize: 16, color: Colors.white),
                               )
@@ -316,10 +319,7 @@ class _MainScreenState extends State<MainScreen>
   }
 
   driverIsOnlineNow() async {
-    statusText = "Now Online";
-    stateColor = Color(0xFF73AD90);
-
-    String pathToReference = "Sites";
+    String pathToReference = "activeDrivers";
 
     Position position = await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high,
@@ -333,7 +333,7 @@ class _MainScreenState extends State<MainScreen>
 
     Geofire.initialize(pathToReference);
     Geofire.setLocation(currentFirebaseUser!.uid,
-        driverCurrentPosition!.latitude, driverCurrentPosition!.longitude);
+        driverCurrentPosition.latitude, driverCurrentPosition.longitude);
 
     // ignore: deprecated_member_use
     DatabaseReference usersRef = FirebaseDatabase(
@@ -347,5 +347,20 @@ class _MainScreenState extends State<MainScreen>
         .child("newRideStatus")
         .set("idle");
     usersRef.onValue.listen((event) {});
+  }
+
+  updateDriversLocationAtRealTime() {
+    streamStreamSubscription =
+        Geolocator.getPositionStream().listen((Position position) {
+      driverCurrentPosition = position;
+      if (isDriverActive == true) {
+        Geofire.setLocation(currentFirebaseUser!.uid,
+            driverCurrentPosition.latitude, driverCurrentPosition.longitude);
+      }
+      LatLng latLng = LatLng(
+          driverCurrentPosition.latitude, driverCurrentPosition.longitude);
+
+      newGoogleMapController!.animateCamera(CameraUpdate.newLatLng(latLng));
+    });
   }
 }
