@@ -44,8 +44,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
       );
     } else {
       MyAlertDialog(
-        title: 'Unselected User Type',
-        content: 'Please select an user account type',
+        title: 'Error',
+        content: 'Please select an account type',
       ).show(context); // call the show method to display the dialog
     }
   }
@@ -55,13 +55,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
-        child: Container(
-          constraints: const BoxConstraints.expand(),
-          decoration: new BoxDecoration(image: new DecorationImage(image: new AssetImage("images/background.png"), fit: BoxFit.cover)),
-          child: Scaffold(
-            backgroundColor: Colors.transparent,
-            backgroundColor: const Colors.green,
-            body: SingleChildScrollView(
+        child: Stack(
+          children: <Widget> [
+            Container(
+              decoration: new BoxDecoration(image: new DecorationImage(image: new AssetImage("images/background.png"), fit: BoxFit.fill)),
+            ),
+            SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -291,8 +290,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ],
               ),
             ),
-          ),
-        ),
+          ],
         ),
       ),
     );

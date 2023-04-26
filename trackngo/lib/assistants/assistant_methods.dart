@@ -4,6 +4,7 @@ import 'package:google_maps_flutter_platform_interface/src/types/location.dart';
 import 'package:provider/provider.dart';
 import 'package:trackngo/assistants/request_assistant.dart';
 import 'package:trackngo/global/map_key.dart';
+import 'package:trackngo/models/directions_details_info.dart';
 
 import '../infoHandler/app_info.dart';
 import '../models/directions.dart';
@@ -35,9 +36,40 @@ class AssistantMethods {
       userPickUpAddress.locationName = humanReadableAddress;
 
       Provider.of<AppInfo>(context, listen: false)
-          .updateUserPickUpLocationAddress(userPickUpAddress);
+          .updatePickUpLocationAddress(userPickUpAddress);
     }
 
     return humanReadableAddress;
+  }
+
+  static Future<DirectionDetailsInfo?>
+      obtainOriginToDestinationDirectionDetails(
+          LatLng originPosition, LatLng destinationPosition) async {
+    String urlOriginToDestinationDirectionDetails =
+        "https://maps.googleapis.com/maps/api/directions/json?origin=${originPosition.latitude},${originPosition.longitude}&destination=${destinationPosition.latitude},${destinationPosition.longitude}&key=$mapKey";
+
+    var responseDirectionApi = await RequestAssistant.receiveRequest(
+        urlOriginToDestinationDirectionDetails);
+
+    if (responseDirectionApi == "Error Occurred") {
+      print("There was an error obtaining the directions");
+      return null;
+    }
+
+    DirectionDetailsInfo directionDetailsInfo = DirectionDetailsInfo();
+    directionDetailsInfo.e_points =
+        responseDirectionApi["routes"][0]["overview_polyline"]["points"];
+
+    directionDetailsInfo.distance_text =
+        responseDirectionApi["routes"][0]["legs"][0]["distance"]["text"];
+    directionDetailsInfo.distance_value =
+        responseDirectionApi["routes"][0]["legs"][0]["distance"]["value"];
+
+    directionDetailsInfo.duration_text =
+        responseDirectionApi["routes"][0]["legs"][0]["duration"]["text"];
+    directionDetailsInfo.duration_value =
+        responseDirectionApi["routes"][0]["legs"][0]["duration"]["value"];
+
+    return directionDetailsInfo;
   }
 }

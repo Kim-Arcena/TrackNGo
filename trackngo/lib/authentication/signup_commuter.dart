@@ -38,7 +38,7 @@ class _SignUpCommuter extends State<SignUpCommuter> {
   }
 
   validateForm() {
-    RegExp nameRegex = RegExp(r'\b[A-Z][a-z]* ( [A-Z])?\b');
+    RegExp nameRegex = RegExp(r'\b[A-Z][a-z]* [A-Z][a-z]*( [A-Z])?\b');
     RegExp digitRegex = RegExp(r'^(09)[0-9]{9}$');
     RegExp emailRegex = RegExp(
         r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$",
@@ -57,22 +57,22 @@ class _SignUpCommuter extends State<SignUpCommuter> {
     } else if (!digitRegex.hasMatch(_contactNumberController.text)) {
       MyAlertDialog(
         title: 'Invalid Contact Number',
-        content: 'Contact Number must:\n'
-            '\t* start with "09"\n'
-            '\t* have 11 digits\n'
-            '\t* no space between digits',
+        content: 'Contact Number must:'
+            '* start with "09"'
+            '* have 11 digits'
+            '* no space between digits',
       ).show(context);
     } else if (!emailRegex.hasMatch(_emailController.text)) {
       Fluttertoast.showToast(msg: "Invalid Email Address");
     } else if (!passwordRegex.hasMatch(_passwordController.text)) {
       MyAlertDialog(
         title: 'Invalid Password',
-        content: 'Password must:\n'
-            '\t* be minimum of 8 characters\n'
-            '\t* contain lower & uppercase letters\n'
-            '\t* contain numbers\n'
-            '\t* contain special symbols, ie. "!, @, # ..."\n'
-            '\t* space is not considered as special symbol',
+        content: 'Password must:'
+            '* be minimum of 8 characters'
+            '* contain lower & uppercase letters'
+            '* contain numbers'
+            '* contain special symbols, ie. "!, @, # ..."'
+            '* space is not considered a special symbol',
       ).show(context);
     } else if (_passwordController.text != _confirmPasswordController.text) {
       Fluttertoast.showToast(msg: "Different Passwords Provided");
@@ -167,13 +167,12 @@ class _SignUpCommuter extends State<SignUpCommuter> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
-        child: Container(
-          constraints: const BoxConstraints.expand(),
-          decoration: new BoxDecoration(image: new DecorationImage(image: new AssetImage("images/background.png"), fit: BoxFit.fill)),
-          child: Scaffold(
-            backgroundColor: Colors.transparent,
-            backgroundColor: const Colors.green,
-            body: SingleChildScrollView(
+        child: Stack(
+          children: <Widget> [
+            Container(
+              decoration: new BoxDecoration(image: new DecorationImage(image: new AssetImage("images/background.png"), fit: BoxFit.fill)),
+            ),
+            SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -453,8 +452,7 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                 ],
               ),
             ),
-          ),
-        ),
+          ],
         ),
       ),
     );

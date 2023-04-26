@@ -1,15 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:trackngo/bottomSheet/second_bottom_sheet.dart';
+import 'package:trackngo/bottomSheet/third_bottom_sheet.dart';
 
 import '../infoHandler/app_info.dart';
 import '../mainScreen/search_places_screen.dart';
 
 var maxChildSize = 0.8;
 
-class MyBottomSheet extends StatelessWidget {
+class MyBottomSheet extends StatefulWidget {
   final Widget child;
 
-  MyBottomSheet({required this.child});
+  const MyBottomSheet({required this.child});
+
+  @override
+  _MyBottomSheetState createState() => _MyBottomSheetState();
+}
+
+class _MyBottomSheetState extends State<MyBottomSheet> {
+  final PageController _pageController = PageController(initialPage: 0);
 
   @override
   Widget build(BuildContext context) {
@@ -18,133 +27,147 @@ class MyBottomSheet extends StatelessWidget {
       minChildSize: 0.2,
       maxChildSize: 0.8,
       builder: (BuildContext context, ScrollController scrollController) {
-        return Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Color(0XFF358855), Color(0XFF247D47), Color(0XFF1C9B4E)],
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-            ),
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(30),
-              topRight: Radius.circular(30),
-            ),
-          ),
-          child: ListView(
-            padding: EdgeInsets.zero,
-            controller: scrollController,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 40.0, top: 40.0, right: 40, bottom: 0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Create Trip",
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Container(
-                      child: CustomPaint(
-                        painter: DottedLinePainter(),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              width: 40.0,
-                              height: 40.0,
-                              decoration: BoxDecoration(
-                                color: Color(0XFFDFF1E9),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              child: TextButton(
-                                onPressed: () {},
-                                child: Text(
-                                  "1",
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              width: 40.0,
-                              height: 40.0,
-                              decoration: BoxDecoration(
-                                color: Color(0XFF021C0F),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              child: TextButton(
-                                onPressed: () {},
-                                child: Text(
-                                  "2",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              width: 40.0,
-                              height: 40.0,
-                              decoration: BoxDecoration(
-                                color: Color(0XFF021C0F),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              child: TextButton(
-                                onPressed: () {},
-                                child: Text(
-                                  "3",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              width: 40.0,
-                              height: 40.0,
-                              decoration: BoxDecoration(
-                                color: Color(0XFF021C0F),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              child: TextButton(
-                                onPressed: () {},
-                                child: Text(
-                                  "4",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+        return PageView(
+          controller: _pageController,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Color(0XFF358855),
+                    Color(0XFF247D47),
+                    Color(0XFF1C9B4E),
+                    Color(0XFF358855),
                   ],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                ),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30),
+                  topRight: Radius.circular(30),
                 ),
               ),
-              child,
-              //add another container box here
-              InnerContainer(),
-            ],
-          ),
+              child: ListView(
+                padding: EdgeInsets.zero,
+                controller: scrollController,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: 40.0, top: 40.0, right: 40, bottom: 0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Create Trip",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Container(
+                          child: CustomPaint(
+                            painter: DottedLinePainter(),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  width: 40.0,
+                                  height: 40.0,
+                                  decoration: BoxDecoration(
+                                    color: Color(0XFFDFF1E9),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  child: TextButton(
+                                    onPressed: () {},
+                                    child: Text(
+                                      "1",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  width: 40.0,
+                                  height: 40.0,
+                                  decoration: BoxDecoration(
+                                    color: Color(0XFF021C0F),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  child: TextButton(
+                                    onPressed: () {},
+                                    child: Text(
+                                      "2",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  width: 40.0,
+                                  height: 40.0,
+                                  decoration: BoxDecoration(
+                                    color: Color(0XFF021C0F),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  child: TextButton(
+                                    onPressed: () {},
+                                    child: Text(
+                                      "3",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  width: 40.0,
+                                  height: 40.0,
+                                  decoration: BoxDecoration(
+                                    color: Color(0XFF021C0F),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  child: TextButton(
+                                    onPressed: () {},
+                                    child: Text(
+                                      "4",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  //add another container box here
+                  InnerContainer(),
+                ],
+              ),
+            ),
+            MyBottomSheetTwoContainer(scrollController: scrollController),
+            MyBottomSheetThreeContainer(scrollController: scrollController)
+          ],
         );
       },
     );
@@ -202,7 +225,7 @@ class _InnerContainerState extends State<InnerContainer> {
             ),
           ),
           Positioned(
-            top: 60,
+            top: 55,
             left: 0,
             right: 0,
             child: Padding(
@@ -291,185 +314,175 @@ class _InnerContainerState extends State<InnerContainer> {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
                   Divider(
-                      height: 10.0, thickness: 2.0, color: Color(0xFF929895)),
+                      height: 40.0, thickness: 2.0, color: Color(0xFF929895)),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        "Seats",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(Icons.people_alt_rounded,
+                                  size: 24.0, color: Color(0xFF021C0F)),
+                              SizedBox(
+                                width: 5.0,
+                              ),
+                              Text(
+                                "Seats Needed",
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    // use setState
+                                    _flag = true;
+                                    _flagTwo = false;
+                                    _flagThree = false;
+                                  });
+                                  print('clicked');
+                                },
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  width: 30.0,
+                                  height: 30.0,
+                                  decoration: BoxDecoration(
+                                    color: _flag
+                                        ? Color(0xFF7d9988)
+                                        : Color(0XFFDAD9E2),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  child: Text(
+                                    "1",
+                                    style: TextStyle(
+                                      color:
+                                          _flag ? Colors.white : Colors.black,
+                                      fontSize: 12.5,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 5.0,
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    // use setState
+                                    _flag = false;
+                                    _flagThree = false;
+                                    _flagTwo = true;
+                                  });
+                                },
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  width: 30.0,
+                                  height: 30.0,
+                                  decoration: BoxDecoration(
+                                    color: _flagTwo
+                                        ? Color(0xFF7d9988)
+                                        : Color(0XFFDAD9E2),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  child: Text(
+                                    "2",
+                                    style: TextStyle(
+                                      color: _flagTwo
+                                          ? Colors.white
+                                          : Colors.black,
+                                      fontSize: 12.5,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 5.0,
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    // use setState
+                                    _flag = false;
+                                    _flagTwo = false;
+                                    _flagThree = true;
+                                  });
+                                },
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  width: 30.0,
+                                  height: 30.0,
+                                  decoration: BoxDecoration(
+                                    color: _flagThree
+                                        ? Color(0xFF7d9988)
+                                        : Color(0XFFDAD9E2),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  child: Text(
+                                    "3",
+                                    style: TextStyle(
+                                      color: _flagThree
+                                          ? Colors.white
+                                          : Colors.black,
+                                      fontSize: 12.5,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
           ),
           Positioned(
-            top: 220,
-            left: 0,
-            right: 0,
-            child: Padding(
-              padding: const EdgeInsets.all(40.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    "Seats",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+            bottom: 70,
+            right: 40,
+            child: Container(
+              child: ElevatedButton(
+                onPressed: () {},
+                child: Text(
+                  'Next',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
                   ),
-                  SizedBox(
-                    height: 10,
+                ),
+                style: ElevatedButton.styleFrom(
+                  primary: Color(0xFF53906B),
+                  minimumSize: Size(200, 45),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Icon(Icons.people_alt_rounded,
-                              size: 24.0, color: Color(0xFF021C0F)),
-                          SizedBox(
-                            width: 5.0,
-                          ),
-                          Text(
-                            "Seats Needed",
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                // use setState
-                                _flag = true;
-                                _flagTwo = false;
-                                _flagThree = false;
-                              });
-                              print('clicked');
-                            },
-                            child: Container(
-                              alignment: Alignment.center,
-                              width: 30.0,
-                              height: 30.0,
-                              decoration: BoxDecoration(
-                                color: _flag
-                                    ? Color(0xFF7d9988)
-                                    : Color(0XFFDAD9E2),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              child: Text(
-                                "1",
-                                style: TextStyle(
-                                  color: _flag ? Colors.white : Colors.black,
-                                  fontSize: 12.5,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 5.0,
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                // use setState
-                                _flag = false;
-                                _flagThree = false;
-                                _flagTwo = true;
-                              });
-                            },
-                            child: Container(
-                              alignment: Alignment.center,
-                              width: 30.0,
-                              height: 30.0,
-                              decoration: BoxDecoration(
-                                color: _flagTwo
-                                    ? Color(0xFF7d9988)
-                                    : Color(0XFFDAD9E2),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              child: Text(
-                                "2",
-                                style: TextStyle(
-                                  color: _flagTwo ? Colors.white : Colors.black,
-                                  fontSize: 12.5,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 5.0,
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                // use setState
-                                _flag = false;
-                                _flagTwo = false;
-                                _flagThree = true;
-                              });
-                            },
-                            child: Container(
-                              alignment: Alignment.center,
-                              width: 30.0,
-                              height: 30.0,
-                              decoration: BoxDecoration(
-                                color: _flagThree
-                                    ? Color(0xFF7d9988)
-                                    : Color(0XFFDAD9E2),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              child: Text(
-                                "3",
-                                style: TextStyle(
-                                  color:
-                                      _flagThree ? Colors.white : Colors.black,
-                                  fontSize: 12.5,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: Container(),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {},
-                        child: Text(
-                          'Next',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          primary: Color(0xFF53906B),
-                          minimumSize: Size(200, 45),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+                ),
               ),
             ),
           ),

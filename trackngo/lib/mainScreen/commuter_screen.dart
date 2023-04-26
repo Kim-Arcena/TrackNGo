@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:math';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:location/location.dart';
 import 'package:flutter/material.dart';
@@ -26,8 +28,12 @@ class _CommuterScreenState extends State<CommuterScreen> {
   Location _location = Location();
   LocationPermission? _locationPermission;
   String humanReadableAddress = "";
-  Set<Marker> _markers = {};
   bool _bottomSheetVisible = true;
+  List<LatLng> pLineCoordinatesList = [];
+  Set<Polyline> polyLineSet = {};
+  var sourceLatLng;
+  Set<Marker> markerSet = {};
+  Set<Circle> circleSet = {};
 
   void _onMapCreated(GoogleMapController _cntlr) async {
     newGoogleMapController = _cntlr;
@@ -45,24 +51,46 @@ class _CommuterScreenState extends State<CommuterScreen> {
       _initialcameraposition = LatLng(position.latitude, position.longitude);
     });
 
-    // Load the custom PNG image
-    BitmapDescriptor customIcon = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(size: Size(48, 48)), 'images/commuter.png');
-
-    // Update the map's markers to use the custom PNG icon
-    setState(() {
-      _markers.clear();
-      _markers.add(Marker(
-          markerId: MarkerId("current_location"),
-          position: _initialcameraposition,
-          icon: customIcon));
-    });
-
     newGoogleMapController?.animateCamera(
       CameraUpdate.newCameraPosition(
         CameraPosition(target: _initialcameraposition, zoom: 25),
       ),
     );
+
+    var sourcePosition =
+        Provider.of<AppInfo>(context, listen: false).userPickUpLocation!;
+
+    //originLatLng
+    sourceLatLng = LatLng(
+        sourcePosition.locationLatitude!, sourcePosition.locationLongitude!);
+
+    print("this is the sourceLatLng int the _onMapCreated:: $sourceLatLng");
+
+    // Load the custom PNG image
+    BitmapDescriptor customIconOrigin = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(48, 48)), 'images/commuter.png');
+
+    Marker originMarker = Marker(
+      markerId: const MarkerId("originID"),
+      infoWindow:
+          InfoWindow(title: sourcePosition.locationName, snippet: "Origin"),
+      position: sourceLatLng,
+      icon: customIconOrigin,
+    );
+
+    Circle originCircle = Circle(
+      circleId: const CircleId("originID"),
+      fillColor: Color(0x225add6c),
+      center: sourceLatLng,
+      radius: 25,
+      strokeWidth: 4,
+      strokeColor: Color(0x225add6c),
+    );
+
+    setState(() {
+      markerSet.add(originMarker);
+      circleSet.add(originCircle);
+    });
   }
 
   checkIfLocationPermissionGranted() async {
@@ -87,7 +115,9 @@ class _CommuterScreenState extends State<CommuterScreen> {
                 CameraPosition(target: _initialcameraposition),
             mapType: MapType.normal,
             onMapCreated: _onMapCreated,
-            markers: _markers,
+            polylines: polyLineSet,
+            markers: markerSet,
+            circles: circleSet,
           ),
           Positioned(
               left: 40.0,
@@ -187,7 +217,7 @@ class _CommuterScreenState extends State<CommuterScreen> {
                                 const Align(
                                   alignment: Alignment.topLeft,
                                   child: Text(
-                                    "Dropoff",
+                                    "Dropodddff",
                                     style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
@@ -198,6 +228,7 @@ class _CommuterScreenState extends State<CommuterScreen> {
                                 const SizedBox(width: 10.0),
                                 GestureDetector(
                                   onTap: () {
+                                    //go to search places screen
                                     var responseFromSearchScreen =
                                         Navigator.push(
                                       context,
@@ -206,9 +237,6 @@ class _CommuterScreenState extends State<CommuterScreen> {
                                             SearchPlacesScreen(),
                                       ),
                                     );
-
-                                    if (responseFromSearchScreen ==
-                                        "obtainDropOff") {}
                                   },
                                   child: Row(
                                     children: [
@@ -253,7 +281,14 @@ class _CommuterScreenState extends State<CommuterScreen> {
                             TextButton(
                               child: Text('OK'),
                               onPressed: () {
-                                Navigator.of(context).pop();
+                                if (Provider.of<AppInfo>(context, listen: false)
+                                        .userDropOffLocation ==
+                                    null) {
+                                  Fluttertoast.showToast(
+                                      msg: "Please select a dropoff location");
+                                } else {
+                                  drawPolyLineFromSourceToDestination();
+                                }
                               },
                             ),
                           ],
@@ -277,5 +312,108 @@ class _CommuterScreenState extends State<CommuterScreen> {
         ],
       ),
     );
+  }
+
+  Future<void> drawPolyLineFromSourceToDestination() async {
+    var sourcePosition =
+        Provider.of<AppInfo>(context, listen: false).userPickUpLocation!;
+    var destinationPosition =
+        Provider.of<AppInfo>(context, listen: false).userDropOffLocation!;
+
+    //originLatLng
+    sourceLatLng = LatLng(
+        sourcePosition.locationLatitude!, sourcePosition.locationLongitude!);
+
+    print("this is the sourceLatLng :: $sourceLatLng");
+
+    var destinationLatLng = LatLng(destinationPosition.locationLatitude!,
+        destinationPosition.locationLongitude!);
+
+    var directionDetailsInfo =
+        await AssistantMethods.obtainOriginToDestinationDirectionDetails(
+            sourceLatLng, destinationLatLng);
+
+    Navigator.pop(context);
+
+    print("This is encoded points :: ");
+    print(directionDetailsInfo!.e_points);
+
+    PolylinePoints pPoints = PolylinePoints();
+    List<PointLatLng> decodedPolyLinePointsResultList =
+        pPoints.decodePolyline(directionDetailsInfo.e_points!);
+
+    pLineCoordinatesList.clear();
+
+    if (decodedPolyLinePointsResultList.isNotEmpty) {
+      decodedPolyLinePointsResultList.forEach((PointLatLng pointLatLng) {
+        pLineCoordinatesList
+            .add(LatLng(pointLatLng.latitude, pointLatLng.longitude));
+      });
+    }
+
+    polyLineSet.clear();
+
+    setState(() {
+      Polyline polyline = Polyline(
+        polylineId: const PolylineId("PolylineID"),
+        color: Color(0XFF25ba6f),
+        jointType: JointType.round,
+        points: pLineCoordinatesList,
+        width: 5,
+        startCap: Cap.roundCap,
+        endCap: Cap.roundCap,
+        geodesic: true,
+      );
+
+      polyLineSet.add(polyline);
+    });
+
+    LatLngBounds boundLatLng;
+    if (sourceLatLng.latitude > destinationLatLng.latitude &&
+        sourceLatLng.longitude > destinationLatLng.longitude) {
+      boundLatLng =
+          LatLngBounds(southwest: destinationLatLng, northeast: sourceLatLng);
+    } else if (sourceLatLng.longitude > destinationLatLng.longitude) {
+      boundLatLng = LatLngBounds(
+        southwest: LatLng(sourceLatLng.latitude, destinationLatLng.longitude),
+        northeast: LatLng(destinationLatLng.latitude, sourceLatLng.longitude),
+      );
+    } else if (sourceLatLng.latitude > destinationLatLng.latitude) {
+      boundLatLng = LatLngBounds(
+        southwest: LatLng(destinationLatLng.latitude, sourceLatLng.longitude),
+        northeast: LatLng(sourceLatLng.latitude, destinationLatLng.longitude),
+      );
+    } else {
+      boundLatLng =
+          LatLngBounds(southwest: sourceLatLng, northeast: destinationLatLng);
+    }
+    newGoogleMapController!
+        .animateCamera(CameraUpdate.newLatLngBounds(boundLatLng, 70));
+
+    BitmapDescriptor customIconDestination =
+        await BitmapDescriptor.fromAssetImage(
+            ImageConfiguration(size: Size(48, 48)), 'images/driver.png');
+
+    Marker destinationMarker = Marker(
+      markerId: const MarkerId("destinationID"),
+      infoWindow: InfoWindow(
+          title: destinationPosition.locationName, snippet: "Destination"),
+      position: destinationLatLng,
+      icon: customIconDestination,
+    );
+
+    Circle destinationCircle = Circle(
+      circleId: const CircleId("destinationID"),
+      fillColor: Color(0x225add6c),
+      center: destinationLatLng,
+      radius: 20,
+      strokeWidth: 4,
+      strokeColor: Color(0x22b0e5d9),
+    );
+
+    setState(() {
+      markerSet.add(destinationMarker);
+      circleSet.add(destinationCircle);
+    });
   }
 }
