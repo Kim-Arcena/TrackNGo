@@ -43,7 +43,7 @@ class _SignUpDriver extends State<SignUpDriver> {
   Map<String, dynamic> driverInfoDataMap = {};
 
   validateForm() {
-    RegExp nameRegex = RegExp(r'\b[A-Z][a-z]* [A-Z][a-z]*( [A-Z])?\b');
+    RegExp nameRegex = RegExp(r'\b[A-Z][a-z]* ( [A-Z])?\b');
     RegExp digitRegex = RegExp(r'^(09)[0-9]{9}$');
     RegExp licenseRegex = RegExp(r'^[A-Z]{1}[0-9]{10}$');
     RegExp opcodeRegex = RegExp(r'^[A-Z]{2}[0-9]{4}$');
@@ -66,37 +66,37 @@ class _SignUpDriver extends State<SignUpDriver> {
     } else if (!digitRegex.hasMatch(_contactNumberController.text)) {
       MyAlertDialog(
         title: 'Invalid Contact Number',
-        content: 'Contact Number must:'
-            '* start with "09"'
-            '* have 11 digits'
-            '* no space between digits',
+        content: 'Contact Number must:\n'
+            '\t* start with "09"\n'
+            '\t* have 11 digits\n'
+            '\t* no space between digits',
       ).show(context);
     } else if (!licenseRegex.hasMatch(_licenseNumberController.text)) {
       MyAlertDialog(
         title: "Invalid Driver's License Number",
-        content: "Driver's License must:"
-            '* start with an uppercase letter'
-            '* followed by 10 digits'
-            '* contain 11 characters'
-            '* no space between characters',
+        content: "Driver's License must:\n"
+            '\t* start with an uppercase letter\n'
+            '\t* followed by 10 digits\n'
+            '\t* contain 11 characters\n'
+            '\t* no space between characters',
       ).show(context);
     } else if (!opcodeRegex.hasMatch(_operatorIdController.text)) {
       MyAlertDialog(
         title: "Invalid Operator ID",
-        content: "Operator ID must:"
-            '* start with 2 uppercase letters'
-            '* followed by 4 digits'
-            '* contain 6 characters'
-            '* no space between characters',
+        content: "Operator ID must:\n"
+            '\t* start with 2 uppercase letters\n'
+            '\t* followed by 4 digits\n'
+            '\t* contain 6 characters\n'
+            '\t* no space between characters',
       ).show(context);
     } else if (!plateRegex.hasMatch(_plateNumberController.text)) {
       MyAlertDialog(
         title: "Invalid Plate Number",
-        content: "Plate Number must:"
-            '* start with 3 uppercase letters'
-            '* followed by 4 digits'
-            '* contain 7 characters'
-            '* no space between characters',
+        content: "Plate Number must:\n"
+            '\t* start with 3 uppercase letters\n'
+            '\t* followed by 4 digits\n'
+            '\t* contain 7 characters\n'
+            '\t* no space between characters',
       ).show(context);
     } else if (selectedBusType != 'Regular' ||
         selectedBusType != 'Air-Conditioned') {
@@ -106,12 +106,12 @@ class _SignUpDriver extends State<SignUpDriver> {
     } else if (!passwordRegex.hasMatch(_passwordController.text)) {
       MyAlertDialog(
         title: 'Invalid Password',
-        content: 'Password must:'
-            '* be minimum of 8 characters'
-            '* contain lower & uppercase letters'
-            '* contain numbers'
-            '* contain special symbols, ie. "!, @, # ..."'
-            '* space is not considered a special symbol',
+        content: 'Password must:\n'
+            '\t* be minimum of 8 characters\n'
+            '\t* contain lower & uppercase letters\n'
+            '\t* contain numbers\n'
+            '\t* contain special symbols, ie. "!, @, # ..."\n'
+            '\t* space is not considered as special symbol',
       ).show(context);
     } else if (_passwordController.text != _confirmPasswordController.text) {
       Fluttertoast.showToast(msg: "Different Passwords Provided");
@@ -214,12 +214,13 @@ class _SignUpDriver extends State<SignUpDriver> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
-        child: Stack(
-          children: <Widget> [
-            Container(
-              decoration: new BoxDecoration(image: new DecorationImage(image: new AssetImage("images/background.png"), fit: BoxFit.fill)),
-            ),
-            SingleChildScrollView(
+        child: Container(
+          constraints: const BoxConstraints.expand(),
+          decoration: new BoxDecoration(image: new DecorationImage(image: new AssetImage("images/background.png"), fit: BoxFit.fill)),
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            backgroundColor: const Colors.green,
+            body: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -698,7 +699,8 @@ class _SignUpDriver extends State<SignUpDriver> {
                 ],
               ),
             ),
-          ],
+          ),
+        ),
         ),
       ),
     );
