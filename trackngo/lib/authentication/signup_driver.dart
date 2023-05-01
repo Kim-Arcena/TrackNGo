@@ -99,9 +99,9 @@ class _SignUpDriver extends State<SignUpDriver> {
             '* contain 7 characters'
             '* no space between characters',
       ).show(context);
-    } else if (selectedBusType != 'Regular' ||
-        selectedBusType != 'Air-Conditioned') {
-      Fluttertoast.showToast(msg: "Select a Bus Type");
+      // } else if (selectedBusType != 'Regular' ||
+      //     selectedBusType != 'Air-Conditioned') {
+      //   Fluttertoast.showToast(msg: "Select a Bus Type");
     } else if (!emailRegex.hasMatch(_emailController.text)) {
       Fluttertoast.showToast(msg: "Invalid Email Address");
     } else if (!passwordRegex.hasMatch(_passwordController.text)) {
@@ -529,6 +529,34 @@ class _SignUpDriver extends State<SignUpDriver> {
                               },
                             ),
                           ),
+                        ),
+                        DropdownButton(
+                          hint: const Text(
+                            'Select Bus Type',
+                            style: TextStyle(
+                              color: Color(0xFF3a3a3a),
+                              fontSize: 14,
+                            ),
+                          ),
+                          value: selectedBusType,
+                          onChanged: (newValue) {
+                            setState(() {
+                              selectedBusType = newValue.toString();
+                            });
+                          },
+                          items: busTypeList.map((bus) {
+                            return DropdownMenuItem(
+                              // ignore: sort_child_properties_last
+                              child: Text(
+                                bus,
+                                style: const TextStyle(
+                                    color: Color(0xFF3a3a3a),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              value: bus,
+                            );
+                          }).toList(),
                         ),
                         Column(
                           children: [
