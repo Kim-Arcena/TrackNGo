@@ -173,6 +173,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             borderRadius: BorderRadius.circular(20.0),
                             borderSide: BorderSide(color: Color(0xFFCCCCCC)),
                           ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: BorderSide(color: Colors.red),
+                          ),
                           hintStyle: const TextStyle(
                             color: Color(0xFFCCCCCC),
                             fontSize: 16,
@@ -205,6 +209,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20.0),
                             borderSide: BorderSide(color: Color(0xFFCCCCCC)),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: BorderSide(color: Colors.red),
                           ),
                           hintStyle: const TextStyle(
                             color: Color(0xFFCCCCCC),

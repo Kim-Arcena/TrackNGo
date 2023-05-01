@@ -3,6 +3,7 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:provider/provider.dart';
 
 import '../infoHandler/app_info.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 var maxChildSize = 0.8;
 
@@ -47,13 +48,14 @@ class _MyBottomSheetThreeContainerState
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                AutoSizeText(
                   "Create Trip",
                   textAlign: TextAlign.left,
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 22,
                       fontWeight: FontWeight.bold),
+                  maxLines: 1,
                 ),
                 SizedBox(
                   height: 30,
@@ -73,13 +75,14 @@ class _MyBottomSheetThreeContainerState
                           ),
                           child: TextButton(
                             onPressed: () {},
-                            child: Text(
+                            child: AutoSizeText(
                               "1",
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               ),
+                              maxLines: 1,
                             ),
                           ),
                         ),
@@ -92,13 +95,14 @@ class _MyBottomSheetThreeContainerState
                           ),
                           child: TextButton(
                             onPressed: () {},
-                            child: Text(
+                            child: AutoSizeText(
                               "2",
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               ),
+                              maxLines: 1,
                             ),
                           ),
                         ),
@@ -111,13 +115,14 @@ class _MyBottomSheetThreeContainerState
                           ),
                           child: TextButton(
                             onPressed: () {},
-                            child: Text(
+                            child: AutoSizeText(
                               "3",
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               ),
+                              maxLines: 1,
                             ),
                           ),
                         ),
@@ -130,13 +135,14 @@ class _MyBottomSheetThreeContainerState
                           ),
                           child: TextButton(
                             onPressed: () {},
-                            child: Text(
+                            child: AutoSizeText(
                               "4",
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               ),
+                              maxLines: 1,
                             ),
                           ),
                         ),
@@ -191,19 +197,21 @@ class _InnerContainerState extends State<InnerContainer> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text(
+                  AutoSizeText(
                     "Select Payment Method",
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
+                    maxLines: 1,
                   ),
-                  Text(
+                  AutoSizeText(
                     "Add New",
                     style: TextStyle(
                       fontSize: 18,
                     ),
+                    maxLines: 1,
                   ),
                 ],
               ),
@@ -254,11 +262,16 @@ class _InnerContainerState extends State<InnerContainer> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Text("Visa Card",
-                                              style: TextStyle(
-                                                  fontSize: 20.0,
-                                                  fontWeight: FontWeight.bold)),
-                                          Text("**** **** **** 1234"),
+                                          AutoSizeText("Visa Card",
+                                            style: TextStyle(
+                                                fontSize: 20.0,
+                                                fontWeight: FontWeight.bold),
+                                            maxLines: 1,
+                                          ),
+                                          AutoSizeText(
+                                            "**** **** **** 1234",
+                                            maxLines: 1,
+                                          ),
                                         ],
                                       ),
                                     ],
@@ -283,11 +296,13 @@ class _InnerContainerState extends State<InnerContainer> {
                     children: <Widget>[
                       Row(
                         children: [
-                          Text("Total Fair",
-                              style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: Color(0xFF282828),
-                                  fontWeight: FontWeight.bold)),
+                          AutoSizeText("Total Fair",
+                            style: TextStyle(
+                                fontSize: 16.0,
+                                color: Color(0xFF282828),
+                                fontWeight: FontWeight.bold),
+                            maxLines: 1,
+                          ),
                         ],
                       ),
                       Row(
@@ -297,11 +312,13 @@ class _InnerContainerState extends State<InnerContainer> {
                             color: Color(0xFF282828),
                             size: 25.0,
                           ),
-                          Text("Php: 11.00",
-                              style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: Color(0xFF282828),
-                                  fontWeight: FontWeight.bold)),
+                          AutoSizeText("Php: 11.00",
+                             style: TextStyle(
+                                 fontSize: 16.0,
+                                 color: Color(0xFF282828),
+                                 fontWeight: FontWeight.bold),
+                            maxLines: 1,
+                          ),
                         ],
                       ),
                     ],
@@ -343,13 +360,14 @@ class _InnerContainerState extends State<InnerContainer> {
             child: Container(
               child: ElevatedButton(
                 onPressed: () {},
-                child: Text(
+                child: AutoSizeText(
                   'Next',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
+                  maxLines: 1,
                 ),
                 style: ElevatedButton.styleFrom(
                   primary: Color(0xFF53906B),

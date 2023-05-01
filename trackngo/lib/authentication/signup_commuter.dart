@@ -38,7 +38,7 @@ class _SignUpCommuter extends State<SignUpCommuter> {
   }
 
   validateForm() {
-    RegExp nameRegex = RegExp(r'\b[A-Z][a-z]* [A-Z][a-z]*( [A-Z])?\b');
+    RegExp nameRegex = RegExp(r'\b[A-Z][a-z]* ( [A-Z])?\b');
     RegExp digitRegex = RegExp(r'^(09)[0-9]{9}$');
     RegExp emailRegex = RegExp(
         r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$",
@@ -214,6 +214,10 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                             borderRadius: BorderRadius.circular(20.0),
                             borderSide: BorderSide(color: Color(0xFFCCCCCC)),
                           ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: BorderSide(color: Colors.red),
+                          ),
                           hintStyle: const TextStyle(
                             color: Color(0xFFCCCCCC),
                             fontSize: 16,
@@ -241,6 +245,10 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20.0),
                             borderSide: BorderSide(color: Color(0xFFCCCCCC)),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: BorderSide(color: Colors.red),
                           ),
                           hintStyle: const TextStyle(
                             color: Color(0xFFCCCCCC),
@@ -270,6 +278,10 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                             borderRadius: BorderRadius.circular(20.0),
                             borderSide: BorderSide(color: Color(0xFFCCCCCC)),
                           ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: BorderSide(color: Colors.red),
+                          ),
                           hintStyle: const TextStyle(
                             color: Color(0xFFCCCCCC),
                             fontSize: 16,
@@ -297,6 +309,10 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20.0),
                             borderSide: BorderSide(color: Color(0xFFCCCCCC)),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: BorderSide(color: Colors.red),
                           ),
                           hintStyle: const TextStyle(
                             color: Color(0xFFCCCCCC),
@@ -327,6 +343,10 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20.0),
                             borderSide: BorderSide(color: Color(0xFFCCCCCC)),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: BorderSide(color: Colors.red),
                           ),
                           hintStyle: const TextStyle(
                             color: Color(0xFFCCCCCC),
@@ -370,6 +390,10 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20.0),
                             borderSide: BorderSide(color: Color(0xFFCCCCCC)),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: BorderSide(color: Colors.red),
                           ),
                           hintStyle: const TextStyle(
                             color: Color(0xFFCCCCCC),
