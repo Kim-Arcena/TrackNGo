@@ -98,9 +98,9 @@ class _SignUpDriver extends State<SignUpDriver> {
             '    * contain 7 characters\n'
             '    * no space between characters\n',
       ).show(context);
-      // } else if (selectedBusType != 'Regular' ||
-      //     selectedBusType != 'Air-Conditioned') {
-      //   Fluttertoast.showToast(msg: "Select a Bus Type");
+    } else if (selectedBusType != 'Regular' ||
+        selectedBusType != 'Air-Conditioned') {
+      Fluttertoast.showToast(msg: "Select a Bus Type");
     } else if (!emailRegex.hasMatch(_emailController.text)) {
       Fluttertoast.showToast(msg: "Invalid Email Address");
     } else if (!passwordRegex.hasMatch(_passwordController.text)) {
@@ -563,6 +563,7 @@ class _SignUpDriver extends State<SignUpDriver> {
                           ),
                         ),
 <<<<<<< HEAD
+<<<<<<< HEAD
                         DropdownButton(
                           hint: const Text(
                             'Select Bus Type',
@@ -591,6 +592,8 @@ class _SignUpDriver extends State<SignUpDriver> {
                             );
                           }).toList(),
                         ),
+=======
+>>>>>>> parent of c42358d (driver offline)
                         Column(
                           children: [
                             Container(

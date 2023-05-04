@@ -2,9 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_geofire/flutter_geofire.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:location/location.dart' hide LocationAccuracy;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -109,6 +107,8 @@ class _MainScreenState extends State<MainScreen>
     });
   }
 
+  StreamSubscription<Position>? streamStreamSubscription;
+
   checkIfLocationPermissionGranted() async {
     _locationPermission = await Geolocator.requestPermission();
     if (_locationPermission == LocationPermission.denied) {
@@ -171,24 +171,8 @@ class _MainScreenState extends State<MainScreen>
                           elevation: 0,
                         ),
                         onPressed: () {
-                          if (isDriverActive != true) {
-                            driverIsOnlineNow();
-                            updateDriversLocationAtRealTime();
-
-                            setState(() {
-                              stateColor = Color(0xFF228348);
-                              statusText = "Now Online";
-                              isDriverActive = true;
-                            });
-                            Fluttertoast.showToast(msg: "You are online now");
-                          } else {
-                            // driverIsOfflineNow();
-                            setState(() {
-                              stateColor = Colors.grey;
-                              statusText = "Now Offline";
-                              isDriverActive = false;
-                            });
-                          }
+                          driverIsOnlineNow();
+                          updateDriversLocationAtRealTime();
                         },
                         child: statusText != "Now Online"
                             ? Text(
@@ -211,14 +195,7 @@ class _MainScreenState extends State<MainScreen>
                                     color: Colors.white,
                                   ),
                                 ),
-                                onTap: () {
-                                  driverIsOfflineNow();
-                                  setState(() {
-                                    stateColor = Colors.grey;
-                                    statusText = "Now Offline";
-                                    isDriverActive = false;
-                                  });
-                                },
+                                onTap: () {},
                               ),
                       ),
                     ],
@@ -384,26 +361,6 @@ class _MainScreenState extends State<MainScreen>
           driverCurrentPosition.latitude, driverCurrentPosition.longitude);
 
       newGoogleMapController!.animateCamera(CameraUpdate.newLatLng(latLng));
-    });
-  }
-
-  driverIsOfflineNow() {
-    Geofire.removeLocation(currentFirebaseUser!.uid);
-    // ignore: deprecated_member_use
-    DatabaseReference? usersRef = FirebaseDatabase(
-            databaseURL:
-                "https://trackngo-d7aa0-default-rtdb.asia-southeast1.firebasedatabase.app/")
-        .ref()
-        .child("users")
-        .child(currentFirebaseUser!.uid)
-        .child("drivers_child")
-        .child("newRideStatus");
-    usersRef.onDisconnect();
-    usersRef.remove();
-    usersRef = null;
-
-    Future.delayed(const Duration(seconds: 2), () {
-      SystemChannels.platform.invokeMethod('SystemNavigator.pop');
     });
   }
 }
