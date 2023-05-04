@@ -3,6 +3,7 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:provider/provider.dart';
 
 import '../infoHandler/app_info.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 var maxChildSize = 0.8;
 
@@ -46,13 +47,14 @@ class _MyBottomSheetTwoContainerState extends State<MyBottomSheetTwoContainer> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                AutoSizeText(
                   "Create Trip",
                   textAlign: TextAlign.left,
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 22,
                       fontWeight: FontWeight.bold),
+                  maxLines: 1,
                 ),
                 SizedBox(
                   height: 30,
@@ -72,13 +74,14 @@ class _MyBottomSheetTwoContainerState extends State<MyBottomSheetTwoContainer> {
                           ),
                           child: TextButton(
                             onPressed: () {},
-                            child: Text(
+                            child: AutoSizeText(
                               "1",
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               ),
+                              maxLines: 1,
                             ),
                           ),
                         ),
@@ -91,13 +94,14 @@ class _MyBottomSheetTwoContainerState extends State<MyBottomSheetTwoContainer> {
                           ),
                           child: TextButton(
                             onPressed: () {},
-                            child: Text(
+                            child: AutoSizeText(
                               "2",
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               ),
+                              maxLines: 1,
                             ),
                           ),
                         ),
@@ -110,13 +114,14 @@ class _MyBottomSheetTwoContainerState extends State<MyBottomSheetTwoContainer> {
                           ),
                           child: TextButton(
                             onPressed: () {},
-                            child: Text(
+                            child: AutoSizeText(
                               "3",
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               ),
+                              maxLines: 1,
                             ),
                           ),
                         ),
@@ -129,13 +134,14 @@ class _MyBottomSheetTwoContainerState extends State<MyBottomSheetTwoContainer> {
                           ),
                           child: TextButton(
                             onPressed: () {},
-                            child: Text(
+                            child: AutoSizeText(
                               "4",
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               ),
+                              maxLines: 1,
                             ),
                           ),
                         ),
@@ -190,13 +196,14 @@ class _InnerContainerState extends State<InnerContainer> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text(
+                  AutoSizeText(
                     "Bus Selected",
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
+                    maxLines: 1,
                   ),
                 ],
               ),
@@ -240,9 +247,12 @@ class _InnerContainerState extends State<InnerContainer> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(250),
                               ),
-                              child: Image.asset(
-                                'images/aircon.png',
-                                width: 140,
+                              child: AspectRatio(
+                                aspectRatio: 1/1,
+                                child: Image.asset(
+                                  'images/aircon.png',
+                                  width: 140,
+                                ),
                               ),
                             ),
                           ),
@@ -273,9 +283,12 @@ class _InnerContainerState extends State<InnerContainer> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(250),
                               ),
-                              child: Image.asset(
-                                'images/traditional.png',
-                                width: 140,
+                              child: AspectRatio(
+                                aspectRatio: 1/1,
+                                child: Image.asset(
+                                  'images/traditional.png',
+                                  width: 140,
+                                ),
                               ),
                             ),
                           ),
@@ -295,11 +308,13 @@ class _InnerContainerState extends State<InnerContainer> {
                             color: Color(0xFF282828),
                             size: 25.0,
                           ),
-                          Text("1 km",
-                              style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: Color(0xFF282828),
-                                  fontWeight: FontWeight.bold)),
+                          AutoSizeText("1 km",
+                            style: TextStyle(
+                                fontSize: 16.0,
+                                color: Color(0xFF282828),
+                                fontWeight: FontWeight.bold),
+                            maxLines: 1,
+                          ),
                         ],
                       ),
                       Row(
@@ -309,11 +324,13 @@ class _InnerContainerState extends State<InnerContainer> {
                             color: Color(0xFF282828),
                             size: 25.0,
                           ),
-                          Text("5 mins",
-                              style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: Color(0xFF282828),
-                                  fontWeight: FontWeight.bold)),
+                          AutoSizeText("5 mins",
+                            style: TextStyle(
+                                fontSize: 16.0,
+                                color: Color(0xFF282828),
+                                fontWeight: FontWeight.bold),
+                            maxLines: 1,
+                          ),
                         ],
                       ),
                       Row(
@@ -323,11 +340,13 @@ class _InnerContainerState extends State<InnerContainer> {
                             color: Color(0xFF282828),
                             size: 25.0,
                           ),
-                          Text("Php: 11.00",
-                              style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: Color(0xFF282828),
-                                  fontWeight: FontWeight.bold)),
+                          AutoSizeText("Php: 11.00",
+                            style: TextStyle(
+                                fontSize: 16.0,
+                                color: Color(0xFF282828),
+                                fontWeight: FontWeight.bold),
+                            maxLines: 1,
+                          ),
                         ],
                       ),
                     ],
@@ -371,13 +390,14 @@ class _InnerContainerState extends State<InnerContainer> {
             child: Container(
               child: ElevatedButton(
                 onPressed: () {},
-                child: Text(
+                child: AutoSizeText(
                   'Next',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
+                  maxLines: 1,
                 ),
                 style: ElevatedButton.styleFrom(
                   primary: Color(0xFF53906B),
