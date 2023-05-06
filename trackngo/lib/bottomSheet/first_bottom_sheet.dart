@@ -21,6 +21,11 @@ class MyBottomSheet extends StatefulWidget {
 class _MyBottomSheetState extends State<MyBottomSheet> {
   final PageController _pageController = PageController(initialPage: 0);
 
+  void moveToPage(int page) {
+    _pageController.animateToPage(page,
+        duration: Duration(milliseconds: 500), curve: Curves.easeInOut);
+  }
+
   @override
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(
@@ -162,7 +167,7 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
                     height: 30,
                   ),
                   //add another container box here
-                  InnerContainer(),
+                  InnerContainer(moveToPage),
                 ],
               ),
             ),
@@ -177,7 +182,10 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
 }
 
 class InnerContainer extends StatefulWidget {
-  // use this
+  final void Function(int page) moveToPage;
+
+  InnerContainer(this.moveToPage);
+
   @override
   _InnerContainerState createState() => _InnerContainerState();
 }
@@ -481,7 +489,10 @@ class _InnerContainerState extends State<InnerContainer> {
             right: 40,
             child: Container(
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  widget.moveToPage(
+                      1); // call the callback function to move to page 1
+                },
                 child: Text(
                   'Next',
                   style: TextStyle(
