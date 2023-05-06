@@ -48,7 +48,7 @@ class _MyBottomSheetFourContainerState
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Create Trip",
+                  "Ride Confirmation",
                   textAlign: TextAlign.left,
                   style: TextStyle(
                       color: Colors.white,
@@ -125,7 +125,7 @@ class _MyBottomSheetFourContainerState
                           width: 40.0,
                           height: 40.0,
                           decoration: BoxDecoration(
-                            color: Color(0XFF021C0F),
+                            color: Color(0XFFDFF1E9),
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                           child: TextButton(
@@ -133,7 +133,7 @@ class _MyBottomSheetFourContainerState
                             child: Text(
                               "4",
                               style: TextStyle(
-                                color: Colors.white,
+                                color: Colors.black,
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -191,99 +191,88 @@ class _InnerContainerState extends State<InnerContainer> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text(
-                    "Select Payment Method",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  Row(
+                    children: [
+                      Image.asset(
+                        'images/driver.png',
+                        width: 65,
+                        height: 65,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            "Juan Dela Cruz",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            "FW-1234",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 14,
+                            ),
+                          ),
+                          Text("09123456789", style: TextStyle(fontSize: 14)),
+                        ],
+                      ),
+                    ],
                   ),
-                  Text(
-                    "Add New",
-                    style: TextStyle(
-                      fontSize: 18,
-                    ),
-                  ),
+                  Text("Traditional Bus",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      )),
                 ],
               ),
             ),
           ),
           Positioned(
-            top: 55,
+            top: 100,
             left: 0,
             right: 0,
             child: Padding(
               padding: const EdgeInsets.only(top: 20, left: 40, right: 40),
               child: Column(
                 children: <Widget>[
-                  Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              selectedImage = 'images/aircon.png';
-                            });
-                          },
-                          child: Container(
-                            width: 350,
-                            height: 80,
-                            decoration: BoxDecoration(
-                              color: Color(0xFFE8E8EA),
-                              borderRadius: BorderRadius.circular(20.0),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 10.0, horizontal: 20.0),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Image.asset(
-                                        'images/visa.png',
-                                      ),
-                                      SizedBox(width: 20.0),
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text("Visa Card",
-                                              style: TextStyle(
-                                                  fontSize: 20.0,
-                                                  fontWeight: FontWeight.bold)),
-                                          Text("**** **** **** 1234"),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  Icon(
-                                    Icons.check_circle_rounded,
-                                    color: Color(0xFF81B09A),
-                                    size: 25.0,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
                   Divider(
-                      height: 20.0, thickness: 2.0, color: Color(0xFF929895)),
+                      height: 40.0, thickness: 2.0, color: Color(0xFF929895)),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
                       Row(
                         children: [
-                          Text("Total Fair",
+                          Icon(
+                            Icons.map_outlined,
+                            color: Color(0xFF282828),
+                            size: 25.0,
+                          ),
+                          Text("1 km",
+                              style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: Color(0xFF282828),
+                                  fontWeight: FontWeight.bold)),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.watch_later_outlined,
+                            color: Color(0xFF282828),
+                            size: 25.0,
+                          ),
+                          Text("5 mins",
                               style: TextStyle(
                                   fontSize: 16.0,
                                   color: Color(0xFF282828),
@@ -306,6 +295,8 @@ class _InnerContainerState extends State<InnerContainer> {
                       ),
                     ],
                   ),
+                  Divider(
+                      height: 40.0, thickness: 2.0, color: Color(0xFF929895)),
                 ],
               ),
             ),

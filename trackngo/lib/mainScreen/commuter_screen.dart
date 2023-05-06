@@ -24,6 +24,7 @@ class CommuterScreen extends StatefulWidget {
 }
 
 class _CommuterScreenState extends State<CommuterScreen> {
+
   LatLng _initialcameraposition = LatLng(20.5937, 78.9629);
   final Completer<GoogleMapController> _controllerGoogleMap =
       Completer<GoogleMapController>();
@@ -224,7 +225,7 @@ class _CommuterScreenState extends State<CommuterScreen> {
                                 const Align(
                                   alignment: Alignment.topLeft,
                                   child: Text(
-                                    "Dropodddff",
+                                    "Dropoff",
                                     style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
@@ -501,7 +502,7 @@ class _CommuterScreenState extends State<CommuterScreen> {
       Marker driverMarker = Marker(
         markerId: MarkerId(eachDriver.driverId!),
         position: eachDriverActivePosition,
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
         rotation: 360,
       );
 

@@ -84,7 +84,7 @@ class _MainScreenState extends State<MainScreen>
 
     // Load the custom PNG image
     BitmapDescriptor customIconOrigin = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(size: Size(48, 48)), 'images/commuter.png');
+        ImageConfiguration(size: Size(48, 48)), 'images/driver.png');
 
     Marker originMarker = Marker(
       markerId: const MarkerId("originID"),
@@ -96,11 +96,11 @@ class _MainScreenState extends State<MainScreen>
 
     Circle originCircle = Circle(
       circleId: const CircleId("originID"),
-      fillColor: Color(0x225add6c),
+      fillColor: Color(0x22e0c67f),
       center: driverCurrentPosition,
       radius: 25,
       strokeWidth: 4,
-      strokeColor: Color(0x225add6c),
+      strokeColor: Color(0x22e0c67f),
     );
 
     setState(() {
