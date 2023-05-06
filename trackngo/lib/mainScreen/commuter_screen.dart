@@ -21,10 +21,13 @@ class CommuterScreen extends StatefulWidget {
 
   @override
   State<CommuterScreen> createState() => _CommuterScreenState();
+
+  static _CommuterScreenState? of(BuildContext context) {
+    return context.findAncestorStateOfType<_CommuterScreenState>();
+  }
 }
 
 class _CommuterScreenState extends State<CommuterScreen> {
-
   LatLng _initialcameraposition = LatLng(20.5937, 78.9629);
   final Completer<GoogleMapController> _controllerGoogleMap =
       Completer<GoogleMapController>();
@@ -340,8 +343,6 @@ class _CommuterScreenState extends State<CommuterScreen> {
     var directionDetailsInfo =
         await AssistantMethods.obtainOriginToDestinationDirectionDetails(
             sourceLatLng, destinationLatLng);
-
-    Navigator.pop(context);
 
     print("This is encoded points :: ");
     print(directionDetailsInfo!.e_points);

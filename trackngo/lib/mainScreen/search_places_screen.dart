@@ -8,14 +8,21 @@ import '../global/map_key.dart';
 import '../widgets/place_prediction_tile.dart';
 
 class SearchPlacesScreen extends StatefulWidget {
-  const SearchPlacesScreen({super.key});
+  final VoidCallback? onSearchComplete;
+
+  const SearchPlacesScreen({Key? key, this.onSearchComplete}) : super(key: key);
 
   @override
-  State<SearchPlacesScreen> createState() => _SearchPlacesScreenState();
+  _SearchPlacesScreenState createState() => _SearchPlacesScreenState();
 }
 
 class _SearchPlacesScreenState extends State<SearchPlacesScreen> {
   List<PredictedPlaces> placePredictedList = [];
+  @override
+  void dispose() {
+    super.dispose();
+    widget.onSearchComplete?.call();
+  }
 
   void findPlaceAutoCompleteSearch(String inputText) async {
     if (inputText.length > 1) {

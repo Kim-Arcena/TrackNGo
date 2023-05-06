@@ -186,7 +186,13 @@ class _InnerContainerState extends State<InnerContainer> {
   bool _flag = false;
   bool _flagTwo = false;
   bool _flagThree = false;
-  
+
+  void onTap() async {
+    var commuterScreenState = CommuterScreen.of(context);
+    if (commuterScreenState != null) {
+      await commuterScreenState.drawPolyLineFromSourceToDestination();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -297,12 +303,15 @@ class _InnerContainerState extends State<InnerContainer> {
                       child: GestureDetector(
                         onTap: () {
                           Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => SearchPlacesScreen(),
-                            ),
-                          );
-                          
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SearchPlacesScreen(),
+                              )).then((result) {
+                            var commuterScreenState =
+                                CommuterScreen.of(context);
+                            commuterScreenState
+                                ?.drawPolyLineFromSourceToDestination();
+                          });
                         },
                         child: Text(
                           Provider.of<AppInfo>(context).userDropOffLocation !=
