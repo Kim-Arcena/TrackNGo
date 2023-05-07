@@ -1,9 +1,15 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
+import 'package:trackngo/assistants/geofire_assistant.dart';
 import 'package:trackngo/bottomSheet/fourth_bottom_sheet.dart';
 import 'package:trackngo/bottomSheet/second_bottom_sheet.dart';
 import 'package:trackngo/bottomSheet/third_bottom_sheet.dart';
+import 'package:trackngo/main.dart';
 import 'package:trackngo/mainScreen/commuter_screen.dart';
+import 'package:trackngo/models/active_nearby_available_drivers.dart';
+import '../global/global.dart';
 import '../infoHandler/app_info.dart';
 import '../mainScreen/search_places_screen.dart';
 
@@ -194,12 +200,52 @@ class _InnerContainerState extends State<InnerContainer> {
   bool _flag = false;
   bool _flagTwo = false;
   bool _flagThree = false;
+  List<ActiveNearbyAvailableDrivers> onlineNearByAvailableDriversList = [];
 
   void onTap() async {
     var commuterScreenState = CommuterScreen.of(context);
     if (commuterScreenState != null) {
       await commuterScreenState.drawPolyLineFromSourceToDestination();
     }
+  }
+
+  saveRideRequestInformation() {
+    onlineNearByAvailableDriversList =
+        GeoFireAssistant.activeNearbyAvailableDriversList;
+
+    searchNearestOnlineDrivers();
+  }
+
+  searchNearestOnlineDrivers() async {
+    if (onlineNearByAvailableDriversList.length == 0) {
+      Fluttertoast.showToast(msg: "No drivers found nearby");
+
+      return;
+    }
+
+    await retrieveOnlineDriversInformation(onlineNearByAvailableDriversList);
+  }
+
+  retrieveOnlineDriversInformation(List onlineNearestDriversList) async {
+    DatabaseReference driverRef =
+        FirebaseDatabase.instance.ref().child("driver");
+    print("driver ref" + driverRef.toString());
+
+    Set dSet = Set(); // create a set to store the drivers
+
+    for (int i = 0; i < onlineNearestDriversList.length; i++) {
+      await driverRef
+          .child(onlineNearestDriversList[i].driverId.toString())
+          .once()
+          .then((dataSnapshot) {
+        var driverKeyInfo = dataSnapshot.snapshot.value;
+        dSet.add(driverKeyInfo); // add the driver to the set
+        print("driver information" + dSet.length.toString());
+      });
+    }
+
+    dList = dSet.toList(); // convert the set to a list (if necessary)
+    print(dList.toString());
   }
 
   @override
@@ -490,8 +536,20 @@ class _InnerContainerState extends State<InnerContainer> {
             child: Container(
               child: ElevatedButton(
                 onPressed: () {
-                  widget.moveToPage(
-                      1); // call the callback function to move to page 1
+                  if (Provider.of<AppInfo>(context, listen: false)
+                          .userDropOffLocation !=
+                      null) {
+                    saveRideRequestInformation();
+                  } else {
+                    Fluttertoast.showToast(
+                        msg: "Please select a dropoff location",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Color(0xFF53906B),
+                        textColor: Colors.white,
+                        fontSize: 16.0);
+                  }
                 },
                 child: Text(
                   'Next',

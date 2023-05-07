@@ -462,7 +462,7 @@ class _CommuterScreenState extends State<CommuterScreen> {
             break;
 
           case Geofire.onKeyExited: //when a key exits the radius
-            GeoFireAssistant.removeDriverFromList(map['key']);
+            GeoFireAssistant.deleteOfflineDriverFromList(map['key']);
             displayActiveDriversOnMap();
             break;
 
@@ -474,7 +474,7 @@ class _CommuterScreenState extends State<CommuterScreen> {
             activeNearbyAvailableDriver.locationLongitude = map['longitude'];
             activeNearbyAvailableDriver.driverId = map['key'];
 
-            GeoFireAssistant.updateActiveNearbyDriverLocation(
+            GeoFireAssistant.updateActiveNearbyAvailableDriverLocation(
                 activeNearbyAvailableDriver);
             displayActiveDriversOnMap();
             break;

@@ -49,10 +49,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   "https://trackngo-d7aa0-default-rtdb.asia-southeast1.firebasedatabase.app/")
           .ref()
           .child("users");
-
+      DatabaseReference driverRef = FirebaseDatabase(
+              databaseURL:
+                  "https://trackngo-d7aa0-default-rtdb.asia-southeast1.firebasedatabase.app/")
+          .ref()
+          .child("driver");
+      var driver = await driverRef.child(firebaseUser.uid).get();
       var user = await usersRef.child(firebaseUser.uid).get();
       var userMap = user.value as Map<dynamic, dynamic>?;
-      if (userMap != null && userMap.containsKey("drivers_child")) {
+      if (driver.exists) {
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => const MainScreen()));
       }

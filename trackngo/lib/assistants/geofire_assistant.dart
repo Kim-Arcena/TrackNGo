@@ -4,16 +4,17 @@ class GeoFireAssistant {
   static List<ActiveNearbyAvailableDrivers> activeNearbyAvailableDriversList =
       [];
 
-  static void removeDriverFromList(String driverId) {
+  static void deleteOfflineDriverFromList(String driverId) {
     int indexNumber = activeNearbyAvailableDriversList
         .indexWhere((element) => element.driverId == driverId);
     activeNearbyAvailableDriversList.removeAt(indexNumber);
   }
 
-  static void updateActiveNearbyDriverLocation(
+  static void updateActiveNearbyAvailableDriverLocation(
       ActiveNearbyAvailableDrivers driverWhoMove) {
     int indexNumber = activeNearbyAvailableDriversList
         .indexWhere((element) => element.driverId == driverWhoMove.driverId);
+
     activeNearbyAvailableDriversList[indexNumber].locationLatitude =
         driverWhoMove.locationLatitude;
     activeNearbyAvailableDriversList[indexNumber].locationLongitude =

@@ -144,16 +144,6 @@ class _SignUpDriver extends State<SignUpDriver> {
         .user;
 
     if (firebaseUser != null) {
-      Map userDataMap = {
-        "id": firebaseUser.uid,
-        "email": _emailController.text.trim(),
-        "password": _passwordController.text.trim(),
-      };
-
-      DatabaseReference usersRef =
-          FirebaseDatabase.instance.ref().child("users");
-      usersRef.child(firebaseUser.uid).set(userDataMap);
-
       currentFirebaseUser = firebaseUser;
     } else {
       Navigator.pop(context);
@@ -165,11 +155,8 @@ class _SignUpDriver extends State<SignUpDriver> {
             databaseURL:
                 "https://trackngo-d7aa0-default-rtdb.asia-southeast1.firebasedatabase.app/")
         .ref()
-        .child("users");
-    usersRef
-        .child(currentFirebaseUser!.uid)
-        .child("drivers_child")
-        .set(driverInfoDataMap);
+        .child("driver");
+    usersRef.child(currentFirebaseUser!.uid).set(driverInfoDataMap);
 
     Fluttertoast.showToast(msg: "Driver's Information Saved Successfully");
 

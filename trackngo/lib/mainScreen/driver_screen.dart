@@ -363,12 +363,11 @@ class _MainScreenState extends State<MainScreen>
             databaseURL:
                 "https://trackngo-d7aa0-default-rtdb.asia-southeast1.firebasedatabase.app/")
         .ref()
-        .child("users");
+        .child("driver");
     usersRef
         .child(currentFirebaseUser!.uid)
-        .child("drivers_child")
         .child("newRideStatus")
-        .set("idle");
+        .set("idldde");
     usersRef.onValue.listen((event) {});
   }
 
@@ -394,9 +393,8 @@ class _MainScreenState extends State<MainScreen>
             databaseURL:
                 "https://trackngo-d7aa0-default-rtdb.asia-southeast1.firebasedatabase.app/")
         .ref()
-        .child("users")
+        .child("driver")
         .child(currentFirebaseUser!.uid)
-        .child("drivers_child")
         .child("newRideStatus");
     usersRef.onDisconnect();
     usersRef.remove();
