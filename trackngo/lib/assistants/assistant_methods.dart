@@ -72,4 +72,15 @@ class AssistantMethods {
 
     return directionDetailsInfo;
   }
+
+  static double calculateFairAmountFromOriginToDestination(
+      DirectionDetailsInfo directionDetailsInfo) {
+    double timeTraveledFarePerMinute =
+        (directionDetailsInfo.duration_value! / 60) * 0.9;
+    double distanceTraveledFarePerMinute =
+        (directionDetailsInfo.duration_value! / 1000) * 0.1;
+    double totalFairAmount =
+        timeTraveledFarePerMinute + distanceTraveledFarePerMinute;
+    return double.parse(totalFairAmount.toStringAsFixed(2));
+  }
 }

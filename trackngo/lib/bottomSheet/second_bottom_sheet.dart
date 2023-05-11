@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
+import 'package:trackngo/assistants/assistant_methods.dart';
 import 'package:trackngo/global/global.dart';
 
 import '../infoHandler/app_info.dart';
@@ -311,7 +312,10 @@ class _InnerContainerState extends State<InnerContainer> {
                               color: Color(0xFF282828),
                               size: 25.0,
                             ),
-                            Text("1 km",
+                            Text(
+                                tripDrirectionDetailsInfo != null
+                                    ? tripDrirectionDetailsInfo!.distance_text!
+                                    : "",
                                 style: TextStyle(
                                     fontSize: 16.0,
                                     color: Color(0xFF282828),
@@ -325,7 +329,10 @@ class _InnerContainerState extends State<InnerContainer> {
                               color: Color(0xFF282828),
                               size: 25.0,
                             ),
-                            Text("5 mins",
+                            Text(
+                                tripDrirectionDetailsInfo != null
+                                    ? tripDrirectionDetailsInfo!.duration_text!
+                                    : "",
                                 style: TextStyle(
                                     fontSize: 16.0,
                                     color: Color(0xFF282828),
@@ -339,7 +346,11 @@ class _InnerContainerState extends State<InnerContainer> {
                               color: Color(0xFF282828),
                               size: 25.0,
                             ),
-                            Text("Php: 11.00",
+                            Text(
+                                AssistantMethods
+                                        .calculateFairAmountFromOriginToDestination(
+                                            tripDrirectionDetailsInfo!)
+                                    .toString(),
                                 style: TextStyle(
                                     fontSize: 16.0,
                                     color: Color(0xFF282828),
