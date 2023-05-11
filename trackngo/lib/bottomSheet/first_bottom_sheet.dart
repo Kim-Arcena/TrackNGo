@@ -224,14 +224,19 @@ class _InnerContainerState extends State<InnerContainer> {
     }
 
     await retrieveOnlineDriversInformation(onlineNearByAvailableDriversList);
+    print("dList length is" + dList.length.toString());
+    widget.moveToPage(1);
   }
 
   retrieveOnlineDriversInformation(List onlineNearestDriversList) async {
     DatabaseReference driverRef =
         FirebaseDatabase.instance.ref().child("driver");
     print("driver ref" + driverRef.toString());
-
-    Set dSet = Set(); // create a set to store the drivers
+    dList.clear();
+    print("online nearest drivers list" +
+        onlineNearByAvailableDriversList.length.toString());
+    print(onlineNearestDriversList.length
+        .toString()); // create a Set to store unique license numbers
 
     for (int i = 0; i < onlineNearestDriversList.length; i++) {
       await driverRef
@@ -239,12 +244,13 @@ class _InnerContainerState extends State<InnerContainer> {
           .once()
           .then((dataSnapshot) {
         var driverKeyInfo = dataSnapshot.snapshot.value;
-        dSet.add(driverKeyInfo); // add the driver to the set
-        print("driver information" + dSet.length.toString());
+
+        dList.add(driverKeyInfo); // add the driver to the list
+        // add the license number to the Set
+        print("driver information" + driverKeyInfo.toString());
       });
     }
 
-    dList = dSet.toList(); // convert the set to a list (if necessary)
     print(dList.toString());
   }
 
