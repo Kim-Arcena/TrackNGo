@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:trackngo/splashScreen/splash_screen.dart';
 
 import 'infoHandler/app_info.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

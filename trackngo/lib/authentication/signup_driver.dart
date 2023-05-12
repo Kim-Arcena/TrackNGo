@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:trackngo/authentication/alertDialog.dart';
 import 'package:trackngo/authentication/login_screen.dart';
 import 'package:flutter/gestures.dart';
@@ -19,6 +20,16 @@ class SignUpDriver extends StatefulWidget {
 }
 
 class _SignUpDriver extends State<SignUpDriver> {
+  final FocusNode firstnameFocus = FocusNode();
+  final FocusNode lastnameFocus = FocusNode();
+  final FocusNode contactFocus = FocusNode();
+  final FocusNode licenseFocus = FocusNode();
+  final FocusNode opcodeFocus = FocusNode();
+  final FocusNode plateFocus = FocusNode();
+  final FocusNode addressFocus = FocusNode();
+  final FocusNode passwordFocus = FocusNode();
+  final FocusNode confirmedFocus = FocusNode();
+  final _validationKey = GlobalKey<FormState>();
   bool passwordVisible = true;
   bool confirmedpasswordVisible = true;
 
@@ -67,52 +78,52 @@ class _SignUpDriver extends State<SignUpDriver> {
     } else if (!digitRegex.hasMatch(_contactNumberController.text)) {
       MyAlertDialog(
         title: 'Invalid Contact Number',
-        content: 'Contact Number must:'
-            '* start with "09"'
-            '* have 11 digits'
-            '* no space between digits',
+        content: 'Contact Number must:\n'
+            '    * start with "09"\n'
+            '    * have 11 digits\n'
+            '    * no space between digits',
       ).show(context);
     } else if (!licenseRegex.hasMatch(_licenseNumberController.text)) {
       MyAlertDialog(
         title: "Invalid Driver's License Number",
-        content: "Driver's License must:"
-            '* start with an uppercase letter'
-            '* followed by 10 digits'
-            '* contain 11 characters'
-            '* no space between characters',
+        content: "Driver's License must:\n"
+            '    * start with an uppercase letter\n'
+            '    * followed by 10 digits\n'
+            '    * contain 11 characters\n'
+            '    * no space between characters',
       ).show(context);
     } else if (!opcodeRegex.hasMatch(_operatorIdController.text)) {
       MyAlertDialog(
         title: "Invalid Operator ID",
-        content: "Operator ID must:"
-            '* start with 2 uppercase letters'
-            '* followed by 4 digits'
-            '* contain 6 characters'
-            '* no space between characters',
+        content: "Operator ID must:\n"
+            '    * start with 2 uppercase letters\n'
+            '    * followed by 4 digits\n'
+            '    * contain 6 characters\n'
+            '    * no space between characters',
       ).show(context);
     } else if (!plateRegex.hasMatch(_plateNumberController.text)) {
       MyAlertDialog(
         title: "Invalid Plate Number",
-        content: "Plate Number must:"
-            '* start with 3 uppercase letters'
-            '* followed by 4 digits'
-            '* contain 7 characters'
-            '* no space between characters',
+        content: "Plate Number must:\n"
+            '    * start with 3 uppercase letters\n'
+            '    * followed by 4 digits\n'
+            '    * contain 7 characters\n'
+            '    * no space between characters\n',
       ).show(context);
-      // } else if (selectedBusType != 'Regular' ||
-      //     selectedBusType != 'Air-Conditioned') {
-      //   Fluttertoast.showToast(msg: "Select a Bus Type");
+    } else if (selectedBusType != 'Regular' ||
+        selectedBusType != 'Air-Conditioned') {
+      Fluttertoast.showToast(msg: "Select a Bus Type");
     } else if (!emailRegex.hasMatch(_emailController.text)) {
       Fluttertoast.showToast(msg: "Invalid Email Address");
     } else if (!passwordRegex.hasMatch(_passwordController.text)) {
       MyAlertDialog(
         title: 'Invalid Password',
-        content: 'Password must:'
-            '* be minimum of 8 characters'
-            '* contain lower & uppercase letters'
-            '* contain numbers'
-            '* contain special symbols, ie. "!, @, # ..."'
-            '* space is not considered a special symbol',
+        content: 'Password must:\n'
+            '    * be minimum of 8 characters\n'
+            '    * contain lower & uppercase letters\n'
+            '    * contain numbers\n'
+            '    * contain special symbols, ie. "!, @, # ..."\n'
+            '    * space is not considered a special symbol',
       ).show(context);
     } else if (_passwordController.text != _confirmPasswordController.text) {
       Fluttertoast.showToast(msg: "Different Passwords Provided");
@@ -199,18 +210,17 @@ class _SignUpDriver extends State<SignUpDriver> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Center(
-        child: Stack(
-          children: <Widget>[
-            Container(
-              decoration: new BoxDecoration(
-                  image: new DecorationImage(
-                      image: new AssetImage("images/background.png"),
-                      fit: BoxFit.fill)),
-            ),
-            SingleChildScrollView(
+    return Center(
+      child: Container(
+        constraints: const BoxConstraints.expand(),
+        decoration: new BoxDecoration(
+            image: new DecorationImage(
+                image: new AssetImage("images/background.png"),
+                fit: BoxFit.cover)),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Center(
+            child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -233,317 +243,439 @@ class _SignUpDriver extends State<SignUpDriver> {
                       spacing: 20,
                       runSpacing: 20,
                       children: [
-                        TextField(
-                          controller: _firstNameController,
-                          style: const TextStyle(
-                            color: Color(0xFF3a3a3a),
-                            fontSize: 14,
-                          ),
-                          decoration: InputDecoration(
-                            labelText: 'First Name',
-                            hintText: 'Juan',
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20.0),
-                              borderSide: BorderSide(color: Color(0xFFCCCCCC)),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20.0),
-                              borderSide: BorderSide(color: Color(0xFFCCCCCC)),
-                            ),
-                            hintStyle: const TextStyle(
-                              color: Color(0xFFCCCCCC),
-                              fontSize: 16,
-                            ),
-                            labelStyle: const TextStyle(
-                              color: Color(0xFF2b2b2b),
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                        TextField(
-                          controller: _lastNameController,
-                          style: const TextStyle(
-                            color: Color(0xFF3a3a3a),
-                            fontSize: 14,
-                          ),
-                          decoration: InputDecoration(
-                            labelText: 'Last Name',
-                            hintText: 'Dela Cruz',
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20.0),
-                              borderSide: BorderSide(color: Color(0xFFCCCCCC)),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20.0),
-                              borderSide: BorderSide(color: Color(0xFFCCCCCC)),
-                            ),
-                            hintStyle: const TextStyle(
-                              color: Color(0xFFCCCCCC),
-                              fontSize: 16,
-                            ),
-                            labelStyle: const TextStyle(
-                              color: Color(0xFF2b2b2b),
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                        TextField(
-                          controller: _contactNumberController,
-                          style: const TextStyle(
-                            color: Color(0xFF3a3a3a),
-                            fontSize: 14,
-                          ),
-                          decoration: InputDecoration(
-                            labelText: 'Contact Number',
-                            hintText: '09XX-XXX-XXXX',
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20.0),
-                              borderSide: BorderSide(color: Color(0xFFCCCCCC)),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20.0),
-                              borderSide: BorderSide(color: Color(0xFFCCCCCC)),
-                            ),
-                            hintStyle: const TextStyle(
-                              color: Color(0xFFCCCCCC),
-                              fontSize: 16,
-                            ),
-                            labelStyle: const TextStyle(
-                              color: Color(0xFF2b2b2b),
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                        TextField(
-                          controller: _licenseNumberController,
-                          style: const TextStyle(
-                            color: Color(0xFF3a3a3a),
-                            fontSize: 14,
-                          ),
-                          decoration: InputDecoration(
-                            labelText: "Driver's License Number",
-                            hintText: 'A12-34-567890',
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20.0),
-                              borderSide: BorderSide(color: Color(0xFFCCCCCC)),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20.0),
-                              borderSide: BorderSide(color: Color(0xFFCCCCCC)),
-                            ),
-                            hintStyle: const TextStyle(
-                              color: Color(0xFFCCCCCC),
-                              fontSize: 16,
-                            ),
-                            labelStyle: const TextStyle(
-                              color: Color(0xFF2b2b2b),
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                        TextField(
-                          controller: _operatorIdController,
-                          style: const TextStyle(
-                            color: Color(0xFF3a3a3a),
-                            fontSize: 14,
-                          ),
-                          decoration: InputDecoration(
-                            labelText: 'Operator ID',
-                            hintText: 'AB-1234',
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20.0),
-                              borderSide: BorderSide(color: Color(0xFFCCCCCC)),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20.0),
-                              borderSide: BorderSide(color: Color(0xFFCCCCCC)),
-                            ),
-                            hintStyle: const TextStyle(
-                              color: Color(0xFFCCCCCC),
-                              fontSize: 16,
-                            ),
-                            labelStyle: const TextStyle(
-                              color: Color(0xFF2b2b2b),
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                        TextField(
-                          controller: _plateNumberController,
-                          style: const TextStyle(
-                            color: Color(0xFF3a3a3a),
-                            fontSize: 14,
-                          ),
-                          decoration: InputDecoration(
-                            labelText: 'Plate Number',
-                            hintText: 'ABC-1234',
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20.0),
-                              borderSide: BorderSide(color: Color(0xFFCCCCCC)),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20.0),
-                              borderSide: BorderSide(color: Color(0xFFCCCCCC)),
-                            ),
-                            hintStyle: const TextStyle(
-                              color: Color(0xFFCCCCCC),
-                              fontSize: 16,
-                            ),
-                            labelStyle: const TextStyle(
-                              color: Color(0xFF2b2b2b),
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                        TextField(
-                          controller: _emailController,
-                          style: const TextStyle(
-                            color: Color(0xFF3a3a3a),
-                            fontSize: 14,
-                          ),
-                          decoration: InputDecoration(
-                            labelText: 'Email',
-                            hintText: 'email@address.com',
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20.0),
-                              borderSide: BorderSide(color: Color(0xFFCCCCCC)),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20.0),
-                              borderSide: BorderSide(color: Color(0xFFCCCCCC)),
-                            ),
-                            hintStyle: const TextStyle(
-                              color: Color(0xFFCCCCCC),
-                              fontSize: 16,
-                            ),
-                            labelStyle: const TextStyle(
-                              color: Color(0xFF2b2b2b),
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                        TextField(
-                          controller: _passwordController,
-                          keyboardType: TextInputType.text,
-                          obscureText: passwordVisible,
-                          style: const TextStyle(
-                            color: Color(0xFF3a3a3a),
-                            fontSize: 14,
-                          ),
-                          decoration: InputDecoration(
-                            labelText: 'Password',
-                            hintText: '*********',
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20.0),
-                              borderSide: BorderSide(color: Color(0xFFCCCCCC)),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20.0),
-                              borderSide: BorderSide(color: Color(0xFFCCCCCC)),
-                            ),
-                            hintStyle: const TextStyle(
-                              color: Color(0xFFCCCCCC),
-                              fontSize: 16,
-                            ),
-                            labelStyle: const TextStyle(
-                              color: Color(0xFF2b2b2b),
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16,
-                            ),
-                            helperStyle: TextStyle(color: Color(0xffc4c4c4)),
-                            suffixIcon: IconButton(
-                              color: Color(0xff81B09A),
-                              icon: Icon(passwordVisible
-                                  ? Icons.visibility
-                                  : Icons.visibility_off),
-                              onPressed: () {
-                                setState(
-                                  () {
-                                    passwordVisible = !passwordVisible;
-                                  },
-                                );
-                              },
-                            ),
-                          ),
-                        ),
-                        TextField(
-                          controller: _confirmPasswordController,
-                          keyboardType: TextInputType.text,
-                          obscureText: confirmedpasswordVisible,
-                          style: const TextStyle(
-                            color: Color(0xFF3a3a3a),
-                            fontSize: 14,
-                          ),
-                          decoration: InputDecoration(
-                            labelText: 'Confirm Password',
-                            hintText: '*********',
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20.0),
-                              borderSide: BorderSide(color: Color(0xFFCCCCCC)),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20.0),
-                              borderSide: BorderSide(color: Color(0xFFCCCCCC)),
-                            ),
-                            hintStyle: const TextStyle(
-                              color: Color(0xFFCCCCCC),
-                              fontSize: 16,
-                            ),
-                            labelStyle: const TextStyle(
-                              color: Color(0xFF2b2b2b),
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16,
-                            ),
-                            helperStyle: TextStyle(color: Color(0xffc4c4c4)),
-                            suffixIcon: IconButton(
-                              icon: Icon(confirmedpasswordVisible
-                                  ? Icons.visibility
-                                  : Icons.visibility_off),
-                              onPressed: () {
-                                setState(
-                                  () {
-                                    confirmedpasswordVisible =
-                                        !confirmedpasswordVisible;
-                                  },
-                                );
-                              },
-                            ),
-                          ),
-                        ),
-                        DropdownButton(
-                          hint: const Text(
-                            'Select Bus Type',
-                            style: TextStyle(
-                              color: Color(0xFF3a3a3a),
-                              fontSize: 14,
-                            ),
-                          ),
-                          value: selectedBusType,
-                          onChanged: (newValue) {
-                            setState(() {
-                              selectedBusType = newValue.toString();
-                            });
-                          },
-                          items: busTypeList.map((bus) {
-                            return DropdownMenuItem(
-                              // ignore: sort_child_properties_last
-                              child: Text(
-                                bus,
-                                style: const TextStyle(
+                        Form(
+                          key: _validationKey,
+                            child: Column(
+                              children: [
+                                TextFormField(
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.deny(RegExp(r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
+                                  ],
+                                  controller: _firstNameController,
+                                  keyboardType: TextInputType.name,
+                                  maxLength: 60,
+                                  maxLines: 1,
+                                  style: const TextStyle(
                                     color: Color(0xFF3a3a3a),
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              value: bus,
-                            );
-                          }).toList(),
+                                    fontSize: 14,
+                                  ),
+                                  focusNode: firstnameFocus,
+                                  autofocus: false,
+                                  decoration: InputDecoration(
+                                    errorMaxLines: 1,
+                                    counterText: "",
+                                    labelText: 'First Name',
+                                    hintText: 'Juan',
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      borderSide: BorderSide(color: Colors.black12),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      borderSide: BorderSide(color: Colors.green),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      borderSide: BorderSide(color: Colors.red),
+                                    ),
+                                    hintStyle: const TextStyle(
+                                      color: Color(0xFFCCCCCC),
+                                      fontSize: 16,
+                                    ),
+                                    labelStyle: const TextStyle(
+                                      color: Color(0xFF2b2b2b),
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                TextFormField(
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.deny(RegExp(r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
+                                  ],
+                                  controller: _lastNameController,
+                                  keyboardType: TextInputType.name,
+                                  maxLength: 60,
+                                  maxLines: 1,
+                                  style: const TextStyle(
+                                    color: Color(0xFF3a3a3a),
+                                    fontSize: 14,
+                                  ),
+                                  focusNode: lastnameFocus,
+                                  autofocus: false,
+                                  decoration: InputDecoration(
+                                    errorMaxLines: 1,
+                                    counterText: "",
+                                    labelText: 'Last Name',
+                                    hintText: 'Dela Cruz',
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      borderSide: BorderSide(color: Colors.black12),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      borderSide: BorderSide(color: Colors.green),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      borderSide: BorderSide(color: Colors.red),
+                                    ),
+                                    labelStyle: const TextStyle(
+                                      color: Color(0xFF2b2b2b),
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                TextFormField(
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.deny(RegExp(r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
+                                  ],
+                                  controller: _contactNumberController,
+                                  keyboardType: TextInputType.phone,
+                                  maxLength: 60,
+                                  maxLines: 1,
+                                  style: const TextStyle(
+                                    color: Color(0xFF3a3a3a),
+                                    fontSize: 14,
+                                  ),
+                                  focusNode: contactFocus,
+                                  autofocus: false,
+                                  decoration: InputDecoration(
+                                    errorMaxLines: 1,
+                                    counterText: "",
+                                    labelText: 'Contact Number',
+                                    hintText: '09XX-XXX-XXXX',
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      borderSide: BorderSide(color: Colors.black12),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      borderSide: BorderSide(color: Colors.green),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      borderSide: BorderSide(color: Colors.red),
+                                    ),
+                                    hintStyle: const TextStyle(
+                                      color: Color(0xFFCCCCCC),
+                                      fontSize: 16,
+                                    ),
+                                    labelStyle: const TextStyle(
+                                      color: Color(0xFF2b2b2b),
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                TextFormField(
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.deny(RegExp(r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
+                                  ],
+                                  controller: _licenseNumberController,
+                                  keyboardType: TextInputType.text,
+                                  maxLength: 60,
+                                  maxLines: 1,
+                                  style: const TextStyle(
+                                    color: Color(0xFF3a3a3a),
+                                    fontSize: 14,
+                                  ),
+                                  focusNode: licenseFocus,
+                                  autofocus: false,
+                                  decoration: InputDecoration(
+                                    errorMaxLines: 1,
+                                    counterText: "",
+                                    labelText: "Driver's License Number",
+                                    hintText: 'A12-34-567890',
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      borderSide: BorderSide(color: Colors.black12),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      borderSide: BorderSide(color: Colors.green),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      borderSide: BorderSide(color: Colors.red),
+                                    ),
+                                    hintStyle: const TextStyle(
+                                      color: Color(0xFFCCCCCC),
+                                      fontSize: 16,
+                                    ),
+                                    labelStyle: const TextStyle(
+                                      color: Color(0xFF2b2b2b),
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                TextFormField(
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.deny(RegExp(r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
+                                  ],
+                                  controller: _operatorIdController,
+                                  keyboardType: TextInputType.text,
+                                  maxLength: 60,
+                                  maxLines: 1,
+                                  style: const TextStyle(
+                                    color: Color(0xFF3a3a3a),
+                                    fontSize: 14,
+                                  ),
+                                  focusNode: opcodeFocus,
+                                  autofocus: false,
+                                  decoration: InputDecoration(
+                                    errorMaxLines: 1,
+                                    counterText: "",
+                                    labelText: 'Operator ID',
+                                    hintText: 'AB-1234',
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      borderSide: BorderSide(color: Colors.black12),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      borderSide: BorderSide(color: Colors.green),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      borderSide: BorderSide(color: Colors.red),
+                                    ),
+                                    hintStyle: const TextStyle(
+                                      color: Color(0xFFCCCCCC),
+                                      fontSize: 16,
+                                    ),
+                                    labelStyle: const TextStyle(
+                                      color: Color(0xFF2b2b2b),
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                TextFormField(
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.deny(RegExp(r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
+                                  ],
+                                  controller: _plateNumberController,
+                                  keyboardType: TextInputType.text,
+                                  maxLength: 60,
+                                  maxLines: 1,
+                                  style: const TextStyle(
+                                    color: Color(0xFF3a3a3a),
+                                    fontSize: 14,
+                                  ),
+                                  focusNode: plateFocus,
+                                  autofocus: false,
+                                  decoration: InputDecoration(
+                                    errorMaxLines: 1,
+                                    counterText: "",
+                                    labelText: 'Plate Number',
+                                    hintText: 'ABC-1234',
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      borderSide: BorderSide(color: Colors.black12),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      borderSide: BorderSide(color: Colors.green),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      borderSide: BorderSide(color: Colors.red),
+                                    ),
+                                    hintStyle: const TextStyle(
+                                      color: Color(0xFFCCCCCC),
+                                      fontSize: 16,
+                                    ),
+                                    labelStyle: const TextStyle(
+                                      color: Color(0xFF2b2b2b),
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                TextFormField(
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.deny(RegExp(r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
+                                  ],
+                                  controller: _emailController,
+                                  keyboardType: TextInputType.emailAddress,
+                                  maxLength: 60,
+                                  maxLines: 1,
+                                  style: const TextStyle(
+                                    color: Color(0xFF3a3a3a),
+                                    fontSize: 14,
+                                  ),
+                                  focusNode: addressFocus,
+                                  autofocus: false,
+                                  decoration: InputDecoration(
+                                    errorMaxLines: 1,
+                                    counterText: "",
+                                    labelText: 'Email',
+                                    hintText: 'email@address.com',
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      borderSide: BorderSide(color: Colors.black12),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      borderSide: BorderSide(color: Colors.green),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      borderSide: BorderSide(color: Colors.red),
+                                    ),
+                                    hintStyle: const TextStyle(
+                                      color: Color(0xFFCCCCCC),
+                                      fontSize: 16,
+                                    ),
+                                    labelStyle: const TextStyle(
+                                      color: Color(0xFF2b2b2b),
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                TextFormField(
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.deny(RegExp(r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
+                                  ],
+                                  controller: _passwordController,
+                                  keyboardType: TextInputType.text,
+                                  maxLength: 60,
+                                  maxLines: 1,
+                                  obscureText: passwordVisible,
+                                  style: const TextStyle(
+                                    color: Color(0xFF3a3a3a),
+                                    fontSize: 14,
+                                  ),
+                                  focusNode: passwordFocus,
+                                  autofocus: false,
+                                  decoration: InputDecoration(
+                                    errorMaxLines: 1,
+                                    counterText: "",
+                                    labelText: 'Password',
+                                    hintText: '*********',
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      borderSide: BorderSide(color: Colors.black12),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      borderSide: BorderSide(color: Colors.green),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      borderSide: BorderSide(color: Colors.red),
+                                    ),
+                                    hintStyle: const TextStyle(
+                                      color: Color(0xFFCCCCCC),
+                                      fontSize: 16,
+                                    ),
+                                    labelStyle: const TextStyle(
+                                      color: Color(0xFF2b2b2b),
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16,
+                                    ),
+                                    helperStyle: TextStyle(color: Colors.green),
+                                    suffixIcon: IconButton(
+                                      icon: Icon(passwordVisible
+                                          ? Icons.visibility
+                                          : Icons.visibility_off),
+                                      onPressed: () {
+                                        setState(
+                                              () {
+                                            passwordVisible = !passwordVisible;
+                                          },
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                TextFormField(
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.deny(RegExp(r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
+                                  ],
+                                  controller: _confirmPasswordController,
+                                  keyboardType: TextInputType.text,
+                                  maxLength: 60,
+                                  maxLines: 1,
+                                  obscureText: confirmedpasswordVisible,
+                                  style: const TextStyle(
+                                    color: Color(0xFF3a3a3a),
+                                    fontSize: 14,
+                                  ),
+                                  focusNode: confirmedFocus,
+                                  autofocus: false,
+                                  decoration: InputDecoration(
+                                    errorMaxLines: 1,
+                                    counterText: "",
+                                    labelText: 'Confirm Password',
+                                    hintText: '*********',
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      borderSide: BorderSide(color: Colors.black12),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      borderSide: BorderSide(color: Colors.green),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      borderSide: BorderSide(color: Colors.red),
+                                    ),
+                                    hintStyle: const TextStyle(
+                                      color: Color(0xFFCCCCCC),
+                                      fontSize: 16,
+                                    ),
+                                    labelStyle: const TextStyle(
+                                      color: Color(0xFF2b2b2b),
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16,
+                                    ),
+                                    helperStyle: TextStyle(color: Colors.green),
+                                    suffixIcon: IconButton(
+                                      icon: Icon(confirmedpasswordVisible
+                                          ? Icons.visibility
+                                          : Icons.visibility_off),
+                                      onPressed: () {
+                                        setState(
+                                              () {
+                                            confirmedpasswordVisible =
+                                            !confirmedpasswordVisible;
+                                          },
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                         ),
                         Column(
                           children: [
@@ -606,7 +738,7 @@ class _SignUpDriver extends State<SignUpDriver> {
                 ],
               ),
             ),
-          ],
+          ),
         ),
       ),
     );

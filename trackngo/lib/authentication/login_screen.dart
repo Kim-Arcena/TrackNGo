@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:trackngo/authentication/signup_screen.dart';
 import 'package:trackngo/mainScreen/commuter_screen.dart';
@@ -17,6 +18,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final FocusNode addressFocus = FocusNode();
+  final FocusNode passwordFocus = FocusNode();
+  final _validationKey = GlobalKey<FormState>();
   bool passwordVisible = true;
 
   TextEditingController _emailController = TextEditingController();
@@ -70,19 +74,18 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Center(
-        child: Stack(
-          children: <Widget>[
-            Container(
-              decoration: new BoxDecoration(
-                  image: new DecorationImage(
-                      image: new AssetImage("images/background.png"),
-                      fit: BoxFit.fill)),
-            ),
-            Center(
-              child: Container(
+    return Center(
+      child: Stack(
+        children: <Widget>[
+          Container(
+            constraints: const BoxConstraints.expand(),
+            decoration: new BoxDecoration(
+                image: new DecorationImage(
+                    image: new AssetImage("images/background.png"),
+                    fit: BoxFit.fill)),
+            child: Scaffold(
+              backgroundColor: Colors.transparent,
+              body: Center(
                 child: SingleChildScrollView(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -105,82 +108,112 @@ class _LoginScreenState extends State<LoginScreen> {
                           children: [
                             Image.asset('images/logo.png',
                                 width: 200.0, height: 200.0),
-                            TextField(
-                              controller: _emailController,
-                              style: const TextStyle(
-                                color: Color(0xFF3a3a3a),
-                                fontSize: 14,
-                              ),
-                              decoration: InputDecoration(
-                                labelText: 'Email',
-                                hintText: 'email@address.com',
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20.0),
-                                  borderSide:
-                                      BorderSide(color: Color(0xFFCCCCCC)),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20.0),
-                                  borderSide:
-                                      BorderSide(color: Color(0xFFCCCCCC)),
-                                ),
-                                hintStyle: const TextStyle(
-                                  color: Color(0xFFCCCCCC),
-                                  fontSize: 16,
-                                ),
-                                labelStyle: const TextStyle(
-                                  color: Color(0xFF2b2b2b),
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 20),
-                            TextField(
-                              controller: _passwordController,
-                              keyboardType: TextInputType.text,
-                              obscureText: passwordVisible,
-                              style: const TextStyle(
-                                color: Color(0xFF3a3a3a),
-                                fontSize: 14,
-                              ),
-                              decoration: InputDecoration(
-                                labelText: 'Password',
-                                hintText: '*********',
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20.0),
-                                  borderSide:
-                                      BorderSide(color: Color(0xFFCCCCCC)),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20.0),
-                                  borderSide:
-                                      BorderSide(color: Color(0xFFCCCCCC)),
-                                ),
-                                hintStyle: const TextStyle(
-                                  color: Color(0xFFCCCCCC),
-                                  fontSize: 16,
-                                ),
-                                labelStyle: const TextStyle(
-                                  color: Color(0xFF2b2b2b),
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 16,
-                                ),
-                                helperStyle:
-                                    TextStyle(color: Color(0xff81B09A)),
-                                suffixIcon: IconButton(
-                                  color: Color(0xff81B09A),
-                                  icon: Icon(passwordVisible
-                                      ? Icons.visibility
-                                      : Icons.visibility_off),
-                                  onPressed: () {
-                                    setState(
-                                      () {
-                                        passwordVisible = !passwordVisible;
-                                      },
-                                    );
-                                  },
-                                ),
+                            Form(
+                              key: _validationKey,
+                              child: Column(
+                                children: [
+                                  TextFormField(
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.deny(RegExp(r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
+                                    ],
+                                    controller: _emailController,
+                                    keyboardType: TextInputType.emailAddress,
+                                    maxLength: 60,
+                                    maxLines: 1,
+                                    style: const TextStyle(
+                                      color: Color(0xFF3a3a3a),
+                                      fontSize: 14,
+                                    ),
+                                    focusNode: addressFocus,
+                                    autofocus: false,
+                                    decoration: InputDecoration(
+                                      errorMaxLines: 1,
+                                      counterText: "",
+                                      labelText: 'Email',
+                                      hintText: 'email@address.com',
+                                      enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(20.0),
+                                        borderSide: BorderSide(color: Colors.black12),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(20.0),
+                                        borderSide: BorderSide(color: Colors.green),
+                                      ),
+                                      errorBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(20.0),
+                                        borderSide: BorderSide(color: Colors.red),
+                                      ),
+                                      hintStyle: const TextStyle(
+                                        color: Color(0xFFCCCCCC),
+                                        fontSize: 16,
+                                      ),
+                                      labelStyle: const TextStyle(
+                                        color: Color(0xFF2b2b2b),
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  TextFormField(
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.deny(RegExp(r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
+                                    ],
+                                    controller: _passwordController,
+                                    keyboardType: TextInputType.text,
+                                    maxLength: 60,
+                                    maxLines: 1,
+                                    obscureText: passwordVisible,
+                                    style: const TextStyle(
+                                      color: Color(0xFF3a3a3a),
+                                      fontSize: 14,
+                                    ),
+                                    focusNode: passwordFocus,
+                                    autofocus: false,
+                                    decoration: InputDecoration(
+                                      errorMaxLines: 1,
+                                      counterText: "",
+                                      labelText: 'Password',
+                                      hintText: '********',
+                                      enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(20.0),
+                                        borderSide: BorderSide(color: Colors.black12),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(20.0),
+                                        borderSide: BorderSide(color: Colors.green),
+                                      ),
+                                      errorBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(20.0),
+                                        borderSide: BorderSide(color: Colors.red),
+                                      ),
+                                      hintStyle: const TextStyle(
+                                        color: Color(0xFFCCCCCC),
+                                        fontSize: 16,
+                                      ),
+                                      labelStyle: const TextStyle(
+                                        color: Color(0xFF2b2b2b),
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 16,
+                                      ),
+                                      helperStyle: TextStyle(color: Colors.green),
+                                      suffixIcon: IconButton(
+                                        icon: Icon(passwordVisible
+                                            ? Icons.visibility
+                                            : Icons.visibility_off),
+                                        onPressed: () {
+                                          setState(
+                                                () {
+                                              passwordVisible = !passwordVisible;
+                                            },
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                             Container(
@@ -243,8 +276,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
