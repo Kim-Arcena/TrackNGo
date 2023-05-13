@@ -20,8 +20,8 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  final FocusNode addressFocus = FocusNode();
   final FocusNode passwordFocus = FocusNode();
+  final FocusNode addressFocus = FocusNode();
   final _validationKey = GlobalKey<FormState>();
   bool passwordVisible = true;
 

@@ -616,6 +616,63 @@ class _SignUpDriver extends State<SignUpDriver> {
                                 const SizedBox(
                                   height: 20,
                                 ),
+                                SizedBox(
+                                  width: 300,
+                                  child: DropdownButtonFormField(
+                                    validator: (isValid) {
+                                      if (isValid == null) {
+                                        return "Unselected Bus Type";
+                                      }
+                                      return null;
+                                    },
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(20.0),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(20.0),
+                                        borderSide: BorderSide(color: Colors.black12),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(20.0),
+                                        borderSide: BorderSide(color: Colors.green),
+                                      ),
+                                      focusedErrorBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(20.0),
+                                        borderSide: BorderSide(color: Colors.red),
+                                      ),
+                                    ),
+                                    hint: const Text(
+                                      'Select Bus Type',
+                                      style: TextStyle(
+                                        color: Color(0xFF3a3a3a),
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                    value: selectedBusType,
+                                    onChanged: (newValue) {
+                                      setState(() {
+                                        selectedBusType = newValue.toString();
+                                      });
+                                    },
+                                    items: busTypeList.map((bus) {
+                                      return DropdownMenuItem(
+                                        // ignore: sort_child_properties_last
+                                        child: Text(
+                                          bus,
+                                          style: const TextStyle(
+                                              color: Color(0xFF3a3a3a),
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        value: bus,
+                                      );
+                                    }).toList(),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
                                 TextFormField(
                                   validator: (isValid) {
                                     if (isValid!.isEmpty) {
