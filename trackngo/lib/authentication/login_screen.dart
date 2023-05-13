@@ -9,6 +9,7 @@ import 'package:trackngo/mainScreen/driver_screen.dart';
 import 'package:flutter/gestures.dart';
 import 'dart:developer' as developer;
 import '../global/global.dart';
+import 'alertDialog.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -26,16 +27,22 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
-  validateForm() {
-    if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
-      Fluttertoast.showToast(msg: "Please fill up all the fields");
-    }
-    if (!_emailController.text.contains("@")) {
-      Fluttertoast.showToast(msg: "Please enter a valid email");
-    } else {
-      loginDriverNow();
-    }
-  }
+  RegExp emailRegex = RegExp(
+      r"^[a-zA-Z\d.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z\d-]+(?:\.[a-zA-Z\d-]+)*$",
+      caseSensitive: false);
+  RegExp passwordRegex = RegExp(
+      r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$');
+
+  // validateForm() {
+  //   if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
+  //     Fluttertoast.showToast(msg: "Please fill up all the fields");
+  //   }
+  //   if (!_emailController.text.contains("@")) {
+  //     Fluttertoast.showToast(msg: "Please enter a valid email");
+  //   } else {
+  //     loginDriverNow();
+  //   }
+  // }
 
   loginDriverNow() async {
     final User? firebaseUser = (await fAuth
@@ -113,6 +120,15 @@ class _LoginScreenState extends State<LoginScreen> {
                               child: Column(
                                 children: [
                                   TextFormField(
+                                    validator: (isValid) {
+                                      if (isValid!.isEmpty) {
+                                        return 'This field requires an email';
+                                      }
+                                      if(!emailRegex.hasMatch(_emailController.text)) {
+                                        return 'Invalid Email Address';
+                                      }
+                                      return null;
+                                    },
                                     inputFormatters: [
                                       FilteringTextInputFormatter.deny(RegExp(r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
                                     ],
@@ -131,6 +147,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                       counterText: "",
                                       labelText: 'Email',
                                       hintText: 'email@address.com',
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(20.0),
+                                      ),
                                       enabledBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(20.0),
                                         borderSide: BorderSide(color: Colors.black12),
@@ -139,7 +158,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         borderRadius: BorderRadius.circular(20.0),
                                         borderSide: BorderSide(color: Colors.green),
                                       ),
-                                      errorBorder: OutlineInputBorder(
+                                      focusedErrorBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(20.0),
                                         borderSide: BorderSide(color: Colors.red),
                                       ),
@@ -158,6 +177,24 @@ class _LoginScreenState extends State<LoginScreen> {
                                     height: 20,
                                   ),
                                   TextFormField(
+                                    validator: (isValid) {
+                                      if (isValid!.isEmpty) {
+                                        return 'This field requires a password';
+                                      }
+                                      if (!passwordRegex.hasMatch(_passwordController.text)) {
+                                        MyAlertDialog(
+                                          title: 'Invalid Password',
+                                          content: 'Password must:\n'
+                                              '    * be minimum of 8 characters\n'
+                                              '    * contain lower & uppercase letters\n'
+                                              '    * contain numbers\n'
+                                              '    * contain special symbols, ie. "!, @, # ..."\n'
+                                              '    * space is not considered a special symbol',
+                                        ).show(context);
+                                        return 'Invalid Password';
+                                      }
+                                      return null;
+                                    },
                                     inputFormatters: [
                                       FilteringTextInputFormatter.deny(RegExp(r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
                                     ],
@@ -177,6 +214,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                       counterText: "",
                                       labelText: 'Password',
                                       hintText: '********',
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(20.0),
+                                      ),
                                       enabledBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(20.0),
                                         borderSide: BorderSide(color: Colors.black12),
@@ -185,7 +225,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         borderRadius: BorderRadius.circular(20.0),
                                         borderSide: BorderSide(color: Colors.green),
                                       ),
-                                      errorBorder: OutlineInputBorder(
+                                      focusedErrorBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(20.0),
                                         borderSide: BorderSide(color: Colors.red),
                                       ),
@@ -221,7 +261,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                   const EdgeInsets.only(top: 60, bottom: 10),
                               child: ElevatedButton(
                                   onPressed: () {
-                                    validateForm();
+                                    if(!_validationKey.currentState!.validate()) {
+                                      return;
+                                    }
+                                    loginDriverNow();
                                   },
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor: Color(0xFF4E8C6F),
@@ -256,7 +299,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ),
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {
-                                        validateForm();
+                                        loginDriverNow();
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(

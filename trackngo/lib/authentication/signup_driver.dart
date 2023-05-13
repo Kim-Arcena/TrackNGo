@@ -31,7 +31,7 @@ class _SignUpDriver extends State<SignUpDriver> {
   final FocusNode confirmedFocus = FocusNode();
   final _validationKey = GlobalKey<FormState>();
   bool passwordVisible = true;
-  bool confirmedpasswordVisible = true;
+  bool confirmedPasswordVisible = true;
 
   TextEditingController _firstNameController = TextEditingController();
   TextEditingController _lastNameController = TextEditingController();
@@ -45,6 +45,17 @@ class _SignUpDriver extends State<SignUpDriver> {
   List<String> busTypeList = ['Regular', 'Air-Conditioned'];
   String? selectedBusType;
 
+  RegExp nameRegex = RegExp(r'\b[A-Z][a-z]*( [A-Z])?\b');
+  RegExp digitRegex = RegExp(r'^(09)\d{9}$');
+  RegExp licenseRegex = RegExp(r'^[A-Z]\d{10}$');
+  RegExp opcodeRegex = RegExp(r'^[A-Z]{2}\d{4}$');
+  RegExp plateRegex = RegExp(r'^[A-Z]{3}\d{4}$');
+  RegExp emailRegex = RegExp(
+      r"^[a-zA-Z\d.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z\d-]+(?:\.[a-zA-Z\d-]+)*$",
+      caseSensitive: false);
+  RegExp passwordRegex = RegExp(
+      r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$');
+
   @override
   void initState() {
     super.initState();
@@ -54,83 +65,72 @@ class _SignUpDriver extends State<SignUpDriver> {
 
   Map<String, dynamic> driverInfoDataMap = {};
 
-  validateForm() {
-    RegExp nameRegex = RegExp(r'\b[A-Z][a-z]*( [A-Z])?\b');
-    RegExp digitRegex = RegExp(r'^(09)[0-9]{9}$');
-    RegExp licenseRegex = RegExp(r'^[A-Z]{1}[0-9]{10}$');
-    RegExp opcodeRegex = RegExp(r'^[A-Z]{2}[0-9]{4}$');
-    RegExp plateRegex = RegExp(r'^[A-Z]{3}[0-9]{4}$');
-    RegExp emailRegex = RegExp(
-        r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$",
-        caseSensitive: false);
-    RegExp passwordRegex = RegExp(
-        r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$');
-
-    if (_firstNameController.text.isEmpty ||
-        _lastNameController.text.isEmpty ||
-        _emailController.text.isEmpty ||
-        _contactNumberController.text.isEmpty ||
-        _plateNumberController.text.isEmpty) {
-      Fluttertoast.showToast(msg: "Kindly fill up all fields.");
-    } else if (!nameRegex.hasMatch(_firstNameController.text) ||
-        !nameRegex.hasMatch(_lastNameController.text)) {
-      Fluttertoast.showToast(msg: "Invalid Name");
-    } else if (!digitRegex.hasMatch(_contactNumberController.text)) {
-      MyAlertDialog(
-        title: 'Invalid Contact Number',
-        content: 'Contact Number must:\n'
-            '    * start with "09"\n'
-            '    * have 11 digits\n'
-            '    * no space between digits',
-      ).show(context);
-    } else if (!licenseRegex.hasMatch(_licenseNumberController.text)) {
-      MyAlertDialog(
-        title: "Invalid Driver's License Number",
-        content: "Driver's License must:\n"
-            '    * start with an uppercase letter\n'
-            '    * followed by 10 digits\n'
-            '    * contain 11 characters\n'
-            '    * no space between characters',
-      ).show(context);
-    } else if (!opcodeRegex.hasMatch(_operatorIdController.text)) {
-      MyAlertDialog(
-        title: "Invalid Operator ID",
-        content: "Operator ID must:\n"
-            '    * start with 2 uppercase letters\n'
-            '    * followed by 4 digits\n'
-            '    * contain 6 characters\n'
-            '    * no space between characters',
-      ).show(context);
-    } else if (!plateRegex.hasMatch(_plateNumberController.text)) {
-      MyAlertDialog(
-        title: "Invalid Plate Number",
-        content: "Plate Number must:\n"
-            '    * start with 3 uppercase letters\n'
-            '    * followed by 4 digits\n'
-            '    * contain 7 characters\n'
-            '    * no space between characters\n',
-      ).show(context);
-    } else if (selectedBusType != 'Regular' ||
-        selectedBusType != 'Air-Conditioned') {
-      Fluttertoast.showToast(msg: "Select a Bus Type");
-    } else if (!emailRegex.hasMatch(_emailController.text)) {
-      Fluttertoast.showToast(msg: "Invalid Email Address");
-    } else if (!passwordRegex.hasMatch(_passwordController.text)) {
-      MyAlertDialog(
-        title: 'Invalid Password',
-        content: 'Password must:\n'
-            '    * be minimum of 8 characters\n'
-            '    * contain lower & uppercase letters\n'
-            '    * contain numbers\n'
-            '    * contain special symbols, ie. "!, @, # ..."\n'
-            '    * space is not considered a special symbol',
-      ).show(context);
-    } else if (_passwordController.text != _confirmPasswordController.text) {
-      Fluttertoast.showToast(msg: "Different Passwords Provided");
-    } else {
-      saveDriverInfo();
-    }
-  }
+  // validateForm() {
+  //   if (_firstNameController.text.isEmpty ||
+  //       _lastNameController.text.isEmpty ||
+  //       _emailController.text.isEmpty ||
+  //       _contactNumberController.text.isEmpty ||
+  //       _plateNumberController.text.isEmpty) {
+  //     Fluttertoast.showToast(msg: "Kindly fill up all fields.");
+  //   } else if (!nameRegex.hasMatch(_firstNameController.text) ||
+  //       !nameRegex.hasMatch(_lastNameController.text)) {
+  //     Fluttertoast.showToast(msg: "Invalid Name");
+  //   } else if (!digitRegex.hasMatch(_contactNumberController.text)) {
+  //     MyAlertDialog(
+  //       title: 'Invalid Contact Number',
+  //       content: 'Contact Number must:\n'
+  //           '    * start with "09"\n'
+  //           '    * have 11 digits\n'
+  //           '    * no space between digits',
+  //     ).show(context);
+  //   } else if (!licenseRegex.hasMatch(_licenseNumberController.text)) {
+  //     MyAlertDialog(
+  //       title: "Invalid Driver's License Number",
+  //       content: "Driver's License must:\n"
+  //           '    * start with an uppercase letter\n'
+  //           '    * followed by 10 digits\n'
+  //           '    * contain 11 characters\n'
+  //           '    * no space between characters',
+  //     ).show(context);
+  //   } else if (!opcodeRegex.hasMatch(_operatorIdController.text)) {
+  //     MyAlertDialog(
+  //       title: "Invalid Operator ID",
+  //       content: "Operator ID must:\n"
+  //           '    * start with 2 uppercase letters\n'
+  //           '    * followed by 4 digits\n'
+  //           '    * contain 6 characters\n'
+  //           '    * no space between characters',
+  //     ).show(context);
+  //   } else if (!plateRegex.hasMatch(_plateNumberController.text)) {
+  //     MyAlertDialog(
+  //       title: "Invalid Plate Number",
+  //       content: "Plate Number must:\n"
+  //           '    * start with 3 uppercase letters\n'
+  //           '    * followed by 4 digits\n'
+  //           '    * contain 7 characters\n'
+  //           '    * no space between characters\n',
+  //     ).show(context);
+  //   } else if (selectedBusType != 'Regular' ||
+  //       selectedBusType != 'Air-Conditioned') {
+  //     Fluttertoast.showToast(msg: "Select a Bus Type");
+  //   } else if (!emailRegex.hasMatch(_emailController.text)) {
+  //     Fluttertoast.showToast(msg: "Invalid Email Address");
+  //   } else if (!passwordRegex.hasMatch(_passwordController.text)) {
+  //     MyAlertDialog(
+  //       title: 'Invalid Password',
+  //       content: 'Password must:\n'
+  //           '    * be minimum of 8 characters\n'
+  //           '    * contain lower & uppercase letters\n'
+  //           '    * contain numbers\n'
+  //           '    * contain special symbols, ie. "!, @, # ..."\n'
+  //           '    * space is not considered a special symbol',
+  //     ).show(context);
+  //   } else if (_passwordController.text != _confirmPasswordController.text) {
+  //     Fluttertoast.showToast(msg: "Different Passwords Provided");
+  //   } else {
+  //     saveDriverInfo();
+  //   }
+  // }
 
   saveDriverInfo() async {
     Map driverInfoDataMap = {
@@ -248,6 +248,15 @@ class _SignUpDriver extends State<SignUpDriver> {
                             child: Column(
                               children: [
                                 TextFormField(
+                                  validator: (isValid) {
+                                    if (isValid!.isEmpty) {
+                                      return 'This field requires a first name';
+                                    }
+                                    if (!nameRegex.hasMatch(_firstNameController.text)) {
+                                      return 'Invalid First Name';
+                                    }
+                                    return null;
+                                  },
                                   inputFormatters: [
                                     FilteringTextInputFormatter.deny(RegExp(r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
                                   ],
@@ -266,6 +275,9 @@ class _SignUpDriver extends State<SignUpDriver> {
                                     counterText: "",
                                     labelText: 'First Name',
                                     hintText: 'Juan',
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(20.0),
                                       borderSide: BorderSide(color: Colors.black12),
@@ -274,7 +286,7 @@ class _SignUpDriver extends State<SignUpDriver> {
                                       borderRadius: BorderRadius.circular(20.0),
                                       borderSide: BorderSide(color: Colors.green),
                                     ),
-                                    errorBorder: OutlineInputBorder(
+                                    focusedErrorBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(20.0),
                                       borderSide: BorderSide(color: Colors.red),
                                     ),
@@ -293,6 +305,15 @@ class _SignUpDriver extends State<SignUpDriver> {
                                   height: 20,
                                 ),
                                 TextFormField(
+                                  validator: (isValid) {
+                                    if (isValid!.isEmpty) {
+                                      return 'This field requires a last name';
+                                    }
+                                    if (!nameRegex.hasMatch(_lastNameController.text)) {
+                                      return 'Invalid Last Name';
+                                    }
+                                    return null;
+                                  },
                                   inputFormatters: [
                                     FilteringTextInputFormatter.deny(RegExp(r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
                                   ],
@@ -311,6 +332,9 @@ class _SignUpDriver extends State<SignUpDriver> {
                                     counterText: "",
                                     labelText: 'Last Name',
                                     hintText: 'Dela Cruz',
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(20.0),
                                       borderSide: BorderSide(color: Colors.black12),
@@ -319,7 +343,7 @@ class _SignUpDriver extends State<SignUpDriver> {
                                       borderRadius: BorderRadius.circular(20.0),
                                       borderSide: BorderSide(color: Colors.green),
                                     ),
-                                    errorBorder: OutlineInputBorder(
+                                    focusedErrorBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(20.0),
                                       borderSide: BorderSide(color: Colors.red),
                                     ),
@@ -334,6 +358,22 @@ class _SignUpDriver extends State<SignUpDriver> {
                                   height: 20,
                                 ),
                                 TextFormField(
+                                  validator: (isValid) {
+                                    if (isValid!.isEmpty) {
+                                      return 'This field requires a contact number';
+                                    }
+                                    if (!digitRegex.hasMatch(_contactNumberController.text)) {
+                                      MyAlertDialog(
+                                        title: 'Invalid Contact Number',
+                                        content: 'Contact Number must:\n'
+                                            '    * start with "09"\n'
+                                            '    * have 11 digits\n'
+                                            '    * no space between digits',
+                                      ).show(context);
+                                      return 'Invalid Contact Number';
+                                    }
+                                    return null;
+                                  },
                                   inputFormatters: [
                                     FilteringTextInputFormatter.deny(RegExp(r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
                                   ],
@@ -352,6 +392,9 @@ class _SignUpDriver extends State<SignUpDriver> {
                                     counterText: "",
                                     labelText: 'Contact Number',
                                     hintText: '09XX-XXX-XXXX',
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(20.0),
                                       borderSide: BorderSide(color: Colors.black12),
@@ -360,7 +403,7 @@ class _SignUpDriver extends State<SignUpDriver> {
                                       borderRadius: BorderRadius.circular(20.0),
                                       borderSide: BorderSide(color: Colors.green),
                                     ),
-                                    errorBorder: OutlineInputBorder(
+                                    focusedErrorBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(20.0),
                                       borderSide: BorderSide(color: Colors.red),
                                     ),
@@ -379,6 +422,23 @@ class _SignUpDriver extends State<SignUpDriver> {
                                   height: 20,
                                 ),
                                 TextFormField(
+                                  validator: (isValid) {
+                                    if (isValid!.isEmpty) {
+                                      return "This field requires a driver's license";
+                                    }
+                                    if (!licenseRegex.hasMatch(_licenseNumberController.text)) {
+                                      MyAlertDialog(
+                                        title: "Invalid Driver's License Number",
+                                        content: "Driver's License must:\n"
+                                            '    * start with an uppercase letter\n'
+                                            '    * followed by 10 digits\n'
+                                            '    * contain 11 characters\n'
+                                            '    * no space between characters',
+                                      ).show(context);
+                                      return "Invalid Driver's License Number";
+                                    }
+                                    return null;
+                                  },
                                   inputFormatters: [
                                     FilteringTextInputFormatter.deny(RegExp(r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
                                   ],
@@ -397,6 +457,9 @@ class _SignUpDriver extends State<SignUpDriver> {
                                     counterText: "",
                                     labelText: "Driver's License Number",
                                     hintText: 'A12-34-567890',
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(20.0),
                                       borderSide: BorderSide(color: Colors.black12),
@@ -405,7 +468,7 @@ class _SignUpDriver extends State<SignUpDriver> {
                                       borderRadius: BorderRadius.circular(20.0),
                                       borderSide: BorderSide(color: Colors.green),
                                     ),
-                                    errorBorder: OutlineInputBorder(
+                                    focusedErrorBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(20.0),
                                       borderSide: BorderSide(color: Colors.red),
                                     ),
@@ -424,6 +487,23 @@ class _SignUpDriver extends State<SignUpDriver> {
                                   height: 20,
                                 ),
                                 TextFormField(
+                                  validator: (isValid) {
+                                    if (isValid!.isEmpty) {
+                                      return "This field requires an operator id";
+                                    }
+                                    if (!opcodeRegex.hasMatch(_operatorIdController.text)) {
+                                      MyAlertDialog(
+                                        title: "Invalid Operator ID",
+                                        content: "Operator ID must:\n"
+                                            '    * start with 2 uppercase letters\n'
+                                            '    * followed by 4 digits\n'
+                                            '    * contain 6 characters\n'
+                                            '    * no space between characters',
+                                      ).show(context);
+                                      return 'Invalid Operator ID';
+                                    }
+                                    return null;
+                                  },
                                   inputFormatters: [
                                     FilteringTextInputFormatter.deny(RegExp(r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
                                   ],
@@ -442,6 +522,9 @@ class _SignUpDriver extends State<SignUpDriver> {
                                     counterText: "",
                                     labelText: 'Operator ID',
                                     hintText: 'AB-1234',
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(20.0),
                                       borderSide: BorderSide(color: Colors.black12),
@@ -450,7 +533,7 @@ class _SignUpDriver extends State<SignUpDriver> {
                                       borderRadius: BorderRadius.circular(20.0),
                                       borderSide: BorderSide(color: Colors.green),
                                     ),
-                                    errorBorder: OutlineInputBorder(
+                                    focusedErrorBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(20.0),
                                       borderSide: BorderSide(color: Colors.red),
                                     ),
@@ -469,6 +552,23 @@ class _SignUpDriver extends State<SignUpDriver> {
                                   height: 20,
                                 ),
                                 TextFormField(
+                                  validator: (isValid) {
+                                    if (isValid!.isEmpty) {
+                                      return "This field requires a plate number";
+                                    }
+                                    if (!plateRegex.hasMatch(_plateNumberController.text)) {
+                                      MyAlertDialog(
+                                        title: "Invalid Plate Number",
+                                        content: "Plate Number must:\n"
+                                            '    * start with 3 uppercase letters\n'
+                                            '    * followed by 4 digits\n'
+                                            '    * contain 7 characters\n'
+                                            '    * no space between characters\n',
+                                      ).show(context);
+                                      return 'Invalid Plate Number';
+                                    }
+                                    return null;
+                                  },
                                   inputFormatters: [
                                     FilteringTextInputFormatter.deny(RegExp(r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
                                   ],
@@ -487,6 +587,9 @@ class _SignUpDriver extends State<SignUpDriver> {
                                     counterText: "",
                                     labelText: 'Plate Number',
                                     hintText: 'ABC-1234',
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(20.0),
                                       borderSide: BorderSide(color: Colors.black12),
@@ -495,7 +598,7 @@ class _SignUpDriver extends State<SignUpDriver> {
                                       borderRadius: BorderRadius.circular(20.0),
                                       borderSide: BorderSide(color: Colors.green),
                                     ),
-                                    errorBorder: OutlineInputBorder(
+                                    focusedErrorBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(20.0),
                                       borderSide: BorderSide(color: Colors.red),
                                     ),
@@ -514,6 +617,15 @@ class _SignUpDriver extends State<SignUpDriver> {
                                   height: 20,
                                 ),
                                 TextFormField(
+                                  validator: (isValid) {
+                                    if (isValid!.isEmpty) {
+                                      return 'This field requires an email';
+                                    }
+                                    if(!emailRegex.hasMatch(_emailController.text)) {
+                                      return 'Invalid Email Address';
+                                    }
+                                    return null;
+                                  },
                                   inputFormatters: [
                                     FilteringTextInputFormatter.deny(RegExp(r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
                                   ],
@@ -532,6 +644,9 @@ class _SignUpDriver extends State<SignUpDriver> {
                                     counterText: "",
                                     labelText: 'Email',
                                     hintText: 'email@address.com',
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(20.0),
                                       borderSide: BorderSide(color: Colors.black12),
@@ -540,7 +655,7 @@ class _SignUpDriver extends State<SignUpDriver> {
                                       borderRadius: BorderRadius.circular(20.0),
                                       borderSide: BorderSide(color: Colors.green),
                                     ),
-                                    errorBorder: OutlineInputBorder(
+                                    focusedErrorBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(20.0),
                                       borderSide: BorderSide(color: Colors.red),
                                     ),
@@ -559,6 +674,24 @@ class _SignUpDriver extends State<SignUpDriver> {
                                   height: 20,
                                 ),
                                 TextFormField(
+                                  validator: (isValid) {
+                                    if (isValid!.isEmpty) {
+                                      return 'This field requires a password';
+                                    }
+                                    if (!passwordRegex.hasMatch(_passwordController.text)) {
+                                      MyAlertDialog(
+                                        title: 'Invalid Password',
+                                        content: 'Password must:\n'
+                                            '    * be minimum of 8 characters\n'
+                                            '    * contain lower & uppercase letters\n'
+                                            '    * contain numbers\n'
+                                            '    * contain special symbols, ie. "!, @, # ..."\n'
+                                            '    * space is not considered a special symbol',
+                                      ).show(context);
+                                      return 'Invalid Password';
+                                    }
+                                    return null;
+                                  },
                                   inputFormatters: [
                                     FilteringTextInputFormatter.deny(RegExp(r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
                                   ],
@@ -578,6 +711,9 @@ class _SignUpDriver extends State<SignUpDriver> {
                                     counterText: "",
                                     labelText: 'Password',
                                     hintText: '*********',
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(20.0),
                                       borderSide: BorderSide(color: Colors.black12),
@@ -586,7 +722,7 @@ class _SignUpDriver extends State<SignUpDriver> {
                                       borderRadius: BorderRadius.circular(20.0),
                                       borderSide: BorderSide(color: Colors.green),
                                     ),
-                                    errorBorder: OutlineInputBorder(
+                                    focusedErrorBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(20.0),
                                       borderSide: BorderSide(color: Colors.red),
                                     ),
@@ -618,6 +754,15 @@ class _SignUpDriver extends State<SignUpDriver> {
                                   height: 20,
                                 ),
                                 TextFormField(
+                                  validator: (isValid) {
+                                    if (isValid!.isEmpty) {
+                                      return 'This field requires the confirmed password';
+                                    }
+                                    if (_passwordController.text != _confirmPasswordController.text) {
+                                      return 'Different Password Provided';
+                                    }
+                                    return null;
+                                  },
                                   inputFormatters: [
                                     FilteringTextInputFormatter.deny(RegExp(r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
                                   ],
@@ -625,7 +770,7 @@ class _SignUpDriver extends State<SignUpDriver> {
                                   keyboardType: TextInputType.text,
                                   maxLength: 60,
                                   maxLines: 1,
-                                  obscureText: confirmedpasswordVisible,
+                                  obscureText: confirmedPasswordVisible,
                                   style: const TextStyle(
                                     color: Color(0xFF3a3a3a),
                                     fontSize: 14,
@@ -637,6 +782,9 @@ class _SignUpDriver extends State<SignUpDriver> {
                                     counterText: "",
                                     labelText: 'Confirm Password',
                                     hintText: '*********',
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(20.0),
                                       borderSide: BorderSide(color: Colors.black12),
@@ -645,7 +793,7 @@ class _SignUpDriver extends State<SignUpDriver> {
                                       borderRadius: BorderRadius.circular(20.0),
                                       borderSide: BorderSide(color: Colors.green),
                                     ),
-                                    errorBorder: OutlineInputBorder(
+                                    focusedErrorBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(20.0),
                                       borderSide: BorderSide(color: Colors.red),
                                     ),
@@ -660,14 +808,14 @@ class _SignUpDriver extends State<SignUpDriver> {
                                     ),
                                     helperStyle: TextStyle(color: Colors.green),
                                     suffixIcon: IconButton(
-                                      icon: Icon(confirmedpasswordVisible
+                                      icon: Icon(confirmedPasswordVisible
                                           ? Icons.visibility
                                           : Icons.visibility_off),
                                       onPressed: () {
                                         setState(
                                               () {
-                                            confirmedpasswordVisible =
-                                            !confirmedpasswordVisible;
+                                            confirmedPasswordVisible =
+                                            !confirmedPasswordVisible;
                                           },
                                         );
                                       },
@@ -684,7 +832,10 @@ class _SignUpDriver extends State<SignUpDriver> {
                                   const EdgeInsets.only(top: 20, bottom: 10),
                               child: ElevatedButton(
                                   onPressed: () {
-                                    validateForm();
+                                    if(!_validationKey.currentState!.validate()) {
+                                      return;
+                                    }
+                                    saveDriverInfo();
                                   },
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor: Color(0xFF4E8C6F),

@@ -38,6 +38,14 @@ class _SignUpCommuter extends State<SignUpCommuter> {
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _confirmPasswordController = TextEditingController();
 
+  RegExp nameRegex = RegExp(r'\b[A-Z][a-z]*( [A-Z])?\b');
+  RegExp digitRegex = RegExp(r'^(09)\d{9}$');
+  RegExp emailRegex = RegExp(
+      r"^[a-zA-Z\d.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z\d-]+(?:\.[a-zA-Z\d-]+)*$",
+      caseSensitive: false);
+  RegExp passwordRegex = RegExp(
+      r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$');
+
   @override
   void initState() {
     super.initState();
@@ -45,49 +53,43 @@ class _SignUpCommuter extends State<SignUpCommuter> {
     _passwordController.text = widget.password;
   }
 
-  validateForm() {
-    RegExp nameRegex = RegExp(r'\b[A-Z][a-z]*( [A-Z])?\b');
-    RegExp digitRegex = RegExp(r'^(09)[0-9]{9}$');
-    RegExp emailRegex = RegExp(
-        r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$",
-        caseSensitive: false);
-    RegExp passwordRegex = RegExp(
-        r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$');
-
-    if (_firstNameController.text.isEmpty ||
-        _lastNameController.text.isEmpty ||
-        _emailController.text.isEmpty ||
-        _contactNumberController.text.isEmpty) {
-      Fluttertoast.showToast(msg: "Please fill up all the fields");
-    } else if (!nameRegex.hasMatch(_firstNameController.text) ||
-        !nameRegex.hasMatch(_lastNameController.text)) {
-      Fluttertoast.showToast(msg: "Invalid Name");
-    } else if (!digitRegex.hasMatch(_contactNumberController.text)) {
-      MyAlertDialog(
-        title: 'Invalid Contact Number',
-        content: 'Contact Number must:\n'
-            '    * start with "09"\n'
-            '    * have 11 digits\n'
-            '    * no space between digits',
-      ).show(context);
-    } else if (!emailRegex.hasMatch(_emailController.text)) {
-      Fluttertoast.showToast(msg: "Invalid Email Address");
-    } else if (!passwordRegex.hasMatch(_passwordController.text)) {
-      MyAlertDialog(
-        title: 'Invalid Password',
-        content: 'Password must:\n'
-            '    * be minimum of 8 characters\n'
-            '    * contain lower & uppercase letters\n'
-            '    * contain numbers\n'
-            '    * contain special symbols, ie. "!, @, # ..."\n'
-            '    * space is not considered a special symbol',
-      ).show(context);
-    } else if (_passwordController.text != _confirmPasswordController.text) {
-      Fluttertoast.showToast(msg: "Different Passwords Provided");
-    } else {
-      saveCommutersInfo();
-    }
-  }
+  // validateForm() {
+  //   if (!nameRegex.hasMatch(_firstNameController.text)) {
+  //     Fluttertoast.showToast(msg: "Invalid First Name");
+  //     return;
+  //   } else if (!nameRegex.hasMatch(_lastNameController.text)) {
+  //     Fluttertoast.showToast(msg: "Invalid Last Name");
+  //     return;
+  //   } else if (!digitRegex.hasMatch(_contactNumberController.text)) {
+  //     MyAlertDialog(
+  //       title: 'Invalid Contact Number',
+  //       content: 'Contact Number must:\n'
+  //           '    * start with "09"\n'
+  //           '    * have 11 digits\n'
+  //           '    * no space between digits',
+  //     ).show(context);
+  //     return;
+  //   } else if (!emailRegex.hasMatch(_emailController.text)) {
+  //     Fluttertoast.showToast(msg: "Invalid Email Address");
+  //     return;
+  //   } else if (!passwordRegex.hasMatch(_passwordController.text)) {
+  //     MyAlertDialog(
+  //       title: 'Invalid Password',
+  //       content: 'Password must:\n'
+  //           '    * be minimum of 8 characters\n'
+  //           '    * contain lower & uppercase letters\n'
+  //           '    * contain numbers\n'
+  //           '    * contain special symbols, ie. "!, @, # ..."\n'
+  //           '    * space is not considered a special symbol',
+  //     ).show(context);
+  //     return;
+  //   } else if (_passwordController.text != _confirmPasswordController.text) {
+  //     Fluttertoast.showToast(msg: "Different Passwords Provided");
+  //     return;
+  //   } else {
+  //     saveCommutersInfo();
+  //   }
+  // }
 
   saveCommutersInfo() async {
     Map commutersInfoMap = {
@@ -210,6 +212,15 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                             child: Column(
                               children: [
                                 TextFormField(
+                                  validator: (isValid) {
+                                    if (isValid!.isEmpty) {
+                                      return 'This field requires a first name';
+                                    }
+                                    if (!nameRegex.hasMatch(_firstNameController.text)) {
+                                         return 'Invalid First Name';
+                                    }
+                                    return null;
+                                  },
                                   inputFormatters: [
                                     FilteringTextInputFormatter.deny(RegExp(r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
                                   ],
@@ -228,6 +239,9 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                                     counterText: "",
                                     labelText: 'First Name',
                                     hintText: 'Juan',
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(20.0),
                                       borderSide: BorderSide(color: Colors.black12),
@@ -236,7 +250,7 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                                       borderRadius: BorderRadius.circular(20.0),
                                       borderSide: BorderSide(color: Colors.green),
                                     ),
-                                    errorBorder: OutlineInputBorder(
+                                    focusedErrorBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(20.0),
                                       borderSide: BorderSide(color: Colors.red),
                                     ),
@@ -255,6 +269,15 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                                   height: 20,
                                 ),
                                 TextFormField(
+                                  validator: (isValid) {
+                                    if (isValid!.isEmpty) {
+                                      return 'This field requires a last name';
+                                    }
+                                    if (!nameRegex.hasMatch(_lastNameController.text)) {
+                                      return 'Invalid Last Name';
+                                    }
+                                    return null;
+                                  },
                                   inputFormatters: [
                                     FilteringTextInputFormatter.deny(RegExp(r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
                                   ],
@@ -273,6 +296,9 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                                     counterText: "",
                                     labelText: 'Last Name',
                                     hintText: 'Dela Cruz',
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(20.0),
                                       borderSide: BorderSide(color: Colors.black12),
@@ -281,7 +307,7 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                                       borderRadius: BorderRadius.circular(20.0),
                                       borderSide: BorderSide(color: Colors.green),
                                     ),
-                                    errorBorder: OutlineInputBorder(
+                                    focusedErrorBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(20.0),
                                       borderSide: BorderSide(color: Colors.red),
                                     ),
@@ -300,6 +326,22 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                                   height: 20,
                                 ),
                                 TextFormField(
+                                  validator: (isValid) {
+                                    if (isValid!.isEmpty) {
+                                      return 'This field requires a contact number';
+                                    }
+                                    if (!digitRegex.hasMatch(_contactNumberController.text)) {
+                                      MyAlertDialog(
+                                        title: 'Invalid Contact Number',
+                                        content: 'Contact Number must:\n'
+                                            '    * start with "09"\n'
+                                            '    * have 11 digits\n'
+                                            '    * no space between digits',
+                                      ).show(context);
+                                      return 'Invalid Contact Number';
+                                    }
+                                    return null;
+                                  },
                                   inputFormatters: [
                                     FilteringTextInputFormatter.deny(RegExp(r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
                                   ],
@@ -318,6 +360,9 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                                     counterText: "",
                                     labelText: 'Contact Number',
                                     hintText: '09XX-XXX-XXXX',
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(20.0),
                                       borderSide: BorderSide(color: Colors.black12),
@@ -326,13 +371,9 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                                       borderRadius: BorderRadius.circular(20.0),
                                       borderSide: BorderSide(color: Colors.green),
                                     ),
-                                    errorBorder: OutlineInputBorder(
+                                    focusedErrorBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(20.0),
                                       borderSide: BorderSide(color: Colors.red),
-                                    ),
-                                    hintStyle: const TextStyle(
-                                      color: Color(0xFFCCCCCC),
-                                      fontSize: 16,
                                     ),
                                     labelStyle: const TextStyle(
                                       color: Color(0xFF2b2b2b),
@@ -345,6 +386,15 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                                   height: 20,
                                 ),
                                 TextFormField(
+                                  validator: (isValid) {
+                                    if (isValid!.isEmpty) {
+                                      return 'This field requires an email';
+                                    }
+                                    if(!emailRegex.hasMatch(_emailController.text)) {
+                                      return 'Invalid Email Address';
+                                    }
+                                    return null;
+                                  },
                                   inputFormatters: [
                                     FilteringTextInputFormatter.deny(RegExp(r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
                                   ],
@@ -363,6 +413,9 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                                     counterText: "",
                                     labelText: 'Email',
                                     hintText: 'email@address.com',
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(20.0),
                                       borderSide: BorderSide(color: Colors.black12),
@@ -371,7 +424,7 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                                       borderRadius: BorderRadius.circular(20.0),
                                       borderSide: BorderSide(color: Colors.green),
                                     ),
-                                    errorBorder: OutlineInputBorder(
+                                    focusedErrorBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(20.0),
                                       borderSide: BorderSide(color: Colors.red),
                                     ),
@@ -390,6 +443,24 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                                   height: 20,
                                 ),
                                 TextFormField(
+                                  validator: (isValid) {
+                                    if (isValid!.isEmpty) {
+                                      return 'This field requires a password';
+                                    }
+                                    if (!passwordRegex.hasMatch(_passwordController.text)) {
+                                      MyAlertDialog(
+                                        title: 'Invalid Password',
+                                        content: 'Password must:\n'
+                                            '    * be minimum of 8 characters\n'
+                                            '    * contain lower & uppercase letters\n'
+                                            '    * contain numbers\n'
+                                            '    * contain special symbols, ie. "!, @, # ..."\n'
+                                            '    * space is not considered a special symbol',
+                                      ).show(context);
+                                      return 'Invalid Password';
+                                    }
+                                    return null;
+                                  },
                                   inputFormatters: [
                                     FilteringTextInputFormatter.deny(RegExp(r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
                                   ],
@@ -409,6 +480,9 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                                     counterText: "",
                                     labelText: 'Password',
                                     hintText: '*********',
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(20.0),
                                       borderSide: BorderSide(color: Colors.black12),
@@ -417,7 +491,7 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                                       borderRadius: BorderRadius.circular(20.0),
                                       borderSide: BorderSide(color: Colors.green),
                                     ),
-                                    errorBorder: OutlineInputBorder(
+                                    focusedErrorBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(20.0),
                                       borderSide: BorderSide(color: Colors.red),
                                     ),
@@ -449,6 +523,15 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                                   height: 20,
                                 ),
                                 TextFormField(
+                                  validator: (isValid) {
+                                    if (isValid!.isEmpty) {
+                                      return 'This field requires the confirmed password';
+                                    }
+                                    if (_passwordController.text != _confirmPasswordController.text) {
+                                      return 'Different Password Provided';
+                                    }
+                                    return null;
+                                  },
                                   inputFormatters: [
                                     FilteringTextInputFormatter.deny(RegExp(r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
                                   ],
@@ -468,6 +551,9 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                                     counterText: "",
                                     labelText: 'Confirm Password',
                                     hintText: '*********',
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(20.0),
                                       borderSide: BorderSide(color: Colors.black12),
@@ -476,7 +562,7 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                                       borderRadius: BorderRadius.circular(20.0),
                                       borderSide: BorderSide(color: Colors.green),
                                     ),
-                                    errorBorder: OutlineInputBorder(
+                                    focusedErrorBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(20.0),
                                       borderSide: BorderSide(color: Colors.red),
                                     ),
@@ -515,7 +601,10 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                                   const EdgeInsets.only(top: 45, bottom: 10),
                               child: ElevatedButton(
                                   onPressed: () {
-                                    validateForm();
+                                    if(!_validationKey.currentState!.validate()) {
+                                      return;
+                                    }
+                                    saveCommutersInfo();
                                   },
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor: Color(0xFF4E8C6F),

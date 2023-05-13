@@ -30,12 +30,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String? selectedImage;
 
   saveDriverInfo() async {
-    final bool isValid = _validationKey.currentState!.validate();
-
-    if(!isValid) {
-      Fluttertoast.showToast(msg: "Please fill up all the fields");
-    }
-
     if (selectedImage == 'images/commuter.png') {
       Navigator.push(
         context,
@@ -175,8 +169,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           child: Column(
                             children: [
                               TextFormField(
-                                validator: (value) {
-                                  if (value == null) {
+                                validator: (isValid) {
+                                  if (isValid!.isEmpty) {
                                     return 'This field requires an email';
                                   }
                                   return null;
@@ -199,6 +193,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   counterText: "",
                                   labelText: 'Email',
                                   hintText: 'email@address.com',
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                  ),
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20.0),
                                     borderSide: BorderSide(color: Colors.black12),
@@ -207,7 +204,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     borderRadius: BorderRadius.circular(20.0),
                                     borderSide: BorderSide(color: Colors.green),
                                   ),
-                                  errorBorder: OutlineInputBorder(
+                                  focusedErrorBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20.0),
                                     borderSide: BorderSide(color: Colors.red),
                                   ),
@@ -226,8 +223,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 height: 20,
                               ),
                               TextFormField(
-                                validator: (value) {
-                                  if (value == null) {
+                                validator: (isValid) {
+                                  if (isValid!.isEmpty) {
                                     return 'This field requires a password';
                                   }
                                   return null;
@@ -251,6 +248,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   counterText: "",
                                   labelText: 'Password',
                                   hintText: '********',
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                  ),
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20.0),
                                     borderSide: BorderSide(color: Colors.black12),
@@ -259,7 +259,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     borderRadius: BorderRadius.circular(20.0),
                                     borderSide: BorderSide(color: Colors.green),
                                   ),
-                                  errorBorder: OutlineInputBorder(
+                                  focusedErrorBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20.0),
                                     borderSide: BorderSide(color: Colors.red),
                                   ),
@@ -301,6 +301,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           margin: const EdgeInsets.only(top: 30, bottom: 10),
                           child: ElevatedButton(
                               onPressed: () {
+                                if(!_validationKey.currentState!.validate()) {
+                                  return;
+                                }
                                 saveDriverInfo();
                               },
                               style: ElevatedButton.styleFrom(
