@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:trackngo/assistants/geofire_assistant.dart';
@@ -201,6 +204,7 @@ class _InnerContainerState extends State<InnerContainer> {
   bool _flagTwo = false;
   bool _flagThree = false;
   List<ActiveNearbyAvailableDrivers> onlineNearByAvailableDriversList = [];
+  DatabaseReference? referenceRideRequestRef;
 
   void onTap() async {
     var commuterScreenState = CommuterScreen.of(context);
@@ -209,7 +213,61 @@ class _InnerContainerState extends State<InnerContainer> {
     }
   }
 
-  saveRideRequestInformation() {
+  saveRideRequestInformation() async {
+    referenceRideRequestRef =
+        FirebaseDatabase.instance.ref().child("All Ride Requests").push();
+    final usersRef = FirebaseDatabase(
+      databaseURL:
+          "https://trackngo-d7aa0-default-rtdb.asia-southeast1.firebasedatabase.app/",
+    ).ref().child("users");
+
+    final currentUserCommuteRef =
+        usersRef.child(currentFirebaseUser!.uid).child("commuters_child");
+
+    final snapshot = await currentUserCommuteRef.get();
+
+    final data =
+        json.decode(json.encode(snapshot.value)) as Map<String, dynamic>?;
+    if (data != null) {
+      final firstName = data['firstName'];
+      final lastName = data['lastName'];
+      final contactNumber = data['contactNumber'];
+      // do something with firstName and lastName
+    } else {
+      // handle the case where the snapshot or its value is null
+    }
+
+    print(snapshot.value);
+
+    var originLocation =
+        Provider.of<AppInfo>(context, listen: false).userPickUpLocation;
+    var destinatinoLocation =
+        Provider.of<AppInfo>(context, listen: false).userDropOffLocation;
+
+    Map originLocationMap = {
+      "latitude": originLocation!.locationLatitude.toString(),
+      "longitude": originLocation!.locationLongitude.toString(),
+    };
+    Map destinationLocationMap = {
+      "latitude": destinatinoLocation!.locationLatitude.toString(),
+      "longitude": destinatinoLocation!.locationLongitude.toString(),
+    };
+
+    Map userInformationMap = {
+      "origin": originLocationMap,
+      "destination": destinationLocationMap,
+      "time": DateTime.now().toString(),
+      "userFirstName": data?['firstName'],
+      "userLastName": data?['lastName'],
+      "userContact": data?['contactName'],
+      "originAddress": originLocation?.locationName ?? "",
+      "destinationAddress": destinatinoLocation?.locationName ?? "",
+      "driverId": "waiting",
+    };
+
+    print(userInformationMap);
+    referenceRideRequestRef!.set(userInformationMap);
+
     onlineNearByAvailableDriversList =
         GeoFireAssistant.activeNearbyAvailableDriversList;
 
@@ -219,8 +277,13 @@ class _InnerContainerState extends State<InnerContainer> {
   searchNearestOnlineDrivers() async {
     if (onlineNearByAvailableDriversList.length == 0) {
       Fluttertoast.showToast(msg: "No drivers found nearby");
-
+      referenceRideRequestRef!.remove();
       return;
+
+      // ignore: dead_code
+      Future.delayed(Duration(seconds: 4), () {
+        SystemNavigator.pop();
+      });
     }
 
     await retrieveOnlineDriversInformation(onlineNearByAvailableDriversList);

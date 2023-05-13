@@ -209,390 +209,408 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                       children: [
                         Form(
                           key: _validationKey,
-                            child: Column(
-                              children: [
-                                TextFormField(
-                                  validator: (isValid) {
-                                    if (isValid!.isEmpty) {
-                                      return 'This field requires a first name';
-                                    }
-                                    if (!nameRegex.hasMatch(_firstNameController.text)) {
-                                         return 'Invalid First Name';
-                                    }
-                                    return null;
-                                  },
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.deny(RegExp(r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
-                                  ],
-                                  controller: _firstNameController,
-                                  keyboardType: TextInputType.name,
-                                  maxLength: 60,
-                                  maxLines: 1,
-                                  style: const TextStyle(
-                                    color: Color(0xFF3a3a3a),
-                                    fontSize: 14,
+                          child: Column(
+                            children: [
+                              TextFormField(
+                                validator: (isValid) {
+                                  if (isValid!.isEmpty) {
+                                    return 'This field requires a first name';
+                                  }
+                                  if (!nameRegex
+                                      .hasMatch(_firstNameController.text)) {
+                                    return 'Invalid First Name';
+                                  }
+                                  return null;
+                                },
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.deny(RegExp(
+                                      r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
+                                ],
+                                controller: _firstNameController,
+                                keyboardType: TextInputType.name,
+                                maxLength: 60,
+                                maxLines: 1,
+                                style: const TextStyle(
+                                  color: Color(0xFF3a3a3a),
+                                  fontSize: 14,
+                                ),
+                                focusNode: firstnameFocus,
+                                autofocus: false,
+                                decoration: InputDecoration(
+                                  errorMaxLines: 1,
+                                  counterText: "",
+                                  labelText: 'First Name',
+                                  hintText: 'Juan',
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
                                   ),
-                                  focusNode: firstnameFocus,
-                                  autofocus: false,
-                                  decoration: InputDecoration(
-                                    errorMaxLines: 1,
-                                    counterText: "",
-                                    labelText: 'First Name',
-                                    hintText: 'Juan',
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                      borderSide: BorderSide(color: Colors.black12),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                      borderSide: BorderSide(color: Colors.green),
-                                    ),
-                                    focusedErrorBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                      borderSide: BorderSide(color: Colors.red),
-                                    ),
-                                    hintStyle: const TextStyle(
-                                      color: Color(0xFFCCCCCC),
-                                      fontSize: 16,
-                                    ),
-                                    labelStyle: const TextStyle(
-                                      color: Color(0xFF2b2b2b),
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 16,
-                                    ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    borderSide:
+                                        BorderSide(color: Colors.black12),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    borderSide: BorderSide(color: Colors.green),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    borderSide: BorderSide(color: Colors.red),
+                                  ),
+                                  hintStyle: const TextStyle(
+                                    color: Color(0xFFCCCCCC),
+                                    fontSize: 16,
+                                  ),
+                                  labelStyle: const TextStyle(
+                                    color: Color(0xFF2b2b2b),
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16,
                                   ),
                                 ),
-                                const SizedBox(
-                                  height: 20,
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              TextFormField(
+                                validator: (isValid) {
+                                  if (isValid!.isEmpty) {
+                                    return 'This field requires a last name';
+                                  }
+                                  if (!nameRegex
+                                      .hasMatch(_lastNameController.text)) {
+                                    return 'Invalid Last Name';
+                                  }
+                                  return null;
+                                },
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.deny(RegExp(
+                                      r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
+                                ],
+                                controller: _lastNameController,
+                                keyboardType: TextInputType.name,
+                                maxLength: 60,
+                                maxLines: 1,
+                                style: const TextStyle(
+                                  color: Color(0xFF3a3a3a),
+                                  fontSize: 14,
                                 ),
-                                TextFormField(
-                                  validator: (isValid) {
-                                    if (isValid!.isEmpty) {
-                                      return 'This field requires a last name';
-                                    }
-                                    if (!nameRegex.hasMatch(_lastNameController.text)) {
-                                      return 'Invalid Last Name';
-                                    }
-                                    return null;
-                                  },
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.deny(RegExp(r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
-                                  ],
-                                  controller: _lastNameController,
-                                  keyboardType: TextInputType.name,
-                                  maxLength: 60,
-                                  maxLines: 1,
-                                  style: const TextStyle(
-                                    color: Color(0xFF3a3a3a),
-                                    fontSize: 14,
+                                focusNode: lastnameFocus,
+                                autofocus: false,
+                                decoration: InputDecoration(
+                                  errorMaxLines: 1,
+                                  counterText: "",
+                                  labelText: 'Last Name',
+                                  hintText: 'Dela Cruz',
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
                                   ),
-                                  focusNode: lastnameFocus,
-                                  autofocus: false,
-                                  decoration: InputDecoration(
-                                    errorMaxLines: 1,
-                                    counterText: "",
-                                    labelText: 'Last Name',
-                                    hintText: 'Dela Cruz',
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                      borderSide: BorderSide(color: Colors.black12),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                      borderSide: BorderSide(color: Colors.green),
-                                    ),
-                                    focusedErrorBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                      borderSide: BorderSide(color: Colors.red),
-                                    ),
-                                    hintStyle: const TextStyle(
-                                      color: Color(0xFFCCCCCC),
-                                      fontSize: 16,
-                                    ),
-                                    labelStyle: const TextStyle(
-                                      color: Color(0xFF2b2b2b),
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 16,
-                                    ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    borderSide:
+                                        BorderSide(color: Colors.black12),
                                   ),
-                                ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                TextFormField(
-                                  validator: (isValid) {
-                                    if (isValid!.isEmpty) {
-                                      return 'This field requires a contact number';
-                                    }
-                                    if (!digitRegex.hasMatch(_contactNumberController.text)) {
-                                      MyAlertDialog(
-                                        title: 'Invalid Contact Number',
-                                        content: 'Contact Number must:\n'
-                                            '    * start with "09"\n'
-                                            '    * have 11 digits\n'
-                                            '    * no space between digits',
-                                      ).show(context);
-                                      return 'Invalid Contact Number';
-                                    }
-                                    return null;
-                                  },
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.deny(RegExp(r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
-                                  ],
-                                  controller: _contactNumberController,
-                                  keyboardType: TextInputType.phone,
-                                  maxLength: 60,
-                                  maxLines: 1,
-                                  style: const TextStyle(
-                                    color: Color(0xFF3a3a3a),
-                                    fontSize: 14,
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    borderSide: BorderSide(color: Colors.green),
                                   ),
-                                  focusNode: contactFocus,
-                                  autofocus: false,
-                                  decoration: InputDecoration(
-                                    errorMaxLines: 1,
-                                    counterText: "",
-                                    labelText: 'Contact Number',
-                                    hintText: '09XX-XXX-XXXX',
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                      borderSide: BorderSide(color: Colors.black12),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                      borderSide: BorderSide(color: Colors.green),
-                                    ),
-                                    focusedErrorBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                      borderSide: BorderSide(color: Colors.red),
-                                    ),
-                                    labelStyle: const TextStyle(
-                                      color: Color(0xFF2b2b2b),
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 16,
-                                    ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    borderSide: BorderSide(color: Colors.red),
+                                  ),
+                                  hintStyle: const TextStyle(
+                                    color: Color(0xFFCCCCCC),
+                                    fontSize: 16,
+                                  ),
+                                  labelStyle: const TextStyle(
+                                    color: Color(0xFF2b2b2b),
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16,
                                   ),
                                 ),
-                                const SizedBox(
-                                  height: 20,
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              TextFormField(
+                                validator: (isValid) {
+                                  if (isValid!.isEmpty) {
+                                    return 'This field requires a contact number';
+                                  }
+                                  if (!digitRegex.hasMatch(
+                                      _contactNumberController.text)) {
+                                    MyAlertDialog(
+                                      title: 'Invalid Contact Number',
+                                      content: 'Contact Number must:\n'
+                                          '    * start with "09"\n'
+                                          '    * have 11 digits\n'
+                                          '    * no space between digits',
+                                    ).show(context);
+                                    return 'Invalid Contact Number';
+                                  }
+                                  return null;
+                                },
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.deny(RegExp(
+                                      r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
+                                ],
+                                controller: _contactNumberController,
+                                keyboardType: TextInputType.phone,
+                                maxLength: 60,
+                                maxLines: 1,
+                                style: const TextStyle(
+                                  color: Color(0xFF3a3a3a),
+                                  fontSize: 14,
                                 ),
-                                TextFormField(
-                                  validator: (isValid) {
-                                    if (isValid!.isEmpty) {
-                                      return 'This field requires an email';
-                                    }
-                                    if(!emailRegex.hasMatch(_emailController.text)) {
-                                      return 'Invalid Email Address';
-                                    }
-                                    return null;
-                                  },
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.deny(RegExp(r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
-                                  ],
-                                  controller: _emailController,
-                                  keyboardType: TextInputType.emailAddress,
-                                  maxLength: 60,
-                                  maxLines: 1,
-                                  style: const TextStyle(
-                                    color: Color(0xFF3a3a3a),
-                                    fontSize: 14,
+                                focusNode: contactFocus,
+                                autofocus: false,
+                                decoration: InputDecoration(
+                                  errorMaxLines: 1,
+                                  counterText: "",
+                                  labelText: 'Contact Number',
+                                  hintText: '09XX-XXX-XXXX',
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
                                   ),
-                                  focusNode: addressFocus,
-                                  autofocus: false,
-                                  decoration: InputDecoration(
-                                    errorMaxLines: 1,
-                                    counterText: "",
-                                    labelText: 'Email',
-                                    hintText: 'email@address.com',
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                      borderSide: BorderSide(color: Colors.black12),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                      borderSide: BorderSide(color: Colors.green),
-                                    ),
-                                    focusedErrorBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                      borderSide: BorderSide(color: Colors.red),
-                                    ),
-                                    hintStyle: const TextStyle(
-                                      color: Color(0xFFCCCCCC),
-                                      fontSize: 16,
-                                    ),
-                                    labelStyle: const TextStyle(
-                                      color: Color(0xFF2b2b2b),
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 16,
-                                    ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    borderSide:
+                                        BorderSide(color: Colors.black12),
                                   ),
-                                ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                TextFormField(
-                                  validator: (isValid) {
-                                    if (isValid!.isEmpty) {
-                                      return 'This field requires a password';
-                                    }
-                                    if (!passwordRegex.hasMatch(_passwordController.text)) {
-                                      MyAlertDialog(
-                                        title: 'Invalid Password',
-                                        content: 'Password must:\n'
-                                            '    * be minimum of 8 characters\n'
-                                            '    * contain lower & uppercase letters\n'
-                                            '    * contain numbers\n'
-                                            '    * contain special symbols, ie. "!, @, # ..."\n'
-                                            '    * space is not considered a special symbol',
-                                      ).show(context);
-                                      return 'Invalid Password';
-                                    }
-                                    return null;
-                                  },
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.deny(RegExp(r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
-                                  ],
-                                  controller: _passwordController,
-                                  keyboardType: TextInputType.text,
-                                  maxLength: 60,
-                                  maxLines: 1,
-                                  obscureText: passwordVisible,
-                                  style: const TextStyle(
-                                    color: Color(0xFF3a3a3a),
-                                    fontSize: 14,
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    borderSide: BorderSide(color: Colors.green),
                                   ),
-                                  focusNode: passwordFocus,
-                                  autofocus: false,
-                                  decoration: InputDecoration(
-                                    errorMaxLines: 1,
-                                    counterText: "",
-                                    labelText: 'Password',
-                                    hintText: '*********',
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                      borderSide: BorderSide(color: Colors.black12),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                      borderSide: BorderSide(color: Colors.green),
-                                    ),
-                                    focusedErrorBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                      borderSide: BorderSide(color: Colors.red),
-                                    ),
-                                    hintStyle: const TextStyle(
-                                      color: Color(0xFFCCCCCC),
-                                      fontSize: 16,
-                                    ),
-                                    labelStyle: const TextStyle(
-                                      color: Color(0xFF2b2b2b),
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 16,
-                                    ),
-                                    helperStyle: TextStyle(color: Colors.green),
-                                    suffixIcon: IconButton(
-                                      icon: Icon(passwordVisible
-                                          ? Icons.visibility
-                                          : Icons.visibility_off),
-                                      onPressed: () {
-                                        setState(
-                                              () {
-                                            passwordVisible = !passwordVisible;
-                                          },
-                                        );
-                                      },
-                                    ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    borderSide: BorderSide(color: Colors.red),
+                                  ),
+                                  labelStyle: const TextStyle(
+                                    color: Color(0xFF2b2b2b),
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16,
                                   ),
                                 ),
-                                const SizedBox(
-                                  height: 20,
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              TextFormField(
+                                validator: (isValid) {
+                                  if (isValid!.isEmpty) {
+                                    return 'This field requires an email';
+                                  }
+                                  if (!emailRegex
+                                      .hasMatch(_emailController.text)) {
+                                    return 'Invalid Email Address';
+                                  }
+                                  return null;
+                                },
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.deny(RegExp(
+                                      r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
+                                ],
+                                controller: _emailController,
+                                keyboardType: TextInputType.emailAddress,
+                                maxLength: 60,
+                                maxLines: 1,
+                                style: const TextStyle(
+                                  color: Color(0xFF3a3a3a),
+                                  fontSize: 14,
                                 ),
-                                TextFormField(
-                                  validator: (isValid) {
-                                    if (isValid!.isEmpty) {
-                                      return 'This field requires the confirmed password';
-                                    }
-                                    if (_passwordController.text != _confirmPasswordController.text) {
-                                      return 'Different Password Provided';
-                                    }
-                                    return null;
-                                  },
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.deny(RegExp(r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
-                                  ],
-                                  controller: _confirmPasswordController,
-                                  keyboardType: TextInputType.text,
-                                  maxLength: 60,
-                                  maxLines: 1,
-                                  obscureText: confirmedpasswordVisible,
-                                  style: const TextStyle(
-                                    color: Color(0xFF3a3a3a),
-                                    fontSize: 14,
+                                focusNode: addressFocus,
+                                autofocus: false,
+                                decoration: InputDecoration(
+                                  errorMaxLines: 1,
+                                  counterText: "",
+                                  labelText: 'Email',
+                                  hintText: 'email@address.com',
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
                                   ),
-                                  focusNode: confirmedFocus,
-                                  autofocus: false,
-                                  decoration: InputDecoration(
-                                    errorMaxLines: 1,
-                                    counterText: "",
-                                    labelText: 'Confirm Password',
-                                    hintText: '*********',
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                      borderSide: BorderSide(color: Colors.black12),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                      borderSide: BorderSide(color: Colors.green),
-                                    ),
-                                    focusedErrorBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                      borderSide: BorderSide(color: Colors.red),
-                                    ),
-                                    hintStyle: const TextStyle(
-                                      color: Color(0xFFCCCCCC),
-                                      fontSize: 16,
-                                    ),
-                                    labelStyle: const TextStyle(
-                                      color: Color(0xFF2b2b2b),
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 16,
-                                    ),
-                                    helperStyle: TextStyle(color: Colors.green),
-                                    suffixIcon: IconButton(
-                                      icon: Icon(confirmedpasswordVisible
-                                          ? Icons.visibility
-                                          : Icons.visibility_off),
-                                      onPressed: () {
-                                        setState(
-                                              () {
-                                            confirmedpasswordVisible =
-                                            !confirmedpasswordVisible;
-                                          },
-                                        );
-                                      },
-                                    ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    borderSide:
+                                        BorderSide(color: Colors.black12),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    borderSide: BorderSide(color: Colors.green),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    borderSide: BorderSide(color: Colors.red),
+                                  ),
+                                  hintStyle: const TextStyle(
+                                    color: Color(0xFFCCCCCC),
+                                    fontSize: 16,
+                                  ),
+                                  labelStyle: const TextStyle(
+                                    color: Color(0xFF2b2b2b),
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16,
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              TextFormField(
+                                validator: (isValid) {
+                                  if (isValid!.isEmpty) {
+                                    return 'This field requires a password';
+                                  }
+                                  if (!passwordRegex
+                                      .hasMatch(_passwordController.text)) {
+                                    MyAlertDialog(
+                                      title: 'Invalid Password',
+                                      content: 'Password must:\n'
+                                          '    * be minimum of 8 characters\n'
+                                          '    * contain lower & uppercase letters\n'
+                                          '    * contain numbers\n'
+                                          '    * contain special symbols, ie. "!, @, # ..."\n'
+                                          '    * space is not considered a special symbol',
+                                    ).show(context);
+                                    return 'Invalid Password';
+                                  }
+                                  return null;
+                                },
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.deny(RegExp(
+                                      r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
+                                ],
+                                controller: _passwordController,
+                                keyboardType: TextInputType.text,
+                                maxLength: 60,
+                                maxLines: 1,
+                                obscureText: passwordVisible,
+                                style: const TextStyle(
+                                  color: Color(0xFF3a3a3a),
+                                  fontSize: 14,
+                                ),
+                                focusNode: passwordFocus,
+                                autofocus: false,
+                                decoration: InputDecoration(
+                                  errorMaxLines: 1,
+                                  counterText: "",
+                                  labelText: 'Password',
+                                  hintText: '*********',
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    borderSide:
+                                        BorderSide(color: Colors.black12),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    borderSide: BorderSide(color: Colors.green),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    borderSide: BorderSide(color: Colors.red),
+                                  ),
+                                  hintStyle: const TextStyle(
+                                    color: Color(0xFFCCCCCC),
+                                    fontSize: 16,
+                                  ),
+                                  labelStyle: const TextStyle(
+                                    color: Color(0xFF2b2b2b),
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16,
+                                  ),
+                                  helperStyle: TextStyle(color: Colors.green),
+                                  suffixIcon: IconButton(
+                                    icon: Icon(passwordVisible
+                                        ? Icons.visibility
+                                        : Icons.visibility_off),
+                                    onPressed: () {
+                                      setState(
+                                        () {
+                                          passwordVisible = !passwordVisible;
+                                        },
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              TextFormField(
+                                validator: (isValid) {
+                                  if (isValid!.isEmpty) {
+                                    return 'This field requires the confirmed password';
+                                  }
+                                  if (_passwordController.text !=
+                                      _confirmPasswordController.text) {
+                                    return 'Different Password Provided';
+                                  }
+                                  return null;
+                                },
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.deny(RegExp(
+                                      r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
+                                ],
+                                controller: _confirmPasswordController,
+                                keyboardType: TextInputType.text,
+                                maxLength: 60,
+                                maxLines: 1,
+                                obscureText: confirmedpasswordVisible,
+                                style: const TextStyle(
+                                  color: Color(0xFF3a3a3a),
+                                  fontSize: 14,
+                                ),
+                                focusNode: confirmedFocus,
+                                autofocus: false,
+                                decoration: InputDecoration(
+                                  errorMaxLines: 1,
+                                  counterText: "",
+                                  labelText: 'Confirm Password',
+                                  hintText: '*********',
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    borderSide:
+                                        BorderSide(color: Colors.black12),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    borderSide: BorderSide(color: Colors.green),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    borderSide: BorderSide(color: Colors.red),
+                                  ),
+                                  hintStyle: const TextStyle(
+                                    color: Color(0xFFCCCCCC),
+                                    fontSize: 16,
+                                  ),
+                                  labelStyle: const TextStyle(
+                                    color: Color(0xFF2b2b2b),
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16,
+                                  ),
+                                  helperStyle: TextStyle(color: Colors.green),
+                                  suffixIcon: IconButton(
+                                    icon: Icon(confirmedpasswordVisible
+                                        ? Icons.visibility
+                                        : Icons.visibility_off),
+                                    onPressed: () {
+                                      setState(
+                                        () {
+                                          confirmedpasswordVisible =
+                                              !confirmedpasswordVisible;
+                                        },
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                         Column(
                           children: [
@@ -601,7 +619,8 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                                   const EdgeInsets.only(top: 45, bottom: 10),
                               child: ElevatedButton(
                                   onPressed: () {
-                                    if(!_validationKey.currentState!.validate()) {
+                                    if (!_validationKey.currentState!
+                                        .validate()) {
                                       return;
                                     }
                                     saveCommutersInfo();

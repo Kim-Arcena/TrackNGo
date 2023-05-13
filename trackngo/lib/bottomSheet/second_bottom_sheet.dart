@@ -347,10 +347,11 @@ class _InnerContainerState extends State<InnerContainer> {
                               size: 25.0,
                             ),
                             Text(
-                                AssistantMethods
-                                        .calculateFairAmountFromOriginToDestination(
-                                            tripDrirectionDetailsInfo!)
-                                    .toString(),
+                                "Php " +
+                                    AssistantMethods
+                                            .calculateFairAmountFromOriginToDestination(
+                                                tripDrirectionDetailsInfo!)
+                                        .toString(),
                                 style: TextStyle(
                                     fontSize: 16.0,
                                     color: Color(0xFF282828),
