@@ -9,6 +9,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:trackngo/assistants/geofire_assistant.dart';
+import 'package:trackngo/global/global.dart';
 import 'package:trackngo/mainScreen/search_places_screen.dart';
 import 'package:trackngo/models/active_nearby_available_drivers.dart';
 
@@ -343,6 +344,9 @@ class _CommuterScreenState extends State<CommuterScreen> {
     var directionDetailsInfo =
         await AssistantMethods.obtainOriginToDestinationDirectionDetails(
             sourceLatLng, destinationLatLng);
+    setState(() {
+      tripDrirectionDetailsInfo = directionDetailsInfo;
+    });
 
     print("This is encoded points :: ");
     print(directionDetailsInfo!.e_points);

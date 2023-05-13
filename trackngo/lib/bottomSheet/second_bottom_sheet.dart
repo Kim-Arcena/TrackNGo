@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:provider/provider.dart';
+import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
+import 'package:trackngo/assistants/assistant_methods.dart';
+import 'package:trackngo/global/global.dart';
 
 import '../infoHandler/app_info.dart';
 
@@ -171,56 +174,57 @@ class _InnerContainerState extends State<InnerContainer> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: maxChildSize * MediaQuery.of(context).size.height * 0.735,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(30),
-          topRight: Radius.circular(30),
+        height: maxChildSize * MediaQuery.of(context).size.height * 0.735,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(30),
+          ),
         ),
-      ),
-      child: Stack(
-        children: <Widget>[
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: Padding(
-              padding: const EdgeInsets.all(40.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    "Bus Selected",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+        child: Stack(
+          children: [
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: Padding(
+                padding: const EdgeInsets.all(40.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      "Bus Selected",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-          Positioned(
-            top: 55,
-            left: 0,
-            right: 0,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 20, left: 40, right: 40),
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        GestureDetector(
+            Positioned(
+              top: 55,
+              left: 0,
+              right: 0,
+              child: Padding(
+                padding: const EdgeInsets.all(30.0),
+                child: Container(
+                  height: 100,
+                  child: ListView.builder(
+                    itemCount: dList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Container(
+                        child: GestureDetector(
                           onTap: () {
                             setState(() {
-                              selectedImage = 'images/aircon.png';
+                              selectedImage = 'images/commuter.png';
                             });
                           },
                           child: Neumorphic(
+                            margin: const EdgeInsets.all(5),
                             style: NeumorphicStyle(
                               boxShape: NeumorphicBoxShape.roundRect(
                                   BorderRadius.circular(20)),
@@ -228,170 +232,192 @@ class _InnerContainerState extends State<InnerContainer> {
                               lightSource: LightSource.topLeft,
                               color: Colors.white,
                               shadowDarkColor:
-                                  selectedImage == 'images/aircon.png'
-                                      ? Color(0xFF9bddaa)
+                                  selectedImage == 'images/commuter.png'
+                                      ? Color(0xFF8DE0F4)
                                       : Color(0xFFDFDFDF),
                               shadowLightColor:
-                                  selectedImage == 'images/aircon.png'
-                                      ? Color(0xFF9bddaa)
+                                  selectedImage == 'images/commuter.png'
+                                      ? Color(0xFF8DE0F4)
                                       : Color(0xFFDFDFDF),
                             ),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(250),
+                            child: ListTile(
+                              leading: Container(
+                                child: Image.asset(
+                                  "images/" +
+                                      dList[index]["busType"].toString() +
+                                      ".png",
+                                  width: 50,
+                                ),
                               ),
-                              child: Image.asset(
-                                'images/aircon.png',
-                                width: 140,
+                              title: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(dList[index]["firstName"],
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.black,
+                                          )),
+                                      Text(dList[index]["lastName"],
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.black,
+                                          )),
+                                    ],
+                                  ),
+                                  Text(dList[index]["licenseNumber"],
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.black,
+                                      )),
+                                  SmoothStarRating(
+                                    rating: 3,
+                                    color: Colors.yellow,
+                                    borderColor: Colors.grey,
+                                    allowHalfRating: true,
+                                    starCount: 5,
+                                    size: 20,
+                                  ),
+                                ],
                               ),
                             ),
                           ),
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              selectedImage = 'images/traditional.png';
-                            });
-                          },
-                          child: Neumorphic(
-                            style: NeumorphicStyle(
-                              boxShape: NeumorphicBoxShape.roundRect(
-                                  BorderRadius.circular(20)),
-                              depth: 5,
-                              lightSource: LightSource.topLeft,
-                              color: Colors.white,
-                              shadowDarkColor:
-                                  selectedImage == 'images/traditional.png'
-                                      ? Color(0xFFF6D09D)
-                                      : Color(0xFFDFDFDF),
-                              shadowLightColor:
-                                  selectedImage == 'images/traditional.png'
-                                      ? Color(0xFFF6D09D)
-                                      : Color(0xFFDFDFDF),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              bottom: 120,
+              left: 0,
+              right: 0,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 30.0, vertical: 10.0),
+                child: Column(
+                  children: [
+                    Divider(
+                        height: 40.0, thickness: 2.0, color: Color(0xFF929895)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.map_outlined,
+                              color: Color(0xFF282828),
+                              size: 25.0,
                             ),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(250),
-                              ),
-                              child: Image.asset(
-                                'images/traditional.png',
-                                width: 140,
-                              ),
+                            Text(
+                                tripDrirectionDetailsInfo != null
+                                    ? tripDrirectionDetailsInfo!.distance_text!
+                                    : "",
+                                style: TextStyle(
+                                    fontSize: 16.0,
+                                    color: Color(0xFF282828),
+                                    fontWeight: FontWeight.bold)),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.watch_later_outlined,
+                              color: Color(0xFF282828),
+                              size: 25.0,
                             ),
-                          ),
+                            Text(
+                                tripDrirectionDetailsInfo != null
+                                    ? tripDrirectionDetailsInfo!.duration_text!
+                                    : "",
+                                style: TextStyle(
+                                    fontSize: 16.0,
+                                    color: Color(0xFF282828),
+                                    fontWeight: FontWeight.bold)),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.account_balance_wallet_outlined,
+                              color: Color(0xFF282828),
+                              size: 25.0,
+                            ),
+                            Text(
+                                AssistantMethods
+                                        .calculateFairAmountFromOriginToDestination(
+                                            tripDrirectionDetailsInfo!)
+                                    .toString(),
+                                style: TextStyle(
+                                    fontSize: 16.0,
+                                    color: Color(0xFF282828),
+                                    fontWeight: FontWeight.bold)),
+                          ],
                         ),
                       ],
                     ),
-                  ),
-                  Divider(
-                      height: 40.0, thickness: 2.0, color: Color(0xFF929895)),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.map_outlined,
-                            color: Color(0xFF282828),
-                            size: 25.0,
-                          ),
-                          Text("1 km",
-                              style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: Color(0xFF282828),
-                                  fontWeight: FontWeight.bold)),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.watch_later_outlined,
-                            color: Color(0xFF282828),
-                            size: 25.0,
-                          ),
-                          Text("5 mins",
-                              style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: Color(0xFF282828),
-                                  fontWeight: FontWeight.bold)),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.account_balance_wallet_outlined,
-                            color: Color(0xFF282828),
-                            size: 25.0,
-                          ),
-                          Text("Php: 11.00",
-                              style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: Color(0xFF282828),
-                                  fontWeight: FontWeight.bold)),
-                        ],
-                      ),
-                    ],
-                  ),
-                  Divider(
-                      height: 40.0, thickness: 2.0, color: Color(0xFF929895)),
-                ],
+                    Divider(
+                        height: 40.0, thickness: 2.0, color: Color(0xFF929895)),
+                  ],
+                ),
               ),
             ),
-          ),
-          Positioned(
-            bottom: 70,
-            left: 40,
-            child: Container(
-              alignment: Alignment.center,
-              child: ElevatedButton(
-                onPressed: () {},
-                child: Center(
-                  child: Icon(
-                    Icons.arrow_back,
-                    color: Colors.black,
-                    size: 20,
+            Positioned(
+              bottom: 70,
+              left: 40,
+              child: Container(
+                alignment: Alignment.center,
+                child: ElevatedButton(
+                  onPressed: () {},
+                  child: Center(
+                    child: Icon(
+                      Icons.arrow_back,
+                      color: Colors.black,
+                      size: 20,
+                    ),
                   ),
-                ),
-                style: ButtonStyle(
-                  minimumSize: MaterialStateProperty.all<Size>(Size(45, 45)),
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(Color(0xFFDAD9E2)),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.0),
+                  style: ButtonStyle(
+                    minimumSize: MaterialStateProperty.all<Size>(Size(45, 45)),
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Color(0xFFDAD9E2)),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-          Positioned(
-            bottom: 70,
-            right: 40,
-            child: Container(
-              child: ElevatedButton(
-                onPressed: () {},
-                child: Text(
-                  'Next',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+            Positioned(
+              bottom: 70,
+              right: 40,
+              child: Container(
+                child: ElevatedButton(
+                  onPressed: () {},
+                  child: Text(
+                    'Next',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                style: ElevatedButton.styleFrom(
-                  primary: Color(0xFF53906B),
-                  minimumSize: Size(200, 45),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.0),
+                  style: ElevatedButton.styleFrom(
+                    primary: Color(0xFF53906B),
+                    minimumSize: Size(200, 45),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
-      ),
-    );
+          ],
+        ));
   }
 }
 
