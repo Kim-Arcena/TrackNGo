@@ -10,9 +10,11 @@ import '../infoHandler/app_info.dart';
 var maxChildSize = 0.8;
 
 class MyBottomSheetTwoContainer extends StatefulWidget {
+  final void Function(int) moveToPage;
   final ScrollController scrollController;
 
-  const MyBottomSheetTwoContainer({required this.scrollController});
+  const MyBottomSheetTwoContainer(
+      {required this.scrollController, required this.moveToPage});
 
   @override
   _MyBottomSheetTwoContainerState createState() =>
@@ -20,6 +22,10 @@ class MyBottomSheetTwoContainer extends StatefulWidget {
 }
 
 class _MyBottomSheetTwoContainerState extends State<MyBottomSheetTwoContainer> {
+  moveToPage(int page) {
+    widget.moveToPage(page);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -74,7 +80,10 @@ class _MyBottomSheetTwoContainerState extends State<MyBottomSheetTwoContainer> {
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                           child: TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              widget.moveToPage(0);
+                              // Navigator.pop(context);
+                            },
                             child: Text(
                               "1",
                               style: TextStyle(
@@ -153,7 +162,7 @@ class _MyBottomSheetTwoContainerState extends State<MyBottomSheetTwoContainer> {
             height: 30,
           ),
           //add another container box here
-          InnerContainer(),
+          InnerContainer(moveToPage),
         ],
       ),
     );
@@ -161,7 +170,10 @@ class _MyBottomSheetTwoContainerState extends State<MyBottomSheetTwoContainer> {
 }
 
 class InnerContainer extends StatefulWidget {
-  // use this
+  final void Function(int page) moveToPage;
+
+  InnerContainer(this.moveToPage);
+
   @override
   _InnerContainerState createState() => _InnerContainerState();
 }
@@ -372,7 +384,9 @@ class _InnerContainerState extends State<InnerContainer> {
               child: Container(
                 alignment: Alignment.center,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    widget.moveToPage(0);
+                  },
                   child: Center(
                     child: Icon(
                       Icons.arrow_back,
@@ -398,7 +412,9 @@ class _InnerContainerState extends State<InnerContainer> {
               right: 40,
               child: Container(
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    widget.moveToPage(2);
+                  },
                   child: Text(
                     'Next',
                     style: TextStyle(

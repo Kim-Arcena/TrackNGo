@@ -25,6 +25,8 @@ class MyBottomSheet extends StatefulWidget {
 
   @override
   _MyBottomSheetState createState() => _MyBottomSheetState();
+
+  void moveToPage(int i) {}
 }
 
 class _MyBottomSheetState extends State<MyBottomSheet> {
@@ -116,7 +118,10 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
                                     borderRadius: BorderRadius.circular(10.0),
                                   ),
                                   child: TextButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      // Move to MyBottomSheetTwoContainer
+                                      // moveToPage(1);
+                                    },
                                     child: Text(
                                       "2",
                                       style: TextStyle(
@@ -180,9 +185,12 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
                 ],
               ),
             ),
-            MyBottomSheetTwoContainer(scrollController: scrollController),
-            MyBottomSheetThreeContainer(scrollController: scrollController),
-            MyBottomSheetFourContainer(scrollController: scrollController)
+            MyBottomSheetTwoContainer(
+                scrollController: scrollController, moveToPage: moveToPage),
+            MyBottomSheetThreeContainer(
+                scrollController: scrollController, moveToPage: moveToPage),
+            MyBottomSheetFourContainer(
+                scrollController: scrollController, moveToPage: moveToPage),
           ],
         );
       },

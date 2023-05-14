@@ -7,9 +7,11 @@ import '../infoHandler/app_info.dart';
 var maxChildSize = 0.8;
 
 class MyBottomSheetFourContainer extends StatefulWidget {
+  final void Function(int) moveToPage;
   final ScrollController scrollController;
 
-  const MyBottomSheetFourContainer({required this.scrollController});
+  const MyBottomSheetFourContainer(
+      {required this.scrollController, required this.moveToPage});
 
   @override
   _MyBottomSheetFourContainerState createState() =>
@@ -18,6 +20,10 @@ class MyBottomSheetFourContainer extends StatefulWidget {
 
 class _MyBottomSheetFourContainerState
     extends State<MyBottomSheetFourContainer> {
+  moveToPage(int page) {
+    widget.moveToPage(page);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -151,7 +157,7 @@ class _MyBottomSheetFourContainerState
             height: 30,
           ),
           //add another container box here
-          InnerContainer(),
+          InnerContainer(moveToPage),
         ],
       ),
     );
@@ -159,6 +165,9 @@ class _MyBottomSheetFourContainerState
 }
 
 class InnerContainer extends StatefulWidget {
+  final void Function(int page) moveToPage;
+
+  InnerContainer(this.moveToPage);
   // use this
   @override
   _InnerContainerState createState() => _InnerContainerState();
@@ -307,7 +316,9 @@ class _InnerContainerState extends State<InnerContainer> {
             child: Container(
               alignment: Alignment.center,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  widget.moveToPage(2);
+                },
                 child: Center(
                   child: Icon(
                     Icons.arrow_back,
@@ -335,7 +346,7 @@ class _InnerContainerState extends State<InnerContainer> {
               child: ElevatedButton(
                 onPressed: () {},
                 child: Text(
-                  'Next',
+                  'Book',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,

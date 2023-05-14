@@ -7,9 +7,11 @@ import '../infoHandler/app_info.dart';
 var maxChildSize = 0.8;
 
 class MyBottomSheetThreeContainer extends StatefulWidget {
+  final void Function(int) moveToPage;
   final ScrollController scrollController;
 
-  const MyBottomSheetThreeContainer({required this.scrollController});
+  const MyBottomSheetThreeContainer(
+      {required this.scrollController, required this.moveToPage});
 
   @override
   _MyBottomSheetThreeContainerState createState() =>
@@ -18,6 +20,10 @@ class MyBottomSheetThreeContainer extends StatefulWidget {
 
 class _MyBottomSheetThreeContainerState
     extends State<MyBottomSheetThreeContainer> {
+  moveToPage(int page) {
+    widget.moveToPage(page);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -151,7 +157,7 @@ class _MyBottomSheetThreeContainerState
             height: 30,
           ),
           //add another container box here
-          InnerContainer(),
+          InnerContainer(moveToPage),
         ],
       ),
     );
@@ -159,6 +165,9 @@ class _MyBottomSheetThreeContainerState
 }
 
 class InnerContainer extends StatefulWidget {
+  final void Function(int page) moveToPage;
+
+  InnerContainer(this.moveToPage);
   // use this
   @override
   _InnerContainerState createState() => _InnerContainerState();
@@ -316,7 +325,9 @@ class _InnerContainerState extends State<InnerContainer> {
             child: Container(
               alignment: Alignment.center,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  widget.moveToPage(1);
+                },
                 child: Center(
                   child: Icon(
                     Icons.arrow_back,
@@ -342,7 +353,9 @@ class _InnerContainerState extends State<InnerContainer> {
             right: 40,
             child: Container(
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  widget.moveToPage(3);
+                },
                 child: Text(
                   'Next',
                   style: TextStyle(
