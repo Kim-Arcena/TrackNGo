@@ -13,6 +13,7 @@ import 'package:trackngo/assistants/assistant_methods.dart';
 import 'package:trackngo/global/global.dart';
 import 'package:trackngo/infoHandler/app_info.dart';
 import 'package:location/location.dart' as loc;
+import 'package:trackngo/push_notifications/push_notification_system.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -48,6 +49,14 @@ class _MainScreenState extends State<MainScreen>
       selectedIndex = index;
       tabController!.index = index;
     });
+  }
+
+  readCurrentDriveInformation() async {
+    currentFirebaseUser = fAuth.currentUser;
+
+    PushNotificationSystem pushNotificationSystem = PushNotificationSystem();
+    pushNotificationSystem.initializeCloudMessagin();
+    pushNotificationSystem.generateAndGetToken();
   }
 
   void _onMapCreated(GoogleMapController _cntlr) async {
@@ -119,6 +128,9 @@ class _MainScreenState extends State<MainScreen>
   void initState() {
     super.initState();
     checkIfLocationPermissionGranted();
+
+    readCurrentDriveInformation();
+
     tabController = TabController(length: 3, vsync: this);
   }
 
