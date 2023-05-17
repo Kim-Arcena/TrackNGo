@@ -13,16 +13,23 @@ class PushNotificationSystem {
         .getInitialMessage()
         .then((RemoteMessage? remoteMessage) {
       if (remoteMessage != null) {
+        print("remote message id: ");
+        print(remoteMessage.data["rideRequestId"]);
         //display ride information
       }
     });
 
     //foreground
-    FirebaseMessaging.onMessage.listen((RemoteMessage? remoteMessage) {});
+    FirebaseMessaging.onMessage.listen((RemoteMessage? remoteMessage) {
+      print("remote message: ");
+      print(remoteMessage?.data);
+    });
 
     //background
-    FirebaseMessaging.onMessageOpenedApp
-        .listen((RemoteMessage? remoteMessage) {});
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage? remoteMessage) {
+      print("remote message: ");
+      print(remoteMessage?.data);
+    });
   }
 
   Future generateAndGetToken() async {
