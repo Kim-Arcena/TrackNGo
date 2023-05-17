@@ -254,11 +254,11 @@ class _InnerContainerState extends State<InnerContainer> {
 
     Map originLocationMap = {
       "latitude": originLocation!.locationLatitude.toString(),
-      "longitude": originLocation!.locationLongitude.toString(),
+      "longitude": originLocation.locationLongitude.toString(),
     };
     Map destinationLocationMap = {
       "latitude": destinatinoLocation!.locationLatitude.toString(),
-      "longitude": destinatinoLocation!.locationLongitude.toString(),
+      "longitude": destinatinoLocation.locationLongitude.toString(),
     };
 
     Map userInformationMap = {
@@ -268,8 +268,8 @@ class _InnerContainerState extends State<InnerContainer> {
       "userFirstName": data?['firstName'],
       "userLastName": data?['lastName'],
       "userContact": data?['contactNumber'],
-      "originAddress": originLocation?.locationName ?? "",
-      "destinationAddress": destinatinoLocation?.locationName ?? "",
+      "originAddress": originLocation.locationName ?? "",
+      "destinationAddress": destinatinoLocation.locationName ?? "",
       "driverId": "waiting",
     };
 

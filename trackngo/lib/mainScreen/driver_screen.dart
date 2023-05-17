@@ -55,7 +55,7 @@ class _MainScreenState extends State<MainScreen>
     currentFirebaseUser = fAuth.currentUser;
 
     PushNotificationSystem pushNotificationSystem = PushNotificationSystem();
-    pushNotificationSystem.initializeCloudMessagin();
+    pushNotificationSystem.initializeCloudMessagin(context);
     pushNotificationSystem.generateAndGetToken();
   }
 

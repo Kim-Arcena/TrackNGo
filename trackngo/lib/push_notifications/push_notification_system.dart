@@ -2,15 +2,17 @@ import 'dart:math';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:trackngo/global/global.dart';
 import 'package:trackngo/models/user_ride_request_information.dart';
+import 'package:trackngo/push_notifications/notification_dialog_box.dart';
 
 class PushNotificationSystem {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
-  Future initializeCloudMessagin() async {
+  Future initializeCloudMessagin(BuildContext context) async {
     //terminated
     FirebaseMessaging.instance
         .getInitialMessage()
@@ -20,7 +22,8 @@ class PushNotificationSystem {
         print(remoteMessage.data["rideRequestId"]);
         //display ride information
 
-        readUserRideRequestInformation(remoteMessage.data["rideRequestId"]);
+        readUserRideRequestInformation(
+            remoteMessage.data["rideRequestId"], context);
       }
     });
 
@@ -28,7 +31,8 @@ class PushNotificationSystem {
     FirebaseMessaging.onMessage.listen((RemoteMessage? remoteMessage) {
       print("remote message: ");
       print(remoteMessage?.data);
-      readUserRideRequestInformation(remoteMessage?.data["rideRequestId"]);
+      readUserRideRequestInformation(
+          remoteMessage?.data["rideRequestId"], context);
     });
 
     //background
@@ -36,11 +40,12 @@ class PushNotificationSystem {
       print("remote message: ");
       print(remoteMessage?.data);
 
-      readUserRideRequestInformation(remoteMessage?.data["rideRequestId"]);
+      readUserRideRequestInformation(
+          remoteMessage?.data["rideRequestId"], context);
     });
   }
 
-  readUserRideRequestInformation(String rideRequestId) {
+  readUserRideRequestInformation(String rideRequestId, BuildContext context) {
     FirebaseDatabase.instance
         .ref()
         .child("All Ride Requests")
@@ -71,20 +76,25 @@ class PushNotificationSystem {
         String userContactNumber =
             (snapData.snapshot.value! as Map)["userContact"].toString();
 
-        UserRideRequestInformation userRideRequestInformation =
-            UserRideRequestInformation(
-          originLatLng: LatLng(originLat, originLng),
-          destinationLatLng: LatLng(destinationLat, destinationLng),
-          originAddress: originAddress,
-          destinationAddress: destinationAddress,
-          rideRequestId: rideRequestId,
-          userFirstName: userFirstName,
-          userLastName: userLastName,
-          userContactNumber: userContactNumber,
-        );
+        UserRideRequestInformation userRideRequestDetails =
+            UserRideRequestInformation();
 
-        print("userRideRequestInformation: ");
-        print(userRideRequestInformation.userLastName);
+        userRideRequestDetails.rideRequestId = rideRequestId;
+        userRideRequestDetails.originLatLng = LatLng(originLat, originLng);
+        userRideRequestDetails.destinationLatLng =
+            LatLng(destinationLat, destinationLng);
+        userRideRequestDetails.originAddress = originAddress;
+        userRideRequestDetails.destinationAddress = destinationAddress;
+        userRideRequestDetails.userFirstName = userFirstName;
+        userRideRequestDetails.userLastName = userLastName;
+        userRideRequestDetails.userContactNumber = userContactNumber;
+
+        showDialog(
+          context: context,
+          builder: (BuildContext context) => NotificationDialogBox(
+            userRideRequestDetails: userRideRequestDetails,
+          ),
+        );
       } else {
         Fluttertoast.showToast(msg: "This ride message does not exist. ");
       }
