@@ -267,7 +267,7 @@ class _InnerContainerState extends State<InnerContainer> {
       "time": DateTime.now().toString(),
       "userFirstName": data?['firstName'],
       "userLastName": data?['lastName'],
-      "userContact": data?['contactName'],
+      "userContact": data?['contactNumber'],
       "originAddress": originLocation?.locationName ?? "",
       "destinationAddress": destinatinoLocation?.locationName ?? "",
       "driverId": "waiting",
