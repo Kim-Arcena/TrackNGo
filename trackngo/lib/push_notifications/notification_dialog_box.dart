@@ -1,6 +1,8 @@
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/material.dart';
+import 'package:trackngo/global/global.dart';
 import 'package:trackngo/models/user_ride_request_information.dart';
 
 class NotificationDialogBox extends StatefulWidget {
@@ -114,7 +116,12 @@ class _NotificationDialogBoxState extends State<NotificationDialogBox> {
                   fixedSize: Size(280, 45),
                   primary: Color(0xFF199A5D), // background
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  audioPlayer!.pause();
+                  audioPlayer!.stop();
+                  audioPlayer = AssetsAudioPlayer();
+                  Navigator.of(context).pop();
+                },
                 child: Text(
                   "ACCEPT RIDE",
                   style: TextStyle(
@@ -135,6 +142,9 @@ class _NotificationDialogBoxState extends State<NotificationDialogBox> {
                   primary: Color(0xFF808381), // background
                 ),
                 onPressed: () {
+                  audioPlayer!.pause();
+                  audioPlayer!.stop();
+                  audioPlayer = AssetsAudioPlayer();
                   Navigator.of(context).pop();
                 },
                 child: Text(
