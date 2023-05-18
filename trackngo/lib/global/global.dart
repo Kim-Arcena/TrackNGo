@@ -12,3 +12,5 @@ StreamSubscription<Position>? streamStreamSubscription;
 List dList = [];
 DirectionDetailsInfo? tripDrirectionDetailsInfo;
 AssetsAudioPlayer? audioPlayer = AssetsAudioPlayer();
+String? choosenDriverId = "";
+String? userResponse = "";

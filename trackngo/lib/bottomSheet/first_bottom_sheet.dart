@@ -299,6 +299,30 @@ class _InnerContainerState extends State<InnerContainer> {
     await retrieveOnlineDriversInformation(onlineNearByAvailableDriversList);
     print("dList length is" + dList.length.toString());
     widget.moveToPage(1);
+    print("choosenddriver id is" + choosenDriverId.toString());
+    if (userResponse == "Driver Selected") {
+      FirebaseDatabase.instance
+          .ref()
+          .child("driver")
+          .child(choosenDriverId!)
+          .once()
+          .then((snap) {
+        if (snap.snapshot.value != null) {
+          sendNotificationToDriver(choosenDriverId);
+        } else {
+          Fluttertoast.showToast(msg: "Driver is not available.");
+        }
+      });
+    }
+  }
+
+  sendNotificationToDriver(String? chooseDriverId) {
+    FirebaseDatabase.instance
+        .ref()
+        .child("driver")
+        .child(choosenDriverId!)
+        .child("newRideStatus")
+        .set(referenceRideRequestRef!.key);
   }
 
   retrieveOnlineDriversInformation(List onlineNearestDriversList) async {

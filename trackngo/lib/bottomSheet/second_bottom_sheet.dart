@@ -234,7 +234,10 @@ class _InnerContainerState extends State<InnerContainer> {
                           onTap: () {
                             setState(() {
                               selectedImage = 'images/commuter.png';
+                              choosenDriverId = dList[index]["id"].toString();
+                              userResponse = "Driver Selected";
                             });
+                            widget.moveToPage(0);
                           },
                           child: Neumorphic(
                             margin: const EdgeInsets.all(5),
