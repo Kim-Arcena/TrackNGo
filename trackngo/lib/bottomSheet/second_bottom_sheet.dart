@@ -224,11 +224,12 @@ class _InnerContainerState extends State<InnerContainer> {
               child: Padding(
                 padding: const EdgeInsets.all(30.0),
                 child: Container(
-                  height: 100,
+                  height: 130,
                   child: ListView.builder(
                     itemCount: dList.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Container(
+                        height: 90,
                         child: GestureDetector(
                           onTap: () {
                             setState(() {
@@ -245,11 +246,11 @@ class _InnerContainerState extends State<InnerContainer> {
                               color: Colors.white,
                               shadowDarkColor:
                                   selectedImage == 'images/commuter.png'
-                                      ? Color(0xFF8DE0F4)
+                                      ? Color(0xFFf9dea7)
                                       : Color(0xFFDFDFDF),
                               shadowLightColor:
                                   selectedImage == 'images/commuter.png'
-                                      ? Color(0xFF8DE0F4)
+                                      ? Color(0xFFf9dea7)
                                       : Color(0xFFDFDFDF),
                             ),
                             child: ListTile(
@@ -258,24 +259,23 @@ class _InnerContainerState extends State<InnerContainer> {
                                   "images/" +
                                       dList[index]["busType"].toString() +
                                       ".png",
-                                  width: 50,
+                                  width: 60,
                                 ),
                               ),
                               title: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Row(
                                     children: [
-                                      Text(dList[index]["firstName"],
+                                      Text(
+                                          dList[index]["firstName"] +
+                                              " " +
+                                              dList[index]["lastName"],
                                           style: TextStyle(
-                                            fontSize: 14,
+                                            fontSize: 15,
                                             color: Colors.black,
-                                          )),
-                                      Text(dList[index]["lastName"],
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
                                           )),
                                     ],
                                   ),
