@@ -11,6 +11,7 @@ class UserRideRequestInformation {
   String? userFirstName;
   String? userLastName;
   String? userContactNumber;
+  String? numberOfSeats;
 
   UserRideRequestInformation({
     this.originLatLng,
@@ -21,5 +22,6 @@ class UserRideRequestInformation {
     this.userFirstName,
     this.userLastName,
     this.userContactNumber,
+    this.numberOfSeats,
   });
 }

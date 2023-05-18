@@ -22,7 +22,7 @@ class _NotificationDialogBoxState extends State<NotificationDialogBox> {
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20.0)), //this right here
       child: Container(
-        height: 400,
+        height: 420,
         child: Padding(
           padding: const EdgeInsets.all(25.0),
           child: Column(
@@ -43,7 +43,10 @@ class _NotificationDialogBoxState extends State<NotificationDialogBox> {
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold)),
                       Spacer(),
-                      Text("1 seat", style: TextStyle(fontSize: 16)),
+                      Text(
+                          widget.userRideRequestDetails!.numberOfSeats! +
+                              " seat",
+                          style: TextStyle(fontSize: 16)),
                     ],
                   ),
                   Row(
@@ -82,9 +85,18 @@ class _NotificationDialogBoxState extends State<NotificationDialogBox> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Pickup Location",
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold)),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.location_pin,
+                            color: Color(0xFFA8CEB7),
+                            size: 30.0,
+                          ),
+                          Text("Pickup Location",
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold)),
+                        ],
+                      ),
                       Text(
                         widget.userRideRequestDetails!.originAddress!,
                       ),
@@ -95,9 +107,18 @@ class _NotificationDialogBoxState extends State<NotificationDialogBox> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Dropoff Location",
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold)),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.location_pin,
+                            color: Color(0xFFA8CEB7),
+                            size: 30.0,
+                          ),
+                          Text("Dropoff Location",
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold)),
+                        ],
+                      ),
                       Text(
                         widget.userRideRequestDetails!.destinationAddress!,
                       ),

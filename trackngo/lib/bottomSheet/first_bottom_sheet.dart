@@ -213,6 +213,7 @@ class _InnerContainerState extends State<InnerContainer> {
   bool _flagThree = false;
   List<ActiveNearbyAvailableDrivers> onlineNearByAvailableDriversList = [];
   DatabaseReference? referenceRideRequestRef;
+  int numberOfSeats = 0;
 
   void onTap() async {
     var commuterScreenState = CommuterScreen.of(context);
@@ -271,6 +272,7 @@ class _InnerContainerState extends State<InnerContainer> {
       "originAddress": originLocation.locationName ?? "",
       "destinationAddress": destinatinoLocation.locationName ?? "",
       "driverId": "waiting",
+      "numberOfSeats": numberOfSeats,
     };
 
     print(userInformationMap);
@@ -502,6 +504,7 @@ class _InnerContainerState extends State<InnerContainer> {
                                     _flag = true;
                                     _flagTwo = false;
                                     _flagThree = false;
+                                    numberOfSeats = 1;
                                   });
                                   print('clicked');
                                 },
@@ -536,6 +539,7 @@ class _InnerContainerState extends State<InnerContainer> {
                                     _flag = false;
                                     _flagThree = false;
                                     _flagTwo = true;
+                                    numberOfSeats = 2;
                                   });
                                 },
                                 child: Container(
@@ -570,6 +574,7 @@ class _InnerContainerState extends State<InnerContainer> {
                                     _flag = false;
                                     _flagTwo = false;
                                     _flagThree = true;
+                                    numberOfSeats = 3;
                                   });
                                 },
                                 child: Container(
@@ -613,13 +618,15 @@ class _InnerContainerState extends State<InnerContainer> {
             child: Container(
               child: ElevatedButton(
                 onPressed: () {
-                  if (Provider.of<AppInfo>(context, listen: false)
-                          .userDropOffLocation !=
-                      null) {
+                  if ((Provider.of<AppInfo>(context, listen: false)
+                              .userDropOffLocation !=
+                          null) ||
+                      // ignore: unnecessary_null_comparison
+                      numberOfSeats != 0) {
                     saveRideRequestInformation();
                   } else {
                     Fluttertoast.showToast(
-                        msg: "Please select a dropoff location",
+                        msg: "Kindly fill up ride request details",
                         toastLength: Toast.LENGTH_SHORT,
                         gravity: ToastGravity.BOTTOM,
                         timeInSecForIosWeb: 1,
