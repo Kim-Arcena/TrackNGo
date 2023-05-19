@@ -54,7 +54,7 @@ class _SignUpDriver extends State<SignUpDriver> {
       r"^[a-zA-Z\d.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z\d-]+(?:\.[a-zA-Z\d-]+)*$",
       caseSensitive: false);
   RegExp passwordRegex = RegExp(
-      r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$');
+      r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@!%*?&])[A-Za-z\d@!%*?&]{8,}$');
 
   @override
   void initState() {
@@ -65,72 +65,54 @@ class _SignUpDriver extends State<SignUpDriver> {
 
   Map<String, dynamic> driverInfoDataMap = {};
 
-  // validateForm() {
-  //   if (_firstNameController.text.isEmpty ||
-  //       _lastNameController.text.isEmpty ||
-  //       _emailController.text.isEmpty ||
-  //       _contactNumberController.text.isEmpty ||
-  //       _plateNumberController.text.isEmpty) {
-  //     Fluttertoast.showToast(msg: "Kindly fill up all fields.");
-  //   } else if (!nameRegex.hasMatch(_firstNameController.text) ||
-  //       !nameRegex.hasMatch(_lastNameController.text)) {
-  //     Fluttertoast.showToast(msg: "Invalid Name");
-  //   } else if (!digitRegex.hasMatch(_contactNumberController.text)) {
-  //     MyAlertDialog(
-  //       title: 'Invalid Contact Number',
-  //       content: 'Contact Number must:\n'
-  //           '    * start with "09"\n'
-  //           '    * have 11 digits\n'
-  //           '    * no space between digits',
-  //     ).show(context);
-  //   } else if (!licenseRegex.hasMatch(_licenseNumberController.text)) {
-  //     MyAlertDialog(
-  //       title: "Invalid Driver's License Number",
-  //       content: "Driver's License must:\n"
-  //           '    * start with an uppercase letter\n'
-  //           '    * followed by 10 digits\n'
-  //           '    * contain 11 characters\n'
-  //           '    * no space between characters',
-  //     ).show(context);
-  //   } else if (!opcodeRegex.hasMatch(_operatorIdController.text)) {
-  //     MyAlertDialog(
-  //       title: "Invalid Operator ID",
-  //       content: "Operator ID must:\n"
-  //           '    * start with 2 uppercase letters\n'
-  //           '    * followed by 4 digits\n'
-  //           '    * contain 6 characters\n'
-  //           '    * no space between characters',
-  //     ).show(context);
-  //   } else if (!plateRegex.hasMatch(_plateNumberController.text)) {
-  //     MyAlertDialog(
-  //       title: "Invalid Plate Number",
-  //       content: "Plate Number must:\n"
-  //           '    * start with 3 uppercase letters\n'
-  //           '    * followed by 4 digits\n'
-  //           '    * contain 7 characters\n'
-  //           '    * no space between characters\n',
-  //     ).show(context);
-  //   } else if (selectedBusType != 'Regular' ||
-  //       selectedBusType != 'Air-Conditioned') {
-  //     Fluttertoast.showToast(msg: "Select a Bus Type");
-  //   } else if (!emailRegex.hasMatch(_emailController.text)) {
-  //     Fluttertoast.showToast(msg: "Invalid Email Address");
-  //   } else if (!passwordRegex.hasMatch(_passwordController.text)) {
-  //     MyAlertDialog(
-  //       title: 'Invalid Password',
-  //       content: 'Password must:\n'
-  //           '    * be minimum of 8 characters\n'
-  //           '    * contain lower & uppercase letters\n'
-  //           '    * contain numbers\n'
-  //           '    * contain special symbols, ie. "!, @, # ..."\n'
-  //           '    * space is not considered a special symbol',
-  //     ).show(context);
-  //   } else if (_passwordController.text != _confirmPasswordController.text) {
-  //     Fluttertoast.showToast(msg: "Different Passwords Provided");
-  //   } else {
-  //     saveDriverInfo();
-  //   }
-  // }
+  validateForm() {
+    if (!digitRegex.hasMatch(_contactNumberController.text)) {
+      MyAlertDialog(
+        title: 'Invalid Contact Number',
+        content: 'Contact Number must:\n'
+            '    * start with "09"\n'
+            '    * have 11 digits\n'
+            '    * no space between digits',
+      ).show(context);
+    } else if (!licenseRegex.hasMatch(_licenseNumberController.text)) {
+      MyAlertDialog(
+        title: "Invalid Driver's License Number",
+        content: "Driver's License must:\n"
+            '    * start with an uppercase letter\n'
+            '    * followed by 10 digits\n'
+            '    * contain 11 characters\n'
+            '    * no space between characters',
+      ).show(context);
+    } else if (!opcodeRegex.hasMatch(_operatorIdController.text)) {
+      MyAlertDialog(
+        title: "Invalid Operator ID",
+        content: "Operator ID must:\n"
+            '    * start with 2 uppercase letters\n'
+            '    * followed by 4 digits\n'
+            '    * contain 6 characters\n'
+            '    * no space between characters',
+      ).show(context);
+    } else if (!plateRegex.hasMatch(_plateNumberController.text)) {
+      MyAlertDialog(
+        title: "Invalid Plate Number",
+        content: "Plate Number must:\n"
+            '    * start with 3 uppercase letters\n'
+            '    * followed by 4 digits\n'
+            '    * contain 7 characters\n'
+            '    * no space between characters\n',
+      ).show(context);
+    } else if (!passwordRegex.hasMatch(_passwordController.text)) {
+      MyAlertDialog(
+        title: 'Invalid Password',
+        content: 'Password must:\n'
+            '    * be minimum of 8 characters\n'
+            '    * contain lower & uppercase letters\n'
+            '    * contain numbers\n'
+            '    * contain special symbols "@, !, %, *, ?, &"\n'
+            '    * space is not considered a special symbol',
+      ).show(context);
+    }
+  }
 
   saveDriverInfo() async {
     final User? firebaseUser = (await fAuth
@@ -252,8 +234,7 @@ class _SignUpDriver extends State<SignUpDriver> {
                                 validator: (isValid) {
                                   if (isValid!.isEmpty) {
                                     return 'This field requires a first name';
-                                  }
-                                  if (!nameRegex
+                                  } else if (!nameRegex
                                       .hasMatch(_firstNameController.text)) {
                                     return 'Invalid First Name';
                                   }
@@ -312,8 +293,7 @@ class _SignUpDriver extends State<SignUpDriver> {
                                 validator: (isValid) {
                                   if (isValid!.isEmpty) {
                                     return 'This field requires a last name';
-                                  }
-                                  if (!nameRegex
+                                  } else if (!nameRegex
                                       .hasMatch(_lastNameController.text)) {
                                     return 'Invalid Last Name';
                                   }
@@ -371,13 +351,7 @@ class _SignUpDriver extends State<SignUpDriver> {
                                   }
                                   if (!digitRegex.hasMatch(
                                       _contactNumberController.text)) {
-                                    MyAlertDialog(
-                                      title: 'Invalid Contact Number',
-                                      content: 'Contact Number must:\n'
-                                          '    * start with "09"\n'
-                                          '    * have 11 digits\n'
-                                          '    * no space between digits',
-                                    ).show(context);
+                                    validateForm();
                                     return 'Invalid Contact Number';
                                   }
                                   return null;
@@ -438,14 +412,7 @@ class _SignUpDriver extends State<SignUpDriver> {
                                   }
                                   if (!licenseRegex.hasMatch(
                                       _licenseNumberController.text)) {
-                                    MyAlertDialog(
-                                      title: "Invalid Driver's License Number",
-                                      content: "Driver's License must:\n"
-                                          '    * start with an uppercase letter\n'
-                                          '    * followed by 10 digits\n'
-                                          '    * contain 11 characters\n'
-                                          '    * no space between characters',
-                                    ).show(context);
+                                    validateForm();
                                     return "Invalid Driver's License Number";
                                   }
                                   return null;
@@ -506,14 +473,7 @@ class _SignUpDriver extends State<SignUpDriver> {
                                   }
                                   if (!opcodeRegex
                                       .hasMatch(_operatorIdController.text)) {
-                                    MyAlertDialog(
-                                      title: "Invalid Operator ID",
-                                      content: "Operator ID must:\n"
-                                          '    * start with 2 uppercase letters\n'
-                                          '    * followed by 4 digits\n'
-                                          '    * contain 6 characters\n'
-                                          '    * no space between characters',
-                                    ).show(context);
+                                    validateForm();
                                     return 'Invalid Operator ID';
                                   }
                                   return null;
@@ -574,14 +534,7 @@ class _SignUpDriver extends State<SignUpDriver> {
                                   }
                                   if (!plateRegex
                                       .hasMatch(_plateNumberController.text)) {
-                                    MyAlertDialog(
-                                      title: "Invalid Plate Number",
-                                      content: "Plate Number must:\n"
-                                          '    * start with 3 uppercase letters\n'
-                                          '    * followed by 4 digits\n'
-                                          '    * contain 7 characters\n'
-                                          '    * no space between characters\n',
-                                    ).show(context);
+                                    validateForm();
                                     return 'Invalid Plate Number';
                                   }
                                   return null;
@@ -761,15 +714,7 @@ class _SignUpDriver extends State<SignUpDriver> {
                                   }
                                   if (!passwordRegex
                                       .hasMatch(_passwordController.text)) {
-                                    MyAlertDialog(
-                                      title: 'Invalid Password',
-                                      content: 'Password must:\n'
-                                          '    * be minimum of 8 characters\n'
-                                          '    * contain lower & uppercase letters\n'
-                                          '    * contain numbers\n'
-                                          '    * contain special symbols, ie. "!, @, # ..."\n'
-                                          '    * space is not considered a special symbol',
-                                    ).show(context);
+                                    validateForm();
                                     return 'Invalid Password';
                                   }
                                   return null;

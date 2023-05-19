@@ -44,7 +44,7 @@ class _SignUpCommuter extends State<SignUpCommuter> {
       r"^[a-zA-Z\d.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z\d-]+(?:\.[a-zA-Z\d-]+)*$",
       caseSensitive: false);
   RegExp passwordRegex = RegExp(
-      r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$');
+      r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@!%*?&])[A-Za-z\d@!%*?&]{8,}$');
 
   @override
   void initState() {
@@ -53,43 +53,27 @@ class _SignUpCommuter extends State<SignUpCommuter> {
     _passwordController.text = widget.password;
   }
 
-  // validateForm() {
-  //   if (!nameRegex.hasMatch(_firstNameController.text)) {
-  //     Fluttertoast.showToast(msg: "Invalid First Name");
-  //     return;
-  //   } else if (!nameRegex.hasMatch(_lastNameController.text)) {
-  //     Fluttertoast.showToast(msg: "Invalid Last Name");
-  //     return;
-  //   } else if (!digitRegex.hasMatch(_contactNumberController.text)) {
-  //     MyAlertDialog(
-  //       title: 'Invalid Contact Number',
-  //       content: 'Contact Number must:\n'
-  //           '    * start with "09"\n'
-  //           '    * have 11 digits\n'
-  //           '    * no space between digits',
-  //     ).show(context);
-  //     return;
-  //   } else if (!emailRegex.hasMatch(_emailController.text)) {
-  //     Fluttertoast.showToast(msg: "Invalid Email Address");
-  //     return;
-  //   } else if (!passwordRegex.hasMatch(_passwordController.text)) {
-  //     MyAlertDialog(
-  //       title: 'Invalid Password',
-  //       content: 'Password must:\n'
-  //           '    * be minimum of 8 characters\n'
-  //           '    * contain lower & uppercase letters\n'
-  //           '    * contain numbers\n'
-  //           '    * contain special symbols, ie. "!, @, # ..."\n'
-  //           '    * space is not considered a special symbol',
-  //     ).show(context);
-  //     return;
-  //   } else if (_passwordController.text != _confirmPasswordController.text) {
-  //     Fluttertoast.showToast(msg: "Different Passwords Provided");
-  //     return;
-  //   } else {
-  //     saveCommutersInfo();
-  //   }
-  // }
+  validateForm() {
+    if (!digitRegex.hasMatch(_contactNumberController.text)) {
+      MyAlertDialog(
+        title: 'Invalid Contact Number',
+        content: 'Contact Number must:\n'
+            '    * start with "09"\n'
+            '    * have 11 digits\n'
+            '    * no space between digits',
+      ).show(context);
+    } else if (!passwordRegex.hasMatch(_passwordController.text)) {
+      MyAlertDialog(
+        title: 'Invalid Password',
+        content: 'Password must:\n'
+            '    * be minimum of 8 characters\n'
+            '    * contain lower & uppercase letters\n'
+            '    * contain numbers\n'
+            '    * contain special symbols "@, !, %, *, ?, &"\n'
+            '    * space is not considered a special symbol',
+      ).show(context);
+    }
+  }
 
   saveCommutersInfo() async {
     Map commutersInfoMap = {
@@ -215,8 +199,7 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                                 validator: (isValid) {
                                   if (isValid!.isEmpty) {
                                     return 'This field requires a first name';
-                                  }
-                                  if (!nameRegex
+                                  } else if (!nameRegex
                                       .hasMatch(_firstNameController.text)) {
                                     return 'Invalid First Name';
                                   }
@@ -275,8 +258,7 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                                 validator: (isValid) {
                                   if (isValid!.isEmpty) {
                                     return 'This field requires a last name';
-                                  }
-                                  if (!nameRegex
+                                  } else if (!nameRegex
                                       .hasMatch(_lastNameController.text)) {
                                     return 'Invalid Last Name';
                                   }
@@ -336,15 +318,8 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                                   if (isValid!.isEmpty) {
                                     return 'This field requires a contact number';
                                   }
-                                  if (!digitRegex.hasMatch(
-                                      _contactNumberController.text)) {
-                                    MyAlertDialog(
-                                      title: 'Invalid Contact Number',
-                                      content: 'Contact Number must:\n'
-                                          '    * start with "09"\n'
-                                          '    * have 11 digits\n'
-                                          '    * no space between digits',
-                                    ).show(context);
+                                  if(!digitRegex.hasMatch(_contactNumberController.text)) {
+                                    validateForm();
                                     return 'Invalid Contact Number';
                                   }
                                   return null;
@@ -398,8 +373,7 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                                 validator: (isValid) {
                                   if (isValid!.isEmpty) {
                                     return 'This field requires an email';
-                                  }
-                                  if (!emailRegex
+                                  } else if (!emailRegex
                                       .hasMatch(_emailController.text)) {
                                     return 'Invalid Email Address';
                                   }
@@ -458,18 +432,8 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                                 validator: (isValid) {
                                   if (isValid!.isEmpty) {
                                     return 'This field requires a password';
-                                  }
-                                  if (!passwordRegex
-                                      .hasMatch(_passwordController.text)) {
-                                    MyAlertDialog(
-                                      title: 'Invalid Password',
-                                      content: 'Password must:\n'
-                                          '    * be minimum of 8 characters\n'
-                                          '    * contain lower & uppercase letters\n'
-                                          '    * contain numbers\n'
-                                          '    * contain special symbols, ie. "!, @, # ..."\n'
-                                          '    * space is not considered a special symbol',
-                                    ).show(context);
+                                  } else if (!passwordRegex.hasMatch(_passwordController.text)) {
+                                    validateForm();
                                     return 'Invalid Password';
                                   }
                                   return null;
@@ -541,8 +505,7 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                                 validator: (isValid) {
                                   if (isValid!.isEmpty) {
                                     return 'This field requires the confirmed password';
-                                  }
-                                  if (_passwordController.text !=
+                                  } else if (_passwordController.text !=
                                       _confirmPasswordController.text) {
                                     return 'Different Password Provided';
                                   }

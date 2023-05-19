@@ -8,6 +8,7 @@ import 'package:trackngo/authentication/signup_commuter.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:trackngo/authentication/signup_driver.dart';
 import 'package:trackngo/authentication/login_screen.dart';
+import 'package:trackngo/authentication/terms_n_conds.dart';
 import 'package:flutter/gestures.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:trackngo/global/global.dart';
@@ -20,14 +21,28 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  final FocusNode passwordFocus = FocusNode();
   final FocusNode addressFocus = FocusNode();
+  final FocusNode passwordFocus = FocusNode();
   final _validationKey = GlobalKey<FormState>();
   bool passwordVisible = true;
 
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   String? selectedImage;
+
+  RegExp emailRegex = RegExp(
+      r"^[a-zA-Z\d.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z\d-]+(?:\.[a-zA-Z\d-]+)*$",
+      caseSensitive: false);
+  RegExp passwordRegex = RegExp(
+      r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$');
+
+validateForm() {
+    if(isChecked == false) {
+      return 'Please Agree to the Terms';
+    } else {
+     return null;
+   }
+}
 
   saveDriverInfo() async {
     if (selectedImage == 'images/commuter.png') {
@@ -172,11 +187,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 validator: (isValid) {
                                   if (isValid!.isEmpty) {
                                     return 'This field requires an email';
+                                  } else if (!emailRegex.hasMatch(_emailController.text)) {
+                                    return 'Invalid Email Address';
                                   }
                                   return null;
                                 },
                                 inputFormatters: [
-                                  FilteringTextInputFormatter.deny(RegExp(r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
+                                  FilteringTextInputFormatter.deny(RegExp(
+                                      r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
                                 ],
                                 controller: _emailController,
                                 keyboardType: TextInputType.emailAddress,
@@ -198,7 +216,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   ),
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20.0),
-                                    borderSide: BorderSide(color: Colors.black12),
+                                    borderSide:
+                                        BorderSide(color: Colors.black12),
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20.0),
@@ -227,10 +246,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   if (isValid!.isEmpty) {
                                     return 'This field requires a password';
                                   }
+                                  if (!passwordRegex.hasMatch(_passwordController.text)) {
+                                    MyAlertDialog(
+                                      title: 'Invalid Password',
+                                      content: 'Password must:\n'
+                                          '    * be minimum of 8 characters\n'
+                                          '    * contain lower & uppercase letters\n'
+                                          '    * contain numbers\n'
+                                          '    * contain special symbols, ie. "!, @, # ..."\n'
+                                          '    * space is not considered a special symbol',
+                                    ).show(context);
+                                    return 'Invalid Password';
+                                  }
                                   return null;
                                 },
                                 inputFormatters: [
-                                  FilteringTextInputFormatter.deny(RegExp(r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
+                                  FilteringTextInputFormatter.deny(RegExp(
+                                      r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
                                 ],
                                 controller: _passwordController,
                                 keyboardType: TextInputType.text,
@@ -253,7 +285,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   ),
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20.0),
-                                    borderSide: BorderSide(color: Colors.black12),
+                                    borderSide:
+                                        BorderSide(color: Colors.black12),
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20.0),
@@ -279,13 +312,59 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         : Icons.visibility_off),
                                     onPressed: () {
                                       setState(
-                                            () {
+                                        () {
                                           passwordVisible = !passwordVisible;
                                         },
                                       );
                                     },
                                   ),
                                 ),
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Checkbox(
+                                    value: isChecked,
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        isChecked = value!;
+                                        if(isChecked == false) {
+                                          return validateForm();
+                                        }
+                                      });
+                                    },
+                                  ),
+                                  RichText(
+                                    text: TextSpan(
+                                      style: const TextStyle(
+                                        color: Color(0xFFC7C8CC),
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                      children: [
+                                        TextSpan(
+                                          text: 'Terms and Condition',
+                                          style: const TextStyle(
+                                            color: Color(0xFF487E65),
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          recognizer: TapGestureRecognizer()
+                                            ..onTap = () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        TermsNConditions()),
+                                              );
+                                            },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
@@ -294,14 +373,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(45.0),
+                    padding: const EdgeInsets.fromLTRB(45.0, 0, 45.0, 5),
                     child: Column(
                       children: [
                         Container(
                           margin: const EdgeInsets.only(top: 30, bottom: 10),
                           child: ElevatedButton(
                               onPressed: () {
-                                if(!_validationKey.currentState!.validate()) {
+                                if (!_validationKey.currentState!.validate()) {
                                   return;
                                 }
                                 saveDriverInfo();

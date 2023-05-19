@@ -14,3 +14,4 @@ DirectionDetailsInfo? tripDrirectionDetailsInfo;
 AssetsAudioPlayer? audioPlayer = AssetsAudioPlayer();
 String? choosenDriverId = "";
 String? userResponse = "";
+bool isChecked = false;
