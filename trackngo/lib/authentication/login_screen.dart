@@ -7,6 +7,7 @@ import 'package:trackngo/authentication/signup_screen.dart';
 import 'package:trackngo/mainScreen/commuter_screen.dart';
 import 'package:trackngo/mainScreen/driver_screen.dart';
 import 'package:flutter/gestures.dart';
+import 'package:trackngo/mainScreen/new_trip_screen.dart';
 import 'dart:developer' as developer;
 import '../global/global.dart';
 import 'alertDialog.dart';
@@ -71,6 +72,8 @@ class _LoginScreenState extends State<LoginScreen> {
       if (driver.exists) {
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => const MainScreen()));
+        // Navigator.push(
+        //     context, MaterialPageRoute(builder: (context) => NewTripScreen()));
       }
       if (userMap != null && userMap.containsKey("commuters_child")) {
         Navigator.push(context,
@@ -124,13 +127,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                       if (isValid!.isEmpty) {
                                         return 'This field requires an email';
                                       }
-                                      if(!emailRegex.hasMatch(_emailController.text)) {
+                                      if (!emailRegex
+                                          .hasMatch(_emailController.text)) {
                                         return 'Invalid Email Address';
                                       }
                                       return null;
                                     },
                                     inputFormatters: [
-                                      FilteringTextInputFormatter.deny(RegExp(r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
+                                      FilteringTextInputFormatter.deny(RegExp(
+                                          r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
                                     ],
                                     controller: _emailController,
                                     keyboardType: TextInputType.emailAddress,
@@ -148,19 +153,26 @@ class _LoginScreenState extends State<LoginScreen> {
                                       labelText: 'Email',
                                       hintText: 'email@address.com',
                                       border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(20.0),
+                                        borderRadius:
+                                            BorderRadius.circular(20.0),
                                       ),
                                       enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(20.0),
-                                        borderSide: BorderSide(color: Colors.black12),
+                                        borderRadius:
+                                            BorderRadius.circular(20.0),
+                                        borderSide:
+                                            BorderSide(color: Colors.black12),
                                       ),
                                       focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(20.0),
-                                        borderSide: BorderSide(color: Colors.green),
+                                        borderRadius:
+                                            BorderRadius.circular(20.0),
+                                        borderSide:
+                                            BorderSide(color: Colors.green),
                                       ),
                                       focusedErrorBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(20.0),
-                                        borderSide: BorderSide(color: Colors.red),
+                                        borderRadius:
+                                            BorderRadius.circular(20.0),
+                                        borderSide:
+                                            BorderSide(color: Colors.red),
                                       ),
                                       hintStyle: const TextStyle(
                                         color: Color(0xFFCCCCCC),
@@ -181,7 +193,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                       if (isValid!.isEmpty) {
                                         return 'This field requires a password';
                                       }
-                                      if (!passwordRegex.hasMatch(_passwordController.text)) {
+                                      if (!passwordRegex
+                                          .hasMatch(_passwordController.text)) {
                                         MyAlertDialog(
                                           title: 'Invalid Password',
                                           content: 'Password must:\n'
@@ -196,7 +209,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                       return null;
                                     },
                                     inputFormatters: [
-                                      FilteringTextInputFormatter.deny(RegExp(r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
+                                      FilteringTextInputFormatter.deny(RegExp(
+                                          r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
                                     ],
                                     controller: _passwordController,
                                     keyboardType: TextInputType.text,
@@ -215,19 +229,26 @@ class _LoginScreenState extends State<LoginScreen> {
                                       labelText: 'Password',
                                       hintText: '********',
                                       border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(20.0),
+                                        borderRadius:
+                                            BorderRadius.circular(20.0),
                                       ),
                                       enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(20.0),
-                                        borderSide: BorderSide(color: Colors.black12),
+                                        borderRadius:
+                                            BorderRadius.circular(20.0),
+                                        borderSide:
+                                            BorderSide(color: Colors.black12),
                                       ),
                                       focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(20.0),
-                                        borderSide: BorderSide(color: Colors.green),
+                                        borderRadius:
+                                            BorderRadius.circular(20.0),
+                                        borderSide:
+                                            BorderSide(color: Colors.green),
                                       ),
                                       focusedErrorBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(20.0),
-                                        borderSide: BorderSide(color: Colors.red),
+                                        borderRadius:
+                                            BorderRadius.circular(20.0),
+                                        borderSide:
+                                            BorderSide(color: Colors.red),
                                       ),
                                       hintStyle: const TextStyle(
                                         color: Color(0xFFCCCCCC),
@@ -238,15 +259,17 @@ class _LoginScreenState extends State<LoginScreen> {
                                         fontWeight: FontWeight.w600,
                                         fontSize: 16,
                                       ),
-                                      helperStyle: TextStyle(color: Colors.green),
+                                      helperStyle:
+                                          TextStyle(color: Colors.green),
                                       suffixIcon: IconButton(
                                         icon: Icon(passwordVisible
                                             ? Icons.visibility
                                             : Icons.visibility_off),
                                         onPressed: () {
                                           setState(
-                                                () {
-                                              passwordVisible = !passwordVisible;
+                                            () {
+                                              passwordVisible =
+                                                  !passwordVisible;
                                             },
                                           );
                                         },
@@ -261,7 +284,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   const EdgeInsets.only(top: 60, bottom: 10),
                               child: ElevatedButton(
                                   onPressed: () {
-                                    if(!_validationKey.currentState!.validate()) {
+                                    if (!_validationKey.currentState!
+                                        .validate()) {
                                       return;
                                     }
                                     loginDriverNow();

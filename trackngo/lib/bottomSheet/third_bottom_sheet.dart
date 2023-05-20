@@ -228,61 +228,9 @@ class _InnerContainerState extends State<InnerContainer> {
                 children: <Widget>[
                   Container(
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              selectedImage = 'images/aircon.png';
-                            });
-                          },
-                          child: Container(
-                            width: 350,
-                            height: 80,
-                            decoration: BoxDecoration(
-                              color: Color(0xFFE8E8EA),
-                              borderRadius: BorderRadius.circular(20.0),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 10.0, horizontal: 20.0),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Image.asset(
-                                        'images/visa.png',
-                                      ),
-                                      SizedBox(width: 20.0),
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text("Visa Card",
-                                              style: TextStyle(
-                                                  fontSize: 20.0,
-                                                  fontWeight: FontWeight.bold)),
-                                          Text("**** **** **** 1234"),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  Icon(
-                                    Icons.check_circle_rounded,
-                                    color: Color(0xFF81B09A),
-                                    size: 25.0,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [],
                     ),
                   ),
                   Divider(

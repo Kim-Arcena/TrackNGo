@@ -13,10 +13,11 @@ import 'package:trackngo/assistants/assistant_methods.dart';
 import 'package:trackngo/global/global.dart';
 import 'package:trackngo/infoHandler/app_info.dart';
 import 'package:location/location.dart' as loc;
+import 'package:trackngo/models/user_ride_request_information.dart';
 import 'package:trackngo/push_notifications/push_notification_system.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
+  const MainScreen({Key? key, UserRideRequestInformation? userRideRequestDetails}) : super(key: key);
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -37,7 +38,8 @@ class _MainScreenState extends State<MainScreen>
   var driverCurrentPosition;
   Set<Marker> markerSet = {};
   Set<Circle> circleSet = {};
-
+  String? buttonTitle = "Arrive";
+  Color? buttonColor = Color(0xFF199A5D);
   String statusText = "Now Offline";
   Color stateColor = Colors.grey;
   bool isDriverActive = false;
@@ -288,6 +290,97 @@ class _MainScreenState extends State<MainScreen>
                         ),
                       ),
                     )),
+                Positioned(
+                  bottom: 50,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                    height: 250,
+                    padding: EdgeInsets.all(10.0),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.8),
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(15.0),
+                        topRight: Radius.circular(15.0),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 2,
+                          blurRadius: 6,
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      children: [
+                        Text(
+                          "Passengers",
+                          style: TextStyle(
+                              fontSize: 17, fontWeight: FontWeight.bold),
+                        ),
+                        SingleChildScrollView(
+                          child: ListView.builder(
+                            itemCount: 1,
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              return Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "item['name']",
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18.0,
+                                              ),
+                                            ),
+                                            SizedBox(height: 5.0),
+                                            Text(
+                                              'Location: ${['minutesAway']}',
+                                              style: TextStyle(fontSize: 16.0),
+                                            ),
+                                            SizedBox(height: 5.0),
+                                          ],
+                                        ),
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(15.0),
+                                            ),
+                                            fixedSize: Size(100, 35),
+                                            primary: buttonColor, // background
+                                          ),
+                                          onPressed: () {},
+                                          child: Text(
+                                            "Arrived",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Container(

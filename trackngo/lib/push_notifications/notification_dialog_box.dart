@@ -1,9 +1,15 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:trackngo/global/global.dart';
+import 'package:trackngo/mainScreen/new_trip_screen.dart';
 import 'package:trackngo/models/user_ride_request_information.dart';
+
+import '../mainScreen/driver_screen.dart';
 
 class NotificationDialogBox extends StatefulWidget {
   UserRideRequestInformation? userRideRequestDetails;
@@ -141,6 +147,8 @@ class _NotificationDialogBoxState extends State<NotificationDialogBox> {
                   audioPlayer!.pause();
                   audioPlayer!.stop();
                   audioPlayer = AssetsAudioPlayer();
+
+                  acceptRideRequest(context);
                   Navigator.of(context).pop();
                 },
                 child: Text(
@@ -181,5 +189,51 @@ class _NotificationDialogBoxState extends State<NotificationDialogBox> {
         ),
       ),
     );
+  }
+
+  acceptRideRequest(BuildContext context) {
+    String getRideRequestId = "";
+
+    FirebaseDatabase.instance
+        .ref()
+        .child("driver")
+        .child(currentFirebaseUser!.uid)
+        .child("newRideStatus")
+        .once()
+        .then((snap) {
+      if (snap.snapshot.value != null) {
+        getRideRequestId = snap.snapshot.value.toString();
+      } else {
+        Fluttertoast.showToast(
+            msg: "Ride request has been cancelled",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Color(0xFF199A5D),
+            textColor: Colors.white,
+            fontSize: 16.0);
+      }
+      print("Ride Request Id: " +
+          widget.userRideRequestDetails!.rideRequestId.toString());
+      print("Ride Request Idsdf: " + getRideRequestId.toString());
+
+      if (getRideRequestId
+          .contains(widget.userRideRequestDetails!.rideRequestId.toString())) {
+        FirebaseDatabase.instance
+            .ref()
+            .child("driver")
+            .child(currentFirebaseUser!.uid)
+            .child("newRideStatus")
+            .child(widget.userRideRequestDetails!.rideRequestId!)
+            .set("accepted");
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: ((c) => MainScreen(
+                      userRideRequestDetails: widget.userRideRequestDetails,
+                    ))));
+        //trip started now - send driver to tripScreen
+      }
+    });
   }
 }

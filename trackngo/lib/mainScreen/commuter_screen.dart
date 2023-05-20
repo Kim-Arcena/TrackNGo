@@ -43,6 +43,7 @@ class _CommuterScreenState extends State<CommuterScreen> {
   var userCurrentPosition;
   Set<Marker> markerSet = {};
   Set<Circle> circleSet = {};
+
   bool activeNearbyAvailableDriversKeysLoaded = false;
 
   void _onMapCreated(GoogleMapController _cntlr) async {
@@ -496,7 +497,7 @@ class _CommuterScreenState extends State<CommuterScreen> {
     });
   }
 
-  displayActiveDriversOnMap() {
+  displayActiveDriversOnMap() async {
     Set<Marker> driverMarkerSet = Set<Marker>();
 
     for (ActiveNearbyAvailableDrivers eachDriver
@@ -504,10 +505,13 @@ class _CommuterScreenState extends State<CommuterScreen> {
       LatLng eachDriverActivePosition =
           LatLng(eachDriver.locationLatitude!, eachDriver.locationLongitude!);
 
+      BitmapDescriptor busIcon = await BitmapDescriptor.fromAssetImage(
+          ImageConfiguration(size: Size(8, 8)), 'images/bus.png');
+
       Marker driverMarker = Marker(
         markerId: MarkerId(eachDriver.driverId!),
         position: eachDriverActivePosition,
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+        icon: busIcon,
         rotation: 360,
       );
 

@@ -9,7 +9,7 @@ import 'package:trackngo/assistants/geofire_assistant.dart';
 import 'package:trackngo/bottomSheet/fourth_bottom_sheet.dart';
 import 'package:trackngo/bottomSheet/second_bottom_sheet.dart';
 import 'package:trackngo/bottomSheet/third_bottom_sheet.dart';
-import 'package:trackngo/main.dart';
+import '../../main.dart';
 import 'package:trackngo/mainScreen/commuter_screen.dart';
 import 'package:trackngo/models/active_nearby_available_drivers.dart';
 import '../global/global.dart';
@@ -223,6 +223,9 @@ class _InnerContainerState extends State<InnerContainer> {
   }
 
   saveRideRequestInformation() async {
+    var firstName;
+    var lastName;
+    var userContact;
     referenceRideRequestRef =
         FirebaseDatabase.instance.ref().child("All Ride Requests").push();
     final usersRef = FirebaseDatabase(
@@ -232,18 +235,23 @@ class _InnerContainerState extends State<InnerContainer> {
 
     final currentUserCommuteRef =
         usersRef.child(currentFirebaseUser!.uid).child("commuters_child");
-
     final snapshot = await currentUserCommuteRef.get();
+    print("snapshot" + snapshot.toString());
 
-    final data =
-        json.decode(json.encode(snapshot.value)) as Map<String, dynamic>?;
-    if (data != null) {
-      final firstName = data['firstName'];
-      final lastName = data['lastName'];
-      final contactNumber = data['contactNumber'];
-      // do something with firstName and lastName
+    if (snapshot.exists) {
+      final data = snapshot.value as Map<dynamic, dynamic>;
+
+      if (data.containsKey('firstName') && data.containsKey('lastName')) {
+        firstName = data['firstName'];
+        lastName = data['lastName'];
+        userContact = data['contactNumber'];
+      } else {
+        // Handle missing keys appropriately
+        print('Username or last name not found');
+      }
     } else {
-      // handle the case where the snapshot or its value is null
+      // Handle non-existent snapshot
+      print('Snapshot does not exist');
     }
 
     print(snapshot.value);
@@ -266,9 +274,9 @@ class _InnerContainerState extends State<InnerContainer> {
       "origin": originLocationMap,
       "destination": destinationLocationMap,
       "time": DateTime.now().toString(),
-      "userFirstName": data?['firstName'],
-      "userLastName": data?['lastName'],
-      "userContact": data?['contactNumber'],
+      "userFirstName": firstName,
+      "userLastName": lastName,
+      "userContact": userContact,
       "originAddress": originLocation.locationName ?? "",
       "destinationAddress": destinatinoLocation.locationName ?? "",
       "driverId": "waiting",
@@ -317,12 +325,14 @@ class _InnerContainerState extends State<InnerContainer> {
   }
 
   sendNotificationToDriver(String? chooseDriverId) {
+    requestList.add(referenceRideRequestRef!.key);
+
     FirebaseDatabase.instance
         .ref()
         .child("driver")
         .child(choosenDriverId!)
         .child("newRideStatus")
-        .set(referenceRideRequestRef!.key);
+        .set(requestList);
   }
 
   retrieveOnlineDriversInformation(List onlineNearestDriversList) async {
@@ -381,12 +391,7 @@ class _InnerContainerState extends State<InnerContainer> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Text(
-                    "Change",
-                    style: TextStyle(
-                      fontSize: 18,
-                    ),
-                  ),
+                  TextButton(onPressed: () {}, child: Text("Change"))
                 ],
               ),
             ),
