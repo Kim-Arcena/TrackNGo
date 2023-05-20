@@ -17,7 +17,9 @@ import 'package:trackngo/models/user_ride_request_information.dart';
 import 'package:trackngo/push_notifications/push_notification_system.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key, UserRideRequestInformation? userRideRequestDetails}) : super(key: key);
+  const MainScreen(
+      {Key? key, UserRideRequestInformation? userRideRequestDetails})
+      : super(key: key);
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -320,10 +322,14 @@ class _MainScreenState extends State<MainScreen>
                         ),
                         SingleChildScrollView(
                           child: ListView.builder(
-                            itemCount: 1,
+                            itemCount: acceptedRideRequestDetailsList.length,
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index) {
+                              // Access the current ride request object from the list
+                              var rideRequest =
+                                  acceptedRideRequestDetailsList[index];
+
                               return Container(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -337,16 +343,21 @@ class _MainScreenState extends State<MainScreen>
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              "item['name']",
+                                              rideRequest.userFirstName
+                                                      .toString() +
+                                                  " " +
+                                                  rideRequest.userLastName
+                                                      .toString(), // rideRequest.passengerName
                                               style: TextStyle(
                                                 fontWeight: FontWeight.bold,
-                                                fontSize: 18.0,
+                                                fontSize: 17.0,
                                               ),
                                             ),
                                             SizedBox(height: 5.0),
                                             Text(
-                                              'Location: ${['minutesAway']}',
-                                              style: TextStyle(fontSize: 16.0),
+                                              rideRequest.originAddress
+                                                  .toString(),
+                                              style: TextStyle(fontSize: 13.0),
                                             ),
                                             SizedBox(height: 5.0),
                                           ],

@@ -325,14 +325,14 @@ class _InnerContainerState extends State<InnerContainer> {
   }
 
   sendNotificationToDriver(String? chooseDriverId) {
-    requestList.add(referenceRideRequestRef!.key);
+    rideRequestList.add(referenceRideRequestRef!.key);
 
     FirebaseDatabase.instance
         .ref()
         .child("driver")
         .child(choosenDriverId!)
         .child("newRideStatus")
-        .set(requestList);
+        .set(rideRequestList);
   }
 
   retrieveOnlineDriversInformation(List onlineNearestDriversList) async {

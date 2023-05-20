@@ -213,9 +213,12 @@ class _NotificationDialogBoxState extends State<NotificationDialogBox> {
             textColor: Colors.white,
             fontSize: 16.0);
       }
-      print("Ride Request Id: " +
-          widget.userRideRequestDetails!.rideRequestId.toString());
-      print("Ride Request Idsdf: " + getRideRequestId.toString());
+      acceptedRideRequestDetailsList.clear();
+      if (!acceptedRideRequestDetailsList.contains(getRideRequestId)) {
+        acceptedRideRequestDetailsList.add(widget.userRideRequestDetails!);
+      }
+      print("this is the list of accepted ride request details");
+      print(acceptedRideRequestDetailsList.length);
 
       if (getRideRequestId
           .contains(widget.userRideRequestDetails!.rideRequestId.toString())) {
