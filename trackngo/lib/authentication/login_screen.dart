@@ -34,17 +34,6 @@ class _LoginScreenState extends State<LoginScreen> {
   RegExp passwordRegex = RegExp(
       r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$');
 
-  // validateForm() {
-  //   if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
-  //     Fluttertoast.showToast(msg: "Please fill up all the fields");
-  //   }
-  //   if (!_emailController.text.contains("@")) {
-  //     Fluttertoast.showToast(msg: "Please enter a valid email");
-  //   } else {
-  //     loginDriverNow();
-  //   }
-  // }
-
   loginDriverNow() async {
     final User? firebaseUser = (await fAuth
             .signInWithEmailAndPassword(
@@ -193,18 +182,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                       if (isValid!.isEmpty) {
                                         return 'This field requires a password';
                                       }
-                                      if (!passwordRegex
-                                          .hasMatch(_passwordController.text)) {
-                                        MyAlertDialog(
-                                          title: 'Invalid Password',
-                                          content: 'Password must:\n'
-                                              '    * be minimum of 8 characters\n'
-                                              '    * contain lower & uppercase letters\n'
-                                              '    * contain numbers\n'
-                                              '    * contain special symbols, ie. "!, @, # ..."\n'
-                                              '    * space is not considered a special symbol',
-                                        ).show(context);
-                                        return 'Invalid Password';
+                                      if (!passwordRegex.hasMatch(_passwordController.text)) {
+                                        return 'Incorrect Password';
                                       }
                                       return null;
                                     },
