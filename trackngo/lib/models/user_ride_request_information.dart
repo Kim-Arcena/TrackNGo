@@ -24,4 +24,6 @@ class UserRideRequestInformation {
     this.userContactNumber,
     this.numberOfSeats,
   });
+
+  toJson() {}
 }

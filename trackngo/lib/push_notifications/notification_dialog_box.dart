@@ -213,30 +213,45 @@ class _NotificationDialogBoxState extends State<NotificationDialogBox> {
             textColor: Colors.white,
             fontSize: 16.0);
       }
-      acceptedRideRequestDetailsList.clear();
-      if (!acceptedRideRequestDetailsList.contains(getRideRequestId)) {
-        acceptedRideRequestDetailsList.add(widget.userRideRequestDetails!);
+      print("ride request id: " + getRideRequestId);
+      print("ride request idff: " +
+          widget.userRideRequestDetails!.rideRequestId!);
+      bool isRideRequestIdExists = false;
+
+      for (var item in acceptedRideRequestDetailsList) {
+        if (item.rideRequestId ==
+            widget.userRideRequestDetails!.rideRequestId) {
+          isRideRequestIdExists = true;
+          break;
+        }
       }
-      print("this is the list of accepted ride request details");
+
+      if (!isRideRequestIdExists) {
+        acceptedRideRequestDetailsList.add(widget.userRideRequestDetails!);
+        print("Added to the list");
+      } else {
+        print("The rideRequestId already exists in the list");
+      }
+
       print(acceptedRideRequestDetailsList.length);
 
-      if (getRideRequestId
-          .contains(widget.userRideRequestDetails!.rideRequestId.toString())) {
-        FirebaseDatabase.instance
-            .ref()
-            .child("driver")
-            .child(currentFirebaseUser!.uid)
-            .child("newRideStatus")
-            .child(widget.userRideRequestDetails!.rideRequestId!)
-            .set("accepted");
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: ((c) => MainScreen(
-                      userRideRequestDetails: widget.userRideRequestDetails,
-                    ))));
-        //trip started now - send driver to tripScreen
+      print("the length of the list is: " +
+          acceptedRideRequestDetailsList.length.toString());
+      for (int i = 0; i < acceptedRideRequestDetailsList.length; i++) {
+        print(acceptedRideRequestDetailsList[i].rideRequestId!);
+        print(acceptedRideRequestDetailsList[i].userFirstName!);
+        print(acceptedRideRequestDetailsList[i].userLastName!);
+        print(acceptedRideRequestDetailsList[i].userContactNumber!);
+        print(acceptedRideRequestDetailsList[i].originAddress!);
       }
+
+      //   Navigator.push(
+      //       context,
+      //       MaterialPageRoute(
+      //           builder: (context) => MainScreen(
+      //                 userRideRequestDetails: widget.userRideRequestDetails,
+      //               )));
+      // }
     });
   }
 }
