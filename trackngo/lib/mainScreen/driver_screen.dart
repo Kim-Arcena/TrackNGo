@@ -324,86 +324,80 @@ class _MainScreenState extends State<MainScreen>
                         ),
                         SizedBox(height: 10),
                         Expanded(
-                          child: SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                // Add your scrollable content here
-                                // Example:
-                                SingleChildScrollView(
-                                  child: ListView.builder(
-                                    itemCount:
-                                        acceptedRideRequestDetailsList.length,
-                                    shrinkWrap: true,
-                                    physics: NeverScrollableScrollPhysics(),
-                                    itemBuilder: (context, index) {
-                                      // Access the current ride request object from the list
-                                      var rideRequest =
-                                          acceptedRideRequestDetailsList[index];
+                          child:
+                              // Add your scrollable content here
+                              // Example:
+                              SingleChildScrollView(
+                            child: ListView.builder(
+                              itemCount: acceptedRideRequestDetailsList.length,
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                // Access the current ride request object from the list
+                                var rideRequest =
+                                    acceptedRideRequestDetailsList[index];
 
-                                      return Container(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      "rideRequestuserFirstName",
-                                                      style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 17.0,
-                                                      ),
-                                                    ),
-                                                    SizedBox(height: 5.0),
-                                                    Text(
-                                                      "rideRequestoriginAddress",
-                                                      style: TextStyle(
-                                                          fontSize: 13.0),
-                                                    ),
-                                                    SizedBox(height: 5.0),
-                                                  ],
+                                return Container(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                rideRequest.userFirstName
+                                                        .toString() +
+                                                    " " +
+                                                    rideRequest.userLastName
+                                                        .toString(),
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 17.0,
                                                 ),
-                                                ElevatedButton(
-                                                  style:
-                                                      ElevatedButton.styleFrom(
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              15.0),
-                                                    ),
-                                                    fixedSize: Size(100, 35),
-                                                    primary:
-                                                        buttonColor, // background
-                                                  ),
-                                                  onPressed: () {},
-                                                  child: Text(
-                                                    "Arrived",
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
-                                                ),
-                                              ],
+                                              ),
+                                              SizedBox(height: 5.0),
+                                              Text(
+                                                rideRequest.originAddress
+                                                    .toString(),
+                                                style:
+                                                    TextStyle(fontSize: 13.0),
+                                              ),
+                                              SizedBox(height: 5.0),
+                                            ],
+                                          ),
+                                          ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(15.0),
+                                              ),
+                                              fixedSize: Size(100, 35),
+                                              primary:
+                                                  buttonColor, // background
                                             ),
-                                          ],
-                                        ),
-                                      );
-                                    },
+                                            onPressed: () {},
+                                            child: Text(
+                                              "Arrived",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
                                   ),
-                                ),
-                                // ...
-                              ],
+                                );
+                              },
+
+                              // ...
                             ),
                           ),
                         ),
