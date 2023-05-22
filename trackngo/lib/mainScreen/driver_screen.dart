@@ -4,6 +4,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_geofire/flutter_geofire.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:location/location.dart' hide LocationAccuracy;
@@ -37,6 +38,7 @@ class _MainScreenState extends State<MainScreen>
   bool _bottomSheetVisible = true;
   List<LatLng> pLineCoordinatesList = [];
   Set<Polyline> polyLineSet = {};
+  var sourceLatLng;
   var driverCurrentPosition;
   Set<Marker> markerSet = {};
   Set<Circle> circleSet = {};
@@ -94,7 +96,7 @@ class _MainScreenState extends State<MainScreen>
 
     print(
         "this is the driverCurrentPosition int the _onMapCreated:: $driverCurrentPosition");
-
+    
     // Load the custom PNG image
     BitmapDescriptor customIconOrigin = await BitmapDescriptor.fromAssetImage(
         ImageConfiguration(size: Size(48, 48)), 'images/driver.png');
@@ -156,6 +158,7 @@ class _MainScreenState extends State<MainScreen>
                   myLocationEnabled: true,
                   markers: markerSet,
                   circles: circleSet,
+                  polylines: polyLineSet,
                 ),
                 statusText != "Now Online"
                     ? Container(
@@ -190,7 +193,7 @@ class _MainScreenState extends State<MainScreen>
                           if (isDriverActive != true) {
                             driverIsOnlineNow();
                             updateDriversLocationAtRealTime();
-
+                            drawPolyLineFromSourceToDestination();
                             setState(() {
                               stateColor = Color(0xFF228348);
                               statusText = "Now Online";
@@ -293,7 +296,7 @@ class _MainScreenState extends State<MainScreen>
                       ),
                     )),
                 Positioned(
-                  bottom: 100,
+                  bottom: 75,
                   left: 0,
                   right: 0,
                   child: Container(
@@ -468,6 +471,105 @@ class _MainScreenState extends State<MainScreen>
         ],
       ),
     );
+  }
+
+  Future<void> drawPolyLineFromSourceToDestination() async {
+    var sourcePosition =
+        Provider.of<AppInfo>(context, listen: false).userPickUpLocation!;
+
+    //originLatLng
+    sourceLatLng = LatLng(
+        sourcePosition.locationLatitude!, sourcePosition.locationLongitude!);
+
+    print("this is the sourceLatLng :: $sourceLatLng");
+
+    var destinationLatLng = LatLng(11.722, 122.096);
+
+    var directionDetailsInfo =
+        await AssistantMethods.obtainOriginToDestinationDirectionDetails(
+            sourceLatLng, destinationLatLng);
+    setState(() {
+      tripDrirectionDetailsInfo = directionDetailsInfo;
+    });
+
+    print("This is encoded points :: ");
+    print(directionDetailsInfo!.e_points);
+
+    PolylinePoints pPoints = PolylinePoints();
+    List<PointLatLng> decodedPolyLinePointsResultList =
+        pPoints.decodePolyline(directionDetailsInfo.e_points!);
+
+    pLineCoordinatesList.clear();
+
+    if (decodedPolyLinePointsResultList.isNotEmpty) {
+      decodedPolyLinePointsResultList.forEach((PointLatLng pointLatLng) {
+        pLineCoordinatesList
+            .add(LatLng(pointLatLng.latitude, pointLatLng.longitude));
+      });
+    }
+
+    polyLineSet.clear();
+
+    setState(() {
+      Polyline polyline = Polyline(
+        polylineId: const PolylineId("PolylineID"),
+        color: Color(0XFF25ba6f),
+        jointType: JointType.round,
+        points: pLineCoordinatesList,
+        width: 5,
+        startCap: Cap.roundCap,
+        endCap: Cap.roundCap,
+        geodesic: true,
+      );
+
+      polyLineSet.add(polyline);
+    });
+
+    LatLngBounds boundLatLng;
+    if (sourceLatLng.latitude > destinationLatLng.latitude &&
+        sourceLatLng.longitude > destinationLatLng.longitude) {
+      boundLatLng =
+          LatLngBounds(southwest: destinationLatLng, northeast: sourceLatLng);
+    } else if (sourceLatLng.longitude > destinationLatLng.longitude) {
+      boundLatLng = LatLngBounds(
+        southwest: LatLng(sourceLatLng.latitude, destinationLatLng.longitude),
+        northeast: LatLng(destinationLatLng.latitude, sourceLatLng.longitude),
+      );
+    } else if (sourceLatLng.latitude > destinationLatLng.latitude) {
+      boundLatLng = LatLngBounds(
+        southwest: LatLng(destinationLatLng.latitude, sourceLatLng.longitude),
+        northeast: LatLng(sourceLatLng.latitude, destinationLatLng.longitude),
+      );
+    } else {
+      boundLatLng =
+          LatLngBounds(southwest: sourceLatLng, northeast: destinationLatLng);
+    }
+    newGoogleMapController!
+        .animateCamera(CameraUpdate.newLatLngBounds(boundLatLng, 70));
+
+    BitmapDescriptor customIconDestination =
+        await BitmapDescriptor.fromAssetImage(
+            ImageConfiguration(size: Size(48, 48)), 'images/driver.png');
+
+    Marker destinationMarker = Marker(
+      markerId: const MarkerId("destinationID"),
+      position: destinationLatLng,
+      icon: customIconDestination,
+    );
+
+    Circle destinationCircle = Circle(
+      circleId: const CircleId("destinationID"),
+      fillColor: Color(0x225add6c),
+      center: destinationLatLng,
+      radius: 20,
+      strokeWidth: 4,
+      strokeColor: Color(0x22b0e5d9),
+    );
+
+    setState(() {
+      markerSet.add(destinationMarker);
+      circleSet.add(destinationCircle);
+    });
   }
 
   driverIsOnlineNow() async {

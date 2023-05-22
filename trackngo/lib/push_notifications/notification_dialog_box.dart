@@ -245,13 +245,12 @@ class _NotificationDialogBoxState extends State<NotificationDialogBox> {
         print(acceptedRideRequestDetailsList[i].originAddress!);
       }
 
-      //   Navigator.push(
-      //       context,
-      //       MaterialPageRoute(
-      //           builder: (context) => MainScreen(
-      //                 userRideRequestDetails: widget.userRideRequestDetails,
-      //               )));
-      // }
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => MainScreen(
+                    userRideRequestDetails: widget.userRideRequestDetails,
+                  )));
     });
   }
 }
