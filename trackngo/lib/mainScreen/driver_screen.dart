@@ -7,13 +7,12 @@ import 'package:flutter_geofire/flutter_geofire.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:location/location.dart' hide LocationAccuracy;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart' hide LocationAccuracy;
 import 'package:provider/provider.dart';
 import 'package:trackngo/assistants/assistant_methods.dart';
 import 'package:trackngo/global/global.dart';
 import 'package:trackngo/infoHandler/app_info.dart';
-import 'package:location/location.dart' as loc;
 import 'package:trackngo/models/user_ride_request_information.dart';
 import 'package:trackngo/push_notifications/push_notification_system.dart';
 
@@ -58,15 +57,15 @@ class _MainScreenState extends State<MainScreen>
   }
 
   readCurrentDriveInformation() async {
-    currentFirebaseUser = fAuth.currentUser;
-
-    FirebaseDatabase.instance
+    DatabaseReference usersRef = FirebaseDatabase(
+            databaseURL:
+                "https://trackngo-d7aa0-default-rtdb.asia-southeast1.firebasedatabase.app/")
         .ref()
-        .child("driver")
-        .child(currentFirebaseUser!.uid)
-        .once()
-        .then((snap) {
+        .child("driver");
+    usersRef.child(currentFirebaseUser!.uid).once().then((snap) {
       if (snap.snapshot.value != null) {
+        print("the current firebase user is " + currentFirebaseUser!.uid);
+
         onlineDriverData.id = (snap.snapshot.value as Map)["id"];
         onlineDriverData.firstName = (snap.snapshot.value as Map)["firstName"];
         onlineDriverData.lastName = (snap.snapshot.value as Map)["lastName"];
@@ -80,9 +79,12 @@ class _MainScreenState extends State<MainScreen>
         onlineDriverData.plateNumber =
             (snap.snapshot.value as Map)["plateNumber"];
 
-        print(onlineDriverData.firstName);
+        print("online driver data" + onlineDriverData.firstName.toString());
         print(onlineDriverData.lastName);
-        print(onlineDriverData.contactNumber);
+        print("online driver contactNumber" +
+            onlineDriverData.contactNumber.toString());
+      } else {
+        print("online driver data is null");
       }
     });
 
