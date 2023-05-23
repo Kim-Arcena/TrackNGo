@@ -1,8 +1,9 @@
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_geofire/flutter_geofire.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter_platform_interface/src/types/location.dart';
 import 'package:provider/provider.dart';
 import 'package:trackngo/assistants/request_assistant.dart';
+import 'package:trackngo/global/global.dart';
 import 'package:trackngo/global/map_key.dart';
 import 'package:trackngo/models/directions_details_info.dart';
 
@@ -85,4 +86,15 @@ class AssistantMethods {
   }
 
   static readCurrentOnlineUserInfo() {}
+
+  static pauseLiveLocationUpdates() {
+    streamStreamSubscription!.pause();
+    Geofire.removeLocation(currentFirebaseUser!.uid);
+  }
+
+  static resumeLiveLocationUpdates() {
+    streamStreamSubscription!.resume();
+    Geofire.setLocation(currentFirebaseUser!.uid, currentPosition!.latitude,
+        currentPosition!.longitude);
+  }
 }

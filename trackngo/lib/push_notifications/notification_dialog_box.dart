@@ -3,6 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:trackngo/assistants/assistant_methods.dart';
 import 'package:trackngo/global/global.dart';
 import 'package:trackngo/models/user_ride_request_information.dart';
 
@@ -263,6 +264,9 @@ class _NotificationDialogBoxState extends State<NotificationDialogBox> {
           .child("All Ride Requests")
           .child(widget.userRideRequestDetails!.rideRequestId!)
           .child("acceptedRideInfo");
+
+      AssistantMethods.pauseLiveLocationUpdates();
+      
 
       print("widget.userRideRequestDetails!.rideRequestId! " +
           widget.userRideRequestDetails!.rideRequestId!);

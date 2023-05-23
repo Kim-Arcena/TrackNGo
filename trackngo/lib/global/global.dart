@@ -21,3 +21,4 @@ String? userResponse = "";
 bool isChecked = false;
 List<UserRideRequestInformation> acceptedRideRequestDetailsList = [];
 DriverData onlineDriverData = DriverData();
+Position? currentPosition;

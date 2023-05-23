@@ -1,12 +1,12 @@
 import 'dart:async';
-import 'dart:math';
+
+import 'package:flutter/material.dart';
 import 'package:flutter_geofire/flutter_geofire.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:location/location.dart' hide LocationAccuracy;
-import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart' hide LocationAccuracy;
 import 'package:provider/provider.dart';
 import 'package:trackngo/assistants/geofire_assistant.dart';
 import 'package:trackngo/global/global.dart';
@@ -434,10 +434,10 @@ class _CommuterScreenState extends State<CommuterScreen> {
   initializeGeoFireListener() async {
     Geofire.initialize("activeDrivers");
 
-    Position position = await Geolocator.getCurrentPosition(
+    currentPosition = await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high,
     );
-    userCurrentPosition = position;
+    userCurrentPosition = currentPosition;
 
     Geofire.queryAtLocation(
             userCurrentPosition!.latitude, userCurrentPosition!.longitude, 5)!
