@@ -2,9 +2,9 @@ import "dart:async";
 
 import "package:flutter/material.dart";
 import "package:trackngo/authentication/login_screen.dart";
-import "package:trackngo/authentication/signup_screen.dart";
 import "package:trackngo/mainScreen/driver_screen.dart";
 
+import "../assistants/assistant_methods.dart";
 import "../global/global.dart";
 
 class MySplashScreen extends StatefulWidget {
@@ -16,20 +16,19 @@ class MySplashScreen extends StatefulWidget {
 
 class _MySplashScreenState extends State<MySplashScreen> {
   startTimer() {
+    fAuth.currentUser != null
+        ? AssistantMethods.readCurrentOnlineUserInfo()
+        : null;
     Timer(const Duration(seconds: 3), () async {
       if (await fAuth.currentUser != null) {
         // ignore: use_build_context_synchronously
-        currentFirebaseUser = await fAuth.currentUser;
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (c) => const MainScreen()));
+        currentFirebaseUser = fAuth.currentUser;
+        Navigator.push(
+            context, MaterialPageRoute(builder: (c) => MainScreen()));
       } else {
-        // ignore: use_build_context_synchronously
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (c) => const LoginScreen()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (c) => LoginScreen()));
       }
-
-      Navigator.push(
-          context, MaterialPageRoute(builder: (c) => SignUpScreen()));
     });
   }
 

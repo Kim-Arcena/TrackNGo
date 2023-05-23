@@ -60,6 +60,32 @@ class _MainScreenState extends State<MainScreen>
   readCurrentDriveInformation() async {
     currentFirebaseUser = fAuth.currentUser;
 
+    FirebaseDatabase.instance
+        .ref()
+        .child("driver")
+        .child(currentFirebaseUser!.uid)
+        .once()
+        .then((snap) {
+      if (snap.snapshot.value != null) {
+        onlineDriverData.id = (snap.snapshot.value as Map)["id"];
+        onlineDriverData.firstName = (snap.snapshot.value as Map)["firstName"];
+        onlineDriverData.lastName = (snap.snapshot.value as Map)["lastName"];
+        onlineDriverData.contactNumber =
+            (snap.snapshot.value as Map)["contactNumber"];
+        onlineDriverData.email = (snap.snapshot.value as Map)["email"];
+        onlineDriverData.licenseNumber =
+            (snap.snapshot.value as Map)["licenseNumber"];
+        onlineDriverData.operatorId =
+            (snap.snapshot.value as Map)["operatorId"];
+        onlineDriverData.plateNumber =
+            (snap.snapshot.value as Map)["plateNumber"];
+
+        print(onlineDriverData.firstName);
+        print(onlineDriverData.lastName);
+        print(onlineDriverData.contactNumber);
+      }
+    });
+
     PushNotificationSystem pushNotificationSystem = PushNotificationSystem();
     pushNotificationSystem.initializeCloudMessagin(context);
     pushNotificationSystem.generateAndGetToken();
@@ -96,7 +122,10 @@ class _MainScreenState extends State<MainScreen>
 
     print(
         "this is the driverCurrentPosition int the _onMapCreated:: $driverCurrentPosition");
-    
+
+    var passengerPickUpLatLng = LatLng(
+        currentPosition.locationLatitude!, currentPosition.locationLongitude!);
+
     // Load the custom PNG image
     BitmapDescriptor customIconOrigin = await BitmapDescriptor.fromAssetImage(
         ImageConfiguration(size: Size(48, 48)), 'images/driver.png');

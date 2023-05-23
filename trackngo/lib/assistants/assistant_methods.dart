@@ -83,4 +83,6 @@ class AssistantMethods {
         timeTraveledFarePerMinute + distanceTraveledFarePerMinute;
     return double.parse(totalFairAmount.toStringAsFixed(2));
   }
+
+  static readCurrentOnlineUserInfo() {}
 }

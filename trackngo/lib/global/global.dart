@@ -3,6 +3,7 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:trackngo/models/directions_details_info.dart';
+import 'package:trackngo/models/driver_data.dart';
 import 'package:trackngo/models/user_model.dart';
 import 'package:trackngo/models/user_ride_request_information.dart';
 
@@ -19,3 +20,4 @@ String? choosenDriverId = "";
 String? userResponse = "";
 bool isChecked = false;
 List<UserRideRequestInformation> acceptedRideRequestDetailsList = [];
+DriverData onlineDriverData = DriverData();
