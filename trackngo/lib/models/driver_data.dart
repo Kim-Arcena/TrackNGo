@@ -7,6 +7,7 @@ class DriverData {
   String? licenseNumber;
   String? operatorId;
   String? plateNumber;
+  String? busType;
 
   DriverData(
       {this.id,
@@ -16,5 +17,6 @@ class DriverData {
       this.email,
       this.licenseNumber,
       this.operatorId,
-      this.plateNumber});
+      this.plateNumber,
+      this.busType});
 }

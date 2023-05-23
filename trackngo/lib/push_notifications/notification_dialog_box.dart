@@ -1,12 +1,9 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:trackngo/global/global.dart';
-import 'package:trackngo/mainScreen/new_trip_screen.dart';
 import 'package:trackngo/models/user_ride_request_information.dart';
 
 import '../mainScreen/driver_screen.dart';
@@ -245,6 +242,8 @@ class _NotificationDialogBoxState extends State<NotificationDialogBox> {
         print(acceptedRideRequestDetailsList[i].originAddress!);
       }
 
+      saveAssignedDriverDetailsToUserRideRequest();
+
       Navigator.push(
           context,
           MaterialPageRoute(
@@ -252,5 +251,56 @@ class _NotificationDialogBoxState extends State<NotificationDialogBox> {
                     userRideRequestDetails: widget.userRideRequestDetails,
                   )));
     });
+  }
+
+  Future<void> saveAssignedDriverDetailsToUserRideRequest() async {
+    print("saveAssignedDriverDetailsToUserRideRequest" +
+        widget.userRideRequestDetails.toString());
+    if (widget.userRideRequestDetails != null &&
+        widget.userRideRequestDetails!.rideRequestId != null) {
+      DatabaseReference databaseReference = FirebaseDatabase.instance
+          .ref()
+          .child("All Ride Requests")
+          .child(widget.userRideRequestDetails!.rideRequestId!)
+          .child("acceptedRideInfo");
+
+      print("widget.userRideRequestDetails!.rideRequestId! " +
+          widget.userRideRequestDetails!.rideRequestId!);
+
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+      var driverCurrentPosition = position;
+
+      Map driverLocationDataMap = {
+        "latitude": driverCurrentPosition!.latitude,
+        "longitude": driverCurrentPosition!.longitude
+      };
+
+      databaseReference.child("driverLocation").set(driverLocationDataMap);
+      databaseReference.child("status").set("accepted");
+      databaseReference.child("driverId").set(onlineDriverData.id);
+      databaseReference
+          .child("driverFirstName")
+          .set(onlineDriverData.firstName);
+      databaseReference.child("driverLastName").set(onlineDriverData.lastName);
+      databaseReference
+          .child("driverContactNumber")
+          .set(onlineDriverData.contactNumber);
+      databaseReference.child("driverBusType").set(onlineDriverData.busType);
+
+      saveRideRequestIdToDriverHistory();
+    }
+  }
+
+  saveRideRequestIdToDriverHistory() {
+    DatabaseReference tripHistoryReference = FirebaseDatabase.instance
+        .ref()
+        .child("driver")
+        .child(currentFirebaseUser!.uid)
+        .child("tripHistory");
+    tripHistoryReference
+        .child(widget.userRideRequestDetails!.rideRequestId!)
+        .set(true);
   }
 }

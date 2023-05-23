@@ -17,9 +17,9 @@ import 'package:trackngo/models/user_ride_request_information.dart';
 import 'package:trackngo/push_notifications/push_notification_system.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen(
-      {Key? key, UserRideRequestInformation? userRideRequestDetails})
-      : super(key: key);
+  final UserRideRequestInformation? userRideRequestDetails;
+
+  const MainScreen({Key? key, this.userRideRequestDetails}) : super(key: key);
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -46,7 +46,6 @@ class _MainScreenState extends State<MainScreen>
   String statusText = "Now Offline";
   Color stateColor = Colors.grey;
   bool isDriverActive = false;
-
   TabController? tabController;
   int selectedIndex = 0;
   onItemClicked(int index) {
@@ -78,6 +77,7 @@ class _MainScreenState extends State<MainScreen>
             (snap.snapshot.value as Map)["operatorId"];
         onlineDriverData.plateNumber =
             (snap.snapshot.value as Map)["plateNumber"];
+        onlineDriverData.busType = (snap.snapshot.value as Map)["busType"];
 
         print("online driver data" + onlineDriverData.firstName.toString());
         print(onlineDriverData.lastName);
@@ -91,6 +91,38 @@ class _MainScreenState extends State<MainScreen>
     PushNotificationSystem pushNotificationSystem = PushNotificationSystem();
     pushNotificationSystem.initializeCloudMessagin(context);
     pushNotificationSystem.generateAndGetToken();
+  }
+
+  void saveAssignedDriverDetailsToUserRideRequest() {
+    print("saveAssignedDriverDetailsToUserRideRequest" + widget.userRideRequestDetails.toString());
+    // if (widget.userRideRequestDetails != null &&
+    //     widget.userRideRequestDetails!.rideRequestId != null) {
+    //   DatabaseReference databaseReference = FirebaseDatabase.instance
+    //       .ref()
+    //       .child("All Ride Requests")
+    //       .child(widget.userRideRequestDetails!.rideRequestId!);
+
+    //   print("widget.userRideRequestDetails!.rideRequestId! " +
+    //       widget.userRideRequestDetails!.rideRequestId!);
+
+    //   Map driverLocationDataMap = {
+    //     "latitude": driverCurrentPosition!.latitude,
+    //     "longitude": driverCurrentPosition!.longitude
+    //   };
+
+    //   databaseReference.child("driverLocation").set(driverLocationDataMap);
+    //   databaseReference.child("status").set("accepted");
+    //   databaseReference.child("driverId").set(onlineDriverData.id);
+    //   databaseReference
+    //       .child("driverFirstName")
+    //       .set(onlineDriverData.firstName);
+    //   databaseReference.child("driverLastName").set(onlineDriverData.lastName);
+    //   databaseReference
+    //       .child("driverContactNumber")
+    //       .set(onlineDriverData.contactNumber);
+    //   databaseReference.child("driverBusType").set(onlineDriverData.busType);
+    // }
+    // // print("saveAssignedDriverDetailsToUserRideRequest");
   }
 
   void _onMapCreated(GoogleMapController _cntlr) async {
@@ -168,6 +200,7 @@ class _MainScreenState extends State<MainScreen>
 
     readCurrentDriveInformation();
 
+    saveAssignedDriverDetailsToUserRideRequest();
     tabController = TabController(length: 3, vsync: this);
   }
 
