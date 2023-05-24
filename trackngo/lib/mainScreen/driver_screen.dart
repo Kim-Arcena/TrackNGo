@@ -358,9 +358,9 @@ class _MainScreenState extends State<MainScreen>
                             spreadRadius: 2,
                             offset: Offset(0, 3),
                           ),
-                          ],
-                        ),
-                        child: IconButton(
+                        ],
+                      ),
+                      child: IconButton(
                         onPressed: () {
                           FirebaseAuth.instance.signOut();
                           Navigator.push(
@@ -681,7 +681,6 @@ class _MainScreenState extends State<MainScreen>
     streamStreamSubscription =
         Geolocator.getPositionStream().listen((Position position) {
       driverCurrentPosition = position;
-      onlineDriverCurrentPosition = driverCurrentPosition;
       if (isDriverActive == true) {
         Geofire.setLocation(currentFirebaseUser!.uid,
             driverCurrentPosition.latitude, driverCurrentPosition.longitude);
@@ -689,22 +688,7 @@ class _MainScreenState extends State<MainScreen>
       LatLng latLng = LatLng(
           driverCurrentPosition.latitude, driverCurrentPosition.longitude);
 
-      Marker animatingMarker = Marker(
-          markerId: MarkerId("animatedMarker"),
-          position: latLng,
-          icon: iconAnimatedMarker!,
-          infoWindow: InfoWindow(title: "Current Location"));
-
-      setState(() {
-        CameraPosition cameraPosition =
-            CameraPosition(target: latLng, zoom: 14);
-        newGoogleMapController!
-            .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
-
-        markerSet.removeWhere(
-            (element) => element.markerId.value == "animatedMarker");
-        markerSet.add(animatingMarker);
-      });
+      newGoogleMapController!.animateCamera(CameraUpdate.newLatLng(latLng));
     });
   }
 
