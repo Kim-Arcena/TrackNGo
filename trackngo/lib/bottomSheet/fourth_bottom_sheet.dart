@@ -3,6 +3,7 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:provider/provider.dart';
 
 import '../infoHandler/app_info.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 var maxChildSize = 0.8;
 
@@ -214,35 +215,51 @@ class _InnerContainerState extends State<InnerContainer> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(
+                          AutoSizeText(
                             "Juan Dela Cruz",
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),
+                            maxLines: 2,
+                            minFontSize: 10,
                           ),
                           SizedBox(
                             height: 5,
                           ),
-                          Text(
+                          AutoSizeText(
                             "FW-1234",
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 14,
                             ),
+                            maxLines: 1,
+                            minFontSize: 10,
                           ),
-                          Text("09123456789", style: TextStyle(fontSize: 14)),
+                          AutoSizeText(
+                            "09123456789",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 14,
+                            ),
+                            maxLines: 1,
+                            minFontSize: 10,
+                          ),
                         ],
                       ),
                     ],
                   ),
-                  Text("Traditional Bus",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                      )),
+                  AutoSizeText(
+                    "Traditional Bus",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    maxLines: 1,
+                    minFontSize: 10,
+                  ),
                 ],
               ),
             ),
@@ -267,11 +284,15 @@ class _InnerContainerState extends State<InnerContainer> {
                             color: Color(0xFF282828),
                             size: 25.0,
                           ),
-                          Text("1 km",
-                              style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: Color(0xFF282828),
-                                  fontWeight: FontWeight.bold)),
+                          AutoSizeText(
+                            "1 km",
+                            style: TextStyle(
+                                fontSize: 16.0,
+                                color: Color(0xFF282828),
+                                fontWeight: FontWeight.bold),
+                            maxLines: 1,
+                            minFontSize: 10,
+                          ),
                         ],
                       ),
                       Row(
@@ -281,11 +302,15 @@ class _InnerContainerState extends State<InnerContainer> {
                             color: Color(0xFF282828),
                             size: 25.0,
                           ),
-                          Text("5 mins",
-                              style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: Color(0xFF282828),
-                                  fontWeight: FontWeight.bold)),
+                          AutoSizeText(
+                            "5 mins",
+                            style: TextStyle(
+                                fontSize: 16.0,
+                                color: Color(0xFF282828),
+                                fontWeight: FontWeight.bold),
+                            maxLines: 1,
+                            minFontSize: 10,
+                          ),
                         ],
                       ),
                       Row(
@@ -295,11 +320,15 @@ class _InnerContainerState extends State<InnerContainer> {
                             color: Color(0xFF282828),
                             size: 25.0,
                           ),
-                          Text("Php: 11.00",
-                              style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: Color(0xFF282828),
-                                  fontWeight: FontWeight.bold)),
+                          AutoSizeText(
+                            "Php: 11.00",
+                            style: TextStyle(
+                                fontSize: 16.0,
+                                color: Color(0xFF282828),
+                                fontWeight: FontWeight.bold),
+                            maxLines: 1,
+                            minFontSize: 10,
+                          ),
                         ],
                       ),
                     ],

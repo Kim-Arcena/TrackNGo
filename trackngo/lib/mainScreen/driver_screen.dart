@@ -241,7 +241,7 @@ class _MainScreenState extends State<MainScreen>
                 Positioned(
                   top: statusText != "Now Online"
                       ? MediaQuery.of(context).size.height / 2 - 50
-                      : 80,
+                      : 65,
                   left: statusText != "Now Online"
                       ? MediaQuery.of(context).size.width / 2 - 50
                       : 20,
@@ -296,10 +296,22 @@ class _MainScreenState extends State<MainScreen>
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15),
                                     color: Color(0xFF73AD90),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: statusText != "Now Online"
+                                            ? Color(0xFF494949)
+                                            : Color(0xffd4dbdd),
+                                        blurRadius: 10,
+                                        spreadRadius: 2,
+                                        offset: Offset(0, 3),
+                                      ),
+                                    ],
                                   ),
-                                  child: Icon(
-                                    Icons.logout,
-                                    color: Colors.white,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(2.0),
+                                    child: ImageIcon(
+                                      AssetImage('images/offline.png'),
+                                    ),
                                   ),
                                 ),
                                 onTap: () {
@@ -326,9 +338,7 @@ class _MainScreenState extends State<MainScreen>
                         borderRadius: BorderRadius.circular(10.0),
                         boxShadow: [
                           BoxShadow(
-                            color: statusText != "Now Online"
-                                ? Color(0xFF494949)
-                                : Color(0xffd4dbdd),
+                            color: Color(0xffd4dbdd),
                             blurRadius: 10,
                             spreadRadius: 2,
                             offset: Offset(0, 3),
@@ -336,31 +346,6 @@ class _MainScreenState extends State<MainScreen>
                         ],
                       ),
                       child: IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.location_on_sharp,
-                        ),
-                      ),
-                    )),
-                Positioned(
-                    right: 40.0,
-                    top: 80.0,
-                    child: Container(
-                      width: 50.0,
-                      height: 50.0,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10.0),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color(0xffd4dbdd),
-                            blurRadius: 10,
-                            spreadRadius: 2,
-                            offset: Offset(0, 3),
-                          ),
-                          ],
-                        ),
-                        child: IconButton(
                         onPressed: () {
                           FirebaseAuth.instance.signOut();
                           Navigator.push(
