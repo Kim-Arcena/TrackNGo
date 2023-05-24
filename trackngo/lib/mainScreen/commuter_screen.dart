@@ -14,7 +14,6 @@ import 'package:trackngo/authentication/signup_screen.dart';
 import 'package:trackngo/global/global.dart';
 import 'package:trackngo/mainScreen/search_places_screen.dart';
 import 'package:trackngo/models/active_nearby_available_drivers.dart';
-import 'package:trackngo/mainScreen/generate_qr_code.dart';
 
 import '../assistants/assistant_methods.dart';
 import '../bottomSheet/first_bottom_sheet.dart';

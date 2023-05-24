@@ -539,6 +539,19 @@ class _DriverTripScreenState extends State<DriverTripScreen>
           passengerLatLng.toString() +
           " " +
           index.toString());
+      BitmapDescriptor customIconDestination =
+          await BitmapDescriptor.fromAssetImage(
+              ImageConfiguration(size: Size(48, 48)), 'images/bus.png');
+
+      Marker destinationMarker = Marker(
+        markerId: const MarkerId("passengerID"),
+        position: passengerLatLng ?? LatLng(0, 0),
+        icon: customIconDestination,
+      );
+
+      setState(() {
+        markerSet.add(destinationMarker);
+      });
     }
   }
 
