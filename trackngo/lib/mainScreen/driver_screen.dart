@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,6 +16,7 @@ import 'package:trackngo/global/global.dart';
 import 'package:trackngo/infoHandler/app_info.dart';
 import 'package:trackngo/models/user_ride_request_information.dart';
 import 'package:trackngo/push_notifications/push_notification_system.dart';
+import 'package:trackngo/splashScreen/splash_screen.dart';
 
 class MainScreen extends StatefulWidget {
   final UserRideRequestInformation? userRideRequestDetails;
@@ -356,12 +358,18 @@ class _MainScreenState extends State<MainScreen>
                             spreadRadius: 2,
                             offset: Offset(0, 3),
                           ),
-                        ],
-                      ),
-                      child: IconButton(
-                        onPressed: () {},
+                          ],
+                        ),
+                        child: IconButton(
+                        onPressed: () {
+                          FirebaseAuth.instance.signOut();
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (c) => const MySplashScreen()));
+                        },
                         icon: Icon(
-                          Icons.location_on_sharp,
+                          Icons.logout,
                         ),
                       ),
                     )),

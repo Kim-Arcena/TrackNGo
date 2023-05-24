@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -215,9 +216,11 @@ class _DriverTripScreenState extends State<DriverTripScreen>
                         ],
                       ),
                       child: IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          FirebaseAuth.instance.signOut();
+                        },
                         icon: Icon(
-                          Icons.location_on_sharp,
+                          Icons.logout,
                         ),
                       ),
                     )),

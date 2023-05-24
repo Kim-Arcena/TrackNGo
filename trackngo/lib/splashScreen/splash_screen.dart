@@ -2,6 +2,7 @@ import "dart:async";
 
 import "package:firebase_database/firebase_database.dart";
 import "package:flutter/material.dart";
+import "package:trackngo/authentication/login_screen.dart";
 import "package:trackngo/mainScreen/commuter_screen.dart";
 import "package:trackngo/mainScreen/driver_screen.dart";
 
@@ -22,29 +23,34 @@ class _MySplashScreenState extends State<MySplashScreen> {
         ? AssistantMethods.readCurrentOnlineUserInfo()
         : null;
     Timer(const Duration(seconds: 3), () async {
-      print("fAuth.currentUser" + fAuth.currentUser.toString());
-      DatabaseReference usersRef = FirebaseDatabase(
-              databaseURL:
-                  "https://trackngo-d7aa0-default-rtdb.asia-southeast1.firebasedatabase.app/")
-          .ref()
-          .child("users");
-      DatabaseReference driverRef = FirebaseDatabase(
-              databaseURL:
-                  "https://trackngo-d7aa0-default-rtdb.asia-southeast1.firebasedatabase.app/")
-          .ref()
-          .child("driver");
-      var driver = await driverRef.child(fAuth.currentUser!.uid).get();
-      var user = await usersRef.child(fAuth.currentUser!.uid).get();
-      var userMap = user.value as Map<dynamic, dynamic>?;
-      if (driver.exists) {
+      print("fAuth.currentUser: " + fAuth.currentUser.toString());
+      if (fAuth.currentUser != null) {
+        DatabaseReference usersRef = FirebaseDatabase(
+                databaseURL:
+                    "https://trackngo-d7aa0-default-rtdb.asia-southeast1.firebasedatabase.app/")
+            .ref()
+            .child("users");
+        DatabaseReference driverRef = FirebaseDatabase(
+                databaseURL:
+                    "https://trackngo-d7aa0-default-rtdb.asia-southeast1.firebasedatabase.app/")
+            .ref()
+            .child("driver");
+        var driver = await driverRef.child(fAuth.currentUser!.uid).get();
+        var user = await usersRef.child(fAuth.currentUser!.uid).get();
+        var userMap = user.value as Map<dynamic, dynamic>?;
+        if (driver.exists) {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const MainScreen()));
+          // Navigator.push(
+          //     context, MaterialPageRoute(builder: (context) => NewTripScreen()));
+        }
+        if (userMap != null && userMap.containsKey("commuters_child")) {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const CommuterScreen()));
+        }
+      } else {
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const MainScreen()));
-        // Navigator.push(
-        //     context, MaterialPageRoute(builder: (context) => NewTripScreen()));
-      }
-      if (userMap != null && userMap.containsKey("commuters_child")) {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const CommuterScreen()));
+            MaterialPageRoute(builder: (context) => const LoginScreen()));
       }
     });
   }
