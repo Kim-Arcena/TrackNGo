@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_geofire/flutter_geofire.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -9,13 +10,16 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' hide LocationAccuracy;
 import 'package:provider/provider.dart';
 import 'package:trackngo/assistants/geofire_assistant.dart';
+import 'package:trackngo/authentication/signup_screen.dart';
 import 'package:trackngo/global/global.dart';
 import 'package:trackngo/mainScreen/search_places_screen.dart';
 import 'package:trackngo/models/active_nearby_available_drivers.dart';
+import 'package:trackngo/mainScreen/generate_qr_code.dart';
 
 import '../assistants/assistant_methods.dart';
 import '../bottomSheet/first_bottom_sheet.dart';
 import '../infoHandler/app_info.dart';
+import '../splashScreen/splash_screen.dart';
 
 class CommuterScreen extends StatefulWidget {
   const CommuterScreen({Key? key});
@@ -45,6 +49,7 @@ class _CommuterScreenState extends State<CommuterScreen> {
   Set<Circle> circleSet = {};
 
   bool activeNearbyAvailableDriversKeysLoaded = false;
+  String result = '';
 
   void _onMapCreated(GoogleMapController _cntlr) async {
     newGoogleMapController = _cntlr;
@@ -151,8 +156,16 @@ class _CommuterScreenState extends State<CommuterScreen> {
                   ],
                 ),
                 child: IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.qr_code_rounded),
+                  onPressed: () {
+                    FirebaseAuth.instance.signOut();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MySplashScreen()),
+                    );
+                  },
+                  icon: Icon(
+                    Icons.logout,
+                  ),
                 ),
               )),
           Positioned(

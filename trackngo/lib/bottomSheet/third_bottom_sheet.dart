@@ -3,6 +3,7 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:provider/provider.dart';
 
 import '../infoHandler/app_info.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 var maxChildSize = 0.8;
 
@@ -200,19 +201,23 @@ class _InnerContainerState extends State<InnerContainer> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text(
+                  AutoSizeText(
                     "Select Payment Method",
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
+                    maxLines: 1,
+                    minFontSize: 10,
                   ),
-                  Text(
+                  AutoSizeText(
                     "Add New",
                     style: TextStyle(
                       fontSize: 18,
                     ),
+                    maxLines: 1,
+                    minFontSize: 10,
                   ),
                 ],
               ),

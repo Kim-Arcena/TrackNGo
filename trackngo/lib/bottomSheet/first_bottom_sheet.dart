@@ -45,6 +45,7 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
       maxChildSize: 0.8,
       builder: (BuildContext context, ScrollController scrollController) {
         return PageView(
+          scrollDirection: Axis.vertical,
           controller: _pageController,
           children: [
             Container(
@@ -214,6 +215,9 @@ class _InnerContainerState extends State<InnerContainer> {
   List<ActiveNearbyAvailableDrivers> onlineNearByAvailableDriversList = [];
   DatabaseReference? referenceRideRequestRef;
   int numberOfSeats = 0;
+
+  get moveToPage => null;
+  get scrollController => null;
 
   void onTap() async {
     var commuterScreenState = CommuterScreen.of(context);
@@ -391,7 +395,6 @@ class _InnerContainerState extends State<InnerContainer> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  TextButton(onPressed: () {}, child: Text("Change"))
                 ],
               ),
             ),
@@ -535,7 +538,6 @@ class _InnerContainerState extends State<InnerContainer> {
                                     _flagThree = false;
                                     numberOfSeats = 1;
                                   });
-                                  print('clicked');
                                 },
                                 child: Container(
                                   alignment: Alignment.center,
@@ -653,13 +655,33 @@ class _InnerContainerState extends State<InnerContainer> {
                       // ignore: unnecessary_null_comparison
                       numberOfSeats != 0) {
                     saveRideRequestInformation();
-                  } else {
+                    onTap() {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MyBottomSheetTwoContainer(
+                                scrollController: scrollController,
+                                moveToPage: moveToPage)),
+                      );
+                    }
+
+                    ;
+                  } else if (onlineNearByAvailableDriversList.length == 0) {
                     Fluttertoast.showToast(
-                        msg: "Kindly fill up ride request details",
+                        msg: "There are currently No Available Drivers",
                         toastLength: Toast.LENGTH_SHORT,
                         gravity: ToastGravity.BOTTOM,
                         timeInSecForIosWeb: 1,
-                        backgroundColor: Color(0xFF53906B),
+                        backgroundColor: Color(0xFF7d9988),
+                        textColor: Colors.white,
+                        fontSize: 16.0);
+                  } else {
+                    Fluttertoast.showToast(
+                        msg: "Kindly fill up ride request details.",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Color(0xFF7d9988),
                         textColor: Colors.white,
                         fontSize: 16.0);
                   }
