@@ -167,12 +167,51 @@ class _DriverTripScreenState extends State<DriverTripScreen>
     }
   }
 
+  createDriverIconMarker() {
+    if (iconAnimatedMarker == null) {
+      ImageConfiguration imageConfiguration =
+          createLocalImageConfiguration(context, size: Size(2, 2));
+      BitmapDescriptor.fromAssetImage(imageConfiguration, "images/driver.png")
+          .then((value) {
+        iconAnimatedMarker = value;
+      });
+    }
+  }
+
+  getDriversLocationUpdatesAtRealTime() {
+    streamSubscriptionDriverLivePosition =
+        Geolocator.getPositionStream().listen((Position position) {
+      driverCurrentPosition = position;
+      onlineDriverCurrentPosition = position;
+
+      LatLng latLngLiveDriverPosition = LatLng(
+          driverCurrentPosition!.latitude, driverCurrentPosition!.longitude);
+
+      Marker animatingMarker = Marker(
+        markerId: MarkerId("animatingMarkerID"),
+        position: latLngLiveDriverPosition,
+        icon: iconAnimatedMarker!,
+        infoWindow: InfoWindow(title: "Current Location"),
+      );
+
+      setState(() {
+        CameraPosition cameraPosition =
+            CameraPosition(target: latLngLiveDriverPosition, zoom: 16);
+        newGoogleMapController!
+            .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+
+        markerSet.removeWhere((element) => element.markerId.value == "animatingMarkerID");
+        markerSet.add(animatingMarker);
+      });
+    });
+  }
+
   void initState() {
     super.initState();
     checkIfLocationPermissionGranted();
 
     readCurrentDriveInformation();
-    updateDriversLocationAtRealTime();
+    getDriversLocationUpdatesAtRealTime();
     drawPolyLineFromSourceToDestination();
     createPassengerMarkerIcon();
     tabController = TabController(length: 3, vsync: this);
@@ -180,6 +219,8 @@ class _DriverTripScreenState extends State<DriverTripScreen>
 
   @override
   Widget build(BuildContext context) {
+    createDriverIconMarker();
+
     return Scaffold(
       body: Column(
         children: [
@@ -553,21 +594,6 @@ class _DriverTripScreenState extends State<DriverTripScreen>
         markerSet.add(destinationMarker);
       });
     }
-  }
-
-  updateDriversLocationAtRealTime() {
-    streamStreamSubscription =
-        Geolocator.getPositionStream().listen((Position position) {
-      driverCurrentPosition = position;
-      if (isDriverActive == true) {
-        Geofire.setLocation(currentFirebaseUser!.uid,
-            driverCurrentPosition.latitude, driverCurrentPosition.longitude);
-      }
-      LatLng latLng = LatLng(
-          driverCurrentPosition.latitude, driverCurrentPosition.longitude);
-
-      newGoogleMapController!.animateCamera(CameraUpdate.newLatLng(latLng));
-    });
   }
 
   driverIsOfflineNow() {
