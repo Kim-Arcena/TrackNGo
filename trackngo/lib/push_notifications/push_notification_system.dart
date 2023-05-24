@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -53,6 +51,8 @@ class PushNotificationSystem {
         .child(rideRequestId)
         .once()
         .then((snapData) {
+      print("read user ride request information: " +
+          snapData.snapshot.value.toString());
       if (snapData.snapshot.value != null) {
         audioPlayer!.open(Audio("music/notification.mp3"));
         audioPlayer!.play();

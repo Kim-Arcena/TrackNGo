@@ -174,6 +174,7 @@ class _DriverTripScreenState extends State<DriverTripScreen>
     readCurrentDriveInformation();
     updateDriversLocationAtRealTime();
     drawPolyLineFromSourceToDestination();
+    createPassengerMarkerIcon();
     tabController = TabController(length: 3, vsync: this);
   }
 
@@ -527,11 +528,24 @@ class _DriverTripScreenState extends State<DriverTripScreen>
     usersRef.onValue.listen((event) {});
   }
 
+  Future<void> createPassengerMarkerIcon() async {
+    for (int index = 0;
+        index < acceptedRideRequestDetailsList.length;
+        index++) {
+      // Get the passenger's LatLng
+      LatLng? passengerLatLng =
+          acceptedRideRequestDetailsList[index].originLatLng;
+      print("passengerLatLng " +
+          passengerLatLng.toString() +
+          " " +
+          index.toString());
+    }
+  }
+
   updateDriversLocationAtRealTime() {
     streamStreamSubscription =
         Geolocator.getPositionStream().listen((Position position) {
       driverCurrentPosition = position;
-      onlineDriverCurrentPosition = driverCurrentPosition;
       if (isDriverActive == true) {
         Geofire.setLocation(currentFirebaseUser!.uid,
             driverCurrentPosition.latitude, driverCurrentPosition.longitude);
@@ -539,49 +553,8 @@ class _DriverTripScreenState extends State<DriverTripScreen>
       LatLng latLng = LatLng(
           driverCurrentPosition.latitude, driverCurrentPosition.longitude);
 
-      Marker animatingMarker = Marker(
-          markerId: MarkerId("animatedMarker"),
-          position: latLng,
-          icon: iconAnimatedMarker!,
-          infoWindow: InfoWindow(title: "Current Location"));
-
-      setState(() {
-        CameraPosition cameraPosition =
-            CameraPosition(target: latLng, zoom: 14);
-        newGoogleMapController!
-            .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
-
-        markerSet.removeWhere(
-            (element) => element.markerId.value == "animatedMarker");
-        markerSet.add(animatingMarker);
-      });
+      newGoogleMapController!.animateCamera(CameraUpdate.newLatLng(latLng));
     });
-  }
-
-  createdActiveNearbyDriverIconMarker() async {
-    if (markerSet.isNotEmpty) {
-      // BitmapDescriptor iconAnimatedMarker = await BitmapDescriptor.fromAssetImage(
-      //   ImageConfiguration(size: Size(48, 48)), 'images/driver.png');
-      ImageConfiguration imageConfiguration =
-          createLocalImageConfiguration(context, size: Size(2, 2));
-      BitmapDescriptor.fromAssetImage(imageConfiguration, 'images/driver.png')
-          .then((value) {
-        iconAnimatedMarker = value;
-      });
-    }
-  }
-
-  createdPassengerIconMarker() async {
-    if (markerSet.isNotEmpty) {
-      // BitmapDescriptor iconAnimatedMarker = await BitmapDescriptor.fromAssetImage(
-      //   ImageConfiguration(size: Size(48, 48)), 'images/driver.png');
-      ImageConfiguration imageConfiguration =
-          createLocalImageConfiguration(context, size: Size(2, 2));
-      BitmapDescriptor.fromAssetImage(imageConfiguration, 'images/commuter.png')
-          .then((value) {
-        iconAnimatedMarker = value;
-      });
-    }
   }
 
   driverIsOfflineNow() {
