@@ -5,9 +5,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:trackngo/assistants/assistant_methods.dart';
 import 'package:trackngo/global/global.dart';
+import 'package:trackngo/mainScreen/driver_trip_screen.dart';
 import 'package:trackngo/models/user_ride_request_information.dart';
-
-import '../mainScreen/driver_screen.dart';
 
 class NotificationDialogBox extends StatefulWidget {
   UserRideRequestInformation? userRideRequestDetails;
@@ -147,7 +146,7 @@ class _NotificationDialogBoxState extends State<NotificationDialogBox> {
                   audioPlayer = AssetsAudioPlayer();
 
                   acceptRideRequest(context);
-                  Navigator.of(context).pop();
+                  // Navigator.of(context).pop();
                 },
                 child: Text(
                   "ACCEPT RIDE",
@@ -245,12 +244,13 @@ class _NotificationDialogBoxState extends State<NotificationDialogBox> {
 
       saveAssignedDriverDetailsToUserRideRequest();
 
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => MainScreen(
-                    userRideRequestDetails: widget.userRideRequestDetails,
-                  )));
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => DriverTripScreen(
+            userRideRequestDetails: widget.userRideRequestDetails,
+          ),
+        ),
+      );
     });
   }
 

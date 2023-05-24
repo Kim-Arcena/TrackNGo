@@ -1,16 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:trackngo/authentication/signup_screen.dart';
 import 'package:trackngo/mainScreen/commuter_screen.dart';
 import 'package:trackngo/mainScreen/driver_screen.dart';
-import 'package:flutter/gestures.dart';
-import 'package:trackngo/mainScreen/new_trip_screen.dart';
-import 'dart:developer' as developer;
+
 import '../global/global.dart';
-import 'alertDialog.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -182,7 +180,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                       if (isValid!.isEmpty) {
                                         return 'This field requires a password';
                                       }
-                                      if (!passwordRegex.hasMatch(_passwordController.text)) {
+                                      if (!passwordRegex
+                                          .hasMatch(_passwordController.text)) {
                                         return 'Incorrect Password';
                                       }
                                       return null;
