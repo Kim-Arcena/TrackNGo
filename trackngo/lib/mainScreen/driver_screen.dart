@@ -665,10 +665,7 @@ class _MainScreenState extends State<MainScreen>
                 "https://trackngo-d7aa0-default-rtdb.asia-southeast1.firebasedatabase.app/")
         .ref()
         .child("driver");
-    usersRef
-        .child(currentFirebaseUser!.uid)
-        .child("newRideStatus")
-        .set("idldde");
+    usersRef.child(currentFirebaseUser!.uid).child("newRideStatus").set("idle");
     usersRef.onValue.listen((event) {});
   }
 

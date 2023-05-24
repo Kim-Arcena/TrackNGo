@@ -41,6 +41,7 @@ class _DriverTripScreenState extends State<DriverTripScreen>
   var driverCurrentPosition;
   Set<Marker> markerSet = {};
   Set<Circle> circleSet = {};
+  Set<Marker> passengerMarkerSet = {};
   String? buttonTitle = "Arrive";
   Color? buttonColor = Color(0xFF199A5D);
   String statusText = "Now Offline";
@@ -264,7 +265,6 @@ class _DriverTripScreenState extends State<DriverTripScreen>
                                 // Access the current ride request object from the list
                                 var rideRequest =
                                     acceptedRideRequestDetailsList[index];
-
                                 return Container(
                                   child: Column(
                                     crossAxisAlignment:
@@ -520,10 +520,7 @@ class _DriverTripScreenState extends State<DriverTripScreen>
                 "https://trackngo-d7aa0-default-rtdb.asia-southeast1.firebasedatabase.app/")
         .ref()
         .child("driver");
-    usersRef
-        .child(currentFirebaseUser!.uid)
-        .child("newRideStatus")
-        .set("idldde");
+    usersRef.child(currentFirebaseUser!.uid).child("newRideStatus").set("idle");
     usersRef.onValue.listen((event) {});
   }
 
@@ -565,6 +562,19 @@ class _DriverTripScreenState extends State<DriverTripScreen>
       ImageConfiguration imageConfiguration =
           createLocalImageConfiguration(context, size: Size(2, 2));
       BitmapDescriptor.fromAssetImage(imageConfiguration, 'images/driver.png')
+          .then((value) {
+        iconAnimatedMarker = value;
+      });
+    }
+  }
+
+  createdPassengerIconMarker() async {
+    if (markerSet.isNotEmpty) {
+      // BitmapDescriptor iconAnimatedMarker = await BitmapDescriptor.fromAssetImage(
+      //   ImageConfiguration(size: Size(48, 48)), 'images/driver.png');
+      ImageConfiguration imageConfiguration =
+          createLocalImageConfiguration(context, size: Size(2, 2));
+      BitmapDescriptor.fromAssetImage(imageConfiguration, 'images/commuter.png')
           .then((value) {
         iconAnimatedMarker = value;
       });
