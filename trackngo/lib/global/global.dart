@@ -11,6 +11,7 @@ final FirebaseAuth fAuth = FirebaseAuth.instance;
 User? currentFirebaseUser;
 UserModel? userModelCurrentInfo;
 StreamSubscription<Position>? streamStreamSubscription;
+StreamSubscription<Position>? streamSubscriptionDriverLivePosition;
 List dList = [];
 List acceptedRideRequestList = [];
 List rideRequestList = [];

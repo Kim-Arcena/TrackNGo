@@ -266,7 +266,6 @@ class _NotificationDialogBoxState extends State<NotificationDialogBox> {
           .child("acceptedRideInfo");
 
       AssistantMethods.pauseLiveLocationUpdates();
-      
 
       print("widget.userRideRequestDetails!.rideRequestId! " +
           widget.userRideRequestDetails!.rideRequestId!);

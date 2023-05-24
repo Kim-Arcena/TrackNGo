@@ -48,6 +48,9 @@ class _MainScreenState extends State<MainScreen>
   bool isDriverActive = false;
   TabController? tabController;
   int selectedIndex = 0;
+  Position? onlineDriverCurrentPosition;
+  BitmapDescriptor? iconAnimatedMarker;
+
   onItemClicked(int index) {
     setState(() {
       selectedIndex = index;
@@ -94,7 +97,8 @@ class _MainScreenState extends State<MainScreen>
   }
 
   void saveAssignedDriverDetailsToUserRideRequest() {
-    print("saveAssignedDriverDetailsToUserRideRequest" + widget.userRideRequestDetails.toString());
+    print("saveAssignedDriverDetailsToUserRideRequest" +
+        widget.userRideRequestDetails.toString());
     // if (widget.userRideRequestDetails != null &&
     //     widget.userRideRequestDetails!.rideRequestId != null) {
     //   DatabaseReference databaseReference = FirebaseDatabase.instance
@@ -199,7 +203,8 @@ class _MainScreenState extends State<MainScreen>
     checkIfLocationPermissionGranted();
 
     readCurrentDriveInformation();
-
+    updateDriversLocationAtRealTime();
+    drawPolyLineFromSourceToDestination();
     saveAssignedDriverDetailsToUserRideRequest();
     tabController = TabController(length: 3, vsync: this);
   }
@@ -258,6 +263,7 @@ class _MainScreenState extends State<MainScreen>
                             driverIsOnlineNow();
                             updateDriversLocationAtRealTime();
                             drawPolyLineFromSourceToDestination();
+
                             setState(() {
                               stateColor = Color(0xFF228348);
                               statusText = "Now Online";
@@ -670,6 +676,7 @@ class _MainScreenState extends State<MainScreen>
     streamStreamSubscription =
         Geolocator.getPositionStream().listen((Position position) {
       driverCurrentPosition = position;
+      onlineDriverCurrentPosition = driverCurrentPosition;
       if (isDriverActive == true) {
         Geofire.setLocation(currentFirebaseUser!.uid,
             driverCurrentPosition.latitude, driverCurrentPosition.longitude);
@@ -677,8 +684,36 @@ class _MainScreenState extends State<MainScreen>
       LatLng latLng = LatLng(
           driverCurrentPosition.latitude, driverCurrentPosition.longitude);
 
-      newGoogleMapController!.animateCamera(CameraUpdate.newLatLng(latLng));
+      Marker animatingMarker = Marker(
+          markerId: MarkerId("animatedMarker"),
+          position: latLng,
+          icon: iconAnimatedMarker!,
+          infoWindow: InfoWindow(title: "Current Location"));
+
+      setState(() {
+        CameraPosition cameraPosition =
+            CameraPosition(target: latLng, zoom: 14);
+        newGoogleMapController!
+            .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+
+        markerSet.removeWhere(
+            (element) => element.markerId.value == "animatedMarker");
+        markerSet.add(animatingMarker);
+      });
     });
+  }
+
+  createdActiveNearbyDriverIconMarker() async {
+    if (markerSet.isNotEmpty) {
+      // BitmapDescriptor iconAnimatedMarker = await BitmapDescriptor.fromAssetImage(
+      //   ImageConfiguration(size: Size(48, 48)), 'images/driver.png');
+      ImageConfiguration imageConfiguration =
+          createLocalImageConfiguration(context, size: Size(2, 2));
+      BitmapDescriptor.fromAssetImage(imageConfiguration, 'images/driver.png')
+          .then((value) {
+        iconAnimatedMarker = value;
+      });
+    }
   }
 
   driverIsOfflineNow() {
