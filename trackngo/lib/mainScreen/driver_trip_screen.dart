@@ -52,6 +52,9 @@ class _DriverTripScreenState extends State<DriverTripScreen>
   int selectedIndex = 0;
   Position? onlineDriverCurrentPosition;
   BitmapDescriptor? iconAnimatedMarker;
+  String rideRequestStatus = "accepted";
+  String durationFromOriginToDestination = "";
+  bool isRequestDirectionDetails = false;
 
   onItemClicked(int index) {
     setState(() {
@@ -179,8 +182,10 @@ class _DriverTripScreenState extends State<DriverTripScreen>
   }
 
   getDriversLocationUpdatesAtRealTime() {
+    LatLng oldLatlng = LatLng(0, 0);
+
     streamSubscriptionDriverLivePosition =
-        Geolocator.getPositionStream().listen((Position position) {
+        Geolocator.getPositionStream().listen((Position position) async {
       driverCurrentPosition = position;
       onlineDriverCurrentPosition = position;
 
@@ -200,10 +205,74 @@ class _DriverTripScreenState extends State<DriverTripScreen>
         newGoogleMapController!
             .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
 
-        markerSet.removeWhere((element) => element.markerId.value == "animatingMarkerID");
+        markerSet.removeWhere(
+            (element) => element.markerId.value == "animatingMarkerID");
         markerSet.add(animatingMarker);
       });
+
+      oldLatlng = latLngLiveDriverPosition;
+      updateDurationTimeAtRealTime();
+      Map driverLatLngMap = {
+        "latitude": driverCurrentPosition!.latitude.toString(),
+        "longitude": driverCurrentPosition!.longitude.toString(),
+      };
+
+      for (int index = 0;
+          index < acceptedRideRequestDetailsList.length;
+          index++) {
+        var rideRequest = acceptedRideRequestDetailsList[index];
+
+        print("ride request id is " + rideRequest.destinationLatLng.toString());
+        BitmapDescriptor customIconDestination =
+            await BitmapDescriptor.fromAssetImage(
+                ImageConfiguration(size: Size(48, 48)), 'images/terminal.png');
+
+        Marker destinationMarker = Marker(
+          markerId: const MarkerId("destinationID"),
+          position: rideRequest.destinationLatLng!,
+          icon: customIconDestination,
+          infoWindow: InfoWindow(
+              title: rideRequest.userContactNumber.toString() +
+                  " " +
+                  rideRequest.userLastName.toString(),
+              snippet: "Origin"),
+        );
+      }
     });
+  }
+
+  updateDurationTimeAtRealTime() async {
+    if (isRequestDirectionDetails) {
+      isRequestDirectionDetails = true;
+      var originLatLng = LatLng(onlineDriverCurrentPosition!.latitude,
+          onlineDriverCurrentPosition!.longitude);
+      if (onlineDriverCurrentPosition == null) {
+        return;
+      }
+      var destinationLatLng;
+      for (int index = 0;
+          index < acceptedRideRequestDetailsList.length;
+          index++) {
+        if (rideRequestStatus == "accepted") {
+          destinationLatLng =
+              acceptedRideRequestDetailsList[index].originLatLng;
+        } else {
+          destinationLatLng =
+              acceptedRideRequestDetailsList[index].destinationLatLng;
+        }
+
+        var directionInformation =
+            await AssistantMethods.obtainOriginToDestinationDirectionDetails(
+                originLatLng, destinationLatLng);
+
+        if (directionInformation != null) {
+          setState(() {
+            durationFromOriginToDestination =
+                directionInformation.duration_text!;
+          });
+        }
+      }
+    }
   }
 
   void initState() {
@@ -519,7 +588,7 @@ class _DriverTripScreenState extends State<DriverTripScreen>
 
     BitmapDescriptor customIconDestination =
         await BitmapDescriptor.fromAssetImage(
-            ImageConfiguration(size: Size(48, 48)), 'images/driver.png');
+            ImageConfiguration(size: Size(48, 48)), 'images/terminal.png');
 
     Marker destinationMarker = Marker(
       markerId: const MarkerId("destinationID"),
@@ -582,7 +651,7 @@ class _DriverTripScreenState extends State<DriverTripScreen>
           index.toString());
       BitmapDescriptor customIconDestination =
           await BitmapDescriptor.fromAssetImage(
-              ImageConfiguration(size: Size(48, 48)), 'images/bus.png');
+              ImageConfiguration(size: Size(48, 48)), 'images/commuter.png');
 
       Marker destinationMarker = Marker(
         markerId: const MarkerId("passengerID"),
