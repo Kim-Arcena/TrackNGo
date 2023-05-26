@@ -326,6 +326,13 @@ class _InnerContainerState extends State<InnerContainer> {
         }
       });
     }
+
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => MyBottomSheetTwoContainer(
+                scrollController: scrollController,
+                moveToPage: moveToPage)));
   }
 
   sendNotificationToDriver(String? chooseDriverId) {
@@ -655,17 +662,6 @@ class _InnerContainerState extends State<InnerContainer> {
                       // ignore: unnecessary_null_comparison
                       numberOfSeats != 0) {
                     saveRideRequestInformation();
-                    onTap() {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => MyBottomSheetTwoContainer(
-                                scrollController: scrollController,
-                                moveToPage: moveToPage)),
-                      );
-                    }
-
-                    ;
                   } else if (onlineNearByAvailableDriversList.length == 0) {
                     Fluttertoast.showToast(
                         msg: "There are currently No Available Drivers",
