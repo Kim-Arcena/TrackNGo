@@ -122,14 +122,24 @@ class _CommuterScreenState extends State<CommuterScreen> {
     checkIfLocationPermissionGranted();
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
           GoogleMap(
+            myLocationButtonEnabled: false,
+            zoomControlsEnabled: false,
             initialCameraPosition:
-                CameraPosition(target: _initialcameraposition),
+                CameraPosition(target: _initialcameraposition, zoom: 20),
+            cameraTargetBounds: CameraTargetBounds(
+              LatLngBounds(
+                northeast: LatLng(11.689764, 123.491869),
+                southwest: LatLng(10.225571, 121.560314),
+              ),
+            ),
             mapType: MapType.normal,
             onMapCreated: _onMapCreated,
             polylines: polyLineSet,
