@@ -83,7 +83,7 @@ class _CommuterScreenState extends State<CommuterScreen> {
 
     // Load the custom PNG image
     BitmapDescriptor customIconOrigin = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(size: Size(48, 48)), 'images/commuter.png');
+        ImageConfiguration(devicePixelRatio: 2.5), 'images/commuter.png');
 
     Marker originMarker = Marker(
       markerId: const MarkerId("originID"),
@@ -418,7 +418,7 @@ class _CommuterScreenState extends State<CommuterScreen> {
 
     BitmapDescriptor customIconDestination =
         await BitmapDescriptor.fromAssetImage(
-            ImageConfiguration(size: Size(48, 48)), 'images/driver.png');
+            ImageConfiguration(devicePixelRatio: 2.5), 'images/destination.png');
 
     Marker destinationMarker = Marker(
       markerId: const MarkerId("destinationID"),
@@ -518,7 +518,7 @@ class _CommuterScreenState extends State<CommuterScreen> {
           LatLng(eachDriver.locationLatitude!, eachDriver.locationLongitude!);
 
       BitmapDescriptor busIcon = await BitmapDescriptor.fromAssetImage(
-          ImageConfiguration(size: Size(8, 8)), 'images/bus.png');
+          ImageConfiguration(devicePixelRatio: 2.5), 'images/bus.png');
 
       Marker driverMarker = Marker(
         markerId: MarkerId(eachDriver.driverId!),
