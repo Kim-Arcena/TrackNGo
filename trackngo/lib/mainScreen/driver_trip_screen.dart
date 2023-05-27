@@ -260,6 +260,7 @@ class _DriverTripScreenState extends State<DriverTripScreen>
           destinationLatLng =
               acceptedRideRequestDetailsList[index].destinationLatLng;
         }
+        print("destination lat lang" + destinationLatLng.toString());
 
         var directionInformation =
             await AssistantMethods.obtainOriginToDestinationDirectionDetails(
@@ -645,6 +646,8 @@ class _DriverTripScreenState extends State<DriverTripScreen>
       // Get the passenger's LatLng
       LatLng? passengerLatLng =
           acceptedRideRequestDetailsList[index].originLatLng;
+      String passengerOrigin =
+          acceptedRideRequestDetailsList[index].originAddress.toString();
       print("passengerLatLng " +
           passengerLatLng.toString() +
           " " +
@@ -657,6 +660,7 @@ class _DriverTripScreenState extends State<DriverTripScreen>
         markerId: const MarkerId("passengerID"),
         position: passengerLatLng ?? LatLng(0, 0),
         icon: customIconDestination,
+        infoWindow: InfoWindow(title: passengerOrigin, snippet: "Passenger Location"),
       );
 
       setState(() {
