@@ -230,8 +230,6 @@ class _InnerContainerState extends State<InnerContainer> {
         children: <Widget>[
           Positioned(
             top: 0,
-            left: 0,
-            right: 0,
             child: Padding(
               padding: const EdgeInsets.all(40.0),
               child: Row(

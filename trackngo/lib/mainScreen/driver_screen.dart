@@ -291,7 +291,7 @@ class _MainScreenState extends State<MainScreen>
                         },
                         child: statusText != "Now Online"
                             ? Text(
-                                "Go Onlinee",
+                                "Go Online",
                                 style: TextStyle(
                                     fontSize: 16, color: Colors.white),
                               )

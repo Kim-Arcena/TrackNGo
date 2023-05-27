@@ -434,7 +434,7 @@ class _InnerContainerState extends State<InnerContainer> {
               child: Container(
                 child: ElevatedButton(
                   onPressed: () {
-                    if(userResponse == Null) {
+                    if(userResponse != "Driver Selected") {
                       Fluttertoast.showToast(
                           msg: "Select a Driver",
                           toastLength: Toast.LENGTH_SHORT,

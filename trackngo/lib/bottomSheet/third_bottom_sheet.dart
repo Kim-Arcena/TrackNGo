@@ -56,7 +56,7 @@ class _MyBottomSheetThreeContainerState
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Settle Payments",
+                  "Payment Method",
                   textAlign: TextAlign.left,
                   style: TextStyle(
                       color: Colors.white,
