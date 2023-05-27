@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
@@ -53,7 +54,7 @@ class _MyBottomSheetTwoContainerState extends State<MyBottomSheetTwoContainer> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Create Trip",
+                  "Select a Bus",
                   textAlign: TextAlign.left,
                   style: TextStyle(
                       color: Colors.white,
@@ -180,7 +181,6 @@ class _InnerContainerState extends State<InnerContainer> {
   bool _flagTwo = false;
   bool _flagThree = false;
   String? selectedImage;
-  int? indexChosen;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -216,12 +216,13 @@ class _InnerContainerState extends State<InnerContainer> {
               ),
             ),
             Positioned(
-              top: 55,
+              top: 50,
               left: 0,
               right: 0,
               child: Padding(
                 padding: const EdgeInsets.all(30.0),
                 child: Container(
+                  padding: EdgeInsetsDirectional.zero,
                   height: 130,
                   child: ListView.builder(
                     itemCount: dList.length,
@@ -234,8 +235,8 @@ class _InnerContainerState extends State<InnerContainer> {
                               selectedImage = 'images/commuter.png';
                               chosenDriverId = dList[index]["id"].toString();
                               userResponse = "Driver Selected";
-                              indexChosen = index;
                             });
+                            widget.moveToPage(2);
                           },
                           child: Neumorphic(
                             margin: const EdgeInsets.all(5),
@@ -269,7 +270,7 @@ class _InnerContainerState extends State<InnerContainer> {
                                 children: [
                                   Row(
                                     children: [
-                                      Text(
+                                      AutoSizeText(
                                           dList[index]["firstName"] +
                                               " " +
                                               dList[index]["lastName"],
@@ -277,14 +278,20 @@ class _InnerContainerState extends State<InnerContainer> {
                                             fontSize: 15,
                                             color: Colors.black,
                                             fontWeight: FontWeight.bold,
-                                          )),
+                                          ),
+                                        maxLines: 2,
+                                        minFontSize: 12,
+                                      ),
                                     ],
                                   ),
-                                  Text(dList[index]["licenseNumber"],
+                                  AutoSizeText(dList[index]["licenseNumber"],
                                       style: TextStyle(
                                         fontSize: 14,
                                         color: Colors.black,
-                                      )),
+                                      ),
+                                    maxLines: 2,
+                                    minFontSize: 12,
+                                  ),
                                   SmoothStarRating(
                                     rating: 3,
                                     color: Colors.yellow,
@@ -305,7 +312,7 @@ class _InnerContainerState extends State<InnerContainer> {
               ),
             ),
             Positioned(
-              bottom: 120,
+              bottom: 90,
               left: 0,
               right: 0,
               child: Padding(
@@ -325,14 +332,17 @@ class _InnerContainerState extends State<InnerContainer> {
                               color: Color(0xFF282828),
                               size: 25.0,
                             ),
-                            Text(
+                            AutoSizeText(
                                 tripDrirectionDetailsInfo != null
                                     ? tripDrirectionDetailsInfo!.distance_text!
                                     : "",
                                 style: TextStyle(
                                     fontSize: 13.0,
                                     color: Color(0xFF282828),
-                                    fontWeight: FontWeight.bold)),
+                                    fontWeight: FontWeight.bold),
+                              minFontSize: 10,
+                              maxLines: 1,
+                            ),
                           ],
                         ),
                         Row(
@@ -342,34 +352,41 @@ class _InnerContainerState extends State<InnerContainer> {
                               color: Color(0xFF282828),
                               size: 25.0,
                             ),
-                            Text(
+                            AutoSizeText(
                                 tripDrirectionDetailsInfo != null
                                     ? tripDrirectionDetailsInfo!.duration_text!
                                     : "",
                                 style: TextStyle(
                                     fontSize: 13.0,
                                     color: Color(0xFF282828),
-                                    fontWeight: FontWeight.bold)),
+                                    fontWeight: FontWeight.bold),
+                              minFontSize: 10,
+                              maxLines: 1,
+                            ),
                           ],
                         ),
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.account_balance_wallet_outlined,
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.account_balance_wallet_outlined,
+                          color: Color(0xFF282828),
+                          size: 25.0,
+                        ),
+                        AutoSizeText(
+                          "Php " +
+                              AssistantMethods
+                                  .calculateFairAmountFromOriginToDestination(
+                                  tripDrirectionDetailsInfo!)
+                                  .toString(),
+                          style: TextStyle(
+                              fontSize: 13.0,
                               color: Color(0xFF282828),
-                              size: 25.0,
-                            ),
-                            Text(
-                                "Php " +
-                                    AssistantMethods
-                                            .calculateFairAmountFromOriginToDestination(
-                                                tripDrirectionDetailsInfo!)
-                                        .toString(),
-                                style: TextStyle(
-                                    fontSize: 13.0,
-                                    color: Color(0xFF282828),
-                                    fontWeight: FontWeight.bold)),
-                          ],
+                              fontWeight: FontWeight.bold),
+                          minFontSize: 10,
+                          maxLines: 1,
                         ),
                       ],
                     ),
@@ -380,7 +397,7 @@ class _InnerContainerState extends State<InnerContainer> {
               ),
             ),
             Positioned(
-              bottom: 70,
+              bottom: 40,
               left: 40,
               child: Container(
                 alignment: Alignment.center,
@@ -390,9 +407,9 @@ class _InnerContainerState extends State<InnerContainer> {
                   },
                   child: Center(
                     child: Icon(
-                      Icons.arrow_back,
+                      Icons.arrow_drop_up_sharp,
                       color: Colors.black,
-                      size: 20,
+                      size: 30,
                     ),
                   ),
                   style: ButtonStyle(
@@ -408,29 +425,27 @@ class _InnerContainerState extends State<InnerContainer> {
                 ),
               ),
             ),
+            SizedBox(
+              height: 1,
+            ),
             Positioned(
-              bottom: 70,
+              bottom: 40,
               right: 40,
               child: Container(
                 child: ElevatedButton(
                   onPressed: () {
-                    if (indexChosen != null) {
-                      setState(() {
-                        selectedImage = 'images/commuter.png';
-                        chosenDriverId = dList[indexChosen!]["id"].toString();
-                        userResponse = "Driver Selected";
-                      });
-                      widget.moveToPage(2);
-                    } else {
+                    if(userResponse == Null) {
                       Fluttertoast.showToast(
-                          msg: "Please select a driver",
+                          msg: "Select a Driver",
                           toastLength: Toast.LENGTH_SHORT,
                           gravity: ToastGravity.BOTTOM,
                           timeInSecForIosWeb: 1,
-                          backgroundColor: Color(0xFF53906B),
+                          backgroundColor: Color(0xFF7d9988),
                           textColor: Colors.white,
                           fontSize: 16.0);
+                      return;
                     }
+                    widget.moveToPage(2);
                   },
                   child: Text(
                     'Next',

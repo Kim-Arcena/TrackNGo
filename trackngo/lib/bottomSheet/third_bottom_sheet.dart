@@ -56,7 +56,7 @@ class _MyBottomSheetThreeContainerState
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Create Trip",
+                  "Settle Payments",
                   textAlign: TextAlign.left,
                   style: TextStyle(
                       color: Colors.white,
@@ -80,7 +80,9 @@ class _MyBottomSheetThreeContainerState
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                           child: TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              widget.moveToPage(0);
+                            },
                             child: Text(
                               "1",
                               style: TextStyle(
@@ -99,7 +101,9 @@ class _MyBottomSheetThreeContainerState
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                           child: TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              widget.moveToPage(1);
+                            },
                             child: Text(
                               "2",
                               style: TextStyle(
@@ -233,6 +237,9 @@ class _InnerContainerState extends State<InnerContainer> {
                   ),
                   Divider(
                       height: 20.0, thickness: 2.0, color: Color(0xFF929895)),
+                  SizedBox(
+                    height: 5,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -252,7 +259,7 @@ class _InnerContainerState extends State<InnerContainer> {
                             color: Color(0xFF282828),
                             size: 25.0,
                           ),
-                          Text(
+                          AutoSizeText(
                               "Php " +
                                   AssistantMethods
                                           .calculateFairAmountFromOriginToDestination(
@@ -261,7 +268,10 @@ class _InnerContainerState extends State<InnerContainer> {
                               style: TextStyle(
                                   fontSize: 16.0,
                                   color: Color(0xFF282828),
-                                  fontWeight: FontWeight.bold)),
+                                  fontWeight: FontWeight.bold),
+                            minFontSize: 10,
+                            maxLines: 1,
+                          ),
                         ],
                       ),
                     ],
@@ -271,7 +281,7 @@ class _InnerContainerState extends State<InnerContainer> {
             ),
           ),
           Positioned(
-            bottom: 70,
+            bottom: 40,
             left: 40,
             child: Container(
               alignment: Alignment.center,
@@ -281,10 +291,10 @@ class _InnerContainerState extends State<InnerContainer> {
                 },
                 child: Center(
                   child: Icon(
-                    Icons.arrow_back,
-                    color: Colors.black,
-                    size: 20,
-                  ),
+                      Icons.arrow_drop_up_sharp,
+                      color: Colors.black,
+                      size: 30,
+                    ),
                 ),
                 style: ButtonStyle(
                   minimumSize: MaterialStateProperty.all<Size>(Size(45, 45)),
@@ -299,8 +309,11 @@ class _InnerContainerState extends State<InnerContainer> {
               ),
             ),
           ),
+          SizedBox(
+            height: 1,
+          ),
           Positioned(
-            bottom: 70,
+            bottom: 40,
             right: 40,
             child: Container(
               child: ElevatedButton(
