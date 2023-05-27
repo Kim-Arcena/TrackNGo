@@ -22,6 +22,8 @@ class _MyBottomSheetThreeContainerState
     extends State<MyBottomSheetThreeContainer> {
   moveToPage(int page) {
     widget.moveToPage(page);
+
+    Map<String, dynamic>? paymentIntent;
   }
 
   @override
@@ -206,14 +208,6 @@ class _InnerContainerState extends State<InnerContainer> {
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                    ),
-                    maxLines: 1,
-                    minFontSize: 10,
-                  ),
-                  AutoSizeText(
-                    "Add New",
-                    style: TextStyle(
-                      fontSize: 18,
                     ),
                     maxLines: 1,
                     minFontSize: 10,

@@ -149,7 +149,7 @@ class _MainScreenState extends State<MainScreen>
 
     newGoogleMapController?.animateCamera(
       CameraUpdate.newCameraPosition(
-        CameraPosition(target: _initialcameraposition, zoom: 25),
+        CameraPosition(target: _initialcameraposition, zoom: 19),
       ),
     );
 
@@ -660,6 +660,13 @@ class _MainScreenState extends State<MainScreen>
     Geofire.setLocation(currentFirebaseUser!.uid,
         driverCurrentPosition.latitude, driverCurrentPosition.longitude);
 
+    print("the current user id is :: " +
+        currentFirebaseUser!.uid +
+        "driver current position latitude is :: " +
+        driverCurrentPosition.latitude.toString() +
+        "driver current position longitude is :: " +
+        driverCurrentPosition.longitude.toString());
+
     // ignore: deprecated_member_use
     DatabaseReference usersRef = FirebaseDatabase(
             databaseURL:
@@ -675,13 +682,21 @@ class _MainScreenState extends State<MainScreen>
         Geolocator.getPositionStream().listen((Position position) {
       driverCurrentPosition = position;
       if (isDriverActive == true) {
-        Geofire.setLocation(currentFirebaseUser!.uid,
-            driverCurrentPosition.latitude, driverCurrentPosition.longitude);
+        if (currentFirebaseUser != null) {
+          Geofire.setLocation(
+            currentFirebaseUser!.uid,
+            driverCurrentPosition.latitude,
+            driverCurrentPosition.longitude,
+          );
+        }
       }
+
       LatLng latLng = LatLng(
           driverCurrentPosition.latitude, driverCurrentPosition.longitude);
 
-      newGoogleMapController!.animateCamera(CameraUpdate.newLatLng(latLng));
+      if (newGoogleMapController != null) {
+        newGoogleMapController!.animateCamera(CameraUpdate.newLatLng(latLng));
+      }
     });
   }
 

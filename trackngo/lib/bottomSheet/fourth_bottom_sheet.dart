@@ -190,7 +190,7 @@ class _InnerContainerState extends State<InnerContainer> {
   getChosenDriverInformation() async {
     print(chosenDriverId!);
     DatabaseReference usersRef =
-        FirebaseDatabase.instance.ref().child("driver");
+        await FirebaseDatabase.instance.ref().child("driver");
     usersRef.child(chosenDriverId!).once().then((snap) {
       chosenDriverInformation ??= ChosenDriverInformation();
       chosenDriverInformation?.driverFirstName =

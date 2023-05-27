@@ -1,4 +1,5 @@
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 import 'package:trackngo/assistants/assistant_methods.dart';
 import 'package:trackngo/global/global.dart';
@@ -179,6 +180,7 @@ class _InnerContainerState extends State<InnerContainer> {
   bool _flagTwo = false;
   bool _flagThree = false;
   String? selectedImage;
+  int? indexChosen;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -232,8 +234,8 @@ class _InnerContainerState extends State<InnerContainer> {
                               selectedImage = 'images/commuter.png';
                               chosenDriverId = dList[index]["id"].toString();
                               userResponse = "Driver Selected";
+                              indexChosen = index;
                             });
-                            widget.moveToPage(2);
                           },
                           child: Neumorphic(
                             margin: const EdgeInsets.all(5),
@@ -412,7 +414,23 @@ class _InnerContainerState extends State<InnerContainer> {
               child: Container(
                 child: ElevatedButton(
                   onPressed: () {
-                    widget.moveToPage(2);
+                    if (indexChosen != null) {
+                      setState(() {
+                        selectedImage = 'images/commuter.png';
+                        chosenDriverId = dList[indexChosen!]["id"].toString();
+                        userResponse = "Driver Selected";
+                      });
+                      widget.moveToPage(2);
+                    } else {
+                      Fluttertoast.showToast(
+                          msg: "Please select a driver",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.BOTTOM,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Color(0xFF53906B),
+                          textColor: Colors.white,
+                          fontSize: 16.0);
+                    }
                   },
                   child: Text(
                     'Next',
