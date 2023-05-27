@@ -271,32 +271,6 @@ class _InnerContainerState extends State<InnerContainer> {
                             maxLines: 2,
                             minFontSize: 10,
                           ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          Positioned(
-            top: 115,
-            left: 0,
-            right: 0,
-            child: Padding(
-              padding: const EdgeInsets.all(40.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Row(
-                    children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
                           AutoSizeText(
                             chosenDriverInformation?.busNumber ?? '',
                             style: TextStyle(
@@ -319,6 +293,22 @@ class _InnerContainerState extends State<InnerContainer> {
                       ),
                     ],
                   ),
+                ],
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Positioned(
+            top: 115,
+            left: 0,
+            right: 0,
+            child: Padding(
+              padding: const EdgeInsets.all(40.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
                   AutoSizeText(
                     chosenDriverInformation?.busType ?? '',
                     style: TextStyle(
@@ -334,7 +324,7 @@ class _InnerContainerState extends State<InnerContainer> {
             ),
           ),
           Positioned(
-            top: 170,
+            top: 150,
             left: 0,
             right: 0,
             child: Padding(
