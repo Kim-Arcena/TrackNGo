@@ -54,7 +54,7 @@ class _MyBottomSheetTwoContainerState extends State<MyBottomSheetTwoContainer> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Select a Bus",
+                  "Create Trip",
                   textAlign: TextAlign.left,
                   style: TextStyle(
                       color: Colors.white,
