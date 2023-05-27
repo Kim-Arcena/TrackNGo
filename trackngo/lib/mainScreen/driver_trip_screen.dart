@@ -119,7 +119,7 @@ class _DriverTripScreenState extends State<DriverTripScreen>
 
     newGoogleMapController?.animateCamera(
       CameraUpdate.newCameraPosition(
-        CameraPosition(target: _initialcameraposition, zoom: 25),
+        CameraPosition(target: _initialcameraposition, zoom: 19),
       ),
     );
 
@@ -660,7 +660,8 @@ class _DriverTripScreenState extends State<DriverTripScreen>
         markerId: const MarkerId("passengerID"),
         position: passengerLatLng ?? LatLng(0, 0),
         icon: customIconDestination,
-        infoWindow: InfoWindow(title: passengerOrigin, snippet: "Passenger Location"),
+        infoWindow:
+            InfoWindow(title: passengerOrigin, snippet: "Passenger Location"),
       );
 
       setState(() {

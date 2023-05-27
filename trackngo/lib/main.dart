@@ -1,27 +1,30 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
 import 'package:trackngo/splashScreen/splash_screen.dart';
-
-import 'infoHandler/app_info.dart';
-import 'package:auto_size_text/auto_size_text.dart';
+import 'package:http/http.dart' as http;
+import 'infoHandler/app_info.dart' as trackngo_app_info;
 
 void main() async {
+  Stripe.publishableKey =
+      "pk_test_51NCMeUKfR9ZzIyk84Mk9LLXlGXw2CBbqI8AQH9EYDmaGCUEvqnPcvH57yiasGw27pjWxt0DgM0rFsccZ6gJXMPAm004Aa8ZFhU";
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
   runApp(MyApp(
-      child: ChangeNotifierProvider(
-    create: (context) => AppInfo(),
-    child: MaterialApp(
-      title: 'TrackNGo',
-      theme: ThemeData(
-        primarySwatch: Colors.green,
+    child: ChangeNotifierProvider<trackngo_app_info.AppInfo>(
+      create: (context) => trackngo_app_info.AppInfo(),
+      child: MaterialApp(
+        title: 'TrackNGo',
+        theme: ThemeData(
+          primarySwatch: Colors.green,
+        ),
+        home: MySplashScreen(),
+        debugShowCheckedModeBanner: false,
       ),
-      home: MySplashScreen(),
-      debugShowCheckedModeBanner: false,
     ),
-  )));
+  ));
 }
 
 class MyApp extends StatefulWidget {

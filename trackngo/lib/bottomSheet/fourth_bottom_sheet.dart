@@ -80,7 +80,9 @@ class _MyBottomSheetFourContainerState
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                           child: TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              widget.moveToPage(0);
+                            },
                             child: Text(
                               "1",
                               style: TextStyle(
@@ -99,7 +101,9 @@ class _MyBottomSheetFourContainerState
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                           child: TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              widget.moveToPage(1);
+                            },
                             child: Text(
                               "2",
                               style: TextStyle(
@@ -118,7 +122,9 @@ class _MyBottomSheetFourContainerState
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                           child: TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              widget.moveToPage(2);
+                            },
                             child: Text(
                               "3",
                               style: TextStyle(
@@ -190,7 +196,7 @@ class _InnerContainerState extends State<InnerContainer> {
   getChosenDriverInformation() async {
     print(chosenDriverId!);
     DatabaseReference usersRef =
-        FirebaseDatabase.instance.ref().child("driver");
+        await FirebaseDatabase.instance.ref().child("driver");
     usersRef.child(chosenDriverId!).once().then((snap) {
       chosenDriverInformation ??= ChosenDriverInformation();
       chosenDriverInformation?.driverFirstName =
@@ -224,8 +230,6 @@ class _InnerContainerState extends State<InnerContainer> {
         children: <Widget>[
           Positioned(
             top: 0,
-            left: 0,
-            right: 0,
             child: Padding(
               padding: const EdgeInsets.all(40.0),
               child: Row(
@@ -233,13 +237,25 @@ class _InnerContainerState extends State<InnerContainer> {
                 children: <Widget>[
                   Row(
                     children: [
-                      Image.asset(
-                        'images/driver.png',
-                        width: 65,
-                        height: 65,
+                      Container(
+                        width: 100,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                              fit: BoxFit.fill,
+                              image: AssetImage('images/driver.png')
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              offset: Offset(0, 1),
+                              blurRadius: 5,
+                              color: Colors.black.withOpacity(0.2),
+                            ),
+                          ],
+                        ),
                       ),
                       SizedBox(
-                        width: 10,
+                        width: 30,
                       ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -255,9 +271,32 @@ class _InnerContainerState extends State<InnerContainer> {
                             maxLines: 2,
                             minFontSize: 10,
                           ),
-                          SizedBox(
-                            height: 5,
-                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Positioned(
+            top: 115,
+            left: 0,
+            right: 0,
+            child: Padding(
+              padding: const EdgeInsets.all(40.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Row(
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
                           AutoSizeText(
                             chosenDriverInformation?.busNumber ?? '',
                             style: TextStyle(
@@ -295,7 +334,7 @@ class _InnerContainerState extends State<InnerContainer> {
             ),
           ),
           Positioned(
-            top: 100,
+            top: 170,
             left: 0,
             right: 0,
             child: Padding(
@@ -314,14 +353,17 @@ class _InnerContainerState extends State<InnerContainer> {
                             color: Color(0xFF282828),
                             size: 25.0,
                           ),
-                          Text(
-                              tripDrirectionDetailsInfo != null
-                                  ? tripDrirectionDetailsInfo!.distance_text!
-                                  : "",
-                              style: TextStyle(
-                                  fontSize: 13.0,
-                                  color: Color(0xFF282828),
-                                  fontWeight: FontWeight.bold)),
+                          AutoSizeText(
+                            tripDrirectionDetailsInfo != null
+                                ? tripDrirectionDetailsInfo!.distance_text!
+                                : "",
+                            style: TextStyle(
+                                fontSize: 13.0,
+                                color: Color(0xFF282828),
+                                fontWeight: FontWeight.bold),
+                            minFontSize: 10,
+                            maxLines: 1,
+                          ),
                         ],
                       ),
                       Row(
@@ -331,34 +373,41 @@ class _InnerContainerState extends State<InnerContainer> {
                             color: Color(0xFF282828),
                             size: 25.0,
                           ),
-                          Text(
-                              tripDrirectionDetailsInfo != null
-                                  ? tripDrirectionDetailsInfo!.duration_text!
-                                  : "",
-                              style: TextStyle(
-                                  fontSize: 13.0,
-                                  color: Color(0xFF282828),
-                                  fontWeight: FontWeight.bold)),
+                          AutoSizeText(
+                            tripDrirectionDetailsInfo != null
+                                ? tripDrirectionDetailsInfo!.duration_text!
+                                : "",
+                            style: TextStyle(
+                                fontSize: 13.0,
+                                color: Color(0xFF282828),
+                                fontWeight: FontWeight.bold),
+                            minFontSize: 10,
+                            maxLines: 1,
+                          ),
                         ],
                       ),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.account_balance_wallet_outlined,
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.account_balance_wallet_outlined,
+                        color: Color(0xFF282828),
+                        size: 25.0,
+                      ),
+                      AutoSizeText(
+                        "Php " +
+                            AssistantMethods
+                                .calculateFairAmountFromOriginToDestination(
+                                tripDrirectionDetailsInfo!)
+                                .toString(),
+                        style: TextStyle(
+                            fontSize: 13.0,
                             color: Color(0xFF282828),
-                            size: 25.0,
-                          ),
-                          Text(
-                              "Php " +
-                                  AssistantMethods
-                                          .calculateFairAmountFromOriginToDestination(
-                                              tripDrirectionDetailsInfo!)
-                                      .toString(),
-                              style: TextStyle(
-                                  fontSize: 13.0,
-                                  color: Color(0xFF282828),
-                                  fontWeight: FontWeight.bold)),
-                        ],
+                            fontWeight: FontWeight.bold),
+                        minFontSize: 10,
+                        maxLines: 1,
                       ),
                     ],
                   ),
@@ -369,7 +418,7 @@ class _InnerContainerState extends State<InnerContainer> {
             ),
           ),
           Positioned(
-            bottom: 70,
+            bottom: 40,
             left: 40,
             child: Container(
               alignment: Alignment.center,
@@ -379,9 +428,9 @@ class _InnerContainerState extends State<InnerContainer> {
                 },
                 child: Center(
                   child: Icon(
-                    Icons.arrow_back,
+                    Icons.arrow_drop_up_sharp,
                     color: Colors.black,
-                    size: 20,
+                    size: 30,
                   ),
                 ),
                 style: ButtonStyle(
@@ -397,8 +446,11 @@ class _InnerContainerState extends State<InnerContainer> {
               ),
             ),
           ),
+          SizedBox(
+            height: 1,
+          ),
           Positioned(
-            bottom: 70,
+            bottom: 40,
             right: 40,
             child: Container(
               child: ElevatedButton(

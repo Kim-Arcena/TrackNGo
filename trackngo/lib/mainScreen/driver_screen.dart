@@ -149,7 +149,7 @@ class _MainScreenState extends State<MainScreen>
 
     newGoogleMapController?.animateCamera(
       CameraUpdate.newCameraPosition(
-        CameraPosition(target: _initialcameraposition, zoom: 25),
+        CameraPosition(target: _initialcameraposition, zoom: 19),
       ),
     );
 
@@ -168,7 +168,7 @@ class _MainScreenState extends State<MainScreen>
 
     // Load the custom PNG image
     BitmapDescriptor customIconOrigin = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(size: Size(48, 48)), 'images/driver.png');
+        ImageConfiguration(devicePixelRatio: 2.5), 'images/driver.png');
 
     Marker originMarker = Marker(
       markerId: const MarkerId("originID"),
@@ -291,7 +291,7 @@ class _MainScreenState extends State<MainScreen>
                         },
                         child: statusText != "Now Online"
                             ? Text(
-                                "Go Onlinee",
+                                "Go Online",
                                 style: TextStyle(
                                     fontSize: 16, color: Colors.white),
                               )
@@ -620,7 +620,7 @@ class _MainScreenState extends State<MainScreen>
 
     BitmapDescriptor customIconDestination =
         await BitmapDescriptor.fromAssetImage(
-            ImageConfiguration(size: Size(48, 48)), 'images/driver.png');
+            ImageConfiguration(devicePixelRatio: 2.5), 'images/driver.png');
 
     Marker destinationMarker = Marker(
       markerId: const MarkerId("destinationID"),
@@ -660,6 +660,13 @@ class _MainScreenState extends State<MainScreen>
     Geofire.setLocation(currentFirebaseUser!.uid,
         driverCurrentPosition.latitude, driverCurrentPosition.longitude);
 
+    print("the current user id is :: " +
+        currentFirebaseUser!.uid +
+        "driver current position latitude is :: " +
+        driverCurrentPosition.latitude.toString() +
+        "driver current position longitude is :: " +
+        driverCurrentPosition.longitude.toString());
+
     // ignore: deprecated_member_use
     DatabaseReference usersRef = FirebaseDatabase(
             databaseURL:
@@ -675,13 +682,21 @@ class _MainScreenState extends State<MainScreen>
         Geolocator.getPositionStream().listen((Position position) {
       driverCurrentPosition = position;
       if (isDriverActive == true) {
-        Geofire.setLocation(currentFirebaseUser!.uid,
-            driverCurrentPosition.latitude, driverCurrentPosition.longitude);
+        if (currentFirebaseUser != null) {
+          Geofire.setLocation(
+            currentFirebaseUser!.uid,
+            driverCurrentPosition.latitude,
+            driverCurrentPosition.longitude,
+          );
+        }
       }
+
       LatLng latLng = LatLng(
           driverCurrentPosition.latitude, driverCurrentPosition.longitude);
 
-      newGoogleMapController!.animateCamera(CameraUpdate.newLatLng(latLng));
+      if (newGoogleMapController != null) {
+        newGoogleMapController!.animateCamera(CameraUpdate.newLatLng(latLng));
+      }
     });
   }
 
