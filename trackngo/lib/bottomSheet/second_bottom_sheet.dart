@@ -365,28 +365,28 @@ class _InnerContainerState extends State<InnerContainer> {
                             ),
                           ],
                         ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.account_balance_wallet_outlined,
-                          color: Color(0xFF282828),
-                          size: 25.0,
-                        ),
-                        AutoSizeText(
-                          "Php " +
-                              AssistantMethods
-                                  .calculateFairAmountFromOriginToDestination(
-                                  tripDrirectionDetailsInfo!)
-                                  .toString(),
-                          style: TextStyle(
-                              fontSize: 13.0,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.account_balance_wallet_outlined,
                               color: Color(0xFF282828),
-                              fontWeight: FontWeight.bold),
-                          minFontSize: 10,
-                          maxLines: 1,
+                              size: 25.0,
+                            ),
+                            AutoSizeText(
+                              "Php " +
+                                  AssistantMethods
+                                      .calculateFairAmountFromOriginToDestination(
+                                      tripDrirectionDetailsInfo!)
+                                      .toString(),
+                              style: TextStyle(
+                                  fontSize: 13.0,
+                                  color: Color(0xFF282828),
+                                  fontWeight: FontWeight.bold),
+                              minFontSize: 10,
+                              maxLines: 1,
+                            ),
+                          ],
                         ),
                       ],
                     ),
