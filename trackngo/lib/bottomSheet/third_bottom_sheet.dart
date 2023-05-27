@@ -190,25 +190,26 @@ class _InnerContainerState extends State<InnerContainer> {
   String? selectedImage;
   Map<String, dynamic>? paymentIntent;
 
-  Future<void> makePayment() async {
+  Future<void> makePayment(double amount) async {
     try {
-      paymentIntent = await createPaymentIntent('10000', 'GBP');
+      print("amount is $amount");
+      paymentIntent = await createPaymentIntent('4322', 'PHP');
 
       var gpay = PaymentSheetGooglePay(
-          merchantCountryCode: "GB", currencyCode: "GBP", testEnv: true);
+          merchantCountryCode: "PH", currencyCode: "PHP", testEnv: true);
 
-      //STEP 2: Initialize Payment Sheet
-      await Stripe.instance
-          .initPaymentSheet(
-              paymentSheetParameters: SetupPaymentSheetParameters(
-                  paymentIntentClientSecret: paymentIntent![
-                      'client_secret'], //Gotten from payment intent
-                  style: ThemeMode.light,
-                  merchantDisplayName: 'Abhi',
-                  googlePay: gpay))
-          .then((value) {});
+      // STEP 2: Initialize Payment Sheet
+      await Stripe.instance.initPaymentSheet(
+        paymentSheetParameters: SetupPaymentSheetParameters(
+          paymentIntentClientSecret:
+              paymentIntent!['client_secret'], // Gotten from payment intent
+          style: ThemeMode.light,
+          merchantDisplayName: 'TrackNGo',
+          googlePay: gpay,
+        ),
+      );
 
-      //STEP 3: Display Payment sheet
+      // STEP 3: Display Payment sheet
       displayPaymentSheet();
     } catch (err) {
       print(err);
@@ -323,15 +324,15 @@ class _InnerContainerState extends State<InnerContainer> {
                             size: 25.0,
                           ),
                           AutoSizeText(
-                              "Php " +
-                                  AssistantMethods
-                                          .calculateFairAmountFromOriginToDestination(
-                                              tripDrirectionDetailsInfo!)
-                                      .toString(),
-                              style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: Color(0xFF282828),
-                                  fontWeight: FontWeight.bold),
+                            "Php " +
+                                AssistantMethods
+                                        .calculateFairAmountFromOriginToDestination(
+                                            tripDrirectionDetailsInfo!)
+                                    .toString(),
+                            style: TextStyle(
+                                fontSize: 16.0,
+                                color: Color(0xFF282828),
+                                fontWeight: FontWeight.bold),
                             minFontSize: 10,
                             maxLines: 1,
                           ),
@@ -343,6 +344,30 @@ class _InnerContainerState extends State<InnerContainer> {
               ),
             ),
           ),
+          Center(
+            child: Container(
+              child: ElevatedButton(
+                onPressed: () {
+                  makePayment(9000);
+                },
+                child: Text(
+                  'Pay Now',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                style: ElevatedButton.styleFrom(
+                  primary: Color(0xFF53906B),
+                  minimumSize: Size(200, 45),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                ),
+              ),
+            ),
+          ),
           Positioned(
             bottom: 40,
             left: 40,
@@ -350,14 +375,15 @@ class _InnerContainerState extends State<InnerContainer> {
               alignment: Alignment.center,
               child: ElevatedButton(
                 onPressed: () async {
-                  await makePayment();
+                  widget.moveToPage(1);
+                  // await makePayment();
                 },
                 child: Center(
                   child: Icon(
-                      Icons.arrow_drop_up_sharp,
-                      color: Colors.black,
-                      size: 30,
-                    ),
+                    Icons.arrow_drop_up_sharp,
+                    color: Colors.black,
+                    size: 30,
+                  ),
                 ),
                 style: ButtonStyle(
                   minimumSize: MaterialStateProperty.all<Size>(Size(45, 45)),

@@ -1,7 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:trackngo/assistants/geofire_assistant.dart';
@@ -231,7 +230,7 @@ class _InnerContainerState extends State<InnerContainer> {
     referenceRideRequestRef =
         FirebaseDatabase.instance.ref().child("All Ride Requests").push();
     final usersRef = FirebaseDatabase.instance.ref().child("users");
-
+    print("currentFirebaseUser" + currentFirebaseUser.toString());
     final currentUserCommuteRef =
         usersRef.child(currentFirebaseUser!.uid).child("commuters_child");
     final snapshot = await currentUserCommuteRef.get();
@@ -257,7 +256,7 @@ class _InnerContainerState extends State<InnerContainer> {
 
     var originLocation =
         Provider.of<AppInfo>(context, listen: false).userPickUpLocation;
-    var destinatinoLocation =
+    var destinationLocation =
         Provider.of<AppInfo>(context, listen: false).userDropOffLocation;
 
     Map originLocationMap = {
@@ -265,8 +264,8 @@ class _InnerContainerState extends State<InnerContainer> {
       "longitude": originLocation.locationLongitude.toString(),
     };
     Map destinationLocationMap = {
-      "latitude": destinatinoLocation!.locationLatitude.toString(),
-      "longitude": destinatinoLocation.locationLongitude.toString(),
+      "latitude": destinationLocation!.locationLatitude.toString(),
+      "longitude": destinationLocation!.locationLongitude.toString(),
     };
 
     Map userInformationMap = {
@@ -277,7 +276,7 @@ class _InnerContainerState extends State<InnerContainer> {
       "userLastName": lastName,
       "userContact": userContact,
       "originAddress": originLocation.locationName ?? "",
-      "destinationAddress": destinatinoLocation.locationName ?? "",
+      "destinationAddress": destinationLocation.locationName ?? "",
       "driverId": "waiting",
       "numberOfSeats": numberOfSeats,
     };
@@ -292,16 +291,16 @@ class _InnerContainerState extends State<InnerContainer> {
   }
 
   searchNearestOnlineDrivers() async {
-    if (onlineNearByAvailableDriversList.length == 0) {
-      Fluttertoast.showToast(msg: "No drivers found nearby");
-      referenceRideRequestRef!.remove();
-      return;
+    // if (onlineNearByAvailableDriversList.length == 0) {
+    //   Fluttertoast.showToast(msg: "No drivers found nearby");
+    //   referenceRideRequestRef!.remove();
+    //   return;
 
-      // ignore: dead_code
-      Future.delayed(Duration(seconds: 4), () {
-        SystemNavigator.pop();
-      });
-    }
+    //   // ignore: dead_code
+    //   Future.delayed(Duration(seconds: 4), () {
+    //     SystemNavigator.pop();
+    //   });
+    // }
 
     await retrieveOnlineDriversInformation(onlineNearByAvailableDriversList);
     print("dList length is" + dList.length.toString());
@@ -653,28 +652,27 @@ class _InnerContainerState extends State<InnerContainer> {
             child: Container(
               child: ElevatedButton(
                 onPressed: () {
-                  print("the current firebase user is "+ currentFirebaseUser!.uid.toString());
-                   if ((Provider.of<AppInfo>(context, listen: false)
-                      .userDropOffLocation !=
-                      null) ||
+                  if ((Provider.of<AppInfo>(context, listen: false)
+                              .userDropOffLocation !=
+                          null) ||
                       // ignore: unnecessary_null_comparison
                       numberOfSeats != 0) {
                     print("Save Ride Request Information is Called");
                     saveRideRequestInformation();
                   } else if ((Provider.of<AppInfo>(context, listen: false)
-                       .userDropOffLocation ==
-                       null) ||
-                       // ignore: unnecessary_null_comparison
-                       numberOfSeats == 0) {
-                     Fluttertoast.showToast(
-                         msg: "Kindly fill up ride request details",
-                         toastLength: Toast.LENGTH_SHORT,
-                         gravity: ToastGravity.BOTTOM,
-                         timeInSecForIosWeb: 1,
-                         backgroundColor: Color(0xFF7d9988),
-                         textColor: Colors.white,
-                         fontSize: 16.0);
-                   } else if (onlineNearByAvailableDriversList.length == 0) {
+                              .userDropOffLocation ==
+                          null) ||
+                      // ignore: unnecessary_null_comparison
+                      numberOfSeats == 0) {
+                    Fluttertoast.showToast(
+                        msg: "Kindly fill up ride request details",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Color(0xFF7d9988),
+                        textColor: Colors.white,
+                        fontSize: 16.0);
+                  } else if (onlineNearByAvailableDriversList.length == 0) {
                     Fluttertoast.showToast(
                         msg: "There are currently No Available Drivers",
                         toastLength: Toast.LENGTH_SHORT,

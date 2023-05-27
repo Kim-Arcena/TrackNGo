@@ -180,7 +180,7 @@ class _InnerContainerState extends State<InnerContainer> {
   bool _flag = false;
   bool _flagTwo = false;
   bool _flagThree = false;
-  String? selectedImage;
+  int? selectedBus;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -232,11 +232,11 @@ class _InnerContainerState extends State<InnerContainer> {
                         child: GestureDetector(
                           onTap: () {
                             setState(() {
-                              selectedImage = 'images/commuter.png';
+                              selectedBus = index;
                               chosenDriverId = dList[index]["id"].toString();
                               userResponse = "Driver Selected";
+                              print("dlist id is" + chosenDriverId.toString());
                             });
-                            widget.moveToPage(2);
                           },
                           child: Neumorphic(
                             margin: const EdgeInsets.all(5),
@@ -246,14 +246,12 @@ class _InnerContainerState extends State<InnerContainer> {
                               depth: 5,
                               lightSource: LightSource.topLeft,
                               color: Colors.white,
-                              shadowDarkColor:
-                                  selectedImage == 'images/commuter.png'
-                                      ? Color(0xFFf9dea7)
-                                      : Color(0xFFDFDFDF),
-                              shadowLightColor:
-                                  selectedImage == 'images/commuter.png'
-                                      ? Color(0xFFf9dea7)
-                                      : Color(0xFFDFDFDF),
+                              shadowDarkColor: selectedBus == index
+                                  ? Color(0xFF62c493)
+                                  : Color(0xFFDFDFDF),
+                              shadowLightColor: selectedBus == index
+                                  ? Color(0xFF62c493)
+                                  : Color(0xFFDFDFDF),
                             ),
                             child: ListTile(
                               leading: Container(
@@ -271,24 +269,25 @@ class _InnerContainerState extends State<InnerContainer> {
                                   Row(
                                     children: [
                                       AutoSizeText(
-                                          dList[index]["firstName"] +
-                                              " " +
-                                              dList[index]["lastName"],
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                                        (dList[index]["firstName"] != null
+                                            ? dList[index]["firstName"]
+                                            : ''),
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                         maxLines: 2,
                                         minFontSize: 12,
                                       ),
                                     ],
                                   ),
-                                  AutoSizeText(dList[index]["licenseNumber"],
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.black,
-                                      ),
+                                  AutoSizeText(
+                                    dList[index]["licenseNumber"] ?? 'number',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.black,
+                                    ),
                                     maxLines: 2,
                                     minFontSize: 12,
                                   ),
@@ -333,13 +332,13 @@ class _InnerContainerState extends State<InnerContainer> {
                               size: 25.0,
                             ),
                             AutoSizeText(
-                                tripDrirectionDetailsInfo != null
-                                    ? tripDrirectionDetailsInfo!.distance_text!
-                                    : "",
-                                style: TextStyle(
-                                    fontSize: 13.0,
-                                    color: Color(0xFF282828),
-                                    fontWeight: FontWeight.bold),
+                              tripDrirectionDetailsInfo != null
+                                  ? tripDrirectionDetailsInfo!.distance_text!
+                                  : "",
+                              style: TextStyle(
+                                  fontSize: 13.0,
+                                  color: Color(0xFF282828),
+                                  fontWeight: FontWeight.bold),
                               minFontSize: 10,
                               maxLines: 1,
                             ),
@@ -353,13 +352,13 @@ class _InnerContainerState extends State<InnerContainer> {
                               size: 25.0,
                             ),
                             AutoSizeText(
-                                tripDrirectionDetailsInfo != null
-                                    ? tripDrirectionDetailsInfo!.duration_text!
-                                    : "",
-                                style: TextStyle(
-                                    fontSize: 13.0,
-                                    color: Color(0xFF282828),
-                                    fontWeight: FontWeight.bold),
+                              tripDrirectionDetailsInfo != null
+                                  ? tripDrirectionDetailsInfo!.duration_text!
+                                  : "",
+                              style: TextStyle(
+                                  fontSize: 13.0,
+                                  color: Color(0xFF282828),
+                                  fontWeight: FontWeight.bold),
                               minFontSize: 10,
                               maxLines: 1,
                             ),
@@ -378,8 +377,8 @@ class _InnerContainerState extends State<InnerContainer> {
                         AutoSizeText(
                           "Php " +
                               AssistantMethods
-                                  .calculateFairAmountFromOriginToDestination(
-                                  tripDrirectionDetailsInfo!)
+                                      .calculateFairAmountFromOriginToDestination(
+                                          tripDrirectionDetailsInfo!)
                                   .toString(),
                           style: TextStyle(
                               fontSize: 13.0,
@@ -434,7 +433,7 @@ class _InnerContainerState extends State<InnerContainer> {
               child: Container(
                 child: ElevatedButton(
                   onPressed: () {
-                    if(userResponse != "Driver Selected") {
+                    if (userResponse != "Driver Selected") {
                       Fluttertoast.showToast(
                           msg: "Select a Driver",
                           toastLength: Toast.LENGTH_SHORT,
