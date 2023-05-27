@@ -16,6 +16,9 @@ import 'package:trackngo/infoHandler/app_info.dart';
 import 'package:trackngo/models/user_ride_request_information.dart';
 import 'package:trackngo/push_notifications/push_notification_system.dart';
 
+import '../tabPages/earning_tab.dart';
+import '../tabPages/home_tab.dart';
+
 class DriverTripScreen extends StatefulWidget {
   final UserRideRequestInformation? userRideRequestDetails;
 
@@ -290,7 +293,6 @@ class _DriverTripScreenState extends State<DriverTripScreen>
   @override
   Widget build(BuildContext context) {
     createDriverIconMarker();
-
     return Scaffold(
       body: Column(
         children: [
