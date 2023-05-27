@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -426,7 +427,7 @@ class _InnerContainerState extends State<InnerContainer> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 30.0),
-                    child: Text(
+                    child: AutoSizeText(
                       Provider.of<AppInfo>(context).userPickUpLocation != null
                           ? Provider.of<AppInfo>(context)
                               .userPickUpLocation!
@@ -436,6 +437,8 @@ class _InnerContainerState extends State<InnerContainer> {
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
+                      maxLines: 2,
+                      minFontSize: 12,
                     ),
                   ),
                   Padding(
@@ -479,7 +482,7 @@ class _InnerContainerState extends State<InnerContainer> {
                                 ?.drawPolyLineFromSourceToDestination();
                           });
                         },
-                        child: Text(
+                        child: AutoSizeText(
                           Provider.of<AppInfo>(context).userDropOffLocation !=
                                   null
                               ? Provider.of<AppInfo>(context)
@@ -490,6 +493,8 @@ class _InnerContainerState extends State<InnerContainer> {
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),
+                          maxLines: 2,
+                          minFontSize: 12,
                         ),
                       ),
                     ),
@@ -644,8 +649,11 @@ class _InnerContainerState extends State<InnerContainer> {
               ),
             ),
           ),
+          SizedBox(
+            height: 1,
+          ),
           Positioned(
-            bottom: 70,
+            bottom: 40,
             right: 40,
             child: Container(
               child: ElevatedButton(
@@ -655,6 +663,7 @@ class _InnerContainerState extends State<InnerContainer> {
                           null) ||
                       // ignore: unnecessary_null_comparison
                       numberOfSeats != 0) {
+                    print("save ride request information is called");
                     saveRideRequestInformation();
                   } else if (onlineNearByAvailableDriversList.length == 0) {
                     Fluttertoast.showToast(
@@ -683,6 +692,7 @@ class _InnerContainerState extends State<InnerContainer> {
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
+                  textAlign: TextAlign.center,
                 ),
                 style: ElevatedButton.styleFrom(
                   primary: Color(0xFF53906B),
