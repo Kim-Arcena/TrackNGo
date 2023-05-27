@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
 import 'package:trackngo/splashScreen/splash_screen.dart';
-import 'package:http/http.dart' as http;
+
 import 'infoHandler/app_info.dart' as trackngo_app_info;
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   Stripe.publishableKey =
       "pk_test_51NCMeUKfR9ZzIyk84Mk9LLXlGXw2CBbqI8AQH9EYDmaGCUEvqnPcvH57yiasGw27pjWxt0DgM0rFsccZ6gJXMPAm004Aa8ZFhU";
-  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
   runApp(MyApp(

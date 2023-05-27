@@ -213,7 +213,6 @@ class _InnerContainerState extends State<InnerContainer> {
   bool _flagThree = false;
   List<ActiveNearbyAvailableDrivers> onlineNearByAvailableDriversList = [];
   DatabaseReference? referenceRideRequestRef;
-  
 
   get moveToPage => null;
   get scrollController => null;
