@@ -222,8 +222,16 @@ class _MainScreenState extends State<MainScreen>
             child: Stack(
               children: [
                 GoogleMap(
+                  myLocationButtonEnabled: false,
+                  zoomControlsEnabled: false,
                   initialCameraPosition:
-                      CameraPosition(target: _initialcameraposition),
+                      CameraPosition(target: _initialcameraposition, zoom: 15),
+                  cameraTargetBounds: CameraTargetBounds(
+                    LatLngBounds(
+                      northeast: LatLng(11.689764, 123.491869),
+                      southwest: LatLng(10.225571, 121.560314),
+                    ),
+                  ),
                   mapType: MapType.normal,
                   onMapCreated: _onMapCreated,
                   myLocationEnabled: true,
