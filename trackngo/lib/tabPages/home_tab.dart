@@ -14,11 +14,12 @@ class _HomeTabPage extends State<HomeTabPage> {
   Widget build(BuildContext context) {
     return Center(
         child: ElevatedButton(
-      child: Text('Logout'),
-      onPressed: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (c) => const MySplashScreen()));
-      },
-    ));
+          child: Text('Logout'),
+          onPressed: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (c) => const MySplashScreen()));
+          },
+        ),
+    );
   }
 }

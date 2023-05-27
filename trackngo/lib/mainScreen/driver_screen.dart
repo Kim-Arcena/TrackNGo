@@ -507,7 +507,7 @@ class _MainScreenState extends State<MainScreen>
                           elevation: 10,
                           borderOnForeground: true,
                           child: BottomNavigationBar(
-                            items: const [
+                            items: [
                               BottomNavigationBarItem(
                                 icon: Icon(Icons.explore),
                                 label: 'Home',
