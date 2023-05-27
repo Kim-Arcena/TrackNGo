@@ -1,9 +1,8 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:provider/provider.dart';
-
-import '../infoHandler/app_info.dart';
-import 'package:auto_size_text/auto_size_text.dart';
+import 'package:trackngo/assistants/assistant_methods.dart';
+import 'package:trackngo/global/global.dart';
 
 var maxChildSize = 0.8;
 
@@ -245,7 +244,7 @@ class _InnerContainerState extends State<InnerContainer> {
                     children: <Widget>[
                       Row(
                         children: [
-                          Text("Total Fair",
+                          Text("Total Fare",
                               style: TextStyle(
                                   fontSize: 16.0,
                                   color: Color(0xFF282828),
@@ -259,7 +258,12 @@ class _InnerContainerState extends State<InnerContainer> {
                             color: Color(0xFF282828),
                             size: 25.0,
                           ),
-                          Text("Php: 11.00",
+                          Text(
+                              "Php " +
+                                  AssistantMethods
+                                          .calculateFairAmountFromOriginToDestination(
+                                              tripDrirectionDetailsInfo!)
+                                      .toString(),
                               style: TextStyle(
                                   fontSize: 16.0,
                                   color: Color(0xFF282828),

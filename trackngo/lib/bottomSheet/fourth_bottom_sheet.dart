@@ -1,9 +1,10 @@
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:provider/provider.dart';
-
-import '../infoHandler/app_info.dart';
-import 'package:auto_size_text/auto_size_text.dart';
+import 'package:trackngo/assistants/assistant_methods.dart';
+import 'package:trackngo/global/global.dart';
+import 'package:trackngo/models/choosen_driver_information.dart';
 
 var maxChildSize = 0.8;
 
@@ -179,6 +180,35 @@ class _InnerContainerState extends State<InnerContainer> {
   bool _flagTwo = false;
   bool _flagThree = false;
   String? selectedImage;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    getChosenDriverInformation();
+  }
+
+  getChosenDriverInformation() async {
+    print(chosenDriverId!);
+    DatabaseReference usersRef =
+        FirebaseDatabase.instance.ref().child("driver");
+    usersRef.child(chosenDriverId!).once().then((snap) {
+      chosenDriverInformation ??= ChosenDriverInformation();
+      chosenDriverInformation?.driverFirstName =
+          (snap.snapshot.value as Map)["firstName"];
+      chosenDriverInformation?.driverLastName =
+          (snap.snapshot.value as Map)["lastName"];
+      chosenDriverInformation?.driverContactNumber =
+          (snap.snapshot.value as Map)["contactNumber"];
+      chosenDriverInformation?.busNumber =
+          (snap.snapshot.value as Map)["operatorId"];
+      chosenDriverInformation?.driverContactNumber =
+          (snap.snapshot.value as Map)["contactNumber"];
+      chosenDriverInformation?.busType =
+          (snap.snapshot.value as Map)["busType"];
+    });
+    print(chosenDriverInformation?.busNumber ?? "No driver found");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -216,10 +246,10 @@ class _InnerContainerState extends State<InnerContainer> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           AutoSizeText(
-                            "Juan Dela Cruz",
+                            '${chosenDriverInformation?.driverFirstName ?? ''} ${chosenDriverInformation?.driverLastName ?? ''}',
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: 18,
+                              fontSize: 15,
                               fontWeight: FontWeight.bold,
                             ),
                             maxLines: 2,
@@ -229,7 +259,7 @@ class _InnerContainerState extends State<InnerContainer> {
                             height: 5,
                           ),
                           AutoSizeText(
-                            "FW-1234",
+                            chosenDriverInformation?.busNumber ?? '',
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 14,
@@ -238,7 +268,7 @@ class _InnerContainerState extends State<InnerContainer> {
                             minFontSize: 10,
                           ),
                           AutoSizeText(
-                            "09123456789",
+                            chosenDriverInformation?.driverContactNumber ?? '',
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 14,
@@ -251,10 +281,10 @@ class _InnerContainerState extends State<InnerContainer> {
                     ],
                   ),
                   AutoSizeText(
-                    "Traditional Bus",
+                    chosenDriverInformation?.busType ?? '',
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 14,
+                      fontSize: 15,
                       fontWeight: FontWeight.bold,
                     ),
                     maxLines: 1,
@@ -284,15 +314,14 @@ class _InnerContainerState extends State<InnerContainer> {
                             color: Color(0xFF282828),
                             size: 25.0,
                           ),
-                          AutoSizeText(
-                            "1 km",
-                            style: TextStyle(
-                                fontSize: 16.0,
-                                color: Color(0xFF282828),
-                                fontWeight: FontWeight.bold),
-                            maxLines: 1,
-                            minFontSize: 10,
-                          ),
+                          Text(
+                              tripDrirectionDetailsInfo != null
+                                  ? tripDrirectionDetailsInfo!.distance_text!
+                                  : "",
+                              style: TextStyle(
+                                  fontSize: 13.0,
+                                  color: Color(0xFF282828),
+                                  fontWeight: FontWeight.bold)),
                         ],
                       ),
                       Row(
@@ -302,15 +331,14 @@ class _InnerContainerState extends State<InnerContainer> {
                             color: Color(0xFF282828),
                             size: 25.0,
                           ),
-                          AutoSizeText(
-                            "5 mins",
-                            style: TextStyle(
-                                fontSize: 16.0,
-                                color: Color(0xFF282828),
-                                fontWeight: FontWeight.bold),
-                            maxLines: 1,
-                            minFontSize: 10,
-                          ),
+                          Text(
+                              tripDrirectionDetailsInfo != null
+                                  ? tripDrirectionDetailsInfo!.duration_text!
+                                  : "",
+                              style: TextStyle(
+                                  fontSize: 13.0,
+                                  color: Color(0xFF282828),
+                                  fontWeight: FontWeight.bold)),
                         ],
                       ),
                       Row(
@@ -320,15 +348,16 @@ class _InnerContainerState extends State<InnerContainer> {
                             color: Color(0xFF282828),
                             size: 25.0,
                           ),
-                          AutoSizeText(
-                            "Php: 11.00",
-                            style: TextStyle(
-                                fontSize: 16.0,
-                                color: Color(0xFF282828),
-                                fontWeight: FontWeight.bold),
-                            maxLines: 1,
-                            minFontSize: 10,
-                          ),
+                          Text(
+                              "Php " +
+                                  AssistantMethods
+                                          .calculateFairAmountFromOriginToDestination(
+                                              tripDrirectionDetailsInfo!)
+                                      .toString(),
+                              style: TextStyle(
+                                  fontSize: 13.0,
+                                  color: Color(0xFF282828),
+                                  fontWeight: FontWeight.bold)),
                         ],
                       ),
                     ],

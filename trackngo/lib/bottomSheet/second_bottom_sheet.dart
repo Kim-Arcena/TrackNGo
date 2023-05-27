@@ -1,11 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:provider/provider.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 import 'package:trackngo/assistants/assistant_methods.dart';
 import 'package:trackngo/global/global.dart';
-
-import '../infoHandler/app_info.dart';
 
 var maxChildSize = 0.8;
 
@@ -234,10 +230,10 @@ class _InnerContainerState extends State<InnerContainer> {
                           onTap: () {
                             setState(() {
                               selectedImage = 'images/commuter.png';
-                              choosenDriverId = dList[index]["id"].toString();
+                              chosenDriverId = dList[index]["id"].toString();
                               userResponse = "Driver Selected";
                             });
-                            widget.moveToPage(0);
+                            widget.moveToPage(2);
                           },
                           child: Neumorphic(
                             margin: const EdgeInsets.all(5),
@@ -332,7 +328,7 @@ class _InnerContainerState extends State<InnerContainer> {
                                     ? tripDrirectionDetailsInfo!.distance_text!
                                     : "",
                                 style: TextStyle(
-                                    fontSize: 16.0,
+                                    fontSize: 13.0,
                                     color: Color(0xFF282828),
                                     fontWeight: FontWeight.bold)),
                           ],
@@ -349,7 +345,7 @@ class _InnerContainerState extends State<InnerContainer> {
                                     ? tripDrirectionDetailsInfo!.duration_text!
                                     : "",
                                 style: TextStyle(
-                                    fontSize: 16.0,
+                                    fontSize: 13.0,
                                     color: Color(0xFF282828),
                                     fontWeight: FontWeight.bold)),
                           ],
@@ -368,7 +364,7 @@ class _InnerContainerState extends State<InnerContainer> {
                                                 tripDrirectionDetailsInfo!)
                                         .toString(),
                                 style: TextStyle(
-                                    fontSize: 16.0,
+                                    fontSize: 13.0,
                                     color: Color(0xFF282828),
                                     fontWeight: FontWeight.bold)),
                           ],

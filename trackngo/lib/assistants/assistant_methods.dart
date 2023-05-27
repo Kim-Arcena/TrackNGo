@@ -77,7 +77,7 @@ class AssistantMethods {
   static double calculateFairAmountFromOriginToDestination(
       DirectionDetailsInfo directionDetailsInfo) {
     double distanceTraveledFarePerMinute =
-        (directionDetailsInfo.duration_value! / 1000) * 0.1;
+        (directionDetailsInfo.duration_value! / 1000) * 2 * numberOfSeats;
     double totalFairAmount = distanceTraveledFarePerMinute;
     return double.parse(totalFairAmount.toStringAsFixed(2));
   }

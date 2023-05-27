@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,9 +7,9 @@ import 'package:trackngo/assistants/geofire_assistant.dart';
 import 'package:trackngo/bottomSheet/fourth_bottom_sheet.dart';
 import 'package:trackngo/bottomSheet/second_bottom_sheet.dart';
 import 'package:trackngo/bottomSheet/third_bottom_sheet.dart';
-import '../../main.dart';
 import 'package:trackngo/mainScreen/commuter_screen.dart';
 import 'package:trackngo/models/active_nearby_available_drivers.dart';
+
 import '../global/global.dart';
 import '../infoHandler/app_info.dart';
 import '../mainScreen/search_places_screen.dart';
@@ -214,7 +212,7 @@ class _InnerContainerState extends State<InnerContainer> {
   bool _flagThree = false;
   List<ActiveNearbyAvailableDrivers> onlineNearByAvailableDriversList = [];
   DatabaseReference? referenceRideRequestRef;
-  int numberOfSeats = 0;
+  
 
   get moveToPage => null;
   get scrollController => null;
@@ -232,10 +230,7 @@ class _InnerContainerState extends State<InnerContainer> {
     var userContact;
     referenceRideRequestRef =
         FirebaseDatabase.instance.ref().child("All Ride Requests").push();
-    final usersRef = FirebaseDatabase(
-      databaseURL:
-          "https://trackngo-d7aa0-default-rtdb.asia-southeast1.firebasedatabase.app/",
-    ).ref().child("users");
+    final usersRef = FirebaseDatabase.instance.ref().child("users");
 
     final currentUserCommuteRef =
         usersRef.child(currentFirebaseUser!.uid).child("commuters_child");
@@ -311,16 +306,16 @@ class _InnerContainerState extends State<InnerContainer> {
     await retrieveOnlineDriversInformation(onlineNearByAvailableDriversList);
     print("dList length is" + dList.length.toString());
     widget.moveToPage(1);
-    print("choosenddriver id is" + choosenDriverId.toString());
+    print("choosenddriver id is" + chosenDriverId.toString());
     if (userResponse == "Driver Selected") {
       FirebaseDatabase.instance
           .ref()
           .child("driver")
-          .child(choosenDriverId!)
+          .child(chosenDriverId!)
           .once()
           .then((snap) {
         if (snap.snapshot.value != null) {
-          sendNotificationToDriver(choosenDriverId);
+          sendNotificationToDriver(chosenDriverId);
         } else {
           Fluttertoast.showToast(msg: "Driver is not available.");
         }
@@ -331,8 +326,7 @@ class _InnerContainerState extends State<InnerContainer> {
         context,
         MaterialPageRoute(
             builder: (context) => MyBottomSheetTwoContainer(
-                scrollController: scrollController,
-                moveToPage: moveToPage)));
+                scrollController: scrollController, moveToPage: moveToPage)));
   }
 
   sendNotificationToDriver(String? chooseDriverId) {
@@ -341,7 +335,7 @@ class _InnerContainerState extends State<InnerContainer> {
     FirebaseDatabase.instance
         .ref()
         .child("driver")
-        .child(choosenDriverId!)
+        .child(chosenDriverId!)
         .child("newRideStatus")
         .set(rideRequestList);
   }
