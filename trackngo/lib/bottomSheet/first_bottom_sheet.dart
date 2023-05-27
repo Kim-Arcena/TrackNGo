@@ -653,25 +653,30 @@ class _InnerContainerState extends State<InnerContainer> {
             child: Container(
               child: ElevatedButton(
                 onPressed: () {
-                  if ((Provider.of<AppInfo>(context, listen: false)
-                              .userDropOffLocation !=
-                          null) ||
+                  print("the current firebase user is "+ currentFirebaseUser!.uid.toString());
+                   if ((Provider.of<AppInfo>(context, listen: false)
+                      .userDropOffLocation !=
+                      null) ||
                       // ignore: unnecessary_null_comparison
                       numberOfSeats != 0) {
-                    print("save ride request information is called");
+                    print("Save Ride Request Information is Called");
                     saveRideRequestInformation();
-                  } else if (onlineNearByAvailableDriversList.length == 0) {
+                  } else if ((Provider.of<AppInfo>(context, listen: false)
+                       .userDropOffLocation ==
+                       null) ||
+                       // ignore: unnecessary_null_comparison
+                       numberOfSeats == 0) {
+                     Fluttertoast.showToast(
+                         msg: "Kindly fill up ride request details",
+                         toastLength: Toast.LENGTH_SHORT,
+                         gravity: ToastGravity.BOTTOM,
+                         timeInSecForIosWeb: 1,
+                         backgroundColor: Color(0xFF7d9988),
+                         textColor: Colors.white,
+                         fontSize: 16.0);
+                   } else if (onlineNearByAvailableDriversList.length == 0) {
                     Fluttertoast.showToast(
                         msg: "There are currently No Available Drivers",
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.BOTTOM,
-                        timeInSecForIosWeb: 1,
-                        backgroundColor: Color(0xFF7d9988),
-                        textColor: Colors.white,
-                        fontSize: 16.0);
-                  } else {
-                    Fluttertoast.showToast(
-                        msg: "Kindly fill up ride request details.",
                         toastLength: Toast.LENGTH_SHORT,
                         gravity: ToastGravity.BOTTOM,
                         timeInSecForIosWeb: 1,

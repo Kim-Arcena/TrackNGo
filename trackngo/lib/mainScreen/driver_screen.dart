@@ -168,7 +168,7 @@ class _MainScreenState extends State<MainScreen>
 
     // Load the custom PNG image
     BitmapDescriptor customIconOrigin = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(size: Size(48, 48)), 'images/driver.png');
+        ImageConfiguration(devicePixelRatio: 2.5), 'images/driver.png');
 
     Marker originMarker = Marker(
       markerId: const MarkerId("originID"),
@@ -291,7 +291,7 @@ class _MainScreenState extends State<MainScreen>
                         },
                         child: statusText != "Now Online"
                             ? Text(
-                                "Go Onlinee",
+                                "Go Online",
                                 style: TextStyle(
                                     fontSize: 16, color: Colors.white),
                               )
@@ -620,7 +620,7 @@ class _MainScreenState extends State<MainScreen>
 
     BitmapDescriptor customIconDestination =
         await BitmapDescriptor.fromAssetImage(
-            ImageConfiguration(size: Size(48, 48)), 'images/driver.png');
+            ImageConfiguration(devicePixelRatio: 2.5), 'images/driver.png');
 
     Marker destinationMarker = Marker(
       markerId: const MarkerId("destinationID"),
