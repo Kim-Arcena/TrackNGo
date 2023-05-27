@@ -193,16 +193,20 @@ class _InnerContainerState extends State<InnerContainer> {
   Future<void> makePayment(double amount) async {
     try {
       print("amount is $amount");
-      paymentIntent = await createPaymentIntent('4322', 'PHP');
+      String amountConverted = (amount * 100).toStringAsFixed(0);
+      paymentIntent = await createPaymentIntent(amountConverted, "PHP");
 
       var gpay = PaymentSheetGooglePay(
-          merchantCountryCode: "PH", currencyCode: "PHP", testEnv: true);
+        merchantCountryCode: "PH",
+        currencyCode: "PHP",
+        testEnv: true,
+      );
 
       // STEP 2: Initialize Payment Sheet
       await Stripe.instance.initPaymentSheet(
         paymentSheetParameters: SetupPaymentSheetParameters(
-          paymentIntentClientSecret:
-              paymentIntent!['client_secret'], // Gotten from payment intent
+          paymentIntentClientSecret: paymentIntent!['client_secret'],
+          // Gotten from payment intent
           style: ThemeMode.light,
           merchantDisplayName: 'TrackNGo',
           googlePay: gpay,
@@ -348,7 +352,9 @@ class _InnerContainerState extends State<InnerContainer> {
             child: Container(
               child: ElevatedButton(
                 onPressed: () {
-                  makePayment(9000);
+                  makePayment(AssistantMethods
+                      .calculateFairAmountFromOriginToDestination(
+                          tripDrirectionDetailsInfo!));
                 },
                 child: Text(
                   'Pay Now',

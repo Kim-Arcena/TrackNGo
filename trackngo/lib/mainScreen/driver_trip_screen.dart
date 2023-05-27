@@ -330,6 +330,7 @@ class _DriverTripScreenState extends State<DriverTripScreen>
                       child: IconButton(
                         onPressed: () {
                           FirebaseAuth.instance.signOut();
+                          currentFirebaseUser = null;
                         },
                         icon: Icon(
                           Icons.logout,

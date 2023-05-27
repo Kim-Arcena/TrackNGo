@@ -243,8 +243,7 @@ class _InnerContainerState extends State<InnerContainer> {
                         decoration: BoxDecoration(
                           image: DecorationImage(
                               fit: BoxFit.fill,
-                              image: AssetImage('images/driver.png')
-                          ),
+                              image: AssetImage('images/driver.png')),
                           boxShadow: [
                             BoxShadow(
                               offset: Offset(0, 1),
@@ -289,6 +288,16 @@ class _InnerContainerState extends State<InnerContainer> {
                             maxLines: 1,
                             minFontSize: 10,
                           ),
+                          AutoSizeText(
+                            chosenDriverInformation?.busType ?? '',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            maxLines: 1,
+                            minFontSize: 10,
+                          ),
                         ],
                       ),
                     ],
@@ -297,34 +306,8 @@ class _InnerContainerState extends State<InnerContainer> {
               ),
             ),
           ),
-          SizedBox(
-            height: 5,
-          ),
           Positioned(
-            top: 115,
-            left: 0,
-            right: 0,
-            child: Padding(
-              padding: const EdgeInsets.all(40.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  AutoSizeText(
-                    chosenDriverInformation?.busType ?? '',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    maxLines: 1,
-                    minFontSize: 10,
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            top: 150,
+            top: 120,
             left: 0,
             right: 0,
             child: Padding(
@@ -343,17 +326,14 @@ class _InnerContainerState extends State<InnerContainer> {
                             color: Color(0xFF282828),
                             size: 25.0,
                           ),
-                          AutoSizeText(
-                            tripDrirectionDetailsInfo != null
-                                ? tripDrirectionDetailsInfo!.distance_text!
-                                : "",
-                            style: TextStyle(
-                                fontSize: 13.0,
-                                color: Color(0xFF282828),
-                                fontWeight: FontWeight.bold),
-                            minFontSize: 10,
-                            maxLines: 1,
-                          ),
+                          Text(
+                              tripDrirectionDetailsInfo != null
+                                  ? tripDrirectionDetailsInfo!.distance_text!
+                                  : "",
+                              style: TextStyle(
+                                  fontSize: 13.0,
+                                  color: Color(0xFF282828),
+                                  fontWeight: FontWeight.bold)),
                         ],
                       ),
                       Row(
@@ -363,41 +343,34 @@ class _InnerContainerState extends State<InnerContainer> {
                             color: Color(0xFF282828),
                             size: 25.0,
                           ),
-                          AutoSizeText(
-                            tripDrirectionDetailsInfo != null
-                                ? tripDrirectionDetailsInfo!.duration_text!
-                                : "",
-                            style: TextStyle(
-                                fontSize: 13.0,
-                                color: Color(0xFF282828),
-                                fontWeight: FontWeight.bold),
-                            minFontSize: 10,
-                            maxLines: 1,
-                          ),
+                          Text(
+                              tripDrirectionDetailsInfo != null
+                                  ? tripDrirectionDetailsInfo!.duration_text!
+                                  : "",
+                              style: TextStyle(
+                                  fontSize: 13.0,
+                                  color: Color(0xFF282828),
+                                  fontWeight: FontWeight.bold)),
                         ],
                       ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.account_balance_wallet_outlined,
-                        color: Color(0xFF282828),
-                        size: 25.0,
-                      ),
-                      AutoSizeText(
-                        "Php " +
-                            AssistantMethods
-                                .calculateFairAmountFromOriginToDestination(
-                                tripDrirectionDetailsInfo!)
-                                .toString(),
-                        style: TextStyle(
-                            fontSize: 13.0,
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.account_balance_wallet_outlined,
                             color: Color(0xFF282828),
-                            fontWeight: FontWeight.bold),
-                        minFontSize: 10,
-                        maxLines: 1,
+                            size: 25.0,
+                          ),
+                          Text(
+                              "Php " +
+                                  AssistantMethods
+                                          .calculateFairAmountFromOriginToDestination(
+                                              tripDrirectionDetailsInfo!)
+                                      .toString(),
+                              style: TextStyle(
+                                  fontSize: 13.0,
+                                  color: Color(0xFF282828),
+                                  fontWeight: FontWeight.bold)),
+                        ],
                       ),
                     ],
                   ),
@@ -406,6 +379,9 @@ class _InnerContainerState extends State<InnerContainer> {
                 ],
               ),
             ),
+          ),
+          SizedBox(
+            height: 5,
           ),
           Positioned(
             bottom: 40,

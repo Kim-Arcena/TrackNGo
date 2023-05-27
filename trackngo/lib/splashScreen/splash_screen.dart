@@ -1,7 +1,9 @@
 import "dart:async";
 
+import "package:firebase_database/firebase_database.dart";
 import "package:flutter/material.dart";
 import "package:trackngo/authentication/login_screen.dart";
+import "package:trackngo/mainScreen/commuter_screen.dart";
 import "package:trackngo/mainScreen/driver_screen.dart";
 
 import "../assistants/assistant_methods.dart";
@@ -16,19 +18,40 @@ class MySplashScreen extends StatefulWidget {
 
 class _MySplashScreenState extends State<MySplashScreen> {
   startTimer() {
+    print(fAuth.currentUser);
     fAuth.currentUser != null
         ? AssistantMethods.readCurrentOnlineUserInfo()
         : null;
+    currentFirebaseUser = fAuth.currentUser;
     Timer(const Duration(seconds: 3), () async {
-      if (await fAuth.currentUser != null) {
-        // ignore: use_build_context_synchronously
-        currentFirebaseUser = fAuth.currentUser;
-        Navigator.push(
-            context, MaterialPageRoute(builder: (c) => MainScreen()));
-      } else {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (c) => LoginScreen()));
+      print("fAuth.currentUser: " + currentFirebaseUser.toString());
+      if (currentFirebaseUser != null) {
+        DatabaseReference usersRef = FirebaseDatabase(
+                databaseURL:
+                    "https://trackngo-d7aa0-default-rtdb.asia-southeast1.firebasedatabase.app/")
+            .ref()
+            .child("users");
+        DatabaseReference driverRef = FirebaseDatabase(
+                databaseURL:
+                    "https://trackngo-d7aa0-default-rtdb.asia-southeast1.firebasedatabase.app/")
+            .ref()
+            .child("driver");
+        var driver = await driverRef.child(currentFirebaseUser!.uid).get();
+        var user = await usersRef.child(currentFirebaseUser!.uid).get();
+        var userMap = user.value as Map<dynamic, dynamic>?;
+        if (driver.exists) {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const MainScreen()));
+          // Navigator.push(
+          //     context, MaterialPageRoute(builder: (context) => NewTripScreen()));
+        }
+        if (userMap != null && userMap.containsKey("commuters_child")) {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const CommuterScreen()));
+        }
       }
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const LoginScreen()));
     });
   }
 

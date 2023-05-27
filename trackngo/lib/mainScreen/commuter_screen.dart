@@ -164,6 +164,7 @@ class _CommuterScreenState extends State<CommuterScreen> {
                 child: IconButton(
                   onPressed: () {
                     FirebaseAuth.instance.signOut();
+                    currentFirebaseUser = null;
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => MySplashScreen()),

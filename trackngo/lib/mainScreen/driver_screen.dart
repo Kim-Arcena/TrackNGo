@@ -356,6 +356,7 @@ class _MainScreenState extends State<MainScreen>
                       child: IconButton(
                         onPressed: () {
                           FirebaseAuth.instance.signOut();
+                          currentFirebaseUser = null;
                           Navigator.push(
                               context,
                               MaterialPageRoute(
