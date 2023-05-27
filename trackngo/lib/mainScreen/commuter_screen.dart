@@ -10,7 +10,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' hide LocationAccuracy;
 import 'package:provider/provider.dart';
 import 'package:trackngo/assistants/geofire_assistant.dart';
-import 'package:trackngo/authentication/signup_screen.dart';
 import 'package:trackngo/global/global.dart';
 import 'package:trackngo/mainScreen/search_places_screen.dart';
 import 'package:trackngo/models/active_nearby_available_drivers.dart';
@@ -68,7 +67,7 @@ class _CommuterScreenState extends State<CommuterScreen> {
 
     newGoogleMapController?.animateCamera(
       CameraUpdate.newCameraPosition(
-        CameraPosition(target: _initialcameraposition, zoom: 25),
+        CameraPosition(target: _initialcameraposition, zoom: 20),
       ),
     );
 
@@ -121,8 +120,6 @@ class _CommuterScreenState extends State<CommuterScreen> {
     super.initState();
     checkIfLocationPermissionGranted();
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -428,7 +425,8 @@ class _CommuterScreenState extends State<CommuterScreen> {
 
     BitmapDescriptor customIconDestination =
         await BitmapDescriptor.fromAssetImage(
-            ImageConfiguration(devicePixelRatio: 2.5), 'images/destination.png');
+            ImageConfiguration(devicePixelRatio: 2.5),
+            'images/destination.png');
 
     Marker destinationMarker = Marker(
       markerId: const MarkerId("destinationID"),

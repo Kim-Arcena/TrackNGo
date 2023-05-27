@@ -66,10 +66,21 @@ class AssistantMethods {
     directionDetailsInfo.distance_value =
         responseDirectionApi["routes"][0]["legs"][0]["distance"]["value"];
 
-    directionDetailsInfo.duration_text =
-        responseDirectionApi["routes"][0]["legs"][0]["duration"]["text"];
-    directionDetailsInfo.duration_value =
+    int durationValue =
         responseDirectionApi["routes"][0]["legs"][0]["duration"]["value"];
+    int hours = durationValue ~/ 3600;
+    int minutes = (durationValue % 3600) ~/ 60;
+
+    String durationText = '';
+    if (hours > 0) {
+      durationText += '${hours}h ';
+    }
+    if (minutes > 0) {
+      durationText += '${minutes}m';
+    }
+
+    directionDetailsInfo.duration_text = durationText;
+    directionDetailsInfo.duration_value = durationValue;
 
     return directionDetailsInfo;
   }
