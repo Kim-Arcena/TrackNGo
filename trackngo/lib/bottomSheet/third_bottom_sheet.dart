@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:http/http.dart' as http;
 import 'package:trackngo/assistants/assistant_methods.dart';
 import 'package:trackngo/global/global.dart';
 
@@ -180,6 +184,65 @@ class _InnerContainerState extends State<InnerContainer> {
   bool _flagTwo = false;
   bool _flagThree = false;
   String? selectedImage;
+  Map<String, dynamic>? paymentIntent;
+
+  Future<void> makePayment() async {
+    try {
+      paymentIntent = await createPaymentIntent('10000', 'GBP');
+
+      var gpay = PaymentSheetGooglePay(
+          merchantCountryCode: "GB", currencyCode: "GBP", testEnv: true);
+
+      //STEP 2: Initialize Payment Sheet
+      await Stripe.instance
+          .initPaymentSheet(
+              paymentSheetParameters: SetupPaymentSheetParameters(
+                  paymentIntentClientSecret: paymentIntent![
+                      'client_secret'], //Gotten from payment intent
+                  style: ThemeMode.light,
+                  merchantDisplayName: 'Abhi',
+                  googlePay: gpay))
+          .then((value) {});
+
+      //STEP 3: Display Payment sheet
+      displayPaymentSheet();
+    } catch (err) {
+      print(err);
+    }
+  }
+
+  displayPaymentSheet() async {
+    try {
+      await Stripe.instance.presentPaymentSheet().then((value) {
+        print("Payment Successfully");
+      });
+    } catch (e) {
+      print('$e');
+    }
+  }
+
+  createPaymentIntent(String amount, String currency) async {
+    try {
+      Map<String, dynamic> body = {
+        'amount': amount,
+        'currency': currency,
+      };
+
+      var response = await http.post(
+        Uri.parse('https://api.stripe.com/v1/payment_intents'),
+        headers: {
+          'Authorization':
+              'Bearer sk_test_51NCMeUKfR9ZzIyk8eIPOLKIF4rXoMDRwgwtdmi53OPn04UOhsjNaA9pVLepfO8m7uzdTZKtD4LCQaUJeNx76bP7B00qN0s5cM6',
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: body,
+      );
+      return json.decode(response.body);
+    } catch (err) {
+      throw Exception(err.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -276,8 +339,8 @@ class _InnerContainerState extends State<InnerContainer> {
             child: Container(
               alignment: Alignment.center,
               child: ElevatedButton(
-                onPressed: () {
-                  widget.moveToPage(1);
+                onPressed: () async {
+                  await makePayment();
                 },
                 child: Center(
                   child: Icon(

@@ -213,7 +213,6 @@ class _InnerContainerState extends State<InnerContainer> {
   bool _flagThree = false;
   List<ActiveNearbyAvailableDrivers> onlineNearByAvailableDriversList = [];
   DatabaseReference? referenceRideRequestRef;
-  
 
   get moveToPage => null;
   get scrollController => null;
@@ -323,11 +322,7 @@ class _InnerContainerState extends State<InnerContainer> {
       });
     }
 
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => MyBottomSheetTwoContainer(
-                scrollController: scrollController, moveToPage: moveToPage)));
+    widget.moveToPage(1);
   }
 
   sendNotificationToDriver(String? chooseDriverId) {
