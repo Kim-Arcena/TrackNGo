@@ -520,14 +520,15 @@ class _CommuterScreenState extends State<CommuterScreen> {
 
   displayActiveDriversOnMap() async {
     Set<Marker> driverMarkerSet = Set<Marker>();
-
+    print("the motherfucking drivers are" +
+        GeoFireAssistant.activeNearbyAvailableDriversList.length.toString());
     for (ActiveNearbyAvailableDrivers eachDriver
         in GeoFireAssistant.activeNearbyAvailableDriversList) {
       LatLng eachDriverActivePosition =
           LatLng(eachDriver.locationLatitude!, eachDriver.locationLongitude!);
 
       BitmapDescriptor busIcon = await BitmapDescriptor.fromAssetImage(
-          ImageConfiguration(devicePixelRatio: 2.5), 'images/bus.png');
+          ImageConfiguration(devicePixelRatio: 0.5), 'images/bus.png');
 
       Marker driverMarker = Marker(
         markerId: MarkerId(eachDriver.driverId!),

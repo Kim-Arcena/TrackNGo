@@ -46,12 +46,14 @@ class _MySplashScreenState extends State<MySplashScreen> {
           //     context, MaterialPageRoute(builder: (context) => NewTripScreen()));
         }
         if (userMap != null && userMap.containsKey("commuters_child")) {
+          print("shett");
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => const CommuterScreen()));
         }
+      } else {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const LoginScreen()));
       }
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const LoginScreen()));
     });
   }
 

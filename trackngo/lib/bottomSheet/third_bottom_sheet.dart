@@ -6,6 +6,7 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart' as http;
 import 'package:trackngo/assistants/assistant_methods.dart';
+import 'package:trackngo/authentication/alertDialog.dart';
 import 'package:trackngo/global/global.dart';
 
 var maxChildSize = 0.8;
@@ -188,6 +189,7 @@ class _InnerContainerState extends State<InnerContainer> {
   bool _flagTwo = false;
   bool _flagThree = false;
   String? selectedImage;
+  bool paymentSuccess = false;
   Map<String, dynamic>? paymentIntent;
 
   Future<void> makePayment(double amount) async {
@@ -223,7 +225,8 @@ class _InnerContainerState extends State<InnerContainer> {
   displayPaymentSheet() async {
     try {
       await Stripe.instance.presentPaymentSheet().then((value) {
-        print("Payment Successfully");
+        widget.moveToPage(3);
+        paymentSuccess = true;
       });
     } catch (e) {
       print('$e');
@@ -413,7 +416,15 @@ class _InnerContainerState extends State<InnerContainer> {
             child: Container(
               child: ElevatedButton(
                 onPressed: () {
-                  widget.moveToPage(3);
+                  if (paymentSuccess) {
+                    widget.moveToPage(3);
+                  } else {
+                    MyAlertDialog(
+                      title: 'Payment Failed',
+                      content:
+                          'Kindly pay the fare amount to continue the booking.',
+                    ).show(context);
+                  }
                 },
                 child: Text(
                   'Next',

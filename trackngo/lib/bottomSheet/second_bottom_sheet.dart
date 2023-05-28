@@ -223,7 +223,7 @@ class _InnerContainerState extends State<InnerContainer> {
                 padding: const EdgeInsets.all(30.0),
                 child: Container(
                   padding: EdgeInsetsDirectional.zero,
-                  height: 130,
+                  height: 180,
                   child: ListView.builder(
                     itemCount: dList.length,
                     itemBuilder: (BuildContext context, int index) {
@@ -269,9 +269,12 @@ class _InnerContainerState extends State<InnerContainer> {
                                   Row(
                                     children: [
                                       AutoSizeText(
-                                        (dList[index]["firstName"] != null
-                                            ? dList[index]["firstName"]
-                                            : ''),
+                                        ((dList[index]["firstName"] != null
+                                                ? dList[index]["firstName"]
+                                                : '') +
+                                            (dList[index]["lastName"] != null
+                                                ? ' ' + dList[index]["lastName"]
+                                                : '')),
                                         style: TextStyle(
                                           fontSize: 15,
                                           color: Colors.black,
@@ -315,10 +318,9 @@ class _InnerContainerState extends State<InnerContainer> {
               left: 0,
               right: 0,
               child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 30.0, vertical: 10.0),
+                padding: const EdgeInsets.only(top: 20, left: 40, right: 40),
                 child: Column(
-                  children: [
+                  children: <Widget>[
                     Divider(
                         height: 40.0, thickness: 2.0, color: Color(0xFF929895)),
                     Row(
@@ -331,17 +333,14 @@ class _InnerContainerState extends State<InnerContainer> {
                               color: Color(0xFF282828),
                               size: 25.0,
                             ),
-                            AutoSizeText(
-                              tripDrirectionDetailsInfo != null
-                                  ? tripDrirectionDetailsInfo!.distance_text!
-                                  : "",
-                              style: TextStyle(
-                                  fontSize: 13.0,
-                                  color: Color(0xFF282828),
-                                  fontWeight: FontWeight.bold),
-                              minFontSize: 10,
-                              maxLines: 1,
-                            ),
+                            Text(
+                                tripDrirectionDetailsInfo != null
+                                    ? tripDrirectionDetailsInfo!.distance_text!
+                                    : "",
+                                style: TextStyle(
+                                    fontSize: 13.0,
+                                    color: Color(0xFF282828),
+                                    fontWeight: FontWeight.bold)),
                           ],
                         ),
                         Row(
@@ -351,41 +350,34 @@ class _InnerContainerState extends State<InnerContainer> {
                               color: Color(0xFF282828),
                               size: 25.0,
                             ),
-                            AutoSizeText(
-                              tripDrirectionDetailsInfo != null
-                                  ? tripDrirectionDetailsInfo!.duration_text!
-                                  : "",
-                              style: TextStyle(
-                                  fontSize: 13.0,
-                                  color: Color(0xFF282828),
-                                  fontWeight: FontWeight.bold),
-                              minFontSize: 10,
-                              maxLines: 1,
-                            ),
+                            Text(
+                                tripDrirectionDetailsInfo != null
+                                    ? tripDrirectionDetailsInfo!.duration_text!
+                                    : "",
+                                style: TextStyle(
+                                    fontSize: 13.0,
+                                    color: Color(0xFF282828),
+                                    fontWeight: FontWeight.bold)),
                           ],
                         ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.account_balance_wallet_outlined,
-                          color: Color(0xFF282828),
-                          size: 25.0,
-                        ),
-                        AutoSizeText(
-                          "Php " +
-                              AssistantMethods
-                                      .calculateFairAmountFromOriginToDestination(
-                                          tripDrirectionDetailsInfo!)
-                                  .toString(),
-                          style: TextStyle(
-                              fontSize: 13.0,
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.account_balance_wallet_outlined,
                               color: Color(0xFF282828),
-                              fontWeight: FontWeight.bold),
-                          minFontSize: 10,
-                          maxLines: 1,
+                              size: 25.0,
+                            ),
+                            Text(
+                                "Php " +
+                                    AssistantMethods
+                                            .calculateFairAmountFromOriginToDestination(
+                                                tripDrirectionDetailsInfo!)
+                                        .toString(),
+                                style: TextStyle(
+                                    fontSize: 13.0,
+                                    color: Color(0xFF282828),
+                                    fontWeight: FontWeight.bold)),
+                          ],
                         ),
                       ],
                     ),

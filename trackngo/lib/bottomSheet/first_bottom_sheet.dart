@@ -3,13 +3,13 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
-import 'package:trackngo/assistants/geofire_assistant.dart';
 import 'package:trackngo/bottomSheet/fourth_bottom_sheet.dart';
 import 'package:trackngo/bottomSheet/second_bottom_sheet.dart';
 import 'package:trackngo/bottomSheet/third_bottom_sheet.dart';
 import 'package:trackngo/mainScreen/commuter_screen.dart';
 import 'package:trackngo/models/active_nearby_available_drivers.dart';
 
+import '../assistants/geofire_assistant.dart';
 import '../global/global.dart';
 import '../infoHandler/app_info.dart';
 import '../mainScreen/search_places_screen.dart';
@@ -212,7 +212,7 @@ class _InnerContainerState extends State<InnerContainer> {
   bool _flagThree = false;
   List<ActiveNearbyAvailableDrivers> onlineNearByAvailableDriversList = [];
   DatabaseReference? referenceRideRequestRef;
-
+  int seats = 0;
   get moveToPage => null;
   get scrollController => null;
 
@@ -230,7 +230,7 @@ class _InnerContainerState extends State<InnerContainer> {
     referenceRideRequestRef =
         FirebaseDatabase.instance.ref().child("All Ride Requests").push();
     final usersRef = FirebaseDatabase.instance.ref().child("users");
-    print("currentFirebaseUser" + currentFirebaseUser.toString());
+
     final currentUserCommuteRef =
         usersRef.child(currentFirebaseUser!.uid).child("commuters_child");
     final snapshot = await currentUserCommuteRef.get();
@@ -283,10 +283,11 @@ class _InnerContainerState extends State<InnerContainer> {
 
     print(userInformationMap);
     referenceRideRequestRef!.set(userInformationMap);
-
     onlineNearByAvailableDriversList =
         GeoFireAssistant.activeNearbyAvailableDriversList;
-
+    print("the onlinAvailableDriversList is" +
+        onlineNearByAvailableDriversList.length.toString() +
+        "long");
     searchNearestOnlineDrivers();
   }
 
@@ -480,8 +481,11 @@ class _InnerContainerState extends State<InnerContainer> {
                           Provider.of<AppInfo>(context).userDropOffLocation !=
                                   null
                               ? Provider.of<AppInfo>(context)
-                                  .userDropOffLocation!
-                                  .locationName!
+                                      .userDropOffLocation!
+                                      .locationName!
+                                      .contains('antique')
+                                  ? 'Contains "antique"'
+                                  : 'Does not contain "antique"'
                               : 'Select a dropoff location',
                           style: TextStyle(
                             fontSize: 16,
@@ -536,7 +540,7 @@ class _InnerContainerState extends State<InnerContainer> {
                                     _flag = true;
                                     _flagTwo = false;
                                     _flagThree = false;
-                                    numberOfSeats = 1;
+                                    seats = 1;
                                   });
                                 },
                                 child: Container(
@@ -570,7 +574,7 @@ class _InnerContainerState extends State<InnerContainer> {
                                     _flag = false;
                                     _flagThree = false;
                                     _flagTwo = true;
-                                    numberOfSeats = 2;
+                                    seats = 2;
                                   });
                                 },
                                 child: Container(
@@ -605,7 +609,7 @@ class _InnerContainerState extends State<InnerContainer> {
                                     _flag = false;
                                     _flagTwo = false;
                                     _flagThree = true;
-                                    numberOfSeats = 3;
+                                    seats = 3;
                                   });
                                 },
                                 child: Container(
@@ -654,16 +658,18 @@ class _InnerContainerState extends State<InnerContainer> {
                 onPressed: () {
                   if ((Provider.of<AppInfo>(context, listen: false)
                               .userDropOffLocation !=
-                          null) ||
+                          null) &&
                       // ignore: unnecessary_null_comparison
-                      numberOfSeats != 0) {
+                      seats != 0) {
                     print("Save Ride Request Information is Called");
                     saveRideRequestInformation();
+                    numberOfSeats = seats;
+                    // seats = 0;
                   } else if ((Provider.of<AppInfo>(context, listen: false)
                               .userDropOffLocation ==
                           null) ||
                       // ignore: unnecessary_null_comparison
-                      numberOfSeats == 0) {
+                      seats == 0) {
                     Fluttertoast.showToast(
                         msg: "Kindly fill up ride request details",
                         toastLength: Toast.LENGTH_SHORT,
