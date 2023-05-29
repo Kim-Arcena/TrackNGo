@@ -43,8 +43,6 @@ class _DriverTripScreenState extends State<DriverTripScreen>
   Set<Marker> markerSet = {};
   Set<Circle> circleSet = {};
   Set<Marker> passengerMarkerSet = {};
-  String? buttonTitle = "Arrive";
-  Color? buttonColor = Color(0xFF199A5D);
   String statusText = "Now Offline";
   Color stateColor = Colors.grey;
   bool isDriverActive = false;
@@ -55,6 +53,13 @@ class _DriverTripScreenState extends State<DriverTripScreen>
   String rideRequestStatus = "accepted";
   String durationFromOriginToDestination = "";
   bool isRequestDirectionDetails = false;
+  String statusTextButton = "Accepted";
+  int indexChosen = -1;
+  String? buttonTitle = "Arrive";
+  List<Color> buttonColors = List<Color>.generate(
+    acceptedRideRequestDetailsList.length,
+    (index) => Color(0xFF199A5D),
+  );
 
   onItemClicked(int index) {
     setState(() {
@@ -370,7 +375,6 @@ class _DriverTripScreenState extends State<DriverTripScreen>
                               shrinkWrap: true,
                               physics: NeverScrollableScrollPhysics(),
                               itemBuilder: (context, index) {
-                                // Access the current ride request object from the list
                                 var rideRequest =
                                     acceptedRideRequestDetailsList[index];
 
@@ -415,12 +419,33 @@ class _DriverTripScreenState extends State<DriverTripScreen>
                                                     BorderRadius.circular(15.0),
                                               ),
                                               fixedSize: Size(100, 35),
-                                              primary:
-                                                  buttonColor, // background
+                                              primary: indexChosen == index
+                                                  ? Colors.blue
+                                                  : buttonColors[index],
                                             ),
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              if (statusTextButton ==
+                                                  "Arrived") {
+                                                statusTextButton = "Pickup";
+                                              }
+
+                                              FirebaseDatabase.instance
+                                                  .ref("All Ride Requests")
+                                                  .child(rideRequest
+                                                      .rideRequestId
+                                                      .toString())
+                                                  .child("acceptedRideInfo")
+                                                  .child("status")
+                                                  .set(statusTextButton);
+
+                                              setState(() {
+                                                indexChosen = index;
+                                                buttonColors[index] =
+                                                    Colors.blue;
+                                              });
+                                            },
                                             child: Text(
-                                              "Arrived",
+                                              buttonTitle.toString(),
                                               style: TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 14,
@@ -433,7 +458,6 @@ class _DriverTripScreenState extends State<DriverTripScreen>
                                   ),
                                 );
                               },
-
                               // ...
                             ),
                           ),
