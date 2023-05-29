@@ -621,7 +621,7 @@ class _MainScreenState extends State<MainScreen>
 
     BitmapDescriptor customIconDestination =
         await BitmapDescriptor.fromAssetImage(
-            ImageConfiguration(devicePixelRatio: 2.5), 'images/driver.png');
+            ImageConfiguration(devicePixelRatio: 2.5), 'images/terminal.png');
 
     Marker destinationMarker = Marker(
       markerId: const MarkerId("destinationID"),

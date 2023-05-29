@@ -16,9 +16,6 @@ import 'package:trackngo/infoHandler/app_info.dart';
 import 'package:trackngo/models/user_ride_request_information.dart';
 import 'package:trackngo/push_notifications/push_notification_system.dart';
 
-import '../tabPages/earning_tab.dart';
-import '../tabPages/home_tab.dart';
-
 class DriverTripScreen extends StatefulWidget {
   final UserRideRequestInformation? userRideRequestDetails;
 
@@ -219,28 +216,6 @@ class _DriverTripScreenState extends State<DriverTripScreen>
         "latitude": driverCurrentPosition!.latitude.toString(),
         "longitude": driverCurrentPosition!.longitude.toString(),
       };
-
-      for (int index = 0;
-          index < acceptedRideRequestDetailsList.length;
-          index++) {
-        var rideRequest = acceptedRideRequestDetailsList[index];
-
-        print("ride request id is " + rideRequest.destinationLatLng.toString());
-        BitmapDescriptor customIconDestination =
-            await BitmapDescriptor.fromAssetImage(
-                ImageConfiguration(size: Size(48, 48)), 'images/terminal.png');
-
-        Marker destinationMarker = Marker(
-          markerId: const MarkerId("destinationID"),
-          position: rideRequest.destinationLatLng!,
-          icon: customIconDestination,
-          infoWindow: InfoWindow(
-              title: rideRequest.userContactNumber.toString() +
-                  " " +
-                  rideRequest.userLastName.toString(),
-              snippet: "Origin"),
-        );
-      }
     });
   }
 
@@ -253,29 +228,45 @@ class _DriverTripScreenState extends State<DriverTripScreen>
         return;
       }
       var destinationLatLng;
-      for (int index = 0;
-          index < acceptedRideRequestDetailsList.length;
-          index++) {
-        if (rideRequestStatus == "accepted") {
-          destinationLatLng =
-              acceptedRideRequestDetailsList[index].originLatLng;
-        } else {
-          destinationLatLng =
-              acceptedRideRequestDetailsList[index].destinationLatLng;
-        }
-        print("destination lat lang" + destinationLatLng.toString());
+    }
+    print("the accepted ride request list is " +
+        acceptedRideRequestDetailsList.length.toString());
+    for (int i = 0; i < acceptedRideRequestDetailsList.length; i++) {
+      print("request origin location" +
+          acceptedRideRequestDetailsList[i].originAddress!.toString() +
+          "  " +
+          i.toString());
 
-        var directionInformation =
-            await AssistantMethods.obtainOriginToDestinationDirectionDetails(
-                originLatLng, destinationLatLng);
+      BitmapDescriptor passengerOriginMarkerIcon =
+          await BitmapDescriptor.fromAssetImage(
+              ImageConfiguration(size: Size(48, 48)), 'images/commuter.png');
 
-        if (directionInformation != null) {
-          setState(() {
-            durationFromOriginToDestination =
-                directionInformation.duration_text!;
-          });
-        }
-      }
+      Marker passengerOriginMarker = Marker(
+        markerId: MarkerId(
+            "passenger" + i.toString()), // Use the index as the MarkerId
+        position: acceptedRideRequestDetailsList[i].originLatLng!,
+        icon: passengerOriginMarkerIcon,
+        infoWindow: InfoWindow(
+            title: acceptedRideRequestDetailsList[i].rideRequestId.toString(),
+            snippet: "Origin"),
+      );
+      BitmapDescriptor passengerDestinationMarkerIcon =
+          await BitmapDescriptor.fromAssetImage(
+              ImageConfiguration(size: Size(10, 10)), 'images/Dropoff.png');
+
+      Marker passengerDestinationMarker = Marker(
+        markerId:
+            MarkerId("pin" + i.toString()), // Use the index as the MarkerId
+        position: acceptedRideRequestDetailsList[i].destinationLatLng!,
+        icon: passengerDestinationMarkerIcon,
+        infoWindow: InfoWindow(
+            title: acceptedRideRequestDetailsList[i].rideRequestId.toString(),
+            snippet: "Origin"),
+      );
+      setState(() {
+        markerSet.add(passengerOriginMarker);
+        markerSet.add(passengerDestinationMarker);
+      });
     }
   }
 
@@ -286,7 +277,6 @@ class _DriverTripScreenState extends State<DriverTripScreen>
     readCurrentDriveInformation();
     getDriversLocationUpdatesAtRealTime();
     drawPolyLineFromSourceToDestination();
-    createPassengerMarkerIcon();
     tabController = TabController(length: 3, vsync: this);
   }
 
@@ -383,6 +373,7 @@ class _DriverTripScreenState extends State<DriverTripScreen>
                                 // Access the current ride request object from the list
                                 var rideRequest =
                                     acceptedRideRequestDetailsList[index];
+
                                 return Container(
                                   child: Column(
                                     crossAxisAlignment:
@@ -592,7 +583,7 @@ class _DriverTripScreenState extends State<DriverTripScreen>
 
     BitmapDescriptor customIconDestination =
         await BitmapDescriptor.fromAssetImage(
-            ImageConfiguration(size: Size(48, 48)), 'images/terminal.png');
+            ImageConfiguration(size: Size(10, 10)), 'images/terminal.png');
 
     Marker destinationMarker = Marker(
       markerId: const MarkerId("destinationID"),
@@ -641,54 +632,23 @@ class _DriverTripScreenState extends State<DriverTripScreen>
     usersRef.child(currentFirebaseUser!.uid).child("newRideStatus").set("idle");
     usersRef.onValue.listen((event) {});
   }
+}
 
-  Future<void> createPassengerMarkerIcon() async {
-    for (int index = 0;
-        index < acceptedRideRequestDetailsList.length;
-        index++) {
-      // Get the passenger's LatLng
-      LatLng? passengerLatLng =
-          acceptedRideRequestDetailsList[index].originLatLng;
-      String passengerOrigin =
-          acceptedRideRequestDetailsList[index].originAddress.toString();
-      print("passengerLatLng " +
-          passengerLatLng.toString() +
-          " " +
-          index.toString());
-      BitmapDescriptor customIconDestination =
-          await BitmapDescriptor.fromAssetImage(
-              ImageConfiguration(size: Size(48, 48)), 'images/commuter.png');
+driverIsOfflineNow() {
+  Geofire.removeLocation(currentFirebaseUser!.uid);
+  // ignore: deprecated_member_use
+  DatabaseReference? usersRef = FirebaseDatabase(
+          databaseURL:
+              "https://trackngo-d7aa0-default-rtdb.asia-southeast1.firebasedatabase.app/")
+      .ref()
+      .child("driver")
+      .child(currentFirebaseUser!.uid)
+      .child("newRideStatus");
+  usersRef.onDisconnect();
+  usersRef.remove();
+  usersRef = null;
 
-      Marker destinationMarker = Marker(
-        markerId: const MarkerId("passengerID"),
-        position: passengerLatLng ?? LatLng(0, 0),
-        icon: customIconDestination,
-        infoWindow:
-            InfoWindow(title: passengerOrigin, snippet: "Passenger Location"),
-      );
-
-      setState(() {
-        markerSet.add(destinationMarker);
-      });
-    }
-  }
-
-  driverIsOfflineNow() {
-    Geofire.removeLocation(currentFirebaseUser!.uid);
-    // ignore: deprecated_member_use
-    DatabaseReference? usersRef = FirebaseDatabase(
-            databaseURL:
-                "https://trackngo-d7aa0-default-rtdb.asia-southeast1.firebasedatabase.app/")
-        .ref()
-        .child("driver")
-        .child(currentFirebaseUser!.uid)
-        .child("newRideStatus");
-    usersRef.onDisconnect();
-    usersRef.remove();
-    usersRef = null;
-
-    Future.delayed(const Duration(seconds: 2), () {
-      SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-    });
-  }
+  Future.delayed(const Duration(seconds: 2), () {
+    SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+  });
 }

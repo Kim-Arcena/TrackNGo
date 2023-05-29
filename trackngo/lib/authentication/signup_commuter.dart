@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:trackngo/authentication/alertDialog.dart';
 import 'package:trackngo/authentication/login_screen.dart';
-import 'package:flutter/gestures.dart';
 import 'package:trackngo/mainScreen/commuter_screen.dart';
 
 import '../global/global.dart';
@@ -105,17 +105,18 @@ class _SignUpCommuter extends State<SignUpCommuter> {
       DatabaseReference usersRef =
           FirebaseDatabase.instance.ref().child("users");
       usersRef.child(firebaseUser.uid).set(userDataMap);
-
+      usersRef
+          .child(firebaseUser.uid)
+          .child("commuters_child")
+          .set(commutersInfoMap);
       currentFirebaseUser = firebaseUser;
+      print("Commuter's Info Map: $commutersInfoMap");
     } else {
       Navigator.pop(context);
       Fluttertoast.showToast(msg: "Account has not been registered");
     }
     // ignore: deprecated_member_use
-    DatabaseReference usersRef = FirebaseDatabase(
-      databaseURL:
-          "https://trackngo-d7aa0-default-rtdb.asia-southeast1.firebasedatabase.app/",
-    ).ref().child("users");
+    DatabaseReference usersRef = FirebaseDatabase.instance.ref().child("users");
     usersRef
         .child(firebaseUser!.uid)
         .child("commuters_child")
@@ -318,7 +319,8 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                                   if (isValid!.isEmpty) {
                                     return 'This field requires a contact number';
                                   }
-                                  if(!digitRegex.hasMatch(_contactNumberController.text)) {
+                                  if (!digitRegex.hasMatch(
+                                      _contactNumberController.text)) {
                                     validateForm();
                                     return 'Invalid Contact Number';
                                   }
@@ -432,7 +434,8 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                                 validator: (isValid) {
                                   if (isValid!.isEmpty) {
                                     return 'This field requires a password';
-                                  } else if (!passwordRegex.hasMatch(_passwordController.text)) {
+                                  } else if (!passwordRegex
+                                      .hasMatch(_passwordController.text)) {
                                     validateForm();
                                     return 'Invalid Password';
                                   }
