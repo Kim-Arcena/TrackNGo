@@ -14,6 +14,7 @@ import 'package:provider/provider.dart';
 import 'package:trackngo/assistants/assistant_methods.dart';
 import 'package:trackngo/global/global.dart';
 import 'package:trackngo/infoHandler/app_info.dart';
+import 'package:trackngo/mainScreen/warningDialog.dart';
 import 'package:trackngo/models/user_ride_request_information.dart';
 import 'package:trackngo/push_notifications/push_notification_system.dart';
 import 'package:trackngo/splashScreen/splash_screen.dart';
@@ -355,12 +356,10 @@ class _MainScreenState extends State<MainScreen>
                       ),
                       child: IconButton(
                         onPressed: () {
-                          FirebaseAuth.instance.signOut();
-                          currentFirebaseUser = null;
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (c) => const MySplashScreen()));
+                          MyWarningDialog(
+                            title: "Logging Out...",
+                            content: "You are attempting to log out from your account. Will you continue?\n",
+                          ).show(context);
                         },
                         icon: Icon(
                           Icons.logout,

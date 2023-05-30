@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:trackngo/assistants/geofire_assistant.dart';
 import 'package:trackngo/global/global.dart';
 import 'package:trackngo/mainScreen/search_places_screen.dart';
+import 'package:trackngo/mainScreen/warningDialog.dart';
 import 'package:trackngo/models/active_nearby_available_drivers.dart';
 
 import '../assistants/assistant_methods.dart';
@@ -163,12 +164,10 @@ class _CommuterScreenState extends State<CommuterScreen> {
                 ),
                 child: IconButton(
                   onPressed: () {
-                    FirebaseAuth.instance.signOut();
-                    currentFirebaseUser = null;
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => MySplashScreen()),
-                    );
+                    MyWarningDialog(
+                      title: "Logging Out...",
+                      content: "You are attempting to log out from your account. Will you continue?\n",
+                    ).show(context);
                   },
                   icon: Icon(
                     Icons.logout,
