@@ -13,6 +13,7 @@ class UserRideRequestInformation {
   String? userLastName;
   String? userContactNumber;
   String? numberOfSeats;
+  String? passengerFare;
 
   UserRideRequestInformation({
     this.originLatLng,
@@ -24,6 +25,7 @@ class UserRideRequestInformation {
     this.userLastName,
     this.userContactNumber,
     this.numberOfSeats,
+    this.passengerFare,
   });
 
   set buttonColor(MaterialAccentColor buttonColor) {}

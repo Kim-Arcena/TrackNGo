@@ -84,6 +84,8 @@ class PushNotificationSystem {
         String numberOfSeats =
             (snapData.snapshot.value! as Map)["numberOfSeats"].toString();
 
+        String passengerFare =
+            (snapData.snapshot.value! as Map)["fare"].toString();
         UserRideRequestInformation userRideRequestDetails =
             UserRideRequestInformation();
 
@@ -97,6 +99,7 @@ class PushNotificationSystem {
         userRideRequestDetails.userLastName = userLastName;
         userRideRequestDetails.userContactNumber = userContactNumber;
         userRideRequestDetails.numberOfSeats = numberOfSeats;
+        userRideRequestDetails.passengerFare = passengerFare;
 
         showDialog(
           context: context,

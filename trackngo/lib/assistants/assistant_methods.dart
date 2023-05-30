@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter_geofire/flutter_geofire.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter_platform_interface/src/types/location.dart';
+import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:trackngo/assistants/request_assistant.dart';
 import 'package:trackngo/global/global.dart';
@@ -104,5 +107,41 @@ class AssistantMethods {
     streamStreamSubscription!.resume();
     Geofire.setLocation(currentFirebaseUser!.uid, currentPosition!.latitude,
         currentPosition!.longitude);
+  }
+
+  static sendNotificationToDriverNow(
+      String deviceRegistrationToken, String userRideRequestId, context) async {
+    var destinationAddress =
+        Provider.of<AppInfo>(context, listen: false).userDropOffLocation;
+
+    Map<String, String> headerNotification = {
+      'Content-Type': 'application/json',
+      'Authorization': deviceRegistrationToken,
+    };
+
+    Map bodyNotification = {
+      "body":
+          "Destination address is $destinationAddress, you have a passenger request!",
+      "title": "TrackNGo"
+    };
+
+    Map dataMap = {
+      "click_action": "FLUTTER_NOTIFICATION_CLICK",
+      "id": 1,
+      "status": "done",
+      "rideRequestId": userRideRequestId
+    };
+
+    Map officialNotificationFormat = {
+      "notification": bodyNotification,
+      "data": dataMap,
+      "priority": "high",
+      "to": deviceRegistrationToken,
+    };
+
+    var responseNotification = http.post(
+        Uri.parse("https://fcm.googleapis.com/fcm/send"),
+        headers: headerNotification,
+        body: jsonEncode(officialNotificationFormat));
   }
 }

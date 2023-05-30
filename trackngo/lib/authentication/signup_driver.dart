@@ -1,13 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:trackngo/authentication/alertDialog.dart';
 import 'package:trackngo/authentication/login_screen.dart';
-import 'package:flutter/gestures.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:trackngo/global/global.dart';
 import 'package:trackngo/mainScreen/driver_screen.dart';
+import 'package:trackngo/push_notifications/push_notification_system.dart';
 
 class SignUpDriver extends StatefulWidget {
   final String email;
@@ -153,7 +154,9 @@ class _SignUpDriver extends State<SignUpDriver> {
     usersRef.child(currentFirebaseUser!.uid).set(driverInfoDataMap);
 
     Fluttertoast.showToast(msg: "Driver's Information Saved Successfully");
-
+    PushNotificationSystem pushNotificationSystem = PushNotificationSystem();
+    pushNotificationSystem.initializeCloudMessagin(context);
+    pushNotificationSystem.generateAndGetToken();
     Navigator.push(
       context,
       MaterialPageRoute(

@@ -15,6 +15,7 @@ UserModel? userModelCurrentInfo;
 StreamSubscription<Position>? streamStreamSubscription;
 StreamSubscription<Position>? streamSubscriptionDriverLivePosition;
 List dList = [];
+List uniqueList = [];
 List acceptedRideRequestList = [];
 List rideRequestList = [];
 DirectionDetailsInfo? tripDrirectionDetailsInfo;
@@ -27,3 +28,6 @@ DriverData onlineDriverData = DriverData();
 Position? currentPosition;
 int numberOfSeats = 0;
 ChosenDriverInformation? chosenDriverInformation;
+String? referenceIdValue = "";
+String cloudMessagingServerToken =
+    "key=AAAAwdoQeAI:APA91bGe6W2SeClvRAK16lnY3aSOSTh9_mYDhAI86AtpJNNC_ge_k75f372XjVtS5xdjDQ00e81VaCJimbYdj7n7-x17QzAWWCsJdCxkyjvlXNyRzOj7zA9FJ75jqSFF25P0H30REw1o";
