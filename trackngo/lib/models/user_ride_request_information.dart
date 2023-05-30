@@ -1,3 +1,4 @@
+import 'package:flutter/src/material/colors.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class UserRideRequestInformation {
@@ -24,6 +25,10 @@ class UserRideRequestInformation {
     this.userContactNumber,
     this.numberOfSeats,
   });
+
+  set buttonColor(MaterialAccentColor buttonColor) {}
+
+  set buttonTitle(String buttonTitle) {}
 
   toJson() {}
 }

@@ -77,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Container(
             constraints: const BoxConstraints.expand(),
             decoration: new BoxDecoration(
-                image: new DecorationImage(
+                image: new DecorationImage                                  (
                     image: new AssetImage("images/background.png"),
                     fit: BoxFit.fill)),
             child: Scaffold(

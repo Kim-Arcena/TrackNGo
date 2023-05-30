@@ -55,11 +55,8 @@ class _DriverTripScreenState extends State<DriverTripScreen>
   bool isRequestDirectionDetails = false;
   String statusTextButton = "Accepted";
   int indexChosen = -1;
-  String? buttonTitle = "Arrive";
-  List<Color> buttonColors = List<Color>.generate(
-    acceptedRideRequestDetailsList.length,
-    (index) => Color(0xFF199A5D),
-  );
+  String? buttonTitle = "Arrived";
+  Color? buttonColor = Colors.blue;
 
   onItemClicked(int index) {
     setState(() {
@@ -421,28 +418,35 @@ class _DriverTripScreenState extends State<DriverTripScreen>
                                               fixedSize: Size(100, 35),
                                               primary: indexChosen == index
                                                   ? Colors.blue
-                                                  : buttonColors[index],
+                                                  : buttonColor,
                                             ),
-                                            onPressed: () {
-                                              if (statusTextButton ==
-                                                  "Arrived") {
-                                                statusTextButton = "Pickup";
+                                            onPressed: () async {
+                                              //[driver has arrived at user PickUp Location] - Arrived Button
+                                              if (rideRequestStatus ==
+                                                  "accepted") {
+                                                rideRequestStatus = "arrived";
+                                                setState(() {
+                                                  buttonTitle =
+                                                      "Let's Go"; //start the trip
+                                                  buttonColor =
+                                                      Colors.lightGreen;
+                                                });
                                               }
+                                              //[user has already sit in driver's car. Driver start trip now] - Lets Go Button
+                                              else if (rideRequestStatus ==
+                                                  "arrived") {
+                                                rideRequestStatus = "ontrip";
 
-                                              FirebaseDatabase.instance
-                                                  .ref("All Ride Requests")
-                                                  .child(rideRequest
-                                                      .rideRequestId
-                                                      .toString())
-                                                  .child("acceptedRideInfo")
-                                                  .child("status")
-                                                  .set(statusTextButton);
-
-                                              setState(() {
-                                                indexChosen = index;
-                                                buttonColors[index] =
-                                                    Colors.blue;
-                                              });
+                                                setState(() {
+                                                  buttonTitle =
+                                                      "End Trip"; //end the trip
+                                                  buttonColor =
+                                                      Colors.redAccent;
+                                                });
+                                              }
+                                              //[user/Driver reached to the dropOff Destination Location] - End Trip Button
+                                              else if (rideRequestStatus ==
+                                                  "ontrip") {}
                                             },
                                             child: Text(
                                               buttonTitle.toString(),
