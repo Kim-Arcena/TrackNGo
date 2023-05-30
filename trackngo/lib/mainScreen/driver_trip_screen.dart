@@ -58,6 +58,30 @@ class _DriverTripScreenState extends State<DriverTripScreen>
   String? buttonTitle = "Arrived";
   Color? buttonColor = Colors.blue;
 
+  List<UserRideRequestInformation> acceptedRideRequestDetailsLists = [
+    UserRideRequestInformation(
+      originAddress: "123 Main Street",
+      rideRequestId: "1",
+      userFirstName: "John",
+      userLastName: "Doe",
+      userContactNumber: "1234567890",
+    ),
+    UserRideRequestInformation(
+      originAddress: "456 Elm Street",
+      rideRequestId: "2",
+      userFirstName: "Jane",
+      userLastName: "Smith",
+      userContactNumber: "9876543210",
+    ),
+    UserRideRequestInformation(
+      originAddress: "456 Elm Street",
+      rideRequestId: "3",
+      userFirstName: "Myrt",
+      userLastName: "Myrt",
+      userContactNumber: "9876543230",
+    ),
+  ];
+
   onItemClicked(int index) {
     setState(() {
       selectedIndex = index;
@@ -368,12 +392,18 @@ class _DriverTripScreenState extends State<DriverTripScreen>
                               // Example:
                               SingleChildScrollView(
                             child: ListView.builder(
-                              itemCount: acceptedRideRequestDetailsList.length,
+                              itemCount: acceptedRideRequestDetailsLists.length,
                               shrinkWrap: true,
                               physics: NeverScrollableScrollPhysics(),
                               itemBuilder: (context, index) {
                                 var rideRequest =
-                                    acceptedRideRequestDetailsList[index];
+                                    acceptedRideRequestDetailsLists[index];
+                                bool isArrived =
+                                    (rideRequestStatus == "arrived" &&
+                                        indexChosen == index);
+                                bool isOnTrip =
+                                    (rideRequestStatus == "ontrip" &&
+                                        indexChosen == index);
 
                                 return Container(
                                   child: Column(
@@ -416,44 +446,40 @@ class _DriverTripScreenState extends State<DriverTripScreen>
                                                     BorderRadius.circular(15.0),
                                               ),
                                               fixedSize: Size(100, 35),
-                                              primary: indexChosen == index
+                                              primary: isArrived
                                                   ? Colors.blue
-                                                  : buttonColor,
+                                                  : isOnTrip
+                                                      ? Colors.redAccent
+                                                      : buttonColor,
                                             ),
-                                            onPressed: () async {
-                                              //[driver has arrived at user PickUp Location] - Arrived Button
+                                            onPressed: () {
                                               if (rideRequestStatus ==
                                                   "accepted") {
-                                                rideRequestStatus = "arrived";
                                                 setState(() {
-                                                  buttonTitle =
-                                                      "Let's Go"; //start the trip
+                                                  indexChosen = index;
+                                                  rideRequestStatus = "arrived";
+                                                  buttonTitle = "Let's Go";
                                                   buttonColor =
                                                       Colors.lightGreen;
                                                 });
-                                              }
-                                              //[user has already sit in driver's car. Driver start trip now] - Lets Go Button
-                                              else if (rideRequestStatus ==
+                                              } else if (rideRequestStatus ==
                                                   "arrived") {
-                                                rideRequestStatus = "ontrip";
-
                                                 setState(() {
-                                                  buttonTitle =
-                                                      "End Trip"; //end the trip
+                                                  indexChosen = index;
+                                                  rideRequestStatus = "ontrip";
+                                                  buttonTitle = "End Trip";
                                                   buttonColor =
                                                       Colors.redAccent;
                                                 });
                                               }
-                                              //[user/Driver reached to the dropOff Destination Location] - End Trip Button
-                                              else if (rideRequestStatus ==
-                                                  "ontrip") {}
                                             },
                                             child: Text(
                                               buttonTitle.toString(),
                                               style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold),
+                                                color: Colors.white,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                              ),
                                             ),
                                           ),
                                         ],
@@ -462,7 +488,6 @@ class _DriverTripScreenState extends State<DriverTripScreen>
                                   ),
                                 );
                               },
-                              // ...
                             ),
                           ),
                         ),
