@@ -15,28 +15,43 @@ class MyWarningDialog {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          iconPadding: EdgeInsets.all(20),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15.0),
           ),
           title: Text(title),
           content: Text(content),
           actions: [
-            TextButton(
-              child: Text("Log Out"),
-              onPressed: () {
-                FirebaseAuth.instance.signOut();
-                currentFirebaseUser = null;
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => MySplashScreen()),
-                );
-              },
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
+              child: SizedBox(
+                height: 40,
+                child: FloatingActionButton.extended(
+                  label: Text("Log Out"),
+                  backgroundColor: Colors.green,
+                  onPressed: () {
+                    FirebaseAuth.instance.signOut();
+                    currentFirebaseUser = null;
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MySplashScreen()),
+                    );
+                  },
+                ),
+              ),
             ),
-            TextButton(
-              child: Text("Cancel"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
+              child: SizedBox(
+                height: 40,
+                child: FloatingActionButton.extended(
+                  label: Text("Cancel"),
+                  backgroundColor: Colors.grey,
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ),
             ),
           ],
         );

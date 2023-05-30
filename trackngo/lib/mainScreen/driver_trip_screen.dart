@@ -30,7 +30,7 @@ class _DriverTripScreenState extends State<DriverTripScreen>
     with SingleTickerProviderStateMixin {
   LatLng _initialcameraposition = LatLng(20.5937, 78.9629);
   final Completer<GoogleMapController> _controllerGoogleMap =
-      Completer<GoogleMapController>();
+  Completer<GoogleMapController>();
   GoogleMapController? newGoogleMapController;
   Location _location = Location();
   LocationPermission? _locationPermission;
@@ -91,8 +91,8 @@ class _DriverTripScreenState extends State<DriverTripScreen>
 
   readCurrentDriveInformation() async {
     DatabaseReference usersRef = FirebaseDatabase(
-            databaseURL:
-                "https://trackngo-d7aa0-default-rtdb.asia-southeast1.firebasedatabase.app/")
+        databaseURL:
+        "https://trackngo-d7aa0-default-rtdb.asia-southeast1.firebasedatabase.app/")
         .ref()
         .child("driver");
     usersRef.child(currentFirebaseUser!.uid).once().then((snap) {
@@ -103,14 +103,14 @@ class _DriverTripScreenState extends State<DriverTripScreen>
         onlineDriverData.firstName = (snap.snapshot.value as Map)["firstName"];
         onlineDriverData.lastName = (snap.snapshot.value as Map)["lastName"];
         onlineDriverData.contactNumber =
-            (snap.snapshot.value as Map)["contactNumber"];
+        (snap.snapshot.value as Map)["contactNumber"];
         onlineDriverData.email = (snap.snapshot.value as Map)["email"];
         onlineDriverData.licenseNumber =
-            (snap.snapshot.value as Map)["licenseNumber"];
+        (snap.snapshot.value as Map)["licenseNumber"];
         onlineDriverData.operatorId =
-            (snap.snapshot.value as Map)["operatorId"];
+        (snap.snapshot.value as Map)["operatorId"];
         onlineDriverData.plateNumber =
-            (snap.snapshot.value as Map)["plateNumber"];
+        (snap.snapshot.value as Map)["plateNumber"];
         onlineDriverData.busType = (snap.snapshot.value as Map)["busType"];
 
         print("online driver data" + onlineDriverData.firstName.toString());
@@ -135,8 +135,8 @@ class _DriverTripScreenState extends State<DriverTripScreen>
 
     // Get human readable address for the location
     humanReadableAddress =
-        await AssistantMethods.searchAddressForGeographicalCoordinates(
-            position, context);
+    await AssistantMethods.searchAddressForGeographicalCoordinates(
+        position, context);
 
     // Set the camera position to the user's location
     setState(() {
@@ -150,7 +150,7 @@ class _DriverTripScreenState extends State<DriverTripScreen>
     );
 
     var currentPosition =
-        Provider.of<AppInfo>(context, listen: false).userPickUpLocation!;
+    Provider.of<AppInfo>(context, listen: false).userPickUpLocation!;
 
     //originLatLng
     driverCurrentPosition = LatLng(
@@ -169,7 +169,7 @@ class _DriverTripScreenState extends State<DriverTripScreen>
     Marker originMarker = Marker(
       markerId: const MarkerId("originID"),
       infoWindow:
-          InfoWindow(title: currentPosition.locationName, snippet: "Origin"),
+      InfoWindow(title: currentPosition.locationName, snippet: "Origin"),
       position: driverCurrentPosition,
       icon: customIconOrigin,
     );
@@ -199,7 +199,7 @@ class _DriverTripScreenState extends State<DriverTripScreen>
   createDriverIconMarker() {
     if (iconAnimatedMarker == null) {
       ImageConfiguration imageConfiguration =
-          createLocalImageConfiguration(context, size: Size(2, 2));
+      createLocalImageConfiguration(context, size: Size(2, 2));
       BitmapDescriptor.fromAssetImage(imageConfiguration, "images/driver.png")
           .then((value) {
         iconAnimatedMarker = value;
@@ -212,37 +212,37 @@ class _DriverTripScreenState extends State<DriverTripScreen>
 
     streamSubscriptionDriverLivePosition =
         Geolocator.getPositionStream().listen((Position position) async {
-      driverCurrentPosition = position;
-      onlineDriverCurrentPosition = position;
+          driverCurrentPosition = position;
+          onlineDriverCurrentPosition = position;
 
-      LatLng latLngLiveDriverPosition = LatLng(
-          driverCurrentPosition!.latitude, driverCurrentPosition!.longitude);
+          LatLng latLngLiveDriverPosition = LatLng(
+              driverCurrentPosition!.latitude, driverCurrentPosition!.longitude);
 
-      Marker animatingMarker = Marker(
-        markerId: MarkerId("animatingMarkerID"),
-        position: latLngLiveDriverPosition,
-        icon: iconAnimatedMarker!,
-        infoWindow: InfoWindow(title: "Current Location"),
-      );
+          Marker animatingMarker = Marker(
+            markerId: MarkerId("animatingMarkerID"),
+            position: latLngLiveDriverPosition,
+            icon: iconAnimatedMarker!,
+            infoWindow: InfoWindow(title: "Current Location"),
+          );
 
-      setState(() {
-        CameraPosition cameraPosition =
+          setState(() {
+            CameraPosition cameraPosition =
             CameraPosition(target: latLngLiveDriverPosition, zoom: 16);
-        newGoogleMapController!
-            .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+            newGoogleMapController!
+                .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
 
-        markerSet.removeWhere(
-            (element) => element.markerId.value == "animatingMarkerID");
-        markerSet.add(animatingMarker);
-      });
+            markerSet.removeWhere(
+                    (element) => element.markerId.value == "animatingMarkerID");
+            markerSet.add(animatingMarker);
+          });
 
-      oldLatlng = latLngLiveDriverPosition;
-      updateDurationTimeAtRealTime();
-      Map driverLatLngMap = {
-        "latitude": driverCurrentPosition!.latitude.toString(),
-        "longitude": driverCurrentPosition!.longitude.toString(),
-      };
-    });
+          oldLatlng = latLngLiveDriverPosition;
+          updateDurationTimeAtRealTime();
+          Map driverLatLngMap = {
+            "latitude": driverCurrentPosition!.latitude.toString(),
+            "longitude": driverCurrentPosition!.longitude.toString(),
+          };
+        });
   }
 
   updateDurationTimeAtRealTime() async {
@@ -264,8 +264,8 @@ class _DriverTripScreenState extends State<DriverTripScreen>
           i.toString());
 
       BitmapDescriptor passengerOriginMarkerIcon =
-          await BitmapDescriptor.fromAssetImage(
-              ImageConfiguration(size: Size(48, 48)), 'images/commuter.png');
+      await BitmapDescriptor.fromAssetImage(
+          ImageConfiguration(size: Size(48, 48)), 'images/commuter.png');
 
       Marker passengerOriginMarker = Marker(
         markerId: MarkerId(
@@ -277,12 +277,12 @@ class _DriverTripScreenState extends State<DriverTripScreen>
             snippet: "Origin"),
       );
       BitmapDescriptor passengerDestinationMarkerIcon =
-          await BitmapDescriptor.fromAssetImage(
-              ImageConfiguration(size: Size(10, 10)), 'images/Dropoff.png');
+      await BitmapDescriptor.fromAssetImage(
+          ImageConfiguration(size: Size(10, 10)), 'images/Dropoff.png');
 
       Marker passengerDestinationMarker = Marker(
         markerId:
-            MarkerId("pin" + i.toString()), // Use the index as the MarkerId
+        MarkerId("pin" + i.toString()), // Use the index as the MarkerId
         position: acceptedRideRequestDetailsList[i].destinationLatLng!,
         icon: passengerDestinationMarkerIcon,
         infoWindow: InfoWindow(
@@ -319,7 +319,7 @@ class _DriverTripScreenState extends State<DriverTripScreen>
               children: [
                 GoogleMap(
                   initialCameraPosition:
-                      CameraPosition(target: _initialcameraposition),
+                  CameraPosition(target: _initialcameraposition),
                   mapType: MapType.normal,
                   onMapCreated: _onMapCreated,
                   myLocationEnabled: true,
@@ -388,39 +388,39 @@ class _DriverTripScreenState extends State<DriverTripScreen>
                         SizedBox(height: 10),
                         Expanded(
                           child:
-                              // Add your scrollable content here
-                              // Example:
-                              SingleChildScrollView(
+                          // Add your scrollable content here
+                          // Example:
+                          SingleChildScrollView(
                             child: ListView.builder(
                               itemCount: acceptedRideRequestDetailsLists.length,
                               shrinkWrap: true,
                               physics: NeverScrollableScrollPhysics(),
                               itemBuilder: (context, index) {
                                 var rideRequest =
-                                    acceptedRideRequestDetailsLists[index];
+                                acceptedRideRequestDetailsLists[index];
                                 bool isArrived =
-                                    (rideRequestStatus == "arrived" &&
-                                        indexChosen == index);
+                                (rideRequestStatus == "arrived" &&
+                                    indexChosen == index);
                                 bool isOnTrip =
-                                    (rideRequestStatus == "ontrip" &&
-                                        indexChosen == index);
+                                (rideRequestStatus == "ontrip" &&
+                                    indexChosen == index);
 
                                 return Container(
                                   child: Column(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    CrossAxisAlignment.start,
                                     children: [
                                       Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        MainAxisAlignment.spaceBetween,
                                         children: [
                                           Column(
                                             crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                             children: [
                                               Text(
                                                 rideRequest.userFirstName
-                                                        .toString() +
+                                                    .toString() +
                                                     " " +
                                                     rideRequest.userLastName
                                                         .toString(),
@@ -434,7 +434,7 @@ class _DriverTripScreenState extends State<DriverTripScreen>
                                                 rideRequest.originAddress
                                                     .toString(),
                                                 style:
-                                                    TextStyle(fontSize: 13.0),
+                                                TextStyle(fontSize: 13.0),
                                               ),
                                               SizedBox(height: 5.0),
                                             ],
@@ -443,14 +443,14 @@ class _DriverTripScreenState extends State<DriverTripScreen>
                                             style: ElevatedButton.styleFrom(
                                               shape: RoundedRectangleBorder(
                                                 borderRadius:
-                                                    BorderRadius.circular(15.0),
+                                                BorderRadius.circular(15.0),
                                               ),
                                               fixedSize: Size(100, 35),
                                               primary: isArrived
                                                   ? Colors.blue
                                                   : isOnTrip
-                                                      ? Colors.redAccent
-                                                      : buttonColor,
+                                                  ? Colors.redAccent
+                                                  : buttonColor,
                                             ),
                                             onPressed: () {
                                               if (rideRequestStatus ==
@@ -541,7 +541,7 @@ class _DriverTripScreenState extends State<DriverTripScreen>
                             backgroundColor: Color.fromARGB(255, 240, 255, 244),
                             type: BottomNavigationBarType.fixed,
                             selectedLabelStyle:
-                                const TextStyle(fontWeight: FontWeight.bold),
+                            const TextStyle(fontWeight: FontWeight.bold),
                             showUnselectedLabels: true,
                             currentIndex: selectedIndex,
                             onTap: onItemClicked,
@@ -562,7 +562,7 @@ class _DriverTripScreenState extends State<DriverTripScreen>
 
   Future<void> drawPolyLineFromSourceToDestination() async {
     var sourcePosition =
-        Provider.of<AppInfo>(context, listen: false).userPickUpLocation!;
+    Provider.of<AppInfo>(context, listen: false).userPickUpLocation!;
 
     //originLatLng
     sourceLatLng = LatLng(
@@ -573,8 +573,8 @@ class _DriverTripScreenState extends State<DriverTripScreen>
     var destinationLatLng = LatLng(11.722, 122.096);
 
     var directionDetailsInfo =
-        await AssistantMethods.obtainOriginToDestinationDirectionDetails(
-            sourceLatLng, destinationLatLng);
+    await AssistantMethods.obtainOriginToDestinationDirectionDetails(
+        sourceLatLng, destinationLatLng);
     setState(() {
       tripDrirectionDetailsInfo = directionDetailsInfo;
     });
@@ -584,7 +584,7 @@ class _DriverTripScreenState extends State<DriverTripScreen>
 
     PolylinePoints pPoints = PolylinePoints();
     List<PointLatLng> decodedPolyLinePointsResultList =
-        pPoints.decodePolyline(directionDetailsInfo.e_points!);
+    pPoints.decodePolyline(directionDetailsInfo.e_points!);
 
     pLineCoordinatesList.clear();
 
@@ -635,8 +635,8 @@ class _DriverTripScreenState extends State<DriverTripScreen>
         .animateCamera(CameraUpdate.newLatLngBounds(boundLatLng, 70));
 
     BitmapDescriptor customIconDestination =
-        await BitmapDescriptor.fromAssetImage(
-            ImageConfiguration(size: Size(10, 10)), 'images/terminal.png');
+    await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(10, 10)), 'images/terminal.png');
 
     Marker destinationMarker = Marker(
       markerId: const MarkerId("destinationID"),
@@ -678,8 +678,8 @@ class _DriverTripScreenState extends State<DriverTripScreen>
 
     // ignore: deprecated_member_use
     DatabaseReference usersRef = FirebaseDatabase(
-            databaseURL:
-                "https://trackngo-d7aa0-default-rtdb.asia-southeast1.firebasedatabase.app/")
+        databaseURL:
+        "https://trackngo-d7aa0-default-rtdb.asia-southeast1.firebasedatabase.app/")
         .ref()
         .child("driver");
     usersRef.child(currentFirebaseUser!.uid).child("newRideStatus").set("idle");
@@ -691,8 +691,8 @@ driverIsOfflineNow() {
   Geofire.removeLocation(currentFirebaseUser!.uid);
   // ignore: deprecated_member_use
   DatabaseReference? usersRef = FirebaseDatabase(
-          databaseURL:
-              "https://trackngo-d7aa0-default-rtdb.asia-southeast1.firebasedatabase.app/")
+      databaseURL:
+      "https://trackngo-d7aa0-default-rtdb.asia-southeast1.firebasedatabase.app/")
       .ref()
       .child("driver")
       .child(currentFirebaseUser!.uid)
