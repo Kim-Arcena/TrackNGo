@@ -172,6 +172,22 @@ class _NotificationDialogBoxState extends State<NotificationDialogBox> {
                   audioPlayer!.pause();
                   audioPlayer!.stop();
                   audioPlayer = AssetsAudioPlayer();
+
+                  FirebaseDatabase.instance
+                      .ref()
+                      .child("Child Ride Request")
+                      .child(widget.userRideRequestDetails!.rideRequestId!)
+                      .remove().then((value) => {
+                        FirebaseDatabase.instance.ref().chi
+                      });
+                  Fluttertoast.showToast(
+                      msg: "Ride request has been cancelled",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Color(0xFF199A5D),
+                      textColor: Colors.white,
+                      fontSize: 16.0);
                   Navigator.of(context).pop();
                 },
                 child: Text(
