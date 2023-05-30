@@ -40,6 +40,7 @@ class _MySplashScreenState extends State<MySplashScreen> {
         var user = await usersRef.child(currentFirebaseUser!.uid).get();
         var userMap = user.value as Map<dynamic, dynamic>?;
         if (driver.exists) {
+          print("driverrrssfsd");
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => const MainScreen()));
           // Navigator.push(
@@ -50,9 +51,6 @@ class _MySplashScreenState extends State<MySplashScreen> {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => const CommuterScreen()));
         }
-      } else {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const LoginScreen()));
       }
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const LoginScreen()));

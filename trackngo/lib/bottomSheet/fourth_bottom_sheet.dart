@@ -182,6 +182,7 @@ class InnerContainer extends StatefulWidget {
 }
 
 class _InnerContainerState extends State<InnerContainer> {
+  Future<ChosenDriverInformation>? chosenDriverFuture;
   bool _flag = false;
   bool _flagTwo = false;
   bool _flagThree = false;
@@ -189,30 +190,42 @@ class _InnerContainerState extends State<InnerContainer> {
 
   @override
   void initState() {
-    // TODO: implement initState
-    getChosenDriverInformation();
+    super.initState();
+    chosenDriverFuture = getChosenDriverInformation();
   }
 
   getChosenDriverInformation() async {
-    print(chosenDriverId!);
-    DatabaseReference usersRef =
-        await FirebaseDatabase.instance.ref().child("driver");
-    usersRef.child(chosenDriverId!).once().then((snap) {
-      chosenDriverInformation ??= ChosenDriverInformation();
-      chosenDriverInformation?.driverFirstName =
-          (snap.snapshot.value as Map)["firstName"];
-      chosenDriverInformation?.driverLastName =
-          (snap.snapshot.value as Map)["lastName"];
-      chosenDriverInformation?.driverContactNumber =
-          (snap.snapshot.value as Map)["contactNumber"];
-      chosenDriverInformation?.busNumber =
-          (snap.snapshot.value as Map)["operatorId"];
-      chosenDriverInformation?.driverContactNumber =
-          (snap.snapshot.value as Map)["contactNumber"];
-      chosenDriverInformation?.busType =
-          (snap.snapshot.value as Map)["busType"];
+    DatabaseReference usersRef = FirebaseDatabase(
+            databaseURL:
+                "https://trackngo-d7aa0-default-rtdb.asia-southeast1.firebasedatabase.app/")
+        .ref()
+        .child("driver");
+    usersRef.child(currentFirebaseUser!.uid).once().then((snap) {
+      if (snap.snapshot.value != null) {
+        print("the current firebase user is " + currentFirebaseUser!.uid);
+
+        onlineDriverData.id = (snap.snapshot.value as Map)["id"];
+        onlineDriverData.firstName = (snap.snapshot.value as Map)["firstName"];
+        onlineDriverData.lastName = (snap.snapshot.value as Map)["lastName"];
+        onlineDriverData.contactNumber =
+            (snap.snapshot.value as Map)["contactNumber"];
+        onlineDriverData.email = (snap.snapshot.value as Map)["email"];
+        onlineDriverData.licenseNumber =
+            (snap.snapshot.value as Map)["licenseNumber"];
+        onlineDriverData.operatorId =
+            (snap.snapshot.value as Map)["operatorId"];
+        onlineDriverData.plateNumber =
+            (snap.snapshot.value as Map)["plateNumber"];
+        onlineDriverData.busType = (snap.snapshot.value as Map)["busType"];
+
+        print("online driver data" + onlineDriverData.firstName.toString());
+        print(onlineDriverData.lastName);
+        print("online driver contactNumber" +
+            onlineDriverData.contactNumber.toString());
+      } else {
+        print("online driver data is null");
+      }
     });
-    print(chosenDriverInformation?.busNumber ?? "No driver found");
   }
 
   @override
@@ -261,7 +274,9 @@ class _InnerContainerState extends State<InnerContainer> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           AutoSizeText(
-                            '${chosenDriverInformation?.driverFirstName ?? ''} ${chosenDriverInformation?.driverLastName ?? ''}',
+                            onlineDriverData.firstName.toString() +
+                                " " +
+                                onlineDriverData.lastName.toString(),
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 15,
@@ -271,7 +286,7 @@ class _InnerContainerState extends State<InnerContainer> {
                             minFontSize: 10,
                           ),
                           AutoSizeText(
-                            chosenDriverInformation?.busNumber ?? '',
+                            onlineDriverData.licenseNumber ?? '',
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 14,
@@ -280,7 +295,7 @@ class _InnerContainerState extends State<InnerContainer> {
                             minFontSize: 10,
                           ),
                           AutoSizeText(
-                            chosenDriverInformation?.driverContactNumber ?? '',
+                            onlineDriverData.contactNumber ?? '',
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 14,
@@ -289,7 +304,7 @@ class _InnerContainerState extends State<InnerContainer> {
                             minFontSize: 10,
                           ),
                           AutoSizeText(
-                            chosenDriverInformation?.busType ?? '',
+                            onlineDriverData.busType ?? '',
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 15,

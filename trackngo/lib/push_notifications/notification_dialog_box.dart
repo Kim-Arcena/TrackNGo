@@ -67,11 +67,18 @@ class _NotificationDialogBoxState extends State<NotificationDialogBox> {
                             color: Colors.black,
                             fontSize: 15,
                           ),
-                          children: const <TextSpan>[
+                          children: <TextSpan>[
                             TextSpan(
-                                text: '₱100.00',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 15)),
+                              text: "₱" +
+                                  (widget.userRideRequestDetails
+                                              ?.passengerFare ??
+                                          "N/A")
+                                      .toString(),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                              ),
+                            ),
                           ],
                         ),
                       )
@@ -177,9 +184,17 @@ class _NotificationDialogBoxState extends State<NotificationDialogBox> {
                       .ref()
                       .child("Child Ride Request")
                       .child(widget.userRideRequestDetails!.rideRequestId!)
-                      .remove().then((value) => {
-                        FirebaseDatabase.instance.ref().chi
-                      });
+                      .remove()
+                      .then((value) => {
+                            FirebaseDatabase.instance
+                                .ref()
+                                .child("driver")
+                                .child(currentFirebaseUser!.uid)
+                                .child("tripHistory")
+                                .child(widget
+                                    .userRideRequestDetails!.rideRequestId!)
+                                .remove()
+                          });
                   Fluttertoast.showToast(
                       msg: "Ride request has been cancelled",
                       toastLength: Toast.LENGTH_SHORT,

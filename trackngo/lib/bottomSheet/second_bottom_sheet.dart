@@ -1,9 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 import 'package:trackngo/assistants/assistant_methods.dart';
 import 'package:trackngo/global/global.dart';
+import 'package:trackngo/models/ride_ref_request_info.dart';
 
 var maxChildSize = 0.8;
 
@@ -181,6 +183,37 @@ class _InnerContainerState extends State<InnerContainer> {
   bool _flagTwo = false;
   bool _flagThree = false;
   int? selectedBus;
+  String rideRequestRefId = RideRequestInfo.rideRequestRefId;
+  sendNotificationToDriver(String rideReqestId, String chosenDriverId) {
+    print("chosen driver id is" + chosenDriverId.toString());
+    FirebaseDatabase.instance
+        .ref()
+        .child("driver")
+        .child(chosenDriverId!)
+        .child("newRideStatus")
+        .set(rideReqestId);
+
+    FirebaseDatabase.instance
+        .ref()
+        .child("driver")
+        .child(chosenDriverId)
+        .child("token")
+        .once()
+        .then((snap) {
+      if (snap.snapshot.value != null) {
+        String deviceRegistrationToken = snap.snapshot.value.toString();
+        AssistantMethods.sendNotificationToDriverNow(
+            deviceRegistrationToken, rideRequestRefId, context);
+
+        print(
+            "the device registration is" + deviceRegistrationToken.toString());
+        print("the chooseDriverId is " + rideRequestRefId.toString());
+      } else {
+        return Fluttertoast.showToast(msg: "Kindly check another driver.");
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -225,7 +258,7 @@ class _InnerContainerState extends State<InnerContainer> {
                   padding: EdgeInsetsDirectional.zero,
                   height: 180,
                   child: ListView.builder(
-                    itemCount: dList.length,
+                    itemCount: uniqueList.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Container(
                         height: 90,
@@ -233,9 +266,11 @@ class _InnerContainerState extends State<InnerContainer> {
                           onTap: () {
                             setState(() {
                               selectedBus = index;
-                              chosenDriverId = dList[index]["id"].toString();
+                              chosenDriverId =
+                                  uniqueList[index]["id"].toString();
                               userResponse = "Driver Selected";
-                              print("dlist id is" + chosenDriverId.toString());
+                              print("uniqueList id is" +
+                                  chosenDriverId.toString());
                             });
                           },
                           child: Neumorphic(
@@ -257,7 +292,7 @@ class _InnerContainerState extends State<InnerContainer> {
                               leading: Container(
                                 child: Image.asset(
                                   "images/" +
-                                      dList[index]["busType"].toString() +
+                                      uniqueList[index]["busType"].toString() +
                                       ".png",
                                   width: 60,
                                 ),
@@ -269,11 +304,14 @@ class _InnerContainerState extends State<InnerContainer> {
                                   Row(
                                     children: [
                                       AutoSizeText(
-                                        ((dList[index]["firstName"] != null
-                                                ? dList[index]["firstName"]
+                                        ((uniqueList[index]["firstName"] != null
+                                                ? uniqueList[index]["firstName"]
                                                 : '') +
-                                            (dList[index]["lastName"] != null
-                                                ? ' ' + dList[index]["lastName"]
+                                            (uniqueList[index]["lastName"] !=
+                                                    null
+                                                ? ' ' +
+                                                    uniqueList[index]
+                                                        ["lastName"]
                                                 : '')),
                                         style: TextStyle(
                                           fontSize: 15,
@@ -436,6 +474,7 @@ class _InnerContainerState extends State<InnerContainer> {
                           fontSize: 16.0);
                       return;
                     }
+                    sendNotificationToDriver(rideRequestRefId, chosenDriverId!);
                     widget.moveToPage(2);
                   },
                   child: Text(

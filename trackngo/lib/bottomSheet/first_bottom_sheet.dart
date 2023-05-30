@@ -3,11 +3,13 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
+import 'package:trackngo/assistants/assistant_methods.dart';
 import 'package:trackngo/bottomSheet/fourth_bottom_sheet.dart';
 import 'package:trackngo/bottomSheet/second_bottom_sheet.dart';
 import 'package:trackngo/bottomSheet/third_bottom_sheet.dart';
 import 'package:trackngo/mainScreen/commuter_screen.dart';
 import 'package:trackngo/models/active_nearby_available_drivers.dart';
+import 'package:trackngo/models/ride_ref_request_info.dart';
 
 import '../assistants/geofire_assistant.dart';
 import '../global/global.dart';
@@ -279,6 +281,10 @@ class _InnerContainerState extends State<InnerContainer> {
       "destinationAddress": destinationLocation.locationName ?? "",
       "driverId": "waiting",
       "numberOfSeats": numberOfSeats,
+      "passengerFare":
+          AssistantMethods.calculateFairAmountFromOriginToDestination(
+                  tripDrirectionDetailsInfo!)
+              .toString(),
     };
 
     print(userInformationMap);
@@ -288,6 +294,11 @@ class _InnerContainerState extends State<InnerContainer> {
     print("the onlinAvailableDriversList is" +
         onlineNearByAvailableDriversList.length.toString() +
         "long");
+
+    setState(() {
+      RideRequestInfo.rideRequestRefId =
+          referenceRideRequestRef!.key.toString();
+    });
     searchNearestOnlineDrivers();
   }
 
@@ -304,7 +315,6 @@ class _InnerContainerState extends State<InnerContainer> {
     // }
 
     await retrieveOnlineDriversInformation(onlineNearByAvailableDriversList);
-    print("dList length is" + dList.length.toString());
     widget.moveToPage(1);
     print("choosenddriver id is" + chosenDriverId.toString());
     if (userResponse == "Driver Selected") {
@@ -315,7 +325,6 @@ class _InnerContainerState extends State<InnerContainer> {
           .once()
           .then((snap) {
         if (snap.snapshot.value != null) {
-          sendNotificationToDriver(chosenDriverId);
         } else {
           Fluttertoast.showToast(msg: "Driver is not available.");
         }
@@ -323,17 +332,6 @@ class _InnerContainerState extends State<InnerContainer> {
     }
 
     widget.moveToPage(1);
-  }
-
-  sendNotificationToDriver(String? chooseDriverId) {
-    rideRequestList.add(referenceRideRequestRef!.key);
-
-    FirebaseDatabase.instance
-        .ref()
-        .child("driver")
-        .child(chosenDriverId!)
-        .child("newRideStatus")
-        .set(rideRequestList);
   }
 
   retrieveOnlineDriversInformation(List onlineNearestDriversList) async {
@@ -360,6 +358,8 @@ class _InnerContainerState extends State<InnerContainer> {
     }
 
     print(dList.toString());
+    uniqueList = dList.toSet().toList();
+    print("length of unique list" + uniqueList.length.toString());
   }
 
   @override
@@ -481,11 +481,8 @@ class _InnerContainerState extends State<InnerContainer> {
                           Provider.of<AppInfo>(context).userDropOffLocation !=
                                   null
                               ? Provider.of<AppInfo>(context)
-                                      .userDropOffLocation!
-                                      .locationName!
-                                      .contains('antique')
-                                  ? 'Contains "antique"'
-                                  : 'Does not contain "antique"'
+                                  .userDropOffLocation!
+                                  .locationName!
                               : 'Select a dropoff location',
                           style: TextStyle(
                             fontSize: 16,
