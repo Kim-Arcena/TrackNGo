@@ -1,15 +1,12 @@
 import 'dart:convert';
 
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart' as http;
 import 'package:trackngo/assistants/assistant_methods.dart';
-import 'package:trackngo/authentication/alertDialog.dart';
 import 'package:trackngo/global/global.dart';
-import 'package:trackngo/models/choosen_driver_information.dart';
 
 var maxChildSize = 0.8;
 
@@ -29,8 +26,6 @@ class _MyBottomSheetThreeContainerState
     extends State<MyBottomSheetThreeContainer> {
   moveToPage(int page) {
     widget.moveToPage(page);
-
-    Map<String, dynamic>? paymentIntent;
   }
 
   @override
@@ -230,7 +225,6 @@ class _InnerContainerState extends State<InnerContainer> {
         widget.moveToPage(3);
         paymentSuccess = true;
       });
-      getChosenDriverInformation();
     } catch (e) {
       print('$e');
     }
@@ -256,28 +250,6 @@ class _InnerContainerState extends State<InnerContainer> {
     } catch (err) {
       throw Exception(err.toString());
     }
-  }
-
-  getChosenDriverInformation() async {
-    print(chosenDriverId!);
-    DatabaseReference usersRef =
-        await FirebaseDatabase.instance.ref().child("driver");
-    usersRef.child(chosenDriverId!).once().then((snap) {
-      chosenDriverInformation ??= ChosenDriverInformation();
-      chosenDriverInformation?.driverFirstName =
-          (snap.snapshot.value as Map)["firstName"];
-      chosenDriverInformation?.driverLastName =
-          (snap.snapshot.value as Map)["lastName"];
-      chosenDriverInformation?.driverContactNumber =
-          (snap.snapshot.value as Map)["contactNumber"];
-      chosenDriverInformation?.busNumber =
-          (snap.snapshot.value as Map)["operatorId"];
-      chosenDriverInformation?.driverContactNumber =
-          (snap.snapshot.value as Map)["contactNumber"];
-      chosenDriverInformation?.busType =
-          (snap.snapshot.value as Map)["busType"];
-    });
-    print(chosenDriverInformation?.busNumber ?? "No driver found");
   }
 
   @override
@@ -441,15 +413,7 @@ class _InnerContainerState extends State<InnerContainer> {
             child: Container(
               child: ElevatedButton(
                 onPressed: () {
-                  if (paymentSuccess) {
-                    widget.moveToPage(3);
-                  } else {
-                    MyAlertDialog(
-                      title: 'Payment Failed',
-                      content:
-                          'Kindly pay the fare amount to continue the booking.',
-                    ).show(context);
-                  }
+                  widget.moveToPage(3);
                 },
                 child: Text(
                   'Next',

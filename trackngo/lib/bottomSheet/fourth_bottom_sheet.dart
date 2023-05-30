@@ -2,9 +2,10 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:trackngo/assistants/assistant_methods.dart';
 import 'package:trackngo/global/global.dart';
-import 'package:trackngo/models/choosen_driver_information.dart';
+import 'package:trackngo/models/ride_ref_request_info.dart';
 
 var maxChildSize = 0.8;
 
@@ -24,6 +25,38 @@ class _MyBottomSheetFourContainerState
     extends State<MyBottomSheetFourContainer> {
   moveToPage(int page) {
     widget.moveToPage(page);
+  }
+
+  sendNotificationToDriver(String rideRequestId, String chosenDriverId) {
+    print("chosen driver id is" + chosenDriverId.toString());
+    FirebaseDatabase.instance
+        .ref()
+        .child("driver")
+        .child(chosenDriverId!)
+        .child("newRideStatus")
+        .set(rideRequestId);
+
+    FirebaseDatabase.instance
+        .ref()
+        .child("driver")
+        .child(chosenDriverId!)
+        .child("token")
+        .once()
+        .then((snap) {
+      if (snap.snapshot.value != null) {
+        String deviceRegistrationToken = snap.snapshot.value.toString();
+        AssistantMethods.sendNotificationToDriverNow(
+            deviceRegistrationToken.toString(),
+            rideRequestId.toString(),
+            context);
+
+        print(
+            "the device registration is" + deviceRegistrationToken.toString());
+        print("the ride request is " + rideRequestId.toString());
+      } else {
+        return Fluttertoast.showToast(msg: "Kindly check another driver.");
+      }
+    });
   }
 
   @override
@@ -182,7 +215,6 @@ class InnerContainer extends StatefulWidget {
 }
 
 class _InnerContainerState extends State<InnerContainer> {
-  Future<ChosenDriverInformation>? chosenDriverFuture;
   bool _flag = false;
   bool _flagTwo = false;
   bool _flagThree = false;
@@ -190,40 +222,35 @@ class _InnerContainerState extends State<InnerContainer> {
 
   @override
   void initState() {
-    super.initState();
-    chosenDriverFuture = getChosenDriverInformation();
+    // TODO: implement initState
   }
-
-  getChosenDriverInformation() async {
-    DatabaseReference usersRef = FirebaseDatabase(
-            databaseURL:
-                "https://trackngo-d7aa0-default-rtdb.asia-southeast1.firebasedatabase.app/")
+  String rideRequestRefId = RideRequestInfo.rideRequestRefId;
+  sendNotificationToDriver(String rideReqestId, String chosenDriverId) {
+    print("chosen driver id is" + chosenDriverId);
+    print("ride request id is" + rideReqestId);
+    FirebaseDatabase.instance
         .ref()
-        .child("driver");
-    usersRef.child(currentFirebaseUser!.uid).once().then((snap) {
+        .child("driver")
+        .child(chosenDriverId!)
+        .child("newRideStatus")
+        .set(rideReqestId);
+
+    FirebaseDatabase.instance
+        .ref()
+        .child("driver")
+        .child(chosenDriverId)
+        .child("token")
+        .once()
+        .then((snap) {
       if (snap.snapshot.value != null) {
-        print("the current firebase user is " + currentFirebaseUser!.uid);
+        String deviceRegistrationToken = snap.snapshot.value.toString();
+        AssistantMethods.sendNotificationToDriverNow(
+            deviceRegistrationToken, rideRequestRefId, context);
 
-        onlineDriverData.id = (snap.snapshot.value as Map)["id"];
-        onlineDriverData.firstName = (snap.snapshot.value as Map)["firstName"];
-        onlineDriverData.lastName = (snap.snapshot.value as Map)["lastName"];
-        onlineDriverData.contactNumber =
-            (snap.snapshot.value as Map)["contactNumber"];
-        onlineDriverData.email = (snap.snapshot.value as Map)["email"];
-        onlineDriverData.licenseNumber =
-            (snap.snapshot.value as Map)["licenseNumber"];
-        onlineDriverData.operatorId =
-            (snap.snapshot.value as Map)["operatorId"];
-        onlineDriverData.plateNumber =
-            (snap.snapshot.value as Map)["plateNumber"];
-        onlineDriverData.busType = (snap.snapshot.value as Map)["busType"];
-
-        print("online driver data" + onlineDriverData.firstName.toString());
-        print(onlineDriverData.lastName);
-        print("online driver contactNumber" +
-            onlineDriverData.contactNumber.toString());
+        print("chosen driver id is" + chosenDriverId.toString());
+        print("ride request id is" + rideRequestRefId.toString());
       } else {
-        print("online driver data is null");
+        return Fluttertoast.showToast(msg: "Kindly check another driver.");
       }
     });
   }
@@ -274,19 +301,17 @@ class _InnerContainerState extends State<InnerContainer> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           AutoSizeText(
-                            onlineDriverData.firstName.toString() +
-                                " " +
-                                onlineDriverData.lastName.toString(),
+                            '${chosenDriverInformation?.driverFirstName ?? ''} ${chosenDriverInformation?.driverLastName ?? ''}',
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: 15,
+                              fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),
-                            maxLines: 2,
+                            maxLines: 3,
                             minFontSize: 10,
                           ),
                           AutoSizeText(
-                            onlineDriverData.licenseNumber ?? '',
+                            chosenDriverInformation?.busNumber ?? '',
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 14,
@@ -295,7 +320,7 @@ class _InnerContainerState extends State<InnerContainer> {
                             minFontSize: 10,
                           ),
                           AutoSizeText(
-                            onlineDriverData.contactNumber ?? '',
+                            chosenDriverInformation?.driverContactNumber ?? '',
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 14,
@@ -304,7 +329,7 @@ class _InnerContainerState extends State<InnerContainer> {
                             minFontSize: 10,
                           ),
                           AutoSizeText(
-                            onlineDriverData.busType ?? '',
+                            chosenDriverInformation?.busType ?? '',
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 15,
@@ -435,7 +460,16 @@ class _InnerContainerState extends State<InnerContainer> {
             right: 40,
             child: Container(
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  sendNotificationToDriver(
+                      rideRequestRefId.toString(), chosenDriverId.toString());
+                  setState(() {
+                    chosenDriverId = chosenDriverId;
+                    rideRequestRefId = rideRequestRefId;
+                  });
+                  print("ride request id is" + rideRequestRefId.toString());
+                  print("chosen driver id is" + chosenDriverId.toString());
+                },
                 child: Text(
                   'Book',
                   style: TextStyle(

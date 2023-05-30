@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 import 'package:trackngo/assistants/assistant_methods.dart';
 import 'package:trackngo/global/global.dart';
+import 'package:trackngo/models/choosen_driver_information.dart';
 import 'package:trackngo/models/ride_ref_request_info.dart';
 
 var maxChildSize = 0.8;
@@ -184,33 +185,25 @@ class _InnerContainerState extends State<InnerContainer> {
   bool _flagThree = false;
   int? selectedBus;
   String rideRequestRefId = RideRequestInfo.rideRequestRefId;
-  sendNotificationToDriver(String rideReqestId, String chosenDriverId) {
-    print("chosen driver id is" + chosenDriverId.toString());
-    FirebaseDatabase.instance
-        .ref()
-        .child("driver")
-        .child(chosenDriverId!)
-        .child("newRideStatus")
-        .set(rideReqestId);
 
-    FirebaseDatabase.instance
-        .ref()
-        .child("driver")
-        .child(chosenDriverId)
-        .child("token")
-        .once()
-        .then((snap) {
-      if (snap.snapshot.value != null) {
-        String deviceRegistrationToken = snap.snapshot.value.toString();
-        AssistantMethods.sendNotificationToDriverNow(
-            deviceRegistrationToken, rideRequestRefId, context);
-
-        print(
-            "the device registration is" + deviceRegistrationToken.toString());
-        print("the chooseDriverId is " + rideRequestRefId.toString());
-      } else {
-        return Fluttertoast.showToast(msg: "Kindly check another driver.");
-      }
+  getChosenDriverInformation() async {
+    print(chosenDriverId!);
+    DatabaseReference usersRef =
+        await FirebaseDatabase.instance.ref().child("driver");
+    usersRef.child(chosenDriverId!).once().then((snap) {
+      chosenDriverInformation ??= ChosenDriverInformation();
+      chosenDriverInformation?.driverFirstName =
+          (snap.snapshot.value as Map)["firstName"];
+      chosenDriverInformation?.driverLastName =
+          (snap.snapshot.value as Map)["lastName"];
+      chosenDriverInformation?.driverContactNumber =
+          (snap.snapshot.value as Map)["contactNumber"];
+      chosenDriverInformation?.busNumber =
+          (snap.snapshot.value as Map)["operatorId"];
+      chosenDriverInformation?.driverContactNumber =
+          (snap.snapshot.value as Map)["contactNumber"];
+      chosenDriverInformation?.busType =
+          (snap.snapshot.value as Map)["busType"];
     });
   }
 
@@ -474,7 +467,8 @@ class _InnerContainerState extends State<InnerContainer> {
                           fontSize: 16.0);
                       return;
                     }
-                    sendNotificationToDriver(rideRequestRefId, chosenDriverId!);
+
+                    getChosenDriverInformation();
                     widget.moveToPage(2);
                   },
                   child: Text(

@@ -269,7 +269,10 @@ class _InnerContainerState extends State<InnerContainer> {
       "latitude": destinationLocation!.locationLatitude.toString(),
       "longitude": destinationLocation!.locationLongitude.toString(),
     };
-
+    double passengerFare =
+        AssistantMethods.calculateFairAmountFromOriginToDestination(
+            tripDrirectionDetailsInfo!);
+    print("fare is " + passengerFare.toString());
     Map userInformationMap = {
       "origin": originLocationMap,
       "destination": destinationLocationMap,
@@ -281,10 +284,7 @@ class _InnerContainerState extends State<InnerContainer> {
       "destinationAddress": destinationLocation.locationName ?? "",
       "driverId": "waiting",
       "numberOfSeats": numberOfSeats,
-      "passengerFare":
-          AssistantMethods.calculateFairAmountFromOriginToDestination(
-                  tripDrirectionDetailsInfo!)
-              .toString(),
+      "passengerFare": passengerFare,
     };
 
     print(userInformationMap);

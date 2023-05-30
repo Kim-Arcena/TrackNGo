@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_geofire/flutter_geofire.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -18,7 +17,6 @@ import 'package:trackngo/models/active_nearby_available_drivers.dart';
 import '../assistants/assistant_methods.dart';
 import '../bottomSheet/first_bottom_sheet.dart';
 import '../infoHandler/app_info.dart';
-import '../splashScreen/splash_screen.dart';
 
 class CommuterScreen extends StatefulWidget {
   const CommuterScreen({Key? key});
@@ -166,7 +164,8 @@ class _CommuterScreenState extends State<CommuterScreen> {
                   onPressed: () {
                     MyWarningDialog(
                       title: "Logging Out...",
-                      content: "You are attempting to log out from your account. Will you continue?\n",
+                      content:
+                          "You are attempting to log out from your account. Will you continue?\n",
                     ).show(context);
                   },
                   icon: Icon(
@@ -534,6 +533,7 @@ class _CommuterScreenState extends State<CommuterScreen> {
         position: eachDriverActivePosition,
         icon: busIcon,
         rotation: 360,
+        infoWindow: InfoWindow(title: "Driver", snippet: "Origin"),
       );
 
       driverMarkerSet.add(driverMarker);

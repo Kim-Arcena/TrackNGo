@@ -111,17 +111,14 @@ class AssistantMethods {
 
   static sendNotificationToDriverNow(
       String deviceRegistrationToken, String userRideRequestId, context) async {
-    var destinationAddress =
-        Provider.of<AppInfo>(context, listen: false).userDropOffLocation;
-
     Map<String, String> headerNotification = {
       'Content-Type': 'application/json',
-      'Authorization': deviceRegistrationToken,
+      'Authorization':
+          "key=AAAAwdoQeAI:APA91bGe6W2SeClvRAK16lnY3aSOSTh9_mYDhAI86AtpJNNC_ge_k75f372XjVtS5xdjDQ00e81VaCJimbYdj7n7-x17QzAWWCsJdCxkyjvlXNyRzOj7zA9FJ75jqSFF25P0H30REw1o",
     };
 
     Map bodyNotification = {
-      "body":
-          "Destination address is $destinationAddress, you have a passenger request!",
+      "body": "Hi Driver, you have a passenger request!",
       "title": "TrackNGo"
     };
 
@@ -143,5 +140,7 @@ class AssistantMethods {
         Uri.parse("https://fcm.googleapis.com/fcm/send"),
         headers: headerNotification,
         body: jsonEncode(officialNotificationFormat));
+
+    print(responseNotification);
   }
 }
