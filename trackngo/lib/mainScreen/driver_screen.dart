@@ -19,6 +19,8 @@ import 'package:trackngo/models/user_ride_request_information.dart';
 import 'package:trackngo/push_notifications/push_notification_system.dart';
 import 'package:trackngo/splashScreen/splash_screen.dart';
 
+import 'driver_trip_screen.dart';
+
 class MainScreen extends StatefulWidget {
   final UserRideRequestInformation? userRideRequestDetails;
 
@@ -32,7 +34,7 @@ class _MainScreenState extends State<MainScreen>
     with SingleTickerProviderStateMixin {
   LatLng _initialcameraposition = LatLng(20.5937, 78.9629);
   final Completer<GoogleMapController> _controllerGoogleMap =
-      Completer<GoogleMapController>();
+  Completer<GoogleMapController>();
   GoogleMapController? newGoogleMapController;
   Location _location = Location();
   LocationPermission? _locationPermission;
@@ -63,8 +65,8 @@ class _MainScreenState extends State<MainScreen>
 
   readCurrentDriveInformation() async {
     DatabaseReference usersRef = FirebaseDatabase(
-            databaseURL:
-                "https://trackngo-d7aa0-default-rtdb.asia-southeast1.firebasedatabase.app/")
+        databaseURL:
+        "https://trackngo-d7aa0-default-rtdb.asia-southeast1.firebasedatabase.app/")
         .ref()
         .child("driver");
     usersRef.child(currentFirebaseUser!.uid).once().then((snap) {
@@ -75,14 +77,14 @@ class _MainScreenState extends State<MainScreen>
         onlineDriverData.firstName = (snap.snapshot.value as Map)["firstName"];
         onlineDriverData.lastName = (snap.snapshot.value as Map)["lastName"];
         onlineDriverData.contactNumber =
-            (snap.snapshot.value as Map)["contactNumber"];
+        (snap.snapshot.value as Map)["contactNumber"];
         onlineDriverData.email = (snap.snapshot.value as Map)["email"];
         onlineDriverData.licenseNumber =
-            (snap.snapshot.value as Map)["licenseNumber"];
+        (snap.snapshot.value as Map)["licenseNumber"];
         onlineDriverData.operatorId =
-            (snap.snapshot.value as Map)["operatorId"];
+        (snap.snapshot.value as Map)["operatorId"];
         onlineDriverData.plateNumber =
-            (snap.snapshot.value as Map)["plateNumber"];
+        (snap.snapshot.value as Map)["plateNumber"];
         onlineDriverData.busType = (snap.snapshot.value as Map)["busType"];
 
         print("online driver data" + onlineDriverData.firstName.toString());
@@ -140,8 +142,8 @@ class _MainScreenState extends State<MainScreen>
 
     // Get human readable address for the location
     humanReadableAddress =
-        await AssistantMethods.searchAddressForGeographicalCoordinates(
-            position, context);
+    await AssistantMethods.searchAddressForGeographicalCoordinates(
+        position, context);
 
     // Set the camera position to the user's location
     setState(() {
@@ -155,7 +157,7 @@ class _MainScreenState extends State<MainScreen>
     );
 
     var currentPosition =
-        Provider.of<AppInfo>(context, listen: false).userPickUpLocation!;
+    Provider.of<AppInfo>(context, listen: false).userPickUpLocation!;
 
     //originLatLng
     driverCurrentPosition = LatLng(
@@ -174,7 +176,7 @@ class _MainScreenState extends State<MainScreen>
     Marker originMarker = Marker(
       markerId: const MarkerId("originID"),
       infoWindow:
-          InfoWindow(title: currentPosition.locationName, snippet: "Origin"),
+      InfoWindow(title: currentPosition.locationName, snippet: "Origin"),
       position: driverCurrentPosition,
       icon: customIconOrigin,
     );
@@ -226,7 +228,7 @@ class _MainScreenState extends State<MainScreen>
                   myLocationButtonEnabled: false,
                   zoomControlsEnabled: false,
                   initialCameraPosition:
-                      CameraPosition(target: _initialcameraposition, zoom: 15),
+                  CameraPosition(target: _initialcameraposition, zoom: 15),
                   cameraTargetBounds: CameraTargetBounds(
                     LatLngBounds(
                       northeast: LatLng(11.689764, 123.491869),
@@ -242,10 +244,10 @@ class _MainScreenState extends State<MainScreen>
                 ),
                 statusText != "Now Online"
                     ? Container(
-                        height: MediaQuery.of(context).size.height,
-                        width: double.infinity,
-                        color: Colors.black.withOpacity(0.5),
-                      )
+                  height: MediaQuery.of(context).size.height,
+                  width: double.infinity,
+                  color: Colors.black.withOpacity(0.5),
+                )
                     : Container(),
                 Positioned(
                   top: statusText != "Now Online"
@@ -292,46 +294,46 @@ class _MainScreenState extends State<MainScreen>
                         },
                         child: statusText != "Now Online"
                             ? Text(
-                                "Go Online",
-                                style: TextStyle(
-                                    fontSize: 16, color: Colors.white),
-                              )
+                          "Go Online",
+                          style: TextStyle(
+                              fontSize: 16, color: Colors.white),
+                        )
                             : InkResponse(
-                                enableFeedback:
-                                    false, // Set enableFeedback to false to remove the ripple effect
-                                child: Container(
-                                  width: 50,
-                                  height: 50,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                    color: Color(0xFF73AD90),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: statusText != "Now Online"
-                                            ? Color(0xFF494949)
-                                            : Color(0xffd4dbdd),
-                                        blurRadius: 10,
-                                        spreadRadius: 2,
-                                        offset: Offset(0, 3),
-                                      ),
-                                    ],
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(2.0),
-                                    child: ImageIcon(
-                                      AssetImage('images/offline.png'),
-                                    ),
-                                  ),
+                          enableFeedback:
+                          false, // Set enableFeedback to false to remove the ripple effect
+                          child: Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: Color(0xFF73AD90),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: statusText != "Now Online"
+                                      ? Color(0xFF494949)
+                                      : Color(0xffd4dbdd),
+                                  blurRadius: 10,
+                                  spreadRadius: 2,
+                                  offset: Offset(0, 3),
                                 ),
-                                onTap: () {
-                                  driverIsOfflineNow();
-                                  setState(() {
-                                    stateColor = Colors.grey;
-                                    statusText = "Now Offline";
-                                    isDriverActive = false;
-                                  });
-                                },
+                              ],
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: ImageIcon(
+                                AssetImage('images/offline.png'),
                               ),
+                            ),
+                          ),
+                          onTap: () {
+                            driverIsOfflineNow();
+                            setState(() {
+                              stateColor = Colors.grey;
+                              statusText = "Now Offline";
+                              isDriverActive = false;
+                            });
+                          },
+                        ),
                       ),
                     ],
                   ),
@@ -370,114 +372,7 @@ class _MainScreenState extends State<MainScreen>
                   bottom: 75,
                   left: 0,
                   right: 0,
-                  child: Container(
-                    height: 250,
-                    padding: EdgeInsets.all(10.0),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.8),
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(15.0),
-                        topRight: Radius.circular(15.0),
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 2,
-                          blurRadius: 6,
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      children: [
-                        Text(
-                          "Passengers",
-                          style: TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        Expanded(
-                          child:
-                              // Add your scrollable content here
-                              // Example:
-                              SingleChildScrollView(
-                            child: ListView.builder(
-                              itemCount: acceptedRideRequestDetailsList.length,
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) {
-                                // Access the current ride request object from the list
-                                var rideRequest =
-                                    acceptedRideRequestDetailsList[index];
-
-                                return Container(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                rideRequest.userFirstName
-                                                        .toString() +
-                                                    " " +
-                                                    rideRequest.userLastName
-                                                        .toString(),
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 17.0,
-                                                ),
-                                              ),
-                                              SizedBox(height: 5.0),
-                                              Text(
-                                                rideRequest.originAddress
-                                                    .toString(),
-                                                style:
-                                                    TextStyle(fontSize: 13.0),
-                                              ),
-                                              SizedBox(height: 5.0),
-                                            ],
-                                          ),
-                                          ElevatedButton(
-                                            style: ElevatedButton.styleFrom(
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(15.0),
-                                              ),
-                                              fixedSize: Size(100, 35),
-                                              primary:
-                                                  buttonColor, // background
-                                            ),
-                                            onPressed: () {},
-                                            child: Text(
-                                              "Arrived",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
-
-                              // ...
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  child: DriverTripScreen(),
                 ),
                 Align(
                   alignment: Alignment.bottomCenter,
@@ -525,7 +420,7 @@ class _MainScreenState extends State<MainScreen>
                             backgroundColor: Color.fromARGB(255, 240, 255, 244),
                             type: BottomNavigationBarType.fixed,
                             selectedLabelStyle:
-                                const TextStyle(fontWeight: FontWeight.bold),
+                            const TextStyle(fontWeight: FontWeight.bold),
                             showUnselectedLabels: true,
                             currentIndex: selectedIndex,
                             onTap: onItemClicked,
@@ -546,7 +441,7 @@ class _MainScreenState extends State<MainScreen>
 
   Future<void> drawPolyLineFromSourceToDestination() async {
     var sourcePosition =
-        Provider.of<AppInfo>(context, listen: false).userPickUpLocation!;
+    Provider.of<AppInfo>(context, listen: false).userPickUpLocation!;
 
     //originLatLng
     sourceLatLng = LatLng(
@@ -557,8 +452,8 @@ class _MainScreenState extends State<MainScreen>
     var destinationLatLng = LatLng(11.722, 122.096);
 
     var directionDetailsInfo =
-        await AssistantMethods.obtainOriginToDestinationDirectionDetails(
-            sourceLatLng, destinationLatLng);
+    await AssistantMethods.obtainOriginToDestinationDirectionDetails(
+        sourceLatLng, destinationLatLng);
     setState(() {
       tripDrirectionDetailsInfo = directionDetailsInfo;
     });
@@ -568,7 +463,7 @@ class _MainScreenState extends State<MainScreen>
 
     PolylinePoints pPoints = PolylinePoints();
     List<PointLatLng> decodedPolyLinePointsResultList =
-        pPoints.decodePolyline(directionDetailsInfo.e_points!);
+    pPoints.decodePolyline(directionDetailsInfo.e_points!);
 
     pLineCoordinatesList.clear();
 
@@ -619,8 +514,8 @@ class _MainScreenState extends State<MainScreen>
         .animateCamera(CameraUpdate.newLatLngBounds(boundLatLng, 70));
 
     BitmapDescriptor customIconDestination =
-        await BitmapDescriptor.fromAssetImage(
-            ImageConfiguration(devicePixelRatio: 2.5), 'images/terminal.png');
+    await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(devicePixelRatio: 2.5), 'images/terminal.png');
 
     Marker destinationMarker = Marker(
       markerId: const MarkerId("destinationID"),
@@ -669,8 +564,8 @@ class _MainScreenState extends State<MainScreen>
 
     // ignore: deprecated_member_use
     DatabaseReference usersRef = FirebaseDatabase(
-            databaseURL:
-                "https://trackngo-d7aa0-default-rtdb.asia-southeast1.firebasedatabase.app/")
+        databaseURL:
+        "https://trackngo-d7aa0-default-rtdb.asia-southeast1.firebasedatabase.app/")
         .ref()
         .child("driver");
     usersRef.child(currentFirebaseUser!.uid).child("newRideStatus").set("idle");
@@ -680,24 +575,24 @@ class _MainScreenState extends State<MainScreen>
   updateDriversLocationAtRealTime() {
     streamStreamSubscription =
         Geolocator.getPositionStream().listen((Position position) {
-      driverCurrentPosition = position;
-      if (isDriverActive == true) {
-        if (currentFirebaseUser != null) {
-          Geofire.setLocation(
-            currentFirebaseUser!.uid,
-            driverCurrentPosition.latitude,
-            driverCurrentPosition.longitude,
-          );
-        }
-      }
+          driverCurrentPosition = position;
+          if (isDriverActive == true) {
+            if (currentFirebaseUser != null) {
+              Geofire.setLocation(
+                currentFirebaseUser!.uid,
+                driverCurrentPosition.latitude,
+                driverCurrentPosition.longitude,
+              );
+            }
+          }
 
-      LatLng latLng = LatLng(
-          driverCurrentPosition.latitude, driverCurrentPosition.longitude);
+          LatLng latLng = LatLng(
+              driverCurrentPosition.latitude, driverCurrentPosition.longitude);
 
-      if (newGoogleMapController != null) {
-        newGoogleMapController!.animateCamera(CameraUpdate.newLatLng(latLng));
-      }
-    });
+          if (newGoogleMapController != null) {
+            newGoogleMapController!.animateCamera(CameraUpdate.newLatLng(latLng));
+          }
+        });
   }
 
   createdActiveNearbyDriverIconMarker() async {
@@ -705,7 +600,7 @@ class _MainScreenState extends State<MainScreen>
       // BitmapDescriptor iconAnimatedMarker = await BitmapDescriptor.fromAssetImage(
       //   ImageConfiguration(size: Size(48, 48)), 'images/driver.png');
       ImageConfiguration imageConfiguration =
-          createLocalImageConfiguration(context, size: Size(2, 2));
+      createLocalImageConfiguration(context, size: Size(2, 2));
       BitmapDescriptor.fromAssetImage(imageConfiguration, 'images/driver.png')
           .then((value) {
         iconAnimatedMarker = value;
@@ -717,8 +612,8 @@ class _MainScreenState extends State<MainScreen>
     Geofire.removeLocation(currentFirebaseUser!.uid);
     // ignore: deprecated_member_use
     DatabaseReference? usersRef = FirebaseDatabase(
-            databaseURL:
-                "https://trackngo-d7aa0-default-rtdb.asia-southeast1.firebasedatabase.app/")
+        databaseURL:
+        "https://trackngo-d7aa0-default-rtdb.asia-southeast1.firebasedatabase.app/")
         .ref()
         .child("driver")
         .child(currentFirebaseUser!.uid)

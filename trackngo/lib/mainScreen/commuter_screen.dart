@@ -156,36 +156,6 @@ class _CommuterScreenState extends State<CommuterScreen> {
                   boxShadow: [
                     BoxShadow(
                       color: Color(0xffd4dbdd),
-                      blurRadius: 10,
-                      spreadRadius: 2,
-                      offset: Offset(0, 3),
-                    ),
-                  ],
-                ),
-                child: IconButton(
-                  onPressed: () {
-                    MyWarningDialog(
-                      title: "Logging Out...",
-                      content: "You are attempting to log out from your account. Will you continue?\n",
-                    ).show(context);
-                  },
-                  icon: Icon(
-                    Icons.logout,
-                  ),
-                ),
-              )),
-          Positioned(
-              right: 40.0,
-              top: 80.0,
-              child: Container(
-                width: 50.0,
-                height: 50.0,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color(0xffd4dbdd),
                       blurRadius: 12,
                       spreadRadius: 2,
                       offset: Offset(0, 3),
@@ -330,6 +300,36 @@ class _CommuterScreenState extends State<CommuterScreen> {
                   },
                   icon: Icon(
                     Icons.location_on_sharp,
+                  ),
+                ),
+              )),
+          Positioned(
+              right: 40.0,
+              top: 80.0,
+              child: Container(
+                width: 50.0,
+                height: 50.0,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color(0xffd4dbdd),
+                      blurRadius: 10,
+                      spreadRadius: 2,
+                      offset: Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: IconButton(
+                  onPressed: () {
+                    MyWarningDialog(
+                      title: "Logging Out...",
+                      content: "You are attempting to log out from your account. Will you continue?\n",
+                    ).show(context);
+                  },
+                  icon: Icon(
+                    Icons.logout,
                   ),
                 ),
               )),
