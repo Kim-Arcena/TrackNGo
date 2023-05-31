@@ -18,6 +18,7 @@ List dList = [];
 List uniqueList = [];
 List acceptedRideRequestList = [];
 List rideRequestList = [];
+List<String> rideRequestIdList = [];
 DirectionDetailsInfo? tripDrirectionDetailsInfo;
 AssetsAudioPlayer? audioPlayer = AssetsAudioPlayer();
 String? chosenDriverId = "";

@@ -27,38 +27,6 @@ class _MyBottomSheetFourContainerState
     widget.moveToPage(page);
   }
 
-  sendNotificationToDriver(String rideRequestId, String chosenDriverId) {
-    print("chosen driver id is" + chosenDriverId.toString());
-    FirebaseDatabase.instance
-        .ref()
-        .child("driver")
-        .child(chosenDriverId!)
-        .child("newRideStatus")
-        .set(rideRequestId);
-
-    FirebaseDatabase.instance
-        .ref()
-        .child("driver")
-        .child(chosenDriverId!)
-        .child("token")
-        .once()
-        .then((snap) {
-      if (snap.snapshot.value != null) {
-        String deviceRegistrationToken = snap.snapshot.value.toString();
-        AssistantMethods.sendNotificationToDriverNow(
-            deviceRegistrationToken.toString(),
-            rideRequestId.toString(),
-            context);
-
-        print(
-            "the device registration is" + deviceRegistrationToken.toString());
-        print("the ride request is " + rideRequestId.toString());
-      } else {
-        return Fluttertoast.showToast(msg: "Kindly check another driver.");
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -225,30 +193,36 @@ class _InnerContainerState extends State<InnerContainer> {
     // TODO: implement initState
   }
   String rideRequestRefId = RideRequestInfo.rideRequestRefId;
-  sendNotificationToDriver(String rideReqestId, String chosenDriverId) {
-    print("chosen driver id is" + chosenDriverId);
-    print("ride request id is" + rideReqestId);
-    FirebaseDatabase.instance
+  void sendNotificationToDriver(String rideRequestId, String chosenDriverId) {
+    print("chosen driver id is" + chosenDriverId.toString());
+
+    DatabaseReference newRideStatusRef = FirebaseDatabase.instance
         .ref()
         .child("driver")
         .child(chosenDriverId!)
-        .child("newRideStatus")
-        .set(rideReqestId);
+        .child("newRideStatus");
+
+    newRideStatusRef
+        .child(rideRequestId)
+        .set(true); // Use rideRequestId as the child key
 
     FirebaseDatabase.instance
         .ref()
         .child("driver")
-        .child(chosenDriverId)
+        .child(chosenDriverId!)
         .child("token")
         .once()
         .then((snap) {
       if (snap.snapshot.value != null) {
         String deviceRegistrationToken = snap.snapshot.value.toString();
         AssistantMethods.sendNotificationToDriverNow(
-            deviceRegistrationToken, rideRequestRefId, context);
+            deviceRegistrationToken.toString(),
+            rideRequestId.toString(),
+            context);
 
-        print("chosen driver id is" + chosenDriverId.toString());
-        print("ride request id is" + rideRequestRefId.toString());
+        print(
+            "the device registration is" + deviceRegistrationToken.toString());
+        print("the ride request is " + rideRequestId.toString());
       } else {
         return Fluttertoast.showToast(msg: "Kindly check another driver.");
       }
@@ -469,6 +443,14 @@ class _InnerContainerState extends State<InnerContainer> {
                   });
                   print("ride request id is" + rideRequestRefId.toString());
                   print("chosen driver id is" + chosenDriverId.toString());
+
+                  FirebaseDatabase.instance
+                      .ref()
+                      .child("driver")
+                      .child("chosenDriverId")
+                      .child("newRideStatus")
+                      .onValue
+                      .listen((event) {});
                 },
                 child: Text(
                   'Book',

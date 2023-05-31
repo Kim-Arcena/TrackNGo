@@ -21,22 +21,27 @@ class _EarningsTabPageState extends State<EarningsTabPage> {
                     fit: BoxFit.fill)),
             child: Scaffold(
               backgroundColor: Colors.transparent,
-                body: ListView(
-                  padding: EdgeInsets.all(45.0),
-                  children: [
-                      const SizedBox(
-                        height: 50,
-                      ),
-                    Text("Summary of Earnings",
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
+              body: Center(
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Text("Hi, Welcome Back!",
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          )),
+                      const Text("Hello again, you've been missed!",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.black,
+                          )),
+                    ],
+                  ),
                 ),
+              ),
             ),
           ),
         ],
