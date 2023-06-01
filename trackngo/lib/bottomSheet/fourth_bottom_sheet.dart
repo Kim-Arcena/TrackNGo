@@ -187,7 +187,8 @@ class _InnerContainerState extends State<InnerContainer> {
   bool _flagTwo = false;
   bool _flagThree = false;
   String? selectedImage;
-
+  Color buttonTextColor = Color(0xFF53906B);
+  String? buttonText = "Book";
   @override
   void initState() {
     // TODO: implement initState
@@ -430,56 +431,130 @@ class _InnerContainerState extends State<InnerContainer> {
             height: 1,
           ),
           Positioned(
-            bottom: 40,
-            right: 40,
-            child: Container(
-              child: ElevatedButton(
-                onPressed: () {
-                  print("ride request id is" + rideRequestRefId.toString());
-                  print("chosen driver id is" + chosenDriverId.toString());
-                  sendNotificationToDriver(
-                      rideRequestRefId.toString(), chosenDriverId.toString());
-                  setState(() {
-                    chosenDriverId = chosenDriverId;
-                    rideRequestRefId = rideRequestRefId;
-                  });
+              bottom: 40,
+              right: 40,
+              child: Container(
+                child: Center(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      print("ride request id is" + rideRequestRefId.toString());
+                      print("chosen driver id is" + chosenDriverId.toString());
+                      sendNotificationToDriver(rideRequestRefId.toString(),
+                          chosenDriverId.toString());
+                      setState(() {
+                        chosenDriverId = chosenDriverId;
+                        rideRequestRefId = rideRequestRefId;
+                        buttonText = "Waiting";
+                        buttonTextColor = Color(0xFFa8a8a8);
+                      });
 
-                  FirebaseDatabase.instance
-                      .ref()
-                      .child("driver")
-                      .child(chosenDriverId.toString())
-                      .child("newRideStatus")
-                      .child(rideRequestRefId)
-                      .onValue
-                      .listen((event) {
-                    print("event.snapshot.value: " +
-                        event.snapshot.value.toString());
-                    if (event.snapshot.value == true) {
-                      // Trip history is true
-                    } else {
-                      Fluttertoast.showToast(
-                          msg: "The Driver has declined your request.");
-                    }
-                  });
-                },
-                child: Text(
-                  'Book',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+                      FirebaseDatabase.instance
+                          .ref()
+                          .child("driver")
+                          .child(chosenDriverId.toString())
+                          .child("newRideStatus")
+                          .child(rideRequestRefId)
+                          .onValue
+                          .listen((event) {
+                        print("event.snapshot.value: " +
+                            event.snapshot.value.toString());
+                        if (event.snapshot.value == true) {
+                          // Trip history is true
+                        } else {
+                          Fluttertoast.showToast(
+                              msg: "The Driver has declined your request.");
+                          showDialog(
+                            context: context,
+                            builder: (ctx) => AlertDialog(
+                              title: const Text("Driver Declined"),
+                              content: const Text(
+                                  "The driver has declined your booking."),
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(15.0)),
+                              ),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(ctx).pop();
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.all(14),
+                                    child: const Text("OK"),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+                      });
+                    },
+                    child: Text(
+                      buttonText.toString(),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      primary: buttonTextColor,
+                      minimumSize: Size(200, 45),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                    ),
                   ),
                 ),
-                style: ElevatedButton.styleFrom(
-                  primary: Color(0xFF53906B),
-                  minimumSize: Size(200, 45),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
-                ),
+              )
+              // child: Container(
+              //   child: ElevatedButton(
+              //     onPressed: () {
+              //       print("ride request id is" + rideRequestRefId.toString());
+              //       print("chosen driver id is" + chosenDriverId.toString());
+              //       sendNotificationToDriver(
+              //           rideRequestRefId.toString(), chosenDriverId.toString());
+              //       setState(() {
+              //         chosenDriverId = chosenDriverId;
+              //         rideRequestRefId = rideRequestRefId;
+              //       });
+
+              //       FirebaseDatabase.instance
+              //           .ref()
+              //           .child("driver")
+              //           .child(chosenDriverId.toString())
+              //           .child("newRideStatus")
+              //           .child(rideRequestRefId)
+              //           .onValue
+              //           .listen((event) {
+              //         print("event.snapshot.value: " +
+              //             event.snapshot.value.toString());
+              //         if (event.snapshot.value == true) {
+              //           // Trip history is true
+              //         } else {
+              //           Fluttertoast.showToast(
+              //               msg: "The Driver has declined your request.");
+              //         }
+              //       });
+              //     },
+              //     child: Text(
+              //       'Book',
+              //       style: TextStyle(
+              //         color: Colors.white,
+              //         fontSize: 16,
+              //         fontWeight: FontWeight.bold,
+              //       ),
+              //     ),
+              //     style: ElevatedButton.styleFrom(
+              //       primary: Color(0xFF53906B),
+              //       minimumSize: Size(200, 45),
+              //       shape: RoundedRectangleBorder(
+              //         borderRadius: BorderRadius.circular(20.0),
+              //       ),
+              //     ),
+              //   ),
+              // ),
               ),
-            ),
-          ),
         ],
       ),
     );
