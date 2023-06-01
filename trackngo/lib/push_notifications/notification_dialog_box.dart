@@ -229,6 +229,12 @@ class _NotificationDialogBoxState extends State<NotificationDialogBox> {
 
   acceptRideRequest(BuildContext context) {
     String getRideRequestId = "";
+    FirebaseDatabase.instance
+        .ref()
+        .child("driver")
+        .child(currentFirebaseUser!.uid)
+        .child("newRideStatus")
+        .set(widget.userRideRequestDetails!.rideRequestId);
 
     FirebaseDatabase.instance
         .ref()
@@ -344,5 +350,13 @@ class _NotificationDialogBoxState extends State<NotificationDialogBox> {
     tripHistoryReference
         .child(widget.userRideRequestDetails!.rideRequestId!)
         .set(true);
+    DatabaseReference requestRideReference = FirebaseDatabase.instance
+        .ref()
+        .child("driver")
+        .child(currentFirebaseUser!.uid)
+        .child("newRideStatus");
+    requestRideReference
+        .child(widget.userRideRequestDetails!.rideRequestId!)
+        .set("accepted");
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_geofire/flutter_geofire.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -15,21 +16,22 @@ import 'package:trackngo/mainScreen/warningDialog.dart';
 import 'package:trackngo/models/active_nearby_available_drivers.dart';
 
 import '../assistants/assistant_methods.dart';
-import '../bottomSheet/first_bottom_sheet.dart';
 import '../infoHandler/app_info.dart';
 
-class CommuterScreen extends StatefulWidget {
-  const CommuterScreen({Key? key});
+class CommuterAcceptedRideScreen extends StatefulWidget {
+  const CommuterAcceptedRideScreen({Key? key});
 
   @override
-  State<CommuterScreen> createState() => _CommuterScreenState();
+  State<CommuterAcceptedRideScreen> createState() =>
+      _CommuterAcceptedRideScreenState();
 
-  static _CommuterScreenState? of(BuildContext context) {
-    return context.findAncestorStateOfType<_CommuterScreenState>();
+  static _CommuterAcceptedRideScreenState? of(BuildContext context) {
+    return context.findAncestorStateOfType<_CommuterAcceptedRideScreenState>();
   }
 }
 
-class _CommuterScreenState extends State<CommuterScreen> {
+class _CommuterAcceptedRideScreenState
+    extends State<CommuterAcceptedRideScreen> {
   LatLng _initialcameraposition = LatLng(20.5937, 78.9629);
   final Completer<GoogleMapController> _controllerGoogleMap =
       Completer<GoogleMapController>();
@@ -118,6 +120,7 @@ class _CommuterScreenState extends State<CommuterScreen> {
   void initState() {
     super.initState();
     checkIfLocationPermissionGranted();
+    print("chosenDriverInformation" + chosenDriverInformation.toString());
   }
 
   @override
@@ -332,11 +335,128 @@ class _CommuterScreenState extends State<CommuterScreen> {
                   ),
                 ),
               )),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: MyBottomSheet(
-              child: Container(
-                height: 30,
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              height: 250,
+              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.8),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(15.0),
+                  topRight: Radius.circular(15.0),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.3),
+                    spreadRadius: 2,
+                    blurRadius: 6,
+                  ),
+                ],
+              ),
+              child: Center(
+                child: Column(
+                  children: [
+                    Text(
+                      "Driver is on the way",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Row(
+                            children: [
+                              Container(
+                                width: 90,
+                                height: 90,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      fit: BoxFit.contain,
+                                      image: AssetImage('images/driver.png')),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      offset: Offset(0, 1),
+                                      blurRadius: 5,
+                                      color: Colors.black.withOpacity(0.2),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                width: 30,
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  AutoSizeText(
+                                    '${chosenDriverInformation?.driverFirstName ?? 'First Name'} ${chosenDriverInformation?.driverLastName ?? 'Last Name'}',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    maxLines: 3,
+                                    minFontSize: 10,
+                                  ),
+                                  SizedBox(
+                                    height: 7,
+                                  ),
+                                  AutoSizeText(
+                                    chosenDriverInformation?.busNumber ??
+                                        'F4343',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                    ),
+                                    maxLines: 1,
+                                    minFontSize: 10,
+                                  ),
+                                  SizedBox(
+                                    height: 3,
+                                  ),
+                                  AutoSizeText(
+                                    chosenDriverInformation
+                                            ?.driverContactNumber ??
+                                        '09473582942',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                    ),
+                                    maxLines: 1,
+                                    minFontSize: 10,
+                                  ),
+                                  SizedBox(
+                                    height: 3,
+                                  ),
+                                  AutoSizeText(
+                                    chosenDriverInformation?.busType ??
+                                        'Air-Conditioned',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    maxLines: 1,
+                                    minFontSize: 10,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

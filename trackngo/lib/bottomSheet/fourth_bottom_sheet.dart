@@ -5,6 +5,7 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:trackngo/assistants/assistant_methods.dart';
 import 'package:trackngo/global/global.dart';
+import 'package:trackngo/mainScreen/commuter_accepted_ride.dart';
 import 'package:trackngo/models/ride_ref_request_info.dart';
 
 var maxChildSize = 0.8;
@@ -445,7 +446,7 @@ class _InnerContainerState extends State<InnerContainer> {
                         chosenDriverId = chosenDriverId;
                         rideRequestRefId = rideRequestRefId;
                         buttonText = "Waiting";
-                        buttonTextColor = Color(0xFFa8a8a8);
+                        buttonTextColor = Color(0xFFbcbcbc);
                       });
 
                       FirebaseDatabase.instance
@@ -458,9 +459,14 @@ class _InnerContainerState extends State<InnerContainer> {
                           .listen((event) {
                         print("event.snapshot.value: " +
                             event.snapshot.value.toString());
-                        if (event.snapshot.value == true) {
-                          // Trip history is true
-                        } else {
+                        if (event.snapshot.value == "accepted") {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    CommuterAcceptedRideScreen()),
+                          );
+                        } else if (event.snapshot.value == false) {
                           Fluttertoast.showToast(
                               msg: "The Driver has declined your request.");
                           showDialog(
