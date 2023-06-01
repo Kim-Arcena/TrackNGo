@@ -182,7 +182,7 @@ class _NotificationDialogBoxState extends State<NotificationDialogBox> {
 
                   FirebaseDatabase.instance
                       .ref()
-                      .child("Child Ride Request")
+                      .child("All Ride Request")
                       .child(widget.userRideRequestDetails!.rideRequestId!)
                       .remove()
                       .then((value) => {
@@ -190,11 +190,18 @@ class _NotificationDialogBoxState extends State<NotificationDialogBox> {
                                 .ref()
                                 .child("driver")
                                 .child(currentFirebaseUser!.uid)
-                                .child("tripHistory")
+                                .child("newRideStatus")
                                 .child(widget
                                     .userRideRequestDetails!.rideRequestId!)
-                                .remove()
+                                .set(false) // Set newRideStatus to false
+                                .then((value) => {
+                                      // Handle success
+                                    })
+                                .catchError((error) => {
+                                      // Handle error
+                                    })
                           });
+
                   Fluttertoast.showToast(
                       msg: "Ride request has been cancelled",
                       toastLength: Toast.LENGTH_SHORT,

@@ -102,6 +102,12 @@ class PushNotificationSystem {
         userRideRequestDetails.numberOfSeats = numberOfSeats;
         userRideRequestDetails.passengerFare = passengerFare;
 
+        DatabaseReference tripHistoryReference = FirebaseDatabase.instance
+            .ref()
+            .child("driver")
+            .child(currentFirebaseUser!.uid)
+            .child("newRideStatus");
+        tripHistoryReference.child(rideRequestId).set(true);
         showDialog(
           context: context,
           builder: (BuildContext context) => NotificationDialogBox(

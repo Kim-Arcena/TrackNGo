@@ -435,22 +435,32 @@ class _InnerContainerState extends State<InnerContainer> {
             child: Container(
               child: ElevatedButton(
                 onPressed: () {
+                  print("ride request id is" + rideRequestRefId.toString());
+                  print("chosen driver id is" + chosenDriverId.toString());
                   sendNotificationToDriver(
                       rideRequestRefId.toString(), chosenDriverId.toString());
                   setState(() {
                     chosenDriverId = chosenDriverId;
                     rideRequestRefId = rideRequestRefId;
                   });
-                  print("ride request id is" + rideRequestRefId.toString());
-                  print("chosen driver id is" + chosenDriverId.toString());
 
                   FirebaseDatabase.instance
                       .ref()
                       .child("driver")
-                      .child("chosenDriverId")
+                      .child(chosenDriverId.toString())
                       .child("newRideStatus")
+                      .child(rideRequestRefId)
                       .onValue
-                      .listen((event) {});
+                      .listen((event) {
+                    print("event.snapshot.value: " +
+                        event.snapshot.value.toString());
+                    if (event.snapshot.value == true) {
+                      // Trip history is true
+                    } else {
+                      Fluttertoast.showToast(
+                          msg: "The Driver has declined your request.");
+                    }
+                  });
                 },
                 child: Text(
                   'Book',
