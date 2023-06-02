@@ -17,7 +17,7 @@ class MyWarningDialog {
         return AlertDialog(
           iconPadding: EdgeInsets.all(20),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0),
+            borderRadius: BorderRadius.circular(10.0),
           ),
           title: Text(title),
           content: Text(content),
@@ -27,8 +27,8 @@ class MyWarningDialog {
               child: SizedBox(
                 height: 40,
                 child: FloatingActionButton.extended(
-                  label: Text("Log Out"),
-                  backgroundColor: Colors.green,
+                  label: Text("Logout"),
+                  backgroundColor: Color(0xFF4e8c6f),
                   onPressed: () {
                     FirebaseAuth.instance.signOut();
                     currentFirebaseUser = null;

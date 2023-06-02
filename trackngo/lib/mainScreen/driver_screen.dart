@@ -13,10 +13,12 @@ import 'package:provider/provider.dart';
 import 'package:trackngo/assistants/assistant_methods.dart';
 import 'package:trackngo/global/global.dart';
 import 'package:trackngo/infoHandler/app_info.dart';
+import 'package:trackngo/mainScreen/driver_trip_screen.dart';
 import 'package:trackngo/mainScreen/warningDialog.dart';
 import 'package:trackngo/models/user_ride_request_information.dart';
 import 'package:trackngo/push_notifications/push_notification_system.dart';
 import 'package:trackngo/tabPages/earning_tab.dart';
+import 'package:trackngo/tabPages/profile_tab.dart';
 
 class MainScreen extends StatefulWidget {
   final UserRideRequestInformation? userRideRequestDetails;
@@ -201,10 +203,16 @@ class _MainScreenState extends State<MainScreen>
   }
 
   void onItemSelected(int index) {
-    if (index == 1) {
+    if (index == 0) {
       // Check if the "Earnings" item is clicked (index 1)
       Navigator.push(
+          context, MaterialPageRoute(builder: (context) => DriverTripScreen()));
+    } else if (index == 1) {
+      Navigator.push(
           context, MaterialPageRoute(builder: (context) => EarningsTabPage()));
+    } else if (index == 2) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => ProfileTabPage()));
     } else {
       setState(() {
         selectedIndex = index;
@@ -328,7 +336,7 @@ class _MainScreenState extends State<MainScreen>
                                     ],
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.all(2.0),
+                                    padding: const EdgeInsets.all(4.0),
                                     child: ImageIcon(
                                       AssetImage('images/offline.png'),
                                     ),
@@ -540,8 +548,8 @@ class _MainScreenState extends State<MainScreen>
                                 label: 'Earnings',
                               ),
                               BottomNavigationBarItem(
-                                icon: Icon(Icons.settings),
-                                label: 'Settings',
+                                icon: Icon(Icons.person),
+                                label: 'Profile',
                               ),
                             ],
                             unselectedItemColor: Color(0xFF7c7c7c),

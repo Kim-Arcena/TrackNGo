@@ -15,6 +15,8 @@ import 'package:trackngo/global/global.dart';
 import 'package:trackngo/infoHandler/app_info.dart';
 import 'package:trackngo/models/user_ride_request_information.dart';
 import 'package:trackngo/push_notifications/push_notification_system.dart';
+import 'package:trackngo/tabPages/earning_tab.dart';
+import 'package:trackngo/tabPages/profile_tab.dart';
 
 class DriverTripScreen extends StatefulWidget {
   final UserRideRequestInformation? userRideRequestDetails;
@@ -63,6 +65,24 @@ class _DriverTripScreenState extends State<DriverTripScreen>
       selectedIndex = index;
       tabController!.index = index;
     });
+  }
+
+  void onItemSelected(int index) {
+    if (index == 0) {
+      // Check if the "Earnings" item is clicked (index 1)
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => DriverTripScreen()));
+    } else if (index == 1) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => EarningsTabPage()));
+    } else if (index == 2) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => ProfileTabPage()));
+    } else {
+      setState(() {
+        selectedIndex = index;
+      });
+    }
   }
 
   readCurrentDriveInformation() async {
@@ -283,8 +303,8 @@ class _DriverTripScreenState extends State<DriverTripScreen>
   }
 
   List<bool> isInRoute = List.generate(
-      3, (index) => false); //use acceptedRideRequestDetailsLists.length
-  List<bool> isDropped = List.generate(7, (index) => false);
+      10, (index) => false); //use acceptedRideRequestDetailsLists.length
+  List<bool> isDropped = List.generate(10, (index) => false);
 
   @override
   Widget build(BuildContext context) {
@@ -432,16 +452,16 @@ class _DriverTripScreenState extends State<DriverTripScreen>
                                               onPressed: () {
                                                 if (rideRequestStatus[index] ==
                                                     "accepted") {
-                                                  setState(() {
-                                                    isInRoute[index] =
-                                                        !isInRoute[index];
-                                                    indexChosen = index;
-                                                    rideRequestStatus[index] =
-                                                        "arrived";
-                                                  });
-                                                } else if (rideRequestStatus[
-                                                        index] ==
-                                                    "arrived") {
+                                                  FirebaseDatabase.instance
+                                                      .ref()
+                                                      .child(
+                                                          "All Ride Requests")
+                                                      .child(rideRequest
+                                                          .rideRequestId
+                                                          .toString())
+                                                      .child("acceptedRideInfo")
+                                                      .child("status")
+                                                      .set("ontrip");
                                                   setState(() {
                                                     isDropped[index] =
                                                         !isDropped[index];
@@ -449,6 +469,17 @@ class _DriverTripScreenState extends State<DriverTripScreen>
                                                     rideRequestStatus[index] =
                                                         "ontrip";
                                                   });
+                                                } else {
+                                                  FirebaseDatabase.instance
+                                                      .ref()
+                                                      .child(
+                                                          "All Ride Requests")
+                                                      .child(rideRequest
+                                                          .rideRequestId
+                                                          .toString())
+                                                      .child("acceptedRideInfo")
+                                                      .child("status")
+                                                      .set("dropoff");
                                                 }
                                               },
                                               child: Text(
@@ -458,7 +489,7 @@ class _DriverTripScreenState extends State<DriverTripScreen>
                                                     : isInRoute[index] &&
                                                             isDropped[index]
                                                         ? "Dropped Off"
-                                                        : "Accepted",
+                                                        : "Arrive",
                                                 style: TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 14,
@@ -517,8 +548,8 @@ class _DriverTripScreenState extends State<DriverTripScreen>
                                 label: 'Earnings',
                               ),
                               BottomNavigationBarItem(
-                                icon: Icon(Icons.settings),
-                                label: 'Settings',
+                                icon: Icon(Icons.person),
+                                label: 'Profile',
                               ),
                             ],
                             unselectedItemColor: Color(0xFF7c7c7c),
@@ -529,7 +560,7 @@ class _DriverTripScreenState extends State<DriverTripScreen>
                                 const TextStyle(fontWeight: FontWeight.bold),
                             showUnselectedLabels: true,
                             currentIndex: selectedIndex,
-                            onTap: onItemClicked,
+                            onTap: onItemSelected,
                             elevation: 22,
                           ),
                         ),

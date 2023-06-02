@@ -446,7 +446,7 @@ class _InnerContainerState extends State<InnerContainer> {
                         chosenDriverId = chosenDriverId;
                         rideRequestRefId = rideRequestRefId;
                         buttonText = "Waiting";
-                        buttonTextColor = Color(0xFFbcbcbc);
+                        buttonTextColor = Color(0xFFbebdc1);
                       });
 
                       FirebaseDatabase.instance

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:trackngo/mainScreen/driver_trip_screen.dart';
-import 'package:trackngo/tabPages/profile_tab.dart';
+import 'package:trackngo/tabPages/earning_tab.dart';
 
-class EarningsTabPage extends StatefulWidget {
-  const EarningsTabPage({super.key});
+class ProfileTabPage extends StatefulWidget {
+  const ProfileTabPage({super.key});
 
   @override
-  State<EarningsTabPage> createState() => _EarningsTabPageState();
+  State<ProfileTabPage> createState() => _ProfileTabPage();
 }
 
-class _EarningsTabPageState extends State<EarningsTabPage> {
+class _ProfileTabPage extends State<ProfileTabPage> {
   TabController? tabController;
   int selectedIndex = 1;
   onItemClicked(int index) {
@@ -56,7 +56,7 @@ class _EarningsTabPageState extends State<EarningsTabPage> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const Text("Earning Summary",
+                      const Text("Profile",
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.bold,

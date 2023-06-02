@@ -1,16 +1,11 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
-import 'package:trackngo/authentication/alertDialog.dart';
-import 'package:trackngo/authentication/signup_commuter.dart';
-import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:trackngo/authentication/signup_driver.dart';
-import 'package:trackngo/authentication/login_screen.dart';
-import 'package:trackngo/authentication/terms_n_conds.dart';
 import 'package:flutter/gestures.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:trackngo/authentication/alertDialog.dart';
+import 'package:trackngo/authentication/login_screen.dart';
+import 'package:trackngo/authentication/signup_commuter.dart';
+import 'package:trackngo/authentication/signup_driver.dart';
+import 'package:trackngo/authentication/terms_n_conds.dart';
 import 'package:trackngo/global/global.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -36,13 +31,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
   RegExp passwordRegex = RegExp(
       r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$');
 
-validateForm() {
-    if(isChecked == false) {
+  validateForm() {
+    if (isChecked == false) {
       return 'Please Agree to the Terms';
     } else {
-     return null;
-   }
-}
+      return null;
+    }
+  }
 
   saveDriverInfo() async {
     if (selectedImage == 'images/commuter.png') {
@@ -187,7 +182,8 @@ validateForm() {
                                 validator: (isValid) {
                                   if (isValid!.isEmpty) {
                                     return 'This field requires an email';
-                                  } else if (!emailRegex.hasMatch(_emailController.text)) {
+                                  } else if (!emailRegex
+                                      .hasMatch(_emailController.text)) {
                                     return 'Invalid Email Address';
                                   }
                                   return null;
@@ -246,7 +242,8 @@ validateForm() {
                                   if (isValid!.isEmpty) {
                                     return 'This field requires a password';
                                   }
-                                  if (!passwordRegex.hasMatch(_passwordController.text)) {
+                                  if (!passwordRegex
+                                      .hasMatch(_passwordController.text)) {
                                     MyAlertDialog(
                                       title: 'Invalid Password',
                                       content: 'Password must:\n'
@@ -328,10 +325,13 @@ validateForm() {
                                 children: [
                                   Checkbox(
                                     value: isChecked,
+                                    checkColor:
+                                        Colors.white, // color of tick Mark
+                                    activeColor: Color(0xff4e8c6f),
                                     onChanged: (bool? value) {
                                       setState(() {
                                         isChecked = value!;
-                                        if(isChecked == false) {
+                                        if (isChecked == false) {
                                           return validateForm();
                                         }
                                       });

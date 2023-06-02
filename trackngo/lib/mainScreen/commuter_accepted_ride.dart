@@ -130,6 +130,86 @@ class _CommuterAcceptedRideScreenState
     }
   }
 
+  Future<void> checkRideStatus() async {
+    FirebaseDatabase.instance
+        .ref()
+        .child("All Ride Requests")
+        .child(rideRequestRefId)
+        .child("acceptedRideInfo")
+        .child("status")
+        .onValue
+        .listen((event) {
+      print("event.snapshot.value: " + event.snapshot.value.toString());
+      if (event.snapshot.value == "Accepted") {
+        showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: const Text("Currently on the ride"),
+            content: const Text("The driver has declined your booking."),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(15.0)),
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(14),
+                  child: const Text("OK"),
+                ),
+              ),
+            ],
+          ),
+        );
+      } else if (event.snapshot.value == "ontrip") {
+        showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: const Text("Driver Ontrip"),
+            content: const Text("The driver is fucking on the way."),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(15.0)),
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(14),
+                  child: const Text("OK"),
+                ),
+              ),
+            ],
+          ),
+        );
+      } else if (event.snapshot.value == "dropoff") {
+        showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: const Text("drop the fuck off"),
+            content: const Text("naog ka na pls."),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(15.0)),
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(14),
+                  child: const Text("OK"),
+                ),
+              ),
+            ],
+          ),
+        );
+      }
+    });
+  }
+
   // Declare a variable to hold the previous bus position
   LatLng? _previousBusPosition;
 
@@ -218,6 +298,7 @@ class _CommuterAcceptedRideScreenState
     checkIfLocationPermissionGranted();
     listenToDriverLocationChanges();
     getDriversInformation();
+    checkRideStatus();
   }
 
   @override
