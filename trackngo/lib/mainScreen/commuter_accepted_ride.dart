@@ -1,25 +1,25 @@
 import 'dart:async';
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_geofire/flutter_geofire.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' hide LocationAccuracy;
 import 'package:provider/provider.dart';
-import 'package:trackngo/assistants/geofire_assistant.dart';
 import 'package:trackngo/global/global.dart';
 import 'package:trackngo/mainScreen/search_places_screen.dart';
 import 'package:trackngo/mainScreen/warningDialog.dart';
-import 'package:trackngo/models/active_nearby_available_drivers.dart';
+import 'package:trackngo/models/ride_ref_request_info.dart';
 
 import '../assistants/assistant_methods.dart';
 import '../infoHandler/app_info.dart';
 
 class CommuterAcceptedRideScreen extends StatefulWidget {
-  const CommuterAcceptedRideScreen({Key? key});
+  final String chosenDriverId;
+  const CommuterAcceptedRideScreen({required this.chosenDriverId});
 
   @override
   State<CommuterAcceptedRideScreen> createState() =>
@@ -42,12 +42,15 @@ class _CommuterAcceptedRideScreenState
   bool _bottomSheetVisible = true;
   List<LatLng> pLineCoordinatesList = [];
   Set<Polyline> polyLineSet = {};
+  BitmapDescriptor? iconAnimatedMarker;
+  LatLng _busPosition = LatLng(0, 0); // Initial position at (0, 0)
   var sourceLatLng;
   var userCurrentPosition;
   Set<Marker> markerSet = {};
   Set<Circle> circleSet = {};
-
+  String rideRequestRefId = RideRequestInfo.rideRequestRefId;
   bool activeNearbyAvailableDriversKeysLoaded = false;
+
   String result = '';
 
   void _onMapCreated(GoogleMapController _cntlr) async {
@@ -106,8 +109,17 @@ class _CommuterAcceptedRideScreenState
       markerSet.add(originMarker);
       circleSet.add(originCircle);
     });
+  }
 
-    initializeGeoFireListener();
+  getDriversInformation() {
+    DatabaseReference driverInfoRef = FirebaseDatabase.instance
+        .ref()
+        .child("driver")
+        .child(chosenDriverId!)
+        .child(rideRequestRefId)
+        .child("acceptedRideInfo")
+        .child("driverLocation");
+    print("driverInfoRef is " + driverInfoRef.toString());
   }
 
   checkIfLocationPermissionGranted() async {
@@ -117,10 +129,78 @@ class _CommuterAcceptedRideScreenState
     }
   }
 
+  // Declare a variable to hold the previous bus position
+  LatLng? _previousBusPosition;
+
+// Declare a variable to hold the marker instance
+  Marker? _driverLocationMarker;
+
+  Future<void> listenToDriverLocationChanges() async {
+    print("chosenDriverId is " + chosenDriverId.toString());
+    DatabaseReference driversRef = FirebaseDatabase.instance
+        .ref()
+        .child('activeDrivers')
+        .child(chosenDriverId!)
+        .child('l');
+
+    driversRef.onValue.listen((event) {
+      if (event.snapshot.value != null) {
+        dynamic locationData = event.snapshot.value;
+        if (locationData is List && locationData.length >= 2) {
+          double latitude = locationData[0] as double;
+          double longitude = locationData[1] as double;
+          LatLng newBusPosition = LatLng(latitude, longitude);
+
+          // Animate the marker movement if there's a previous position
+          if (_previousBusPosition != null) {
+            animateMarkerToPosition(newBusPosition);
+          } else {
+            // Create the initial marker if there's no previous position
+            createDriverLocationMarker(newBusPosition);
+          }
+
+          // Store the current position as the previous position
+          _previousBusPosition = newBusPosition;
+        }
+      }
+    });
+  }
+
+  void animateMarkerToPosition(LatLng newPosition) {
+    final markerId = const MarkerId("driverID");
+    final marker = _driverLocationMarker!.copyWith(
+      positionParam: newPosition,
+    );
+    setState(() {
+      markerSet.remove(_driverLocationMarker);
+      markerSet.add(marker);
+      _driverLocationMarker = marker;
+    });
+  }
+
+  void createDriverLocationMarker(LatLng position) async {
+    BitmapDescriptor customIconDestination =
+        await BitmapDescriptor.fromAssetImage(
+            ImageConfiguration(size: Size(10, 10)), 'images/bus.png');
+
+    final markerId = const MarkerId("driverID");
+    final marker = Marker(
+      markerId: markerId,
+      position: position,
+      icon: customIconDestination,
+    );
+
+    setState(() {
+      markerSet.add(marker);
+      _driverLocationMarker = marker;
+    });
+  }
+
   void initState() {
     super.initState();
     checkIfLocationPermissionGranted();
-    print("chosenDriverInformation" + chosenDriverInformation.toString());
+    listenToDriverLocationChanges();
+    getDriversInformation();
   }
 
   @override
@@ -567,101 +647,6 @@ class _CommuterAcceptedRideScreenState
     setState(() {
       markerSet.add(destinationMarker);
       circleSet.add(destinationCircle);
-    });
-  }
-
-  initializeGeoFireListener() async {
-    Geofire.initialize("activeDrivers");
-
-    currentPosition = await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high,
-    );
-    userCurrentPosition = currentPosition;
-
-    Geofire.queryAtLocation(
-            userCurrentPosition!.latitude, userCurrentPosition!.longitude, 5)!
-        .listen((map) {
-      print(map);
-      if (map != null) {
-        var callBack = map['callBack'];
-
-        //latitude will be retrieved from map['latitude']
-        //longitude will be retrieved from map['longitude']
-
-        switch (callBack) {
-          case Geofire.onKeyEntered: //when a key enters the radius
-            ActiveNearbyAvailableDrivers activeNearbyAvailableDriver =
-                ActiveNearbyAvailableDrivers();
-
-            activeNearbyAvailableDriver.locationLatitude = map['latitude'];
-            activeNearbyAvailableDriver.locationLongitude = map['longitude'];
-            activeNearbyAvailableDriver.driverId = map['key'];
-            GeoFireAssistant.activeNearbyAvailableDriversList
-                .add(activeNearbyAvailableDriver);
-
-            if (activeNearbyAvailableDriversKeysLoaded == true) {
-              displayActiveDriversOnMap();
-            }
-
-            break;
-
-          case Geofire.onKeyExited: //when a key exits the radius
-            GeoFireAssistant.deleteOfflineDriverFromList(map['key']);
-            displayActiveDriversOnMap();
-            break;
-
-          case Geofire.onKeyMoved: //when a key moves within the radius
-            ActiveNearbyAvailableDrivers activeNearbyAvailableDriver =
-                ActiveNearbyAvailableDrivers();
-
-            activeNearbyAvailableDriver.locationLatitude = map['latitude'];
-            activeNearbyAvailableDriver.locationLongitude = map['longitude'];
-            activeNearbyAvailableDriver.driverId = map['key'];
-
-            GeoFireAssistant.updateActiveNearbyAvailableDriverLocation(
-                activeNearbyAvailableDriver);
-            displayActiveDriversOnMap();
-            break;
-
-          //when the query is ready to load
-          case Geofire.onGeoQueryReady:
-            displayActiveDriversOnMap();
-            print(map['result']);
-            displayActiveDriversOnMap();
-            break;
-        }
-      }
-
-      setState(() {});
-    });
-  }
-
-  displayActiveDriversOnMap() async {
-    Set<Marker> driverMarkerSet = Set<Marker>();
-    print("the motherfucking drivers are" +
-        GeoFireAssistant.activeNearbyAvailableDriversList.length.toString());
-    for (ActiveNearbyAvailableDrivers eachDriver
-        in GeoFireAssistant.activeNearbyAvailableDriversList) {
-      LatLng eachDriverActivePosition =
-          LatLng(eachDriver.locationLatitude!, eachDriver.locationLongitude!);
-
-      BitmapDescriptor busIcon = await BitmapDescriptor.fromAssetImage(
-          ImageConfiguration(devicePixelRatio: 0.5), 'images/bus.png');
-
-      Marker driverMarker = Marker(
-        markerId: MarkerId(eachDriver.driverId!),
-        position: eachDriverActivePosition,
-        icon: busIcon,
-        rotation: 360,
-        infoWindow: InfoWindow(title: "Driver", snippet: "Origin"),
-      );
-
-      driverMarkerSet.add(driverMarker);
-    }
-
-    setState(() {
-      // add the driver markers to the existing marker set
-      markerSet.addAll(driverMarkerSet);
     });
   }
 }

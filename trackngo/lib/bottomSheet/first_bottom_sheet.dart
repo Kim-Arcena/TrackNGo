@@ -232,7 +232,7 @@ class _InnerContainerState extends State<InnerContainer> {
     referenceRideRequestRef =
         FirebaseDatabase.instance.ref().child("All Ride Requests").push();
     final usersRef = FirebaseDatabase.instance.ref().child("users");
-
+    print("currentFIrebaseUser" + currentFirebaseUser.toString());
     final currentUserCommuteRef =
         usersRef.child(currentFirebaseUser!.uid).child("commuters_child");
     final snapshot = await currentUserCommuteRef.get();

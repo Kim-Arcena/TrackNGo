@@ -463,8 +463,9 @@ class _InnerContainerState extends State<InnerContainer> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    CommuterAcceptedRideScreen()),
+                              builder: (context) => CommuterAcceptedRideScreen(
+                                  chosenDriverId: chosenDriverId.toString()),
+                            ),
                           );
                         } else if (event.snapshot.value == false) {
                           Fluttertoast.showToast(
@@ -512,55 +513,7 @@ class _InnerContainerState extends State<InnerContainer> {
                     ),
                   ),
                 ),
-              )
-              // child: Container(
-              //   child: ElevatedButton(
-              //     onPressed: () {
-              //       print("ride request id is" + rideRequestRefId.toString());
-              //       print("chosen driver id is" + chosenDriverId.toString());
-              //       sendNotificationToDriver(
-              //           rideRequestRefId.toString(), chosenDriverId.toString());
-              //       setState(() {
-              //         chosenDriverId = chosenDriverId;
-              //         rideRequestRefId = rideRequestRefId;
-              //       });
-
-              //       FirebaseDatabase.instance
-              //           .ref()
-              //           .child("driver")
-              //           .child(chosenDriverId.toString())
-              //           .child("newRideStatus")
-              //           .child(rideRequestRefId)
-              //           .onValue
-              //           .listen((event) {
-              //         print("event.snapshot.value: " +
-              //             event.snapshot.value.toString());
-              //         if (event.snapshot.value == true) {
-              //           // Trip history is true
-              //         } else {
-              //           Fluttertoast.showToast(
-              //               msg: "The Driver has declined your request.");
-              //         }
-              //       });
-              //     },
-              //     child: Text(
-              //       'Book',
-              //       style: TextStyle(
-              //         color: Colors.white,
-              //         fontSize: 16,
-              //         fontWeight: FontWeight.bold,
-              //       ),
-              //     ),
-              //     style: ElevatedButton.styleFrom(
-              //       primary: Color(0xFF53906B),
-              //       minimumSize: Size(200, 45),
-              //       shape: RoundedRectangleBorder(
-              //         borderRadius: BorderRadius.circular(20.0),
-              //       ),
-              //     ),
-              //   ),
-              // ),
-              ),
+              )),
         ],
       ),
     );
