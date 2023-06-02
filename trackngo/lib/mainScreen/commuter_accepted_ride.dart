@@ -140,11 +140,11 @@ class _CommuterAcceptedRideScreenState
         .onValue
         .listen((event) {
       print("event.snapshot.value: " + event.snapshot.value.toString());
-      if (event.snapshot.value == "Accepted") {
+      if (event.snapshot.value == "arrived") {
         showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
-            title: const Text("Currently on the ride"),
+            title: const Text("your driver has arrived"),
             content: const Text("The driver has declined your booking."),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(15.0)),

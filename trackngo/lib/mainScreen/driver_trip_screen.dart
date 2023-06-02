@@ -52,7 +52,7 @@ class _DriverTripScreenState extends State<DriverTripScreen>
   int selectedIndex = 0;
   Position? onlineDriverCurrentPosition;
   BitmapDescriptor? iconAnimatedMarker;
-  List<String> rideRequestStatus = List.generate(7, (index) => "accepted");
+  List<String> rideRequestStatus = List.generate(10, (index) => "accepted");
   String durationFromOriginToDestination = "";
   bool isRequestDirectionDetails = false;
   String statusTextButton = "Accepted";
@@ -362,7 +362,8 @@ class _DriverTripScreenState extends State<DriverTripScreen>
                   builder: (BuildContext context,
                       ScrollController scrollController) {
                     return Container(
-                      padding: EdgeInsets.all(10.0),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 25, horizontal: 15),
                       decoration: BoxDecoration(
                         color: Colors.white.withOpacity(0.8),
                         borderRadius: BorderRadius.only(
@@ -452,6 +453,26 @@ class _DriverTripScreenState extends State<DriverTripScreen>
                                               onPressed: () {
                                                 if (rideRequestStatus[index] ==
                                                     "accepted") {
+                                                  FirebaseDatabase.instance
+                                                      .ref()
+                                                      .child(
+                                                          "All Ride Requests")
+                                                      .child(rideRequest
+                                                          .rideRequestId
+                                                          .toString())
+                                                      .child("acceptedRideInfo")
+                                                      .child("status")
+                                                      .set("arrived");
+                                                  setState(() {
+                                                    isInRoute[index] =
+                                                        !isInRoute[index];
+                                                    indexChosen = index;
+                                                    rideRequestStatus[index] =
+                                                        "arrived";
+                                                  });
+                                                } else if (rideRequestStatus[
+                                                        index] ==
+                                                    "arrived") {
                                                   FirebaseDatabase.instance
                                                       .ref()
                                                       .child(
