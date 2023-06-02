@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math' as math;
 
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ import 'package:trackngo/global/global.dart';
 import 'package:trackngo/mainScreen/search_places_screen.dart';
 import 'package:trackngo/mainScreen/warningDialog.dart';
 import 'package:trackngo/models/ride_ref_request_info.dart';
+import 'package:trackngo/models/user_ride_request_information.dart';
 
 import '../assistants/assistant_methods.dart';
 import '../infoHandler/app_info.dart';
@@ -51,7 +53,8 @@ class _CommuterAcceptedRideScreenState
   Set<Circle> circleSet = {};
   String rideRequestRefId = RideRequestInfo.rideRequestRefId;
   bool activeNearbyAvailableDriversKeysLoaded = false;
-
+  UserRideRequestInformation finishedUserRideInformation =
+      UserRideRequestInformation();
   String result = '';
 
   void _onMapCreated(GoogleMapController _cntlr) async {
@@ -130,7 +133,65 @@ class _CommuterAcceptedRideScreenState
     }
   }
 
+  readFinishedUserRideRequestInformation(String rideRequestId) {
+    FirebaseDatabase.instance
+        .ref()
+        .child("All Ride Requests")
+        .child(rideRequestId)
+        .once()
+        .then((snapData) {
+      print("read user ride request information: " +
+          snapData.snapshot.value.toString());
+      if (snapData.snapshot.value != null) {
+        String rideRequestId = snapData.snapshot.key.toString();
+        double originLat = double.parse(
+            (snapData.snapshot.value! as Map)["origin"]["latitude"]);
+        double originLng = double.parse(
+            (snapData.snapshot.value! as Map)["origin"]["longitude"]
+                .toString());
+        double destinationLat = double.parse(
+            (snapData.snapshot.value! as Map)["destination"]["latitude"]);
+        double destinationLng = double.parse(
+            (snapData.snapshot.value! as Map)["destination"]["longitude"]
+                .toString());
+        String originAddress =
+            (snapData.snapshot.value! as Map)["originAddress"];
+        String destinationAddress =
+            (snapData.snapshot.value! as Map)["destinationAddress"];
+
+        String userFirstName =
+            (snapData.snapshot.value! as Map)["userFirstName"].toString();
+        String userLastName =
+            (snapData.snapshot.value! as Map)["userLastName"].toString();
+
+        String userContactNumber =
+            (snapData.snapshot.value! as Map)["userContact"].toString();
+
+        String numberOfSeats =
+            (snapData.snapshot.value! as Map)["numberOfSeats"].toString();
+
+        String passengerFare =
+            (snapData.snapshot.value! as Map)["passengerFare"].toString();
+
+        finishedUserRideInformation.rideRequestId = rideRequestId;
+        finishedUserRideInformation.originLatLng = LatLng(originLat, originLng);
+        finishedUserRideInformation.destinationLatLng =
+            LatLng(destinationLat, destinationLng);
+        finishedUserRideInformation.originAddress = originAddress;
+        finishedUserRideInformation.destinationAddress = destinationAddress;
+        finishedUserRideInformation.userFirstName = userFirstName;
+        finishedUserRideInformation.userLastName = userLastName;
+        finishedUserRideInformation.userContactNumber = userContactNumber;
+        finishedUserRideInformation.numberOfSeats = numberOfSeats;
+        finishedUserRideInformation.passengerFare = passengerFare;
+      } else {
+        Fluttertoast.showToast(msg: "This ride message does not exist. ");
+      }
+    });
+  }
+
   Future<void> checkRideStatus() async {
+    readFinishedUserRideRequestInformation(rideRequestRefId);
     FirebaseDatabase.instance
         .ref()
         .child("All Ride Requests")
@@ -141,17 +202,23 @@ class _CommuterAcceptedRideScreenState
         .listen((event) {
       print("event.snapshot.value: " + event.snapshot.value.toString());
       if (event.snapshot.value == "arrived") {
+        arrivedAudio!.open(Audio("music/notification.mp3"));
+        arrivedAudio!.play();
+
         showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
-            title: const Text("your driver has arrived"),
-            content: const Text("The driver has declined your booking."),
+            title: const Text("Your Driver has Arrived"),
+            content:
+                Text(finishedUserRideInformation.destinationAddress.toString()),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(15.0)),
             ),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
+                  arrivedAudio!.pause();
+                  arrivedAudio!.stop();
                   Navigator.of(ctx).pop();
                 },
                 child: Container(
@@ -167,7 +234,8 @@ class _CommuterAcceptedRideScreenState
           context: context,
           builder: (ctx) => AlertDialog(
             title: const Text("Driver Ontrip"),
-            content: const Text("The driver is fucking on the way."),
+            content:
+                Text(finishedUserRideInformation.destinationAddress.toString()),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(15.0)),
             ),
@@ -185,6 +253,35 @@ class _CommuterAcceptedRideScreenState
           ),
         );
       } else if (event.snapshot.value == "dropoff") {
+        DatabaseReference finishedTripRef = FirebaseDatabase.instance
+            .ref()
+            .child("driver")
+            .child(chosenDriverId!)
+            .child("finishedTripHistory")
+            .child(rideRequestRefId);
+
+        finishedTripRef.child("rideRequestRefId").set(rideRequestRefId);
+        finishedTripRef
+            .child("originAddress")
+            .set(finishedUserRideInformation.originAddress.toString());
+        finishedTripRef
+            .child("destinationAddress")
+            .set(finishedUserRideInformation.destinationAddress.toString());
+        finishedTripRef
+            .child("userFirstName")
+            .set(finishedUserRideInformation.userFirstName.toString());
+        finishedTripRef
+            .child("userLastName")
+            .set(finishedUserRideInformation.userLastName.toString());
+        finishedTripRef
+            .child("userContactNumber")
+            .set(finishedUserRideInformation.userContactNumber.toString());
+        finishedTripRef
+            .child("numberOfSeats")
+            .set(finishedUserRideInformation.numberOfSeats.toString());
+        finishedTripRef
+            .child("passengerFare")
+            .set(finishedUserRideInformation.passengerFare.toString());
         showDialog(
           context: context,
           builder: (ctx) => AlertDialog(

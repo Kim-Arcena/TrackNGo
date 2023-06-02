@@ -21,6 +21,7 @@ List rideRequestList = [];
 List<String> rideRequestIdList = [];
 DirectionDetailsInfo? tripDrirectionDetailsInfo;
 AssetsAudioPlayer? audioPlayer = AssetsAudioPlayer();
+AssetsAudioPlayer? arrivedAudio = AssetsAudioPlayer();
 String? chosenDriverId = "";
 String? userResponse = "";
 bool isChecked = false;

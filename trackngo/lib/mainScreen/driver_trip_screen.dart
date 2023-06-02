@@ -509,7 +509,7 @@ class _DriverTripScreenState extends State<DriverTripScreen>
                                                     ? "In Route"
                                                     : isInRoute[index] &&
                                                             isDropped[index]
-                                                        ? "Dropped Off"
+                                                        ? "Drop Off"
                                                         : "Arrive",
                                                 style: TextStyle(
                                                   color: Colors.white,
