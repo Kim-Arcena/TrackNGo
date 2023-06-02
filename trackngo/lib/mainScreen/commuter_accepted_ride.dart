@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -188,12 +189,28 @@ class _CommuterAcceptedRideScreenState
       markerId: markerId,
       position: position,
       icon: customIconDestination,
+      rotation: getMarkerRotation(position),
     );
 
     setState(() {
       markerSet.add(marker);
       _driverLocationMarker = marker;
     });
+  }
+
+  double getMarkerRotation(LatLng position) {
+    // Calculate the rotation angle based on the road or other criteria
+    // For example, you can use the difference in latitude or longitude between two positions
+
+    // Here's a sample calculation using the difference in longitude
+    if (_previousBusPosition != null) {
+      double deltaLongitude =
+          position.longitude - _previousBusPosition!.longitude;
+      return math.atan2(deltaLongitude, 0) * 180 / math.pi;
+    }
+
+    // Return a default rotation angle if there's no previous position
+    return 0;
   }
 
   void initState() {

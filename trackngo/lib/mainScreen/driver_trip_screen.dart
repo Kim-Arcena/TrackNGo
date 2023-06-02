@@ -50,7 +50,7 @@ class _DriverTripScreenState extends State<DriverTripScreen>
   int selectedIndex = 0;
   Position? onlineDriverCurrentPosition;
   BitmapDescriptor? iconAnimatedMarker;
-  List<String> rideRequestStatus = List.generate(3, (index) => "accepted");
+  List<String> rideRequestStatus = List.generate(7, (index) => "accepted");
   String durationFromOriginToDestination = "";
   bool isRequestDirectionDetails = false;
   String statusTextButton = "Accepted";
@@ -284,7 +284,7 @@ class _DriverTripScreenState extends State<DriverTripScreen>
 
   List<bool> isInRoute = List.generate(
       3, (index) => false); //use acceptedRideRequestDetailsLists.length
-  List<bool> isDropped = List.generate(3, (index) => false);
+  List<bool> isDropped = List.generate(7, (index) => false);
 
   @override
   Widget build(BuildContext context) {
@@ -335,148 +335,150 @@ class _DriverTripScreenState extends State<DriverTripScreen>
                         ),
                       ),
                     )),
-                Positioned(
-                  bottom: 75,
-                  left: 0,
-                  right: 0,
-                  child: Container(
-                    height: 250,
-                    padding: EdgeInsets.all(10.0),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.8),
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(15.0),
-                        topRight: Radius.circular(15.0),
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 2,
-                          blurRadius: 6,
+                DraggableScrollableSheet(
+                  initialChildSize: 0.4,
+                  minChildSize: 0.4,
+                  maxChildSize: 0.6,
+                  builder: (BuildContext context,
+                      ScrollController scrollController) {
+                    return Container(
+                      padding: EdgeInsets.all(10.0),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.8),
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(15.0),
+                          topRight: Radius.circular(15.0),
                         ),
-                      ],
-                    ),
-                    child: Column(
-                      children: [
-                        Text(
-                          "Passengers",
-                          style: TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.bold,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.1),
+                            spreadRadius: 2,
+                            blurRadius: 6,
                           ),
-                        ),
-                        SizedBox(height: 10),
-                        Expanded(
-                          child:
-                              // Add your scrollable content here
-                              // Example:
-                              SingleChildScrollView(
-                            child: ListView.builder(
-                              itemCount: acceptedRideRequestDetailsList.length,
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) {
-                                var rideRequest =
-                                    acceptedRideRequestDetailsList[index];
-
-                                return Container(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                rideRequest.userFirstName
-                                                        .toString() +
-                                                    " " +
-                                                    rideRequest.userLastName
-                                                        .toString(),
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 17.0,
-                                                ),
-                                              ),
-                                              SizedBox(height: 5.0),
-                                              Text(
-                                                rideRequest.originAddress
-                                                    .toString(),
-                                                style:
-                                                    TextStyle(fontSize: 13.0),
-                                              ),
-                                              SizedBox(height: 5.0),
-                                            ],
-                                          ),
-                                          ElevatedButton(
-                                            style: ElevatedButton.styleFrom(
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(15.0),
-                                              ),
-                                              fixedSize: Size(120, 35),
-                                              primary: isInRoute[index] &&
-                                                      !isDropped[index]
-                                                  ? Colors.blue
-                                                  : isInRoute[index] &&
-                                                          isDropped[index]
-                                                      ? Colors.redAccent
-                                                      : Colors.lightGreen,
-                                            ),
-                                            onPressed: () {
-                                              if (rideRequestStatus[index] ==
-                                                  "accepted") {
-                                                setState(() {
-                                                  isInRoute[index] =
-                                                      !isInRoute[index];
-                                                  indexChosen = index;
-                                                  rideRequestStatus[index] =
-                                                      "arrived";
-                                                });
-                                              } else if (rideRequestStatus[
-                                                      index] ==
-                                                  "arrived") {
-                                                setState(() {
-                                                  isDropped[index] =
-                                                      !isDropped[index];
-                                                  indexChosen = index;
-                                                  rideRequestStatus[index] =
-                                                      "ontrip";
-                                                });
-                                              }
-                                            },
-                                            child: Text(
-                                              isInRoute[index] &&
-                                                      !isDropped[index]
-                                                  ? "In Route"
-                                                  : isInRoute[index] &&
-                                                          isDropped[index]
-                                                      ? "Dropped Off"
-                                                      : "Accepted",
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          Text(
+                            "Passengers",
+                            style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
+                          SizedBox(height: 10),
+                          Expanded(
+                            child: SingleChildScrollView(
+                              controller: scrollController,
+                              child: ListView.builder(
+                                itemCount:
+                                    acceptedRideRequestDetailsList.length,
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  var rideRequest =
+                                      acceptedRideRequestDetailsList[index];
+
+                                  return Container(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  rideRequest.userFirstName
+                                                          .toString() +
+                                                      " " +
+                                                      rideRequest.userLastName
+                                                          .toString(),
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 17.0,
+                                                  ),
+                                                ),
+                                                SizedBox(height: 5.0),
+                                                Text(
+                                                  rideRequest.originAddress
+                                                      .toString(),
+                                                  style:
+                                                      TextStyle(fontSize: 13.0),
+                                                ),
+                                                SizedBox(height: 5.0),
+                                              ],
+                                            ),
+                                            ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          15.0),
+                                                ),
+                                                fixedSize: Size(120, 35),
+                                                primary: isInRoute[index] &&
+                                                        !isDropped[index]
+                                                    ? Colors.blue
+                                                    : isInRoute[index] &&
+                                                            isDropped[index]
+                                                        ? Colors.redAccent
+                                                        : Colors.lightGreen,
+                                              ),
+                                              onPressed: () {
+                                                if (rideRequestStatus[index] ==
+                                                    "accepted") {
+                                                  setState(() {
+                                                    isInRoute[index] =
+                                                        !isInRoute[index];
+                                                    indexChosen = index;
+                                                    rideRequestStatus[index] =
+                                                        "arrived";
+                                                  });
+                                                } else if (rideRequestStatus[
+                                                        index] ==
+                                                    "arrived") {
+                                                  setState(() {
+                                                    isDropped[index] =
+                                                        !isDropped[index];
+                                                    indexChosen = index;
+                                                    rideRequestStatus[index] =
+                                                        "ontrip";
+                                                  });
+                                                }
+                                              },
+                                              child: Text(
+                                                isInRoute[index] &&
+                                                        !isDropped[index]
+                                                    ? "In Route"
+                                                    : isInRoute[index] &&
+                                                            isDropped[index]
+                                                        ? "Dropped Off"
+                                                        : "Accepted",
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
                 ),
                 Align(
                   alignment: Alignment.bottomCenter,
