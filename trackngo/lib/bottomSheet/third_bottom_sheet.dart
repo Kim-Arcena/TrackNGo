@@ -349,7 +349,7 @@ class _InnerContainerState extends State<InnerContainer> {
             ),
           ),
           Positioned(
-            top: 55,
+            top: 40,
             left: 0,
             right: 0,
             child: Padding(

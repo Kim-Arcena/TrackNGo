@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:trackngo/mainScreen/driver_trip_screen.dart';
 import 'package:trackngo/tabPages/profile_tab.dart';
 
@@ -12,6 +13,7 @@ class EarningsTabPage extends StatefulWidget {
 class _EarningsTabPageState extends State<EarningsTabPage> {
   TabController? tabController;
   int selectedIndex = 1;
+
   onItemClicked(int index) {
     setState(() {
       selectedIndex = index;
@@ -37,39 +39,197 @@ class _EarningsTabPageState extends State<EarningsTabPage> {
     }
   }
 
+  Future getFinishedTripInformation() async {
+    DatabaseReference finishedTripRef =
+        FirebaseDatabase.instance.ref().child("userId");
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getFinishedTripInformation();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Stack(
+    return Scaffold(
+      body: Stack(
         children: <Widget>[
           Container(
+            padding: EdgeInsets.only(top: 90),
             constraints: const BoxConstraints.expand(),
-            decoration: new BoxDecoration(
-                image: new DecorationImage(
-                    image: new AssetImage("images/background.png"),
-                    fit: BoxFit.fill)),
-            child: Scaffold(
-              backgroundColor: Colors.transparent,
-              body: Center(
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Text("Earning Summary",
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("images/background.png"),
+                fit: BoxFit.fill,
+              ),
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    "Earning Summary",
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 20),
+                    child: Neumorphic(
+                      style: NeumorphicStyle(
+                        boxShape: NeumorphicBoxShape.roundRect(
+                          BorderRadius.circular(20),
+                        ),
+                        depth: 5,
+                        lightSource: LightSource.topLeft,
+                        color: Colors.white,
+                        shadowDarkColor: Color(0xFFDFDFDF),
+                        shadowLightColor: Color(0xFFDFDFDF),
+                      ),
+                      child: Container(
+                        height: 100,
+                        child: Padding(
+                          padding: const EdgeInsets.all(25),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Wallet Balance",
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  Text(
+                                    "P 0.00",
+                                    style: TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Spacer(),
+                              ElevatedButton(
+                                onPressed: () {},
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Color(0xFF4E8C6F),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  minimumSize: Size(110, 35),
+                                ),
+                                child: Text(
+                                  "WITHDRAW",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 13,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 40, right: 30),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Earning Details",
                           style: TextStyle(
-                            fontSize: 22,
+                            fontSize: 15,
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
-                          )),
-                      const Text("Hello again, you've been missed!",
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.black,
-                          )),
-                    ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 10),
+                    child: Neumorphic(
+                      style: NeumorphicStyle(
+                        boxShape: NeumorphicBoxShape.roundRect(
+                          BorderRadius.circular(20),
+                        ),
+                        depth: 5,
+                        lightSource: LightSource.topLeft,
+                        color: Colors.white,
+                        shadowDarkColor: Color(0xFFDFDFDF),
+                        shadowLightColor: Color(0xFFDFDFDF),
+                      ),
+                      child: Container(
+                        height: 90,
+                        child: Padding(
+                          padding: const EdgeInsets.all(25),
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Juan Driver",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    Text(
+                                      "0953454353453",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Spacer(),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "P 0.00",
+                                      style: TextStyle(
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -119,7 +279,7 @@ class _EarningsTabPageState extends State<EarningsTabPage> {
                       backgroundColor: Color.fromARGB(255, 240, 255, 244),
                       type: BottomNavigationBarType.fixed,
                       selectedLabelStyle:
-                          const TextStyle(fontWeight: FontWeight.bold),
+                          TextStyle(fontWeight: FontWeight.bold),
                       showUnselectedLabels: true,
                       currentIndex: selectedIndex,
                       onTap: onItemSelected,

@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:trackngo/authentication/signup_screen.dart';
 import 'package:trackngo/mainScreen/commuter_screen.dart';
-import 'package:trackngo/mainScreen/driver_screen.dart';
+import 'package:trackngo/tabPages/earning_tab.dart';
 
 import '../global/global.dart';
 
@@ -58,7 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
       var userMap = user.value as Map<dynamic, dynamic>?;
       if (driver.exists) {
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const MainScreen()));
+            MaterialPageRoute(builder: (context) => const EarningsTabPage()));
         // Navigator.push(
         //     context, MaterialPageRoute(builder: (context) => NewTripScreen()));
       }
