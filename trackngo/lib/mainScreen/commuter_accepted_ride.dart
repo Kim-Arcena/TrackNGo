@@ -202,9 +202,30 @@ class _CommuterAcceptedRideScreenState
         .listen((event) {
       print("event.snapshot.value: " + event.snapshot.value.toString());
       if (event.snapshot.value == "arrived") {
-        arrivedAudio!.open(Audio("music/notification.mp3"));
+        arrivedAudio!.open(Audio("music/ride_arrived.mp3"));
         arrivedAudio!.play();
+        setState(() {
+          List<Marker> markerList = List<Marker>.from(markerSet);
+          List<Circle> circleList = List<Circle>.from(circleSet);
 
+          int originMarkerIndex = markerList
+              .indexWhere((marker) => marker.markerId.value == "originID");
+          int originCircleIndex = circleList
+              .indexWhere((circle) => circle.circleId.value == "originID");
+
+          if (originMarkerIndex != -1) {
+            markerList.removeAt(originMarkerIndex);
+          }
+
+          if (originCircleIndex != -1) {
+            circleList.removeAt(originCircleIndex);
+          }
+
+          setState(() {
+            markerSet = Set<Marker>.from(markerList);
+            circleSet = Set<Circle>.from(circleList);
+          });
+        });
         showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
@@ -253,6 +274,8 @@ class _CommuterAcceptedRideScreenState
           ),
         );
       } else if (event.snapshot.value == "dropoff") {
+        dropOffAudio!.open(Audio("music/arrived_atDistination.mp3"));
+        dropOffAudio!.play();
         DatabaseReference finishedTripRef = FirebaseDatabase.instance
             .ref()
             .child("driver")
@@ -293,6 +316,8 @@ class _CommuterAcceptedRideScreenState
             actions: <Widget>[
               TextButton(
                 onPressed: () {
+                  dropOffAudio!.pause();
+                  dropOffAudio!.stop();
                   Navigator.of(ctx).pop();
                 },
                 child: Container(

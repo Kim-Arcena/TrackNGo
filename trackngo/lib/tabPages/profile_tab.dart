@@ -11,7 +11,7 @@ class ProfileTabPage extends StatefulWidget {
 
 class _ProfileTabPage extends State<ProfileTabPage> {
   TabController? tabController;
-  int selectedIndex = 1;
+  int selectedIndex = 2;
   onItemClicked(int index) {
     setState(() {
       selectedIndex = index;
@@ -100,12 +100,17 @@ class _ProfileTabPage extends State<ProfileTabPage> {
                       Text(
                         "Driver Name",
                         style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.bold),
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
+                      SizedBox(height: 8),
                       Text(
                         "driver@gmail.com",
                         style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.bold),
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ],
                   ),
@@ -123,8 +128,10 @@ class _ProfileTabPage extends State<ProfileTabPage> {
                   children: [
                     Text(
                       "Information",
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     Column(
                       children: [
@@ -133,58 +140,77 @@ class _ProfileTabPage extends State<ProfileTabPage> {
                             Text(
                               "Email",
                               style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold),
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                             Spacer(),
                             Text(
                               "driver@gmail.com",
                               style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold),
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ],
                         ),
+                        SizedBox(height: 8),
                         Row(
                           children: [
                             Text(
                               "Email",
                               style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold),
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                             Spacer(),
                             Text(
                               "driver@gmail.com",
                               style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold),
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ],
                         ),
+                        SizedBox(height: 8),
                         Row(
                           children: [
                             Text(
                               "Email",
                               style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold),
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                             Spacer(),
                             Text(
                               "driver@gmail.com",
                               style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold),
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ],
                         ),
+                        SizedBox(height: 8),
                         Row(
                           children: [
                             Text(
                               "Email",
                               style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold),
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                             Spacer(),
                             Text(
                               "driver@gmail.com",
                               style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold),
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ],
                         ),
@@ -197,7 +223,19 @@ class _ProfileTabPage extends State<ProfileTabPage> {
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(
-                color: Colors.white, // Set the background color to white
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(250),
+                    topRight: Radius.circular(250),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.2),
+                      blurRadius: 25.0,
+                      offset: Offset(0, -15), // changes position of shadow
+                    ),
+                  ],
+                ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(30),
@@ -225,8 +263,7 @@ class _ProfileTabPage extends State<ProfileTabPage> {
                         ],
                         unselectedItemColor: Color(0xFF7c7c7c),
                         selectedItemColor: Color(0xFF4E8C6F),
-                        backgroundColor:
-                            Colors.white, // Set the background color to white
+                        backgroundColor: Color.fromARGB(255, 240, 255, 244),
                         type: BottomNavigationBarType.fixed,
                         selectedLabelStyle:
                             TextStyle(fontWeight: FontWeight.bold),

@@ -101,9 +101,11 @@ flutter:
     - images/Dropoff.png
     - images/credit.png
     - images/cardGreen.png
-    - music/notification.mp3
+    - music/arrived_atDistination.mp3
     - music/new_passenger.mp3
-    - music/request_sent.mp3
+    - music/ride_otw.mp3
+    - music/ride_arrived.mp3
+    - music/accepted_byDriver.mp3
     - music/request_denied.mp3
     - images/bannerTop.png
   #   - images/a_dot_burr.jpeg

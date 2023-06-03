@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,6 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:trackngo/assistants/assistant_methods.dart';
 import 'package:trackngo/global/global.dart';
 import 'package:trackngo/infoHandler/app_info.dart';
+import 'package:trackngo/mainScreen/warningDialog.dart';
 import 'package:trackngo/models/user_ride_request_information.dart';
 import 'package:trackngo/push_notifications/push_notification_system.dart';
 import 'package:trackngo/tabPages/earning_tab.dart';
@@ -347,8 +347,11 @@ class _DriverTripScreenState extends State<DriverTripScreen>
                       ),
                       child: IconButton(
                         onPressed: () {
-                          FirebaseAuth.instance.signOut();
-                          currentFirebaseUser = null;
+                          MyWarningDialog(
+                            title: "Logging Out...",
+                            content:
+                                "You are attempting to log out from your account. Will you continue?\n",
+                          ).show(context);
                         },
                         icon: Icon(
                           Icons.logout,
@@ -501,6 +504,10 @@ class _DriverTripScreenState extends State<DriverTripScreen>
                                                       .child("acceptedRideInfo")
                                                       .child("status")
                                                       .set("dropoff");
+                                                  setState(() {
+                                                    acceptedRideRequestDetailsList
+                                                        .removeAt(index);
+                                                  });
                                                 }
                                               },
                                               child: Text(
