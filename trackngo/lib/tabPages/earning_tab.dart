@@ -1,10 +1,13 @@
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:provider/provider.dart';
+import 'package:trackngo/infoHandler/app_info.dart';
 import 'package:trackngo/mainScreen/driver_trip_screen.dart';
+import 'package:trackngo/tabPages/history_design_ui.dart';
 import 'package:trackngo/tabPages/profile_tab.dart';
 
 class EarningsTabPage extends StatefulWidget {
-  const EarningsTabPage({super.key});
+  String driverUid;
+  EarningsTabPage({required this.driverUid});
 
   @override
   State<EarningsTabPage> createState() => _EarningsTabPageState();
@@ -26,9 +29,6 @@ class _EarningsTabPageState extends State<EarningsTabPage> {
       // Check if the "Earnings" item is clicked (index 1)
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => DriverTripScreen()));
-    } else if (index == 1) {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => EarningsTabPage()));
     } else if (index == 2) {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => ProfileTabPage()));
@@ -37,18 +37,6 @@ class _EarningsTabPageState extends State<EarningsTabPage> {
         selectedIndex = index;
       });
     }
-  }
-
-  Future getFinishedTripInformation() async {
-    DatabaseReference finishedTripRef =
-        FirebaseDatabase.instance.ref().child("userId");
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getFinishedTripInformation();
   }
 
   @override
@@ -163,71 +151,20 @@ class _EarningsTabPageState extends State<EarningsTabPage> {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 30, vertical: 10),
-                    child: Neumorphic(
-                      style: NeumorphicStyle(
-                        boxShape: NeumorphicBoxShape.roundRect(
-                          BorderRadius.circular(20),
-                        ),
-                        depth: 5,
-                        lightSource: LightSource.topLeft,
-                        color: Colors.white,
-                        shadowDarkColor: Color(0xFFDFDFDF),
-                        shadowLightColor: Color(0xFFDFDFDF),
-                      ),
-                      child: Container(
-                        height: 90,
-                        child: Padding(
-                          padding: const EdgeInsets.all(25),
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Juan Driver",
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                    Text(
-                                      "0953454353453",
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Spacer(),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      "P 0.00",
-                                      style: TextStyle(
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                  ListView.separated(
+                    separatorBuilder: (context, i) => const Divider(),
+                    itemBuilder: (context, i) {
+                      return HistoryDesignUIWidget(
+                        tripsHistoryModel:
+                            Provider.of<AppInfo>(context, listen: false)
+                                .allTripsHistoryInformationList[i],
+                      );
+                    },
+                    itemCount: Provider.of<AppInfo>(context, listen: false)
+                        .allTripsHistoryInformationList
+                        .length,
+                    physics: const ClampingScrollPhysics(),
+                    shrinkWrap: true,
                   ),
                 ],
               ),

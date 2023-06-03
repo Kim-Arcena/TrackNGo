@@ -1,4 +1,6 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:trackngo/global/global.dart';
 import 'package:trackngo/mainScreen/driver_trip_screen.dart';
 import 'package:trackngo/tabPages/earning_tab.dart';
 
@@ -26,7 +28,11 @@ class _ProfileTabPage extends State<ProfileTabPage> {
           context, MaterialPageRoute(builder: (context) => DriverTripScreen()));
     } else if (index == 1) {
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => EarningsTabPage()));
+          context,
+          MaterialPageRoute(
+              builder: (context) => EarningsTabPage(
+                    driverUid: currentFirebaseUser!.uid.toString(),
+                  )));
     } else if (index == 2) {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => ProfileTabPage()));
@@ -35,6 +41,17 @@ class _ProfileTabPage extends State<ProfileTabPage> {
         selectedIndex = index;
       });
     }
+  }
+
+  void getFinishedRideRequestDetailsList() {
+    DatabaseReference finishedRideRequest = FirebaseDatabase.instance.ref();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getFinishedRideRequestDetailsList();
   }
 
   @override

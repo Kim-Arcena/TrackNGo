@@ -172,7 +172,6 @@ class _CommuterAcceptedRideScreenState
 
         String passengerFare =
             (snapData.snapshot.value! as Map)["passengerFare"].toString();
-
         finishedUserRideInformation.rideRequestId = rideRequestId;
         finishedUserRideInformation.originLatLng = LatLng(originLat, originLng);
         finishedUserRideInformation.destinationLatLng =

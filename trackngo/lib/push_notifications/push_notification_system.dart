@@ -54,7 +54,7 @@ class PushNotificationSystem {
       print("read user ride request information: " +
           snapData.snapshot.value.toString());
       if (snapData.snapshot.value != null) {
-        audioPlayer!.open(Audio("music/new_passenger.mp3"));
+        audioPlayer!.open(Audio("music/notification.mp3"));
         audioPlayer!.play();
 
         String rideRequestId = snapData.snapshot.key.toString();
