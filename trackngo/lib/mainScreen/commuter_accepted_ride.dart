@@ -241,7 +241,7 @@ class _CommuterAcceptedRideScreenState
                   ), // Replace 'your_image_path.png' with the actual path to your image
                   const SizedBox(height: 10),
                   Text(
-                    "Your rider has arrived",
+                    "Your rider has arrived!",
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -288,9 +288,41 @@ class _CommuterAcceptedRideScreenState
         showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
-            title: const Text("Driver Ontrip"),
-            content:
-                Text(finishedUserRideInformation.destinationAddress.toString()),
+            content: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Image.asset(
+                    'images/logo.png',
+                    width: 100.0,
+                    height: 100.0,
+                  ), // Replace 'your_image_path.png' with the actual path to your image
+                  const SizedBox(height: 10),
+                  Text(
+                    "Your are currently on trip",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
+                  Text(
+                    "Enjoy your trip to " +
+                        finishedUserRideInformation.destinationAddress
+                            .toString() +
+                        ". Have a great day!",
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.black,
+                    ),
+                    textAlign: TextAlign.start,
+                  ),
+                ],
+              ),
+            ),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(15.0)),
             ),

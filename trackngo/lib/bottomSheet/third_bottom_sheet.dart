@@ -348,9 +348,9 @@ class _InnerContainerState extends State<InnerContainer> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 20, left: 40, right: 40),
-            child: Center(
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 20, left: 40, right: 40),
               child: Container(
                 child: Column(
                   children: [
