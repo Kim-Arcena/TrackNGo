@@ -315,7 +315,7 @@ class _InnerContainerState extends State<InnerContainer> {
     // }
 
     await retrieveOnlineDriversInformation(onlineNearByAvailableDriversList);
-    
+
     widget.moveToPage(1);
     print("choosenddriver id is" + chosenDriverId.toString());
     if (userResponse == "Driver Selected") {

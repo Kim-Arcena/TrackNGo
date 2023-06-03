@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/gestures.dart';
@@ -173,7 +175,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ),
                                   ),
                                   const SizedBox(
-                                    height: 20,
+                                    height: 15,
                                   ),
                                   TextFormField(
                                     validator: (isValid) {
@@ -325,5 +327,71 @@ class _LoginScreenState extends State<LoginScreen> {
         ],
       ),
     );
+  }
+}
+
+class DottedLinePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    Paint paint = Paint()
+      ..color = Color(0xFFB9C7C0)
+      ..strokeWidth = 2.7
+      ..strokeCap = StrokeCap.round
+      ..style = PaintingStyle.stroke
+      ..isAntiAlias = true
+      ..strokeJoin = StrokeJoin.round;
+
+    double dashWidth = 4;
+    double dashSpace = 5;
+    double startY = size.height / 2;
+    double endY = size.height / 2;
+    double currentX = 0;
+
+    // Adjust the width and height of the Rect for larger arc
+    double arcWidth = 10;
+    double arcHeight = 10;
+
+    // Draw half circle at the start
+    canvas.drawArc(
+      Rect.fromCenter(
+        center: Offset(currentX, startY),
+        width: arcWidth,
+        height: arcHeight,
+      ),
+      -math.pi,
+      math.pi,
+      false,
+      paint,
+    );
+
+    currentX += arcWidth; // Adjust for the half circle
+
+    while (currentX < size.width - arcWidth) {
+      // Subtract the half circle at the end
+      canvas.drawLine(
+        Offset(currentX, startY),
+        Offset(currentX + dashWidth, endY),
+        paint,
+      );
+      currentX += dashWidth + dashSpace;
+    }
+
+    // Draw half circle at the end
+    canvas.drawArc(
+      Rect.fromCenter(
+        center: Offset(currentX, startY),
+        width: arcWidth,
+        height: arcHeight,
+      ),
+      0,
+      math.pi,
+      false,
+      paint,
+    );
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return false;
   }
 }

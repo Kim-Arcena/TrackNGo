@@ -101,6 +101,8 @@ flutter:
     - images/Dropoff.png
     - images/credit.png
     - images/cardGreen.png
+    - images/barcode.png
+    - images/divider.png
     - music/arrived_atDistination.mp3
     - music/new_passenger.mp3
     - music/ride_otw.mp3

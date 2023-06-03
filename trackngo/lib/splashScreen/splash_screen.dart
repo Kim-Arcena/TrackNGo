@@ -6,7 +6,6 @@ import "package:trackngo/authentication/login_screen.dart";
 import "package:trackngo/mainScreen/commuter_screen.dart";
 import "package:trackngo/mainScreen/driver_screen.dart";
 
-import "../assistants/assistant_methods.dart";
 import "../global/global.dart";
 
 class MySplashScreen extends StatefulWidget {
@@ -17,10 +16,6 @@ class MySplashScreen extends StatefulWidget {
 
 class _MySplashScreenState extends State<MySplashScreen> {
   startTimer() {
-    print(fAuth.currentUser);
-    fAuth.currentUser != null
-        ? AssistantMethods.readCurrentOnlineUserInfo()
-        : null;
     Timer(const Duration(seconds: 3), () async {
       print("fAuth.currentUser: " + fAuth.currentUser.toString());
       if (fAuth.currentUser != null) {
@@ -32,25 +27,27 @@ class _MySplashScreenState extends State<MySplashScreen> {
         var driver = await driverRef.child(fAuth.currentUser!.uid).get();
         var user = await usersRef.child(fAuth.currentUser!.uid).get();
         var userMap = user.value as Map<dynamic, dynamic>?;
+
         if (driver.exists) {
           print("driverrrssfsd");
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => const MainScreen()));
-          // Navigator.push(
-          //     context, MaterialPageRoute(builder: (context) => NewTripScreen()));
         }
+
         if (userMap != null && userMap.containsKey("commuters_child")) {
           print("shett");
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => const CommuterScreen()));
         }
       }
+
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const LoginScreen()));
     });
   }
 
-  initState() {
+  @override
+  void initState() {
     super.initState();
     startTimer();
   }
@@ -58,33 +55,34 @@ class _MySplashScreenState extends State<MySplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Material(
-        child: Container(
-      color: Colors.white,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Expanded(
-            child: Center(
-              child: Image.asset(
-                "images/banner.png",
-                width: 200,
-                height: 200,
+      child: Container(
+        color: Colors.white,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Center(
+                child: Image.asset(
+                  "images/banner.png",
+                  width: 200,
+                  height: 200,
+                ),
               ),
             ),
-          ),
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 50),
-            child: Text(
-              "Copyright © 2023 by TrackNGo UPV III.\nAll rights reserved.",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 11,
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 50),
+              child: Text(
+                "Copyright © 2023 by TrackNGo UPV III.\nAll rights reserved.",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 11,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
-    ));
+    );
   }
 }
