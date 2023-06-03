@@ -225,12 +225,41 @@ class _CommuterAcceptedRideScreenState
             circleSet = Set<Circle>.from(circleList);
           });
         });
-        showDialog(
+        sshowDialog(
           context: context,
           builder: (ctx) => AlertDialog(
-            title: const Text("Your Driver has Arrived"),
-            content:
-                Text(finishedUserRideInformation.destinationAddress.toString()),
+            content: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Image.asset(
+                    'images/logo.png',
+                    width: 100.0,
+                    height: 100.0,
+                  ), // Replace 'your_image_path.png' with the actual path to your image
+                  const SizedBox(height: 10),
+                  Text(
+                    "Your rider has arrived",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
+                  Text(
+                    "Your rider has arrived at your location. We hope you have a pleasant experience with our service. Enjoy your trip and have a great day",
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.black,
+                    ),
+                    textAlign: TextAlign.start,
+                  ),
+                ],
+              ),
+            ),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(15.0)),
             ),
@@ -243,7 +272,12 @@ class _CommuterAcceptedRideScreenState
                 },
                 child: Container(
                   padding: const EdgeInsets.all(14),
-                  child: const Text("OK"),
+                  child: const Text(
+                    "OK",
+                    style: TextStyle(
+                      color: Color(0xFF4E8C6F),
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -266,7 +300,12 @@ class _CommuterAcceptedRideScreenState
                 },
                 child: Container(
                   padding: const EdgeInsets.all(14),
-                  child: const Text("OK"),
+                  child: const Text(
+                    "OK",
+                    style: TextStyle(
+                      color: Color(0xFF4E8C6F),
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -569,7 +608,12 @@ class _CommuterAcceptedRideScreenState
                 },
                 child: Container(
                   padding: EdgeInsets.all(0), // Remove the padding
-                  child: const Text("OK"),
+                  child: const Text(
+                    "OK",
+                    style: TextStyle(
+                      color: Color(0xFF4E8C6F),
+                    ),
+                  ),
                 ),
               ),
             ],

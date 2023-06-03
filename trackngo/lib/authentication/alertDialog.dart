@@ -18,7 +18,12 @@ class MyAlertDialog {
           content: Text(content),
           actions: [
             TextButton(
-              child: Text("OK"),
+              child: Text(
+                "OK",
+                style: TextStyle(
+                  color: Color(0xFF4E8C6F),
+                ),
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
               },

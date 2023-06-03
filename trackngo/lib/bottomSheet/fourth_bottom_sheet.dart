@@ -487,7 +487,12 @@ class _InnerContainerState extends State<InnerContainer> {
                                   },
                                   child: Container(
                                     padding: const EdgeInsets.all(14),
-                                    child: const Text("OK"),
+                                    child: const Text(
+                                      "OK",
+                                      style: TextStyle(
+                                        color: Color(0xFF4E8C6F),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ],
