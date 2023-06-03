@@ -4,7 +4,7 @@ import "package:firebase_database/firebase_database.dart";
 import "package:flutter/material.dart";
 import "package:trackngo/mainScreen/commuter_screen.dart";
 import "package:trackngo/mainScreen/driver_screen.dart";
-import "package:trackngo/tabPages/earning_tab.dart";
+import "package:trackngo/tabPages/profile_tab.dart";
 
 import "../assistants/assistant_methods.dart";
 import "../global/global.dart";
@@ -46,7 +46,7 @@ class _MySplashScreenState extends State<MySplashScreen> {
         }
       }
       Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const EarningsTabPage()));
+          MaterialPageRoute(builder: (context) => const ProfileTabPage()));
     });
   }
 

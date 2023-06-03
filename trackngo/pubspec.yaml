@@ -105,7 +105,7 @@ flutter:
     - music/new_passenger.mp3
     - music/request_sent.mp3
     - music/request_denied.mp3
-    
+    - images/bannerTop.png
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
