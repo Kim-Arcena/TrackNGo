@@ -264,11 +264,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                   const EdgeInsets.only(top: 60, bottom: 10),
                               child: ElevatedButton(
                                   onPressed: () {
-                                    // if (!_validationKey.currentState!
-                                    //     .validate()) {
-                                    //   return;
-                                    // }
-                                    // loginDriverNow();
+                                    if (!_validationKey.currentState!
+                                        .validate()) {
+                                      return;
+                                    }
+                                    loginDriverNow();
                                   },
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor: Color(0xFF4E8C6F),

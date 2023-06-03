@@ -107,6 +107,7 @@ class _CommuterScreenState extends State<CommuterScreen> {
 
     initializeGeoFireListener();
   }
+  
 
   checkIfLocationPermissionGranted() async {
     _locationPermission = await Geolocator.requestPermission();
@@ -114,10 +115,11 @@ class _CommuterScreenState extends State<CommuterScreen> {
       _locationPermission = await Geolocator.requestPermission();
     }
   }
-
+  
   void initState() {
     super.initState();
     checkIfLocationPermissionGranted();
+    
   }
 
   @override
@@ -281,6 +283,7 @@ class _CommuterScreenState extends State<CommuterScreen> {
                             TextButton(
                               child: Text('OK'),
                               onPressed: () {
+                                Navigator.of(context).pop();
                                 if (Provider.of<AppInfo>(context, listen: false)
                                         .userDropOffLocation ==
                                     null) {

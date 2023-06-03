@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
-import 'package:trackngo/authentication/login_screen.dart';
+import 'package:trackngo/tabPages/profile_tab.dart';
 
 import 'infoHandler/app_info.dart' as trackngo_app_info;
 
@@ -20,7 +20,7 @@ void main() async {
         theme: ThemeData(
           primarySwatch: Colors.green,
         ),
-        home: LoginScreen(),
+        home: ProfileTabPage(),
         debugShowCheckedModeBanner: false,
       ),
     ),

@@ -63,11 +63,9 @@ class _MainScreenState extends State<MainScreen>
   }
 
   readCurrentDriveInformation() async {
-    DatabaseReference usersRef = FirebaseDatabase(
-            databaseURL:
-                "https://trackngo-d7aa0-default-rtdb.asia-southeast1.firebasedatabase.app/")
-        .ref()
-        .child("driver");
+    print("id is " + currentFirebaseUser!.uid);
+    DatabaseReference usersRef =
+        FirebaseDatabase.instance.ref().child("driver");
     usersRef.child(currentFirebaseUser!.uid).once().then((snap) {
       if (snap.snapshot.value != null) {
         print("the current firebase user is " + currentFirebaseUser!.uid);

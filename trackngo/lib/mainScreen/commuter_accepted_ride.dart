@@ -12,6 +12,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' hide LocationAccuracy;
 import 'package:provider/provider.dart';
 import 'package:trackngo/global/global.dart';
+import 'package:trackngo/mainScreen/commuter_screen.dart';
 import 'package:trackngo/mainScreen/search_places_screen.dart';
 import 'package:trackngo/mainScreen/warningDialog.dart';
 import 'package:trackngo/models/ride_ref_request_info.dart';
@@ -225,7 +226,7 @@ class _CommuterAcceptedRideScreenState
             circleSet = Set<Circle>.from(circleList);
           });
         });
-        sshowDialog(
+        showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
             content: Padding(
@@ -604,7 +605,10 @@ class _CommuterAcceptedRideScreenState
                 onPressed: () {
                   dropOffAudio!.pause();
                   dropOffAudio!.stop();
-                  Navigator.of(ctx).pop();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const CommuterScreen()));
                 },
                 child: Container(
                   padding: EdgeInsets.all(0), // Remove the padding

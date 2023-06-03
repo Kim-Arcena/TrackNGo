@@ -21,6 +21,8 @@ class AppInfo extends ChangeNotifier {
 
   updateOverAllTripsHistoryInformation(TripsHistoryModel eachTripHistory) {
     allTripsHistoryInformationList.add(eachTripHistory);
+    print("allTripsHistoryInformationList" +
+        allTripsHistoryInformationList.length.toString());
     notifyListeners();
   }
 

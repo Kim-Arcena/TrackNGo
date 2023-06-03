@@ -16,7 +16,7 @@ class _HistoryDesignUIWidgetState extends State<HistoryDesignUIWidget> {
   Widget build(BuildContext context) {
     return Container(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
         child: Neumorphic(
           style: NeumorphicStyle(
             boxShape: NeumorphicBoxShape.roundRect(
