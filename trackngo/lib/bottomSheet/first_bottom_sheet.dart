@@ -359,6 +359,7 @@ class _InnerContainerState extends State<InnerContainer> {
     }
 
     print(dList.toString());
+    uniqueList.clear();
     uniqueList = dList.toSet().toList();
     print("length of unique list" + uniqueList.length.toString());
   }

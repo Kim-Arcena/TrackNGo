@@ -288,7 +288,7 @@ class _MainScreenState extends State<MainScreen>
                                   height: 50,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15),
-                                    color: Color(0xFF228348),
+                                    color: Color(0xFF2D9D69),
                                     boxShadow: [
                                       BoxShadow(
                                         color: statusText != "Now Online"
@@ -353,9 +353,9 @@ class _MainScreenState extends State<MainScreen>
                     )),
                 DraggableScrollableSheet(
                   initialChildSize:
-                      0.4, // Initial size of the draggable sheet (30% of the screen height)
+                      0.3, // Initial size of the draggable sheet (30% of the screen height)
                   minChildSize:
-                      0.4, // Minimum size of the draggable sheet (10% of the screen height)
+                      0.3, // Minimum size of the draggable sheet (10% of the screen height)
                   maxChildSize:
                       0.6, // Maximum size of the draggable sheet (80% of the screen height)
                   builder: (BuildContext context,
@@ -381,108 +381,48 @@ class _MainScreenState extends State<MainScreen>
                             ),
                           ],
                         ),
-                        child: Column(
-                          children: [
-                            AutoSizeText(
-                              "Passengers",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold,
+                        child: Padding(
+                          padding: const EdgeInsets.all(25),
+                          child: Column(
+                            children: [
+                              AutoSizeText(
+                                "Passengers",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                maxLines: 3,
+                                minFontSize: 10,
                               ),
-                              maxLines: 3,
-                              minFontSize: 10,
-                            ),
-                            SizedBox(height: 10),
-                            Expanded(
-                              child: SingleChildScrollView(
-                                controller:
-                                    scrollController, // Use the scrollController from the DraggableScrollableSheet
-                                child: ListView.builder(
-                                  itemCount:
-                                      acceptedRideRequestDetailsList.length,
-                                  shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  itemBuilder: (context, index) {
-                                    // Access the current ride request object from the list
-                                    var rideRequest =
-                                        acceptedRideRequestDetailsList[index];
-
-                                    return Container(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  AutoSizeText(
-                                                    rideRequest.userFirstName
-                                                            .toString() +
-                                                        " " +
-                                                        rideRequest.userLastName
-                                                            .toString(),
-                                                    style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                                    maxLines: 3,
-                                                    minFontSize: 10,
-                                                  ),
-                                                  SizedBox(height: 5.0),
-                                                  AutoSizeText(
-                                                    rideRequest.originAddress
-                                                        .toString(),
-                                                    style: TextStyle(
-                                                        fontSize: 12.0),
-                                                    maxLines: 3,
-                                                    minFontSize: 10,
-                                                    maxFontSize: 12,
-                                                  ),
-                                                  SizedBox(height: 5.0),
-                                                ],
-                                              ),
-                                              ElevatedButton(
-                                                style: ElevatedButton.styleFrom(
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            15.0),
-                                                  ),
-                                                  fixedSize: Size(100, 35),
-                                                  primary:
-                                                      buttonColor, // background
-                                                ),
-                                                onPressed: () {},
-                                                child: AutoSizeText(
-                                                  "Arrived",
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                  maxLines: 3,
-                                                  minFontSize: 10,
-                                                  maxFontSize: 12,
-                                                ),
-                                              ),
-                                            ],
+                              SizedBox(height: 10),
+                              Expanded(
+                                child: SingleChildScrollView(
+                                  controller:
+                                      scrollController, // Use the scrollController from the DraggableScrollableSheet
+                                  child: ListView.builder(
+                                    itemCount: 1,
+                                    shrinkWrap: true,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemBuilder: (context, index) {
+                                      // Access the current ride request object from the list
+                                      return Center(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(10.0),
+                                          child: Container(
+                                            child: Text(
+                                              "There is currently no passenger.",
+                                              style: TextStyle(fontSize: 18),
+                                            ),
                                           ),
-                                        ],
-                                      ),
-                                    );
-                                  },
+                                        ),
+                                      );
+                                    },
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     );
