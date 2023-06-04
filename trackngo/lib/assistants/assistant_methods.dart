@@ -167,9 +167,12 @@ class AssistantMethods {
         //share trips keys with Provider
         List<String> tripsKeysList = [];
         keysTripsId.forEach((key, value) {
-          tripsKeysList.add(key);
-          print("key: " + key);
+          if (!tripsKeysList.contains(key)) {
+            tripsKeysList.add(key);
+            print("key: " + key);
+          }
         });
+
         Provider.of<AppInfo>(context, listen: false)
             .updateOverAllTripsKeys(tripsKeysList);
 

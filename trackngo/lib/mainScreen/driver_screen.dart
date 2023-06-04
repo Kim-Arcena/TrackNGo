@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -154,7 +155,6 @@ class _MainScreenState extends State<MainScreen>
 
     var currentPosition =
         Provider.of<AppInfo>(context, listen: false).userPickUpLocation!;
-    AssistantMethods.readTripsKeysForOnlineUser(context);
     //originLatLng
     driverCurrentPosition = LatLng(
         currentPosition.locationLatitude!, currentPosition.locationLongitude!);
@@ -229,6 +229,7 @@ class _MainScreenState extends State<MainScreen>
     updateDriversLocationAtRealTime();
     drawPolyLineFromSourceToDestination();
     saveAssignedDriverDetailsToUserRideRequest();
+    AssistantMethods.readTripsKeysForOnlineUser(context);
     tabController = TabController(length: 3, vsync: this);
   }
 
@@ -324,7 +325,7 @@ class _MainScreenState extends State<MainScreen>
                                   height: 50,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15),
-                                    color: Color(0xFF73AD90),
+                                    color: Color(0xFF228348),
                                     boxShadow: [
                                       BoxShadow(
                                         color: statusText != "Now Online"
@@ -419,12 +420,15 @@ class _MainScreenState extends State<MainScreen>
                         ),
                         child: Column(
                           children: [
-                            Text(
+                            AutoSizeText(
                               "Passengers",
                               style: TextStyle(
+                                color: Colors.black,
                                 fontSize: 17,
                                 fontWeight: FontWeight.bold,
                               ),
+                              maxLines: 3,
+                              minFontSize: 10,
                             ),
                             SizedBox(height: 10),
                             Expanded(
@@ -454,24 +458,30 @@ class _MainScreenState extends State<MainScreen>
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  Text(
+                                                  AutoSizeText(
                                                     rideRequest.userFirstName
                                                             .toString() +
                                                         " " +
                                                         rideRequest.userLastName
                                                             .toString(),
                                                     style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 16,
                                                       fontWeight:
                                                           FontWeight.bold,
-                                                      fontSize: 17.0,
                                                     ),
+                                                    maxLines: 3,
+                                                    minFontSize: 10,
                                                   ),
                                                   SizedBox(height: 5.0),
-                                                  Text(
+                                                  AutoSizeText(
                                                     rideRequest.originAddress
                                                         .toString(),
                                                     style: TextStyle(
-                                                        fontSize: 13.0),
+                                                        fontSize: 12.0),
+                                                    maxLines: 3,
+                                                    minFontSize: 10,
+                                                    maxFontSize: 12,
                                                   ),
                                                   SizedBox(height: 5.0),
                                                 ],
@@ -488,13 +498,16 @@ class _MainScreenState extends State<MainScreen>
                                                       buttonColor, // background
                                                 ),
                                                 onPressed: () {},
-                                                child: Text(
+                                                child: AutoSizeText(
                                                   "Arrived",
                                                   style: TextStyle(
                                                       color: Colors.white,
-                                                      fontSize: 14,
+                                                      fontSize: 12,
                                                       fontWeight:
                                                           FontWeight.bold),
+                                                  maxLines: 3,
+                                                  minFontSize: 10,
+                                                  maxFontSize: 12,
                                                 ),
                                               ),
                                             ],
@@ -676,7 +689,7 @@ class _MainScreenState extends State<MainScreen>
     });
   }
 
-  driverIsOnlineNow() async {
+  void driverIsOnlineNow() async {
     String pathToReference = "activeDrivers";
 
     Position position = await Geolocator.getCurrentPosition(
@@ -690,8 +703,11 @@ class _MainScreenState extends State<MainScreen>
         driverCurrentPosition.longitude.toString());
 
     Geofire.initialize(pathToReference);
-    Geofire.setLocation(currentFirebaseUser!.uid,
-        driverCurrentPosition.latitude, driverCurrentPosition.longitude);
+    Geofire.setLocation(
+      currentFirebaseUser!.uid,
+      driverCurrentPosition.latitude,
+      driverCurrentPosition.longitude,
+    );
 
     print("the current user id is :: " +
         currentFirebaseUser!.uid +
@@ -700,14 +716,28 @@ class _MainScreenState extends State<MainScreen>
         "driver current position longitude is :: " +
         driverCurrentPosition.longitude.toString());
 
-    // ignore: deprecated_member_use
-    DatabaseReference usersRef = FirebaseDatabase(
-            databaseURL:
-                "https://trackngo-d7aa0-default-rtdb.asia-southeast1.firebasedatabase.app/")
+    DatabaseReference usersRef = FirebaseDatabase.instance
         .ref()
-        .child("driver");
-    usersRef.child(currentFirebaseUser!.uid).child("newRideStatus").set("idle");
-    usersRef.onValue.listen((event) {});
+        .child("driver")
+        .child(currentFirebaseUser!.uid);
+
+    usersRef.child("newRideStatus").set("idle");
+
+    // Ensure removal of value on app exit
+    // Ensure removal of value on app exit
+    SystemChannels.lifecycle.setMessageHandler((msg) {
+      if (msg == AppLifecycleState.paused.toString()) {
+        // Remove Geofire entry
+        Geofire.removeLocation(currentFirebaseUser!.uid);
+        // Remove newRideStatus value
+        usersRef.child("newRideStatus").remove();
+      }
+      return Future.value(null);
+    });
+
+    usersRef.child("newRideStatus").once().then((DataSnapshot snapshot) {
+          // Handle database changes
+        } as FutureOr Function(DatabaseEvent value));
   }
 
   updateDriversLocationAtRealTime() {
@@ -759,9 +789,5 @@ class _MainScreenState extends State<MainScreen>
     usersRef.onDisconnect();
     usersRef.remove();
     usersRef = null;
-
-    Future.delayed(const Duration(seconds: 2), () {
-      SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-    });
   }
 }

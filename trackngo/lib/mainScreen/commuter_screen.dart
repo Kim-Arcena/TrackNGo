@@ -66,7 +66,7 @@ class _CommuterScreenState extends State<CommuterScreen> {
 
     newGoogleMapController?.animateCamera(
       CameraUpdate.newCameraPosition(
-        CameraPosition(target: _initialcameraposition, zoom: 20),
+        CameraPosition(target: _initialcameraposition, zoom: 19),
       ),
     );
 
@@ -107,7 +107,6 @@ class _CommuterScreenState extends State<CommuterScreen> {
 
     initializeGeoFireListener();
   }
-  
 
   checkIfLocationPermissionGranted() async {
     _locationPermission = await Geolocator.requestPermission();
@@ -115,11 +114,10 @@ class _CommuterScreenState extends State<CommuterScreen> {
       _locationPermission = await Geolocator.requestPermission();
     }
   }
-  
+
   void initState() {
     super.initState();
     checkIfLocationPermissionGranted();
-    
   }
 
   @override

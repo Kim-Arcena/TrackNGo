@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -161,32 +162,6 @@ class _DriverTripScreenState extends State<DriverTripScreen>
 
     var passengerPickUpLatLng = LatLng(
         currentPosition.locationLatitude!, currentPosition.locationLongitude!);
-
-    // Load the custom PNG image
-    BitmapDescriptor customIconOrigin = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(size: Size(48, 48)), 'images/driver.png');
-
-    Marker originMarker = Marker(
-      markerId: const MarkerId("originID"),
-      infoWindow:
-          InfoWindow(title: currentPosition.locationName, snippet: "Origin"),
-      position: driverCurrentPosition,
-      icon: customIconOrigin,
-    );
-
-    Circle originCircle = Circle(
-      circleId: const CircleId("originID"),
-      fillColor: Color(0x22e0c67f),
-      center: driverCurrentPosition,
-      radius: 25,
-      strokeWidth: 4,
-      strokeColor: Color(0x22e0c67f),
-    );
-
-    setState(() {
-      markerSet.add(originMarker);
-      circleSet.add(originCircle);
-    });
   }
 
   checkIfLocationPermissionGranted() async {
@@ -390,151 +365,169 @@ class _DriverTripScreenState extends State<DriverTripScreen>
                           Text(
                             "Passengers",
                             style: TextStyle(
-                              fontSize: 17,
+                              fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           SizedBox(height: 10),
                           Expanded(
-                            child: SingleChildScrollView(
-                              controller: scrollController,
-                              child: ListView.builder(
-                                itemCount:
-                                    acceptedRideRequestDetailsList.length,
-                                shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
-                                itemBuilder: (context, index) {
-                                  var rideRequest =
-                                      acceptedRideRequestDetailsList[index];
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 5, horizontal: 12),
+                              child: SingleChildScrollView(
+                                controller: scrollController,
+                                child: ListView.builder(
+                                  itemCount:
+                                      acceptedRideRequestDetailsList.length,
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemBuilder: (context, index) {
+                                    var rideRequest =
+                                        acceptedRideRequestDetailsList[index];
 
-                                  return Container(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  rideRequest.userFirstName
-                                                          .toString() +
-                                                      " " +
-                                                      rideRequest.userLastName
-                                                          .toString(),
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 17.0,
+                                    return Container(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  AutoSizeText(
+                                                    rideRequest.userFirstName
+                                                            .toString() +
+                                                        " " +
+                                                        rideRequest.userLastName
+                                                            .toString(),
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                    maxLines: 3,
+                                                    minFontSize: 10,
                                                   ),
-                                                ),
-                                                SizedBox(height: 5.0),
-                                                Text(
-                                                  rideRequest.originAddress
-                                                      .toString(),
-                                                  style:
-                                                      TextStyle(fontSize: 13.0),
-                                                ),
-                                                SizedBox(height: 5.0),
-                                              ],
-                                            ),
-                                            ElevatedButton(
-                                              style: ElevatedButton.styleFrom(
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          15.0),
-                                                ),
-                                                fixedSize: Size(120, 35),
-                                                primary: isInRoute[index] &&
-                                                        !isDropped[index]
-                                                    ? Colors.blue
-                                                    : isInRoute[index] &&
-                                                            isDropped[index]
-                                                        ? Colors.redAccent
-                                                        : Colors.lightGreen,
+                                                  SizedBox(height: 5.0),
+                                                  AutoSizeText(
+                                                    rideRequest.originAddress
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                        fontSize: 12.0),
+                                                    maxLines: 3,
+                                                    minFontSize: 10,
+                                                    maxFontSize: 12,
+                                                  ),
+                                                  SizedBox(height: 5.0),
+                                                ],
                                               ),
-                                              onPressed: () {
-                                                if (rideRequestStatus[index] ==
-                                                    "accepted") {
-                                                  FirebaseDatabase.instance
-                                                      .ref()
-                                                      .child(
-                                                          "All Ride Requests")
-                                                      .child(rideRequest
-                                                          .rideRequestId
-                                                          .toString())
-                                                      .child("acceptedRideInfo")
-                                                      .child("status")
-                                                      .set("arrived");
-                                                  setState(() {
-                                                    isInRoute[index] =
-                                                        !isInRoute[index];
-                                                    indexChosen = index;
-                                                    rideRequestStatus[index] =
-                                                        "arrived";
-                                                  });
-                                                } else if (rideRequestStatus[
-                                                        index] ==
-                                                    "arrived") {
-                                                  FirebaseDatabase.instance
-                                                      .ref()
-                                                      .child(
-                                                          "All Ride Requests")
-                                                      .child(rideRequest
-                                                          .rideRequestId
-                                                          .toString())
-                                                      .child("acceptedRideInfo")
-                                                      .child("status")
-                                                      .set("ontrip");
-                                                  setState(() {
-                                                    isDropped[index] =
-                                                        !isDropped[index];
-                                                    indexChosen = index;
-                                                    rideRequestStatus[index] =
-                                                        "ontrip";
-                                                  });
-                                                } else {
-                                                  FirebaseDatabase.instance
-                                                      .ref()
-                                                      .child(
-                                                          "All Ride Requests")
-                                                      .child(rideRequest
-                                                          .rideRequestId
-                                                          .toString())
-                                                      .child("acceptedRideInfo")
-                                                      .child("status")
-                                                      .set("dropoff");
-                                                  setState(() {
-                                                    acceptedRideRequestDetailsList
-                                                        .removeAt(index);
-                                                  });
-                                                }
-                                              },
-                                              child: Text(
-                                                isInRoute[index] &&
-                                                        !isDropped[index]
-                                                    ? "In Route"
-                                                    : isInRoute[index] &&
-                                                            isDropped[index]
-                                                        ? "Drop Off"
-                                                        : "Arrive",
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold,
+                                              ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15.0),
+                                                  ),
+                                                  fixedSize: Size(120, 35),
+                                                  primary: isInRoute[index] &&
+                                                          !isDropped[index]
+                                                      ? Colors.blue
+                                                      : isInRoute[index] &&
+                                                              isDropped[index]
+                                                          ? Colors.redAccent
+                                                          : Colors.lightGreen,
+                                                ),
+                                                onPressed: () {
+                                                  if (rideRequestStatus[
+                                                          index] ==
+                                                      "accepted") {
+                                                    FirebaseDatabase.instance
+                                                        .ref()
+                                                        .child(
+                                                            "All Ride Requests")
+                                                        .child(rideRequest
+                                                            .rideRequestId
+                                                            .toString())
+                                                        .child(
+                                                            "acceptedRideInfo")
+                                                        .child("status")
+                                                        .set("arrived");
+                                                    setState(() {
+                                                      isInRoute[index] =
+                                                          !isInRoute[index];
+                                                      indexChosen = index;
+                                                      rideRequestStatus[index] =
+                                                          "arrived";
+                                                    });
+                                                  } else if (rideRequestStatus[
+                                                          index] ==
+                                                      "arrived") {
+                                                    FirebaseDatabase.instance
+                                                        .ref()
+                                                        .child(
+                                                            "All Ride Requests")
+                                                        .child(rideRequest
+                                                            .rideRequestId
+                                                            .toString())
+                                                        .child(
+                                                            "acceptedRideInfo")
+                                                        .child("status")
+                                                        .set("ontrip");
+                                                    setState(() {
+                                                      isDropped[index] =
+                                                          !isDropped[index];
+                                                      indexChosen = index;
+                                                      rideRequestStatus[index] =
+                                                          "ontrip";
+                                                    });
+                                                  } else {
+                                                    FirebaseDatabase.instance
+                                                        .ref()
+                                                        .child(
+                                                            "All Ride Requests")
+                                                        .child(rideRequest
+                                                            .rideRequestId
+                                                            .toString())
+                                                        .child(
+                                                            "acceptedRideInfo")
+                                                        .child("status")
+                                                        .set("dropoff");
+                                                    setState(() {
+                                                      acceptedRideRequestDetailsList
+                                                          .removeAt(index);
+                                                    });
+                                                  }
+                                                },
+                                                child: AutoSizeText(
+                                                  isInRoute[index] &&
+                                                          !isDropped[index]
+                                                      ? "In Route"
+                                                      : isInRoute[index] &&
+                                                              isDropped[index]
+                                                          ? "Drop Off"
+                                                          : "Arrive",
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                  maxLines: 3,
+                                                  minFontSize: 10,
+                                                  maxFontSize: 12,
                                                 ),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                },
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
                               ),
                             ),
                           ),

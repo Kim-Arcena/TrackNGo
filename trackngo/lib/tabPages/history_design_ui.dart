@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:trackngo/models/trip_history_model.dart';
 
@@ -41,22 +42,29 @@ class _HistoryDesignUIWidgetState extends State<HistoryDesignUIWidget> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        AutoSizeText(
                           widget.tripsHistoryModel!.userFirstName! +
                               " " +
                               widget.tripsHistoryModel!.userLastName!,
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: 17,
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
                           ),
+                          maxLines: 3,
+                          minFontSize: 10,
+                          maxFontSize: 12,
                         ),
-                        Text(
+                        SizedBox(height: 5),
+                        AutoSizeText(
                           widget.tripsHistoryModel!.userContactNumber!,
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: 13,
                             color: Colors.black,
                           ),
+                          maxLines: 3,
+                          minFontSize: 10,
+                          maxFontSize: 12,
                         ),
                       ],
                     ),
@@ -65,13 +73,16 @@ class _HistoryDesignUIWidgetState extends State<HistoryDesignUIWidget> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
+                        AutoSizeText(
                           "P " + widget.tripsHistoryModel!.passengerFare!,
                           style: TextStyle(
-                            fontSize: 22,
+                            fontSize: 21,
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
                           ),
+                          maxLines: 3,
+                          minFontSize: 10,
+                          maxFontSize: 21,
                         ),
                       ],
                     ),
