@@ -1,4 +1,3 @@
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:trackngo/global/global.dart';
 import 'package:trackngo/mainScreen/driver_trip_screen.dart';
@@ -35,15 +34,10 @@ class _ProfileTabPage extends State<ProfileTabPage> {
     }
   }
 
-  void getFinishedRideRequestDetailsList() {
-    DatabaseReference finishedRideRequest = FirebaseDatabase.instance.ref();
-  }
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getFinishedRideRequestDetailsList();
   }
 
   @override
@@ -103,7 +97,7 @@ class _ProfileTabPage extends State<ProfileTabPage> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 10),
+                          SizedBox(height: 12),
                           Text(
                             onlineDriverData.firstName.toString() +
                                 " " +
@@ -118,15 +112,23 @@ class _ProfileTabPage extends State<ProfileTabPage> {
                       ),
                     ),
                     SizedBox(height: 20),
-                    Text(
-                      'Account Information',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10, right: 30),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Earning Details",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
                       ),
-                      textAlign: TextAlign.left,
                     ),
-                    SizedBox(height: 10),
+                    SizedBox(height: 12),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
@@ -144,15 +146,20 @@ class _ProfileTabPage extends State<ProfileTabPage> {
                                   'Email',
                                   style: TextStyle(
                                     fontSize: 16,
-                                    fontWeight: FontWeight.bold,
                                     color: Color(0xFF7f7f84),
                                   ),
                                 ),
                                 Spacer(),
-                                Text(onlineDriverData.email.toString())
+                                Text(
+                                  onlineDriverData.email.toString(),
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                )
                               ],
                             ),
-                            SizedBox(height: 10),
+                            SizedBox(height: 12),
                             Row(
                               children: [
                                 Icon(
@@ -165,15 +172,20 @@ class _ProfileTabPage extends State<ProfileTabPage> {
                                   'Phone',
                                   style: TextStyle(
                                     fontSize: 16,
-                                    fontWeight: FontWeight.bold,
                                     color: Color(0xFF7f7f84),
                                   ),
                                 ),
                                 Spacer(),
-                                Text(onlineDriverData.contactNumber.toString())
+                                Text(
+                                  onlineDriverData.contactNumber.toString(),
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                )
                               ],
                             ),
-                            SizedBox(height: 10),
+                            SizedBox(height: 12),
                             Row(
                               children: [
                                 Icon(
@@ -186,15 +198,20 @@ class _ProfileTabPage extends State<ProfileTabPage> {
                                   'Driver License',
                                   style: TextStyle(
                                     fontSize: 16,
-                                    fontWeight: FontWeight.bold,
                                     color: Color(0xFF7f7f84),
                                   ),
                                 ),
                                 Spacer(),
-                                Text(onlineDriverData.licenseNumber.toString())
+                                Text(
+                                  onlineDriverData.licenseNumber.toString(),
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                )
                               ],
                             ),
-                            SizedBox(height: 10),
+                            SizedBox(height: 12),
                             Row(
                               children: [
                                 Icon(
@@ -207,15 +224,20 @@ class _ProfileTabPage extends State<ProfileTabPage> {
                                   'Operator Id',
                                   style: TextStyle(
                                     fontSize: 16,
-                                    fontWeight: FontWeight.bold,
                                     color: Color(0xFF7f7f84),
                                   ),
                                 ),
                                 Spacer(),
-                                Text(onlineDriverData.operatorId.toString())
+                                Text(
+                                  onlineDriverData.operatorId.toString(),
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                )
                               ],
                             ),
-                            SizedBox(height: 10),
+                            SizedBox(height: 12),
                             Row(
                               children: [
                                 Icon(
@@ -228,15 +250,20 @@ class _ProfileTabPage extends State<ProfileTabPage> {
                                   'Bus Type',
                                   style: TextStyle(
                                     fontSize: 16,
-                                    fontWeight: FontWeight.bold,
                                     color: Color(0xFF7f7f84),
                                   ),
                                 ),
                                 Spacer(),
-                                Text(onlineDriverData.busType.toString())
+                                Text(
+                                  onlineDriverData.busType.toString(),
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                )
                               ],
                             ),
-                            SizedBox(height: 10),
+                            SizedBox(height: 12),
                             Row(
                               children: [
                                 Icon(
@@ -249,12 +276,17 @@ class _ProfileTabPage extends State<ProfileTabPage> {
                                   'Plate Number',
                                   style: TextStyle(
                                     fontSize: 16,
-                                    fontWeight: FontWeight.bold,
                                     color: Color(0xFF7f7f84),
                                   ),
                                 ),
                                 Spacer(),
-                                Text(onlineDriverData.plateNumber.toString())
+                                Text(
+                                  onlineDriverData.plateNumber.toString(),
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                )
                               ],
                             ),
                           ],
@@ -292,30 +324,53 @@ class _ProfileTabPage extends State<ProfileTabPage> {
             child: Material(
               elevation: 10,
               borderOnForeground: true,
-              child: BottomNavigationBar(
-                items: [
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.explore),
-                    label: 'Home',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.attach_money),
-                    label: 'Earnings',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.person),
-                    label: 'Profile',
-                  ),
-                ],
-                unselectedItemColor: Color(0xFF7c7c7c),
-                selectedItemColor: Color(0xFF4E8C6F),
-                backgroundColor: Color.fromARGB(255, 240, 255, 244),
-                type: BottomNavigationBarType.fixed,
-                selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
-                showUnselectedLabels: true,
-                currentIndex: selectedIndex,
-                onTap: onItemSelected,
-                elevation: 22,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Color(0xFF2D9D69),
+                ),
+                child: BottomNavigationBar(
+                  items: [
+                    BottomNavigationBarItem(
+                      icon: Container(
+                        height: 0,
+                        child: Icon(
+                          Icons.explore,
+                          size: 30,
+                        ),
+                      ),
+                      label: '',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Container(
+                        height: 0,
+                        child: Icon(
+                          Icons.wallet,
+                          size: 30,
+                        ),
+                      ),
+                      label: '',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Container(
+                        height: 0,
+                        child: Icon(
+                          Icons.person,
+                          size: 30,
+                        ),
+                      ),
+                      label: '',
+                    ),
+                  ],
+                  unselectedItemColor: Colors.white,
+                  selectedItemColor: Colors.white,
+                  backgroundColor: Color(0xFF2D9D69),
+                  type: BottomNavigationBarType.fixed,
+                  selectedLabelStyle:
+                      const TextStyle(fontWeight: FontWeight.bold),
+                  showUnselectedLabels: true,
+                  currentIndex: selectedIndex,
+                  onTap: onItemSelected,
+                ),
               ),
             ),
           ),

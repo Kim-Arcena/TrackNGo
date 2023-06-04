@@ -432,11 +432,11 @@ class _DriverTripScreenState extends State<DriverTripScreen>
                                                   fixedSize: Size(120, 35),
                                                   primary: isInRoute[index] &&
                                                           !isDropped[index]
-                                                      ? Colors.blue
+                                                      ? Color(0xFF06A6D0)
                                                       : isInRoute[index] &&
                                                               isDropped[index]
-                                                          ? Colors.redAccent
-                                                          : Colors.lightGreen,
+                                                          ? Color(0xffEB565C)
+                                                          : Color(0xFF1B9C4E),
                                                 ),
                                                 onPressed: () {
                                                   if (rideRequestStatus[
@@ -558,31 +558,53 @@ class _DriverTripScreenState extends State<DriverTripScreen>
                         child: Material(
                           elevation: 10,
                           borderOnForeground: true,
-                          child: BottomNavigationBar(
-                            items: const [
-                              BottomNavigationBarItem(
-                                icon: Icon(Icons.explore),
-                                label: 'Home',
-                              ),
-                              BottomNavigationBarItem(
-                                icon: Icon(Icons.attach_money),
-                                label: 'Earnings',
-                              ),
-                              BottomNavigationBarItem(
-                                icon: Icon(Icons.person),
-                                label: 'Profile',
-                              ),
-                            ],
-                            unselectedItemColor: Color(0xFF7c7c7c),
-                            selectedItemColor: Color(0xFF4E8C6F),
-                            backgroundColor: Color.fromARGB(255, 240, 255, 244),
-                            type: BottomNavigationBarType.fixed,
-                            selectedLabelStyle:
-                                const TextStyle(fontWeight: FontWeight.bold),
-                            showUnselectedLabels: true,
-                            currentIndex: selectedIndex,
-                            onTap: onItemSelected,
-                            elevation: 22,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Color(0xFF2D9D69),
+                            ),
+                            child: BottomNavigationBar(
+                              items: [
+                                BottomNavigationBarItem(
+                                  icon: Container(
+                                    height: 0,
+                                    child: Icon(
+                                      Icons.explore,
+                                      size: 30,
+                                    ),
+                                  ),
+                                  label: '',
+                                ),
+                                BottomNavigationBarItem(
+                                  icon: Container(
+                                    height: 0,
+                                    child: Icon(
+                                      Icons.wallet,
+                                      size: 30,
+                                    ),
+                                  ),
+                                  label: '',
+                                ),
+                                BottomNavigationBarItem(
+                                  icon: Container(
+                                    height: 0,
+                                    child: Icon(
+                                      Icons.person,
+                                      size: 30,
+                                    ),
+                                  ),
+                                  label: '',
+                                ),
+                              ],
+                              unselectedItemColor: Colors.white,
+                              selectedItemColor: Colors.white,
+                              backgroundColor: Color(0xFF2D9D69),
+                              type: BottomNavigationBarType.fixed,
+                              selectedLabelStyle:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                              showUnselectedLabels: true,
+                              currentIndex: selectedIndex,
+                              onTap: onItemSelected,
+                            ),
                           ),
                         ),
                       ),

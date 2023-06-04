@@ -514,31 +514,46 @@ class _MainScreenState extends State<MainScreen>
                         child: Material(
                           elevation: 10,
                           borderOnForeground: true,
-                          child: BottomNavigationBar(
-                            items: [
-                              BottomNavigationBarItem(
-                                icon: Icon(Icons.explore),
-                                label: 'Home',
+                          child: Container(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  Color(0xFF358855),
+                                  Color(0xFF247D47),
+                                  Color(0xFF1C9B4E),
+                                  Color(0xFF358855),
+                                ],
+                                begin: Alignment.centerLeft,
+                                end: Alignment.centerRight,
                               ),
-                              BottomNavigationBarItem(
-                                icon: Icon(Icons.attach_money),
-                                label: 'Earnings',
-                              ),
-                              BottomNavigationBarItem(
-                                icon: Icon(Icons.person),
-                                label: 'Profile',
-                              ),
-                            ],
-                            unselectedItemColor: Color(0xFF7c7c7c),
-                            selectedItemColor: Color(0xFF4E8C6F),
-                            backgroundColor: Color.fromARGB(255, 240, 255, 244),
-                            type: BottomNavigationBarType.fixed,
-                            selectedLabelStyle:
-                                const TextStyle(fontWeight: FontWeight.bold),
-                            showUnselectedLabels: true,
-                            currentIndex: selectedIndex,
-                            onTap: onItemSelected,
-                            elevation: 22,
+                            ),
+                            child: BottomNavigationBar(
+                              items: [
+                                BottomNavigationBarItem(
+                                  icon: Icon(Icons.explore),
+                                  label: 'Home',
+                                ),
+                                BottomNavigationBarItem(
+                                  icon: Icon(Icons.attach_money),
+                                  label: '',
+                                ),
+                                BottomNavigationBarItem(
+                                  icon: Icon(Icons.person),
+                                  label: 'Profile',
+                                ),
+                              ],
+                              unselectedItemColor: Colors.red,
+                              selectedItemColor: Colors.pink,
+                              backgroundColor: Colors
+                                  .transparent, // Set the background color to transparent
+                              type: BottomNavigationBarType.fixed,
+                              selectedLabelStyle:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                              showUnselectedLabels: true,
+                              currentIndex: selectedIndex,
+                              onTap: onItemSelected,
+                              elevation: 22,
+                            ),
                           ),
                         ),
                       ),

@@ -1,6 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:provider/provider.dart';
 import 'package:trackngo/models/trip_history_model.dart';
+
+import '../global/global.dart';
+import '../infoHandler/app_info.dart';
 
 // ignore: must_be_immutable
 class HistoryDesignUIWidget extends StatefulWidget {
@@ -13,6 +17,23 @@ class HistoryDesignUIWidget extends StatefulWidget {
 }
 
 class _HistoryDesignUIWidgetState extends State<HistoryDesignUIWidget> {
+  
+  @override
+  void initState() {
+    super.initState();
+    calculateTotalFare(); // Calculate the total fare when the widget is initialized
+  }
+
+  void calculateTotalFare() {
+    // Calculate the total fare by iterating through allTripsHistoryInformationList
+    for (TripsHistoryModel history
+        in Provider.of<AppInfo>(context, listen: false)
+            .allTripsHistoryInformationList) {
+      double fare = double.tryParse(history.passengerFare ?? '0.0') ?? 0.0;
+      totalFare += fare;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -53,7 +74,7 @@ class _HistoryDesignUIWidgetState extends State<HistoryDesignUIWidget> {
                           ),
                           maxLines: 3,
                           minFontSize: 10,
-                          maxFontSize: 12,
+                          maxFontSize: 15,
                         ),
                         SizedBox(height: 5),
                         AutoSizeText(
