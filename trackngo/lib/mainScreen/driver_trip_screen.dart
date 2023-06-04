@@ -436,7 +436,7 @@ class _DriverTripScreenState extends State<DriverTripScreen>
                                                       : isInRoute[index] &&
                                                               isDropped[index]
                                                           ? Color(0xffEB565C)
-                                                          : Color(0xFF1B9C4E),
+                                                          : Color(0xFF2D9D69),
                                                 ),
                                                 onPressed: () {
                                                   if (rideRequestStatus[

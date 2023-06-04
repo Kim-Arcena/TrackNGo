@@ -468,7 +468,13 @@ class _CommuterAcceptedRideScreenState
                                   Padding(
                                     padding: const EdgeInsets.only(left: 32.0),
                                     child: Text(
-                                      'Pickup Location',
+                                      Provider.of<AppInfo>(context)
+                                                  .userPickUpLocation !=
+                                              null
+                                          ? Provider.of<AppInfo>(context)
+                                              .userPickUpLocation!
+                                              .locationName!
+                                          : 'Pickup location',
                                       style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,
@@ -510,7 +516,13 @@ class _CommuterAcceptedRideScreenState
                                   Padding(
                                     padding: const EdgeInsets.only(left: 32),
                                     child: Text(
-                                      'dropoff Location',
+                                      Provider.of<AppInfo>(context)
+                                                  .userDropOffLocation !=
+                                              null
+                                          ? Provider.of<AppInfo>(context)
+                                              .userDropOffLocation!
+                                              .locationName!
+                                          : 'Drop-off location',
                                       style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,

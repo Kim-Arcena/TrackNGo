@@ -3,10 +3,13 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 import 'package:trackngo/assistants/assistant_methods.dart';
 import 'package:trackngo/global/global.dart';
 import 'package:trackngo/mainScreen/commuter_accepted_ride.dart';
 import 'package:trackngo/models/ride_ref_request_info.dart';
+
+import '../infoHandler/app_info.dart';
 
 var maxChildSize = 0.8;
 
@@ -190,10 +193,7 @@ class _InnerContainerState extends State<InnerContainer> {
   String? selectedImage;
   Color buttonTextColor = Color(0xFF53906B);
   String? buttonText = "Book";
-  @override
-  void initState() {
-    // TODO: implement initState
-  }
+
   String rideRequestRefId = RideRequestInfo.rideRequestRefId;
   void sendNotificationToDriver(String rideRequestId, String chosenDriverId) {
     print("chosen driver id is" + chosenDriverId.toString());
@@ -201,7 +201,7 @@ class _InnerContainerState extends State<InnerContainer> {
     DatabaseReference newRideStatusRef = FirebaseDatabase.instance
         .ref()
         .child("driver")
-        .child(chosenDriverId!)
+        .child(chosenDriverId)
         .child("newRideStatus");
 
     newRideStatusRef
@@ -211,7 +211,7 @@ class _InnerContainerState extends State<InnerContainer> {
     FirebaseDatabase.instance
         .ref()
         .child("driver")
-        .child(chosenDriverId!)
+        .child(chosenDriverId)
         .child("token")
         .once()
         .then((snap) {
@@ -563,7 +563,16 @@ class _InnerContainerState extends State<InnerContainer> {
                                                           const EdgeInsets.only(
                                                               left: 32.0),
                                                       child: Text(
-                                                        'Pickup Location',
+                                                        Provider.of<AppInfo>(
+                                                                        context)
+                                                                    .userPickUpLocation !=
+                                                                null
+                                                            ? Provider.of<
+                                                                        AppInfo>(
+                                                                    context)
+                                                                .userPickUpLocation!
+                                                                .locationName!
+                                                            : 'Pickup Location',
                                                         style: TextStyle(
                                                           fontSize: 16,
                                                           fontWeight:
@@ -613,7 +622,16 @@ class _InnerContainerState extends State<InnerContainer> {
                                                           const EdgeInsets.only(
                                                               left: 32),
                                                       child: Text(
-                                                        'dropoff Location',
+                                                        Provider.of<AppInfo>(
+                                                                        context)
+                                                                    .userDropOffLocation !=
+                                                                null
+                                                            ? Provider.of<
+                                                                        AppInfo>(
+                                                                    context)
+                                                                .userDropOffLocation!
+                                                                .locationName!
+                                                            : 'Drop-off location',
                                                         style: TextStyle(
                                                           fontSize: 16,
                                                           fontWeight:

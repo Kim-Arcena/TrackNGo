@@ -220,7 +220,7 @@ class _CommuterScreenState extends State<CommuterScreen> {
                                 const Align(
                                   alignment: Alignment.topLeft,
                                   child: Text(
-                                    "Dropoff",
+                                    "Drop-off",
                                     style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
@@ -260,10 +260,10 @@ class _CommuterScreenState extends State<CommuterScreen> {
                                                 ? Provider.of<AppInfo>(context)
                                                     .userDropOffLocation!
                                                     .locationName!
-                                                : 'DropOff Location',
+                                                : 'Drop-off Location',
                                           ),
                                           decoration: InputDecoration(
-                                            hintText: 'DropOff Location',
+                                            hintText: 'Drop-off Location',
                                           ),
                                           maxLines: null,
                                         ),

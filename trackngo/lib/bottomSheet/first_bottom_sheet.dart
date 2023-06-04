@@ -267,7 +267,7 @@ class _InnerContainerState extends State<InnerContainer> {
     };
     Map destinationLocationMap = {
       "latitude": destinationLocation!.locationLatitude.toString(),
-      "longitude": destinationLocation!.locationLongitude.toString(),
+      "longitude": destinationLocation.locationLongitude.toString(),
     };
     double passengerFare =
         AssistantMethods.calculateFairAmountFromOriginToDestination(
