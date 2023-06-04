@@ -65,9 +65,12 @@ class _ProfileTabPage extends State<ProfileTabPage> {
               top: 0,
               left: 0,
               right: 0,
-              child: Container(
-                height: 200,
-                child: Image.asset('images/bannerTop.png', height: 120.0),
+              child: Material(
+                elevation: 0,
+                child: Container(
+                  height: 200,
+                  child: Image.asset('images/bannerTop.png', height: 120.0),
+                ),
               ),
             ),
             Positioned(
@@ -110,7 +113,10 @@ class _ProfileTabPage extends State<ProfileTabPage> {
                           ),
                           SizedBox(height: 10),
                           Text(
-                            'John Doe', // Add the name here
+                            onlineDriverData.firstName.toString() +
+                                " " +
+                                onlineDriverData.lastName
+                                    .toString(), // Add the name here
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -151,7 +157,7 @@ class _ProfileTabPage extends State<ProfileTabPage> {
                                   ),
                                 ),
                                 Spacer(),
-                                Text("email@email.com")
+                                Text(onlineDriverData.email.toString())
                               ],
                             ),
                             SizedBox(height: 10),
@@ -172,7 +178,7 @@ class _ProfileTabPage extends State<ProfileTabPage> {
                                   ),
                                 ),
                                 Spacer(),
-                                Text("+639123456789")
+                                Text(onlineDriverData.contactNumber.toString())
                               ],
                             ),
                             SizedBox(height: 10),
@@ -193,7 +199,7 @@ class _ProfileTabPage extends State<ProfileTabPage> {
                                   ),
                                 ),
                                 Spacer(),
-                                Text("J543543534353")
+                                Text(onlineDriverData.licenseNumber.toString())
                               ],
                             ),
                             SizedBox(height: 10),
@@ -214,7 +220,7 @@ class _ProfileTabPage extends State<ProfileTabPage> {
                                   ),
                                 ),
                                 Spacer(),
-                                Text("J5453")
+                                Text(onlineDriverData.operatorId.toString())
                               ],
                             ),
                             SizedBox(height: 10),
@@ -235,7 +241,7 @@ class _ProfileTabPage extends State<ProfileTabPage> {
                                   ),
                                 ),
                                 Spacer(),
-                                Text("Air-Conditioned")
+                                Text(onlineDriverData.busType.toString())
                               ],
                             ),
                             SizedBox(height: 10),
@@ -248,7 +254,7 @@ class _ProfileTabPage extends State<ProfileTabPage> {
                                 ),
                                 SizedBox(width: 5),
                                 Text(
-                                  'Bus Number',
+                                  'Plate Number',
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
@@ -256,7 +262,7 @@ class _ProfileTabPage extends State<ProfileTabPage> {
                                   ),
                                 ),
                                 Spacer(),
-                                Text("F1234")
+                                Text(onlineDriverData.plateNumber.toString())
                               ],
                             ),
                           ],

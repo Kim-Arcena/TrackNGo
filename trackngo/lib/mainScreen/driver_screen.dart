@@ -49,7 +49,6 @@ class _MainScreenState extends State<MainScreen>
   Color? buttonColor = Color(0xFF199A5D);
   String statusText = "Now Offline";
   Color stateColor = Colors.grey;
-  bool isDriverActive = false;
   TabController? tabController;
   int selectedIndex = 0;
   Position? onlineDriverCurrentPosition;

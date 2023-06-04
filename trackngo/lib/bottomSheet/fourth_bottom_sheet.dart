@@ -509,7 +509,11 @@ class _InnerContainerState extends State<InnerContainer> {
                                             ),
                                             SizedBox(height: 5),
                                             Text(
-                                              "P11.00",
+                                              "P " +
+                                                  AssistantMethods
+                                                          .calculateFairAmountFromOriginToDestination(
+                                                              tripDrirectionDetailsInfo!)
+                                                      .toString(),
                                               style: TextStyle(
                                                 fontSize: 25,
                                                 fontWeight: FontWeight.bold,

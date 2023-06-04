@@ -29,6 +29,7 @@ bool isChecked = false;
 List<UserRideRequestInformation> acceptedRideRequestDetailsList = [];
 DriverData onlineDriverData = DriverData();
 Position? currentPosition;
+bool isDriverActive = false;
 int numberOfSeats = 0;
 ChosenDriverInformation? chosenDriverInformation;
 String? referenceIdValue = "";
