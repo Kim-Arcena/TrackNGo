@@ -92,43 +92,11 @@ class _MainScreenState extends State<MainScreen>
         print("online driver data is null");
       }
     });
-
+    print("AssistantMethods readTripsKeysForOnlineUser(context) is called");
+    AssistantMethods.readTripsKeysForOnlineUser(context);
     PushNotificationSystem pushNotificationSystem = PushNotificationSystem();
     pushNotificationSystem.initializeCloudMessagin(context);
     pushNotificationSystem.generateAndGetToken();
-  }
-
-  void saveAssignedDriverDetailsToUserRideRequest() {
-    print("saveAssignedDriverDetailsToUserRideRequest" +
-        widget.userRideRequestDetails.toString());
-    // if (widget.userRideRequestDetails != null &&
-    //     widget.userRideRequestDetails!.rideRequestId != null) {
-    //   DatabaseReference databaseReference = FirebaseDatabase.instance
-    //       .ref()
-    //       .child("All Ride Requests")
-    //       .child(widget.userRideRequestDetails!.rideRequestId!);
-
-    //   print("widget.userRideRequestDetails!.rideRequestId! " +
-    //       widget.userRideRequestDetails!.rideRequestId!);
-
-    //   Map driverLocationDataMap = {
-    //     "latitude": driverCurrentPosition!.latitude,
-    //     "longitude": driverCurrentPosition!.longitude
-    //   };
-
-    //   databaseReference.child("driverLocation").set(driverLocationDataMap);
-    //   databaseReference.child("status").set("accepted");
-    //   databaseReference.child("driverId").set(onlineDriverData.id);
-    //   databaseReference
-    //       .child("driverFirstName")
-    //       .set(onlineDriverData.firstName);
-    //   databaseReference.child("driverLastName").set(onlineDriverData.lastName);
-    //   databaseReference
-    //       .child("driverContactNumber")
-    //       .set(onlineDriverData.contactNumber);
-    //   databaseReference.child("driverBusType").set(onlineDriverData.busType);
-    // }
-    // // print("saveAssignedDriverDetailsToUserRideRequest");
   }
 
   void _onMapCreated(GoogleMapController _cntlr) async {
@@ -206,11 +174,7 @@ class _MainScreenState extends State<MainScreen>
           context, MaterialPageRoute(builder: (context) => DriverTripScreen()));
     } else if (index == 1) {
       Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => EarningsTabPage(
-                    driverUid: currentFirebaseUser!.uid.toString(),
-                  )));
+          context, MaterialPageRoute(builder: (context) => EarningsTabPage()));
     } else if (index == 2) {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => ProfileTabPage()));
@@ -228,8 +192,7 @@ class _MainScreenState extends State<MainScreen>
     readCurrentDriveInformation();
     updateDriversLocationAtRealTime();
     drawPolyLineFromSourceToDestination();
-    saveAssignedDriverDetailsToUserRideRequest();
-    AssistantMethods.readTripsKeysForOnlineUser(context);
+
     tabController = TabController(length: 3, vsync: this);
   }
 

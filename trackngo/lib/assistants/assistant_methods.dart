@@ -167,16 +167,15 @@ class AssistantMethods {
         //share trips keys with Provider
         List<String> tripsKeysList = [];
         keysTripsId.forEach((key, value) {
-          if (!tripsKeysList.contains(key)) {
-            tripsKeysList.add(key);
-            print("key: " + key);
-          }
+          tripsKeysList.add(key);
         });
-
         Provider.of<AppInfo>(context, listen: false)
             .updateOverAllTripsKeys(tripsKeysList);
 
         //get trips keys data - read trips complete information
+        // Get trips keys data - read trips complete information
+        Provider.of<AppInfo>(context, listen: false)
+            .clearAllTripsHistoryInformation();
         readTripsHistoryInformation(context);
       }
     });
@@ -202,6 +201,4 @@ class AssistantMethods {
       });
     }
   }
-
-  static readCurrentOnlineUserInfo() {}
 }

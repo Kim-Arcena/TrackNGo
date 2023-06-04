@@ -6,9 +6,6 @@ import 'package:trackngo/tabPages/history_design_ui.dart';
 import 'package:trackngo/tabPages/profile_tab.dart';
 
 class EarningsTabPage extends StatefulWidget {
-  String? driverUid;
-  EarningsTabPage({required this.driverUid});
-
   @override
   State<EarningsTabPage> createState() => _EarningsTabPageState();
 }

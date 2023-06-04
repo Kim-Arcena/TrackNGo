@@ -75,11 +75,7 @@ class _DriverTripScreenState extends State<DriverTripScreen>
           context, MaterialPageRoute(builder: (context) => DriverTripScreen()));
     } else if (index == 1) {
       Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => EarningsTabPage(
-                    driverUid: currentFirebaseUser!.uid.toString(),
-                  )));
+          context, MaterialPageRoute(builder: (context) => EarningsTabPage()));
     } else if (index == 2) {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => ProfileTabPage()));
