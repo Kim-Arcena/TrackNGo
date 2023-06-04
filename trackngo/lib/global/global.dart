@@ -32,6 +32,7 @@ Position? currentPosition;
 bool isDriverActive = false;
 int numberOfSeats = 0;
 ChosenDriverInformation? chosenDriverInformation;
+ChosenDriverInformation? eachDriverInformation;
 String? referenceIdValue = "";
 String? driverRideStatus = "Rider is on the way";
 String cloudMessagingServerToken =

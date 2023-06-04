@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trackngo/global/global.dart';
 import 'package:trackngo/mainScreen/driver_trip_screen.dart';
+import 'package:trackngo/tabPages/earning_tab.dart';
 
 class ProfileTabPage extends StatefulWidget {
   const ProfileTabPage({super.key});
@@ -24,9 +25,9 @@ class _ProfileTabPage extends State<ProfileTabPage> {
       // Check if the "Earnings" item is clicked (index 1)
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => DriverTripScreen()));
-    } else if (index == 2) {
+    } else if (index == 1) {
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => ProfileTabPage()));
+          context, MaterialPageRoute(builder: (context) => EarningsTabPage()));
     } else {
       setState(() {
         selectedIndex = index;
@@ -361,7 +362,7 @@ class _ProfileTabPage extends State<ProfileTabPage> {
                       label: '',
                     ),
                   ],
-                  unselectedItemColor: Colors.white,
+                  unselectedItemColor: Color(0xFFe3efe7),
                   selectedItemColor: Colors.white,
                   backgroundColor: Color(0xFF2D9D69),
                   type: BottomNavigationBarType.fixed,

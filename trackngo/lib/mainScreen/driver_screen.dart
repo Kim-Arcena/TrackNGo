@@ -516,43 +516,50 @@ class _MainScreenState extends State<MainScreen>
                           borderOnForeground: true,
                           child: Container(
                             decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [
-                                  Color(0xFF358855),
-                                  Color(0xFF247D47),
-                                  Color(0xFF1C9B4E),
-                                  Color(0xFF358855),
-                                ],
-                                begin: Alignment.centerLeft,
-                                end: Alignment.centerRight,
-                              ),
+                              color: Color(0xFF2D9D69),
                             ),
                             child: BottomNavigationBar(
                               items: [
                                 BottomNavigationBarItem(
-                                  icon: Icon(Icons.explore),
-                                  label: 'Home',
-                                ),
-                                BottomNavigationBarItem(
-                                  icon: Icon(Icons.attach_money),
+                                  icon: Container(
+                                    height: 0,
+                                    child: Icon(
+                                      Icons.explore,
+                                      size: 30,
+                                    ),
+                                  ),
                                   label: '',
                                 ),
                                 BottomNavigationBarItem(
-                                  icon: Icon(Icons.person),
-                                  label: 'Profile',
+                                  icon: Container(
+                                    height: 0,
+                                    child: Icon(
+                                      Icons.wallet,
+                                      size: 30,
+                                    ),
+                                  ),
+                                  label: '',
+                                ),
+                                BottomNavigationBarItem(
+                                  icon: Container(
+                                    height: 0,
+                                    child: Icon(
+                                      Icons.person,
+                                      size: 30,
+                                    ),
+                                  ),
+                                  label: '',
                                 ),
                               ],
-                              unselectedItemColor: Colors.red,
-                              selectedItemColor: Colors.pink,
-                              backgroundColor: Colors
-                                  .transparent, // Set the background color to transparent
+                              unselectedItemColor: Color(0xFFe3efe7),
+                              selectedItemColor: Colors.white,
+                              backgroundColor: Color(0xFF2D9D69),
                               type: BottomNavigationBarType.fixed,
                               selectedLabelStyle:
                                   const TextStyle(fontWeight: FontWeight.bold),
                               showUnselectedLabels: true,
                               currentIndex: selectedIndex,
                               onTap: onItemSelected,
-                              elevation: 22,
                             ),
                           ),
                         ),

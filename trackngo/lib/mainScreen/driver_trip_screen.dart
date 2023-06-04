@@ -595,7 +595,7 @@ class _DriverTripScreenState extends State<DriverTripScreen>
                                   label: '',
                                 ),
                               ],
-                              unselectedItemColor: Colors.white,
+                              unselectedItemColor: Color(0xFFe3efe7),
                               selectedItemColor: Colors.white,
                               backgroundColor: Color(0xFF2D9D69),
                               type: BottomNavigationBarType.fixed,

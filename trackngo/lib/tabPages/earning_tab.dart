@@ -5,8 +5,6 @@ import 'package:trackngo/mainScreen/driver_trip_screen.dart';
 import 'package:trackngo/tabPages/history_design_ui.dart';
 import 'package:trackngo/tabPages/profile_tab.dart';
 
-import '../global/global.dart';
-
 class EarningsTabPage extends StatefulWidget {
   @override
   State<EarningsTabPage> createState() => _EarningsTabPageState();
@@ -36,6 +34,30 @@ class _EarningsTabPageState extends State<EarningsTabPage> {
         selectedIndex = index;
       });
     }
+  }
+
+  double totalFare = 0;
+  void calculateTotalFare() {
+    for (int i = 0;
+        i <
+            Provider.of<AppInfo>(context, listen: false)
+                .allTripsHistoryInformationList
+                .length;
+        i++) {
+      double fare = double.tryParse(Provider.of<AppInfo>(context, listen: false)
+              .allTripsHistoryInformationList[i]
+              .passengerFare!) ??
+          0.0;
+      totalFare += fare;
+    }
+    print("total fare is: " + totalFare.toString());
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    calculateTotalFare();
   }
 
   @override
@@ -172,6 +194,7 @@ class _EarningsTabPageState extends State<EarningsTabPage> {
                             tripsHistoryModel:
                                 Provider.of<AppInfo>(context, listen: false)
                                     .allTripsHistoryInformationList[i],
+                            fare: totalFare,
                           );
                         },
                         itemCount: Provider.of<AppInfo>(context, listen: false)
@@ -249,7 +272,7 @@ class _EarningsTabPageState extends State<EarningsTabPage> {
                             label: '',
                           ),
                         ],
-                        unselectedItemColor: Colors.white,
+                        unselectedItemColor: Color(0xFFe3efe7),
                         selectedItemColor: Colors.white,
                         backgroundColor: Color(0xFF2D9D69),
                         type: BottomNavigationBarType.fixed,
