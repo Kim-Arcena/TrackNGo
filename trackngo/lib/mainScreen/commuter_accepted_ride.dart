@@ -12,6 +12,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' hide LocationAccuracy;
 import 'package:provider/provider.dart';
 import 'package:trackngo/global/global.dart';
+import 'package:trackngo/mainScreen/commuter_screen.dart';
 import 'package:trackngo/mainScreen/search_places_screen.dart';
 import 'package:trackngo/mainScreen/warningDialog.dart';
 import 'package:trackngo/models/ride_ref_request_info.dart';
@@ -172,7 +173,6 @@ class _CommuterAcceptedRideScreenState
 
         String passengerFare =
             (snapData.snapshot.value! as Map)["passengerFare"].toString();
-
         finishedUserRideInformation.rideRequestId = rideRequestId;
         finishedUserRideInformation.originLatLng = LatLng(originLat, originLng);
         finishedUserRideInformation.destinationLatLng =
@@ -229,9 +229,38 @@ class _CommuterAcceptedRideScreenState
         showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
-            title: const Text("Your Driver has Arrived"),
-            content:
-                Text(finishedUserRideInformation.destinationAddress.toString()),
+            content: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Image.asset(
+                    'images/logo.png',
+                    width: 100.0,
+                    height: 100.0,
+                  ), // Replace 'your_image_path.png' with the actual path to your image
+                  const SizedBox(height: 10),
+                  Text(
+                    "Your rider has arrived!",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
+                  Text(
+                    "Your rider has arrived at your location. We hope you have a pleasant experience with our service. Enjoy your trip and have a great day",
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.black,
+                    ),
+                    textAlign: TextAlign.start,
+                  ),
+                ],
+              ),
+            ),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(15.0)),
             ),
@@ -244,7 +273,12 @@ class _CommuterAcceptedRideScreenState
                 },
                 child: Container(
                   padding: const EdgeInsets.all(14),
-                  child: const Text("OK"),
+                  child: const Text(
+                    "OK",
+                    style: TextStyle(
+                      color: Color(0xFF4E8C6F),
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -254,9 +288,41 @@ class _CommuterAcceptedRideScreenState
         showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
-            title: const Text("Driver Ontrip"),
-            content:
-                Text(finishedUserRideInformation.destinationAddress.toString()),
+            content: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Image.asset(
+                    'images/logo.png',
+                    width: 100.0,
+                    height: 100.0,
+                  ), // Replace 'your_image_path.png' with the actual path to your image
+                  const SizedBox(height: 10),
+                  Text(
+                    "Your are currently on trip",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
+                  Text(
+                    "Enjoy your trip to " +
+                        finishedUserRideInformation.destinationAddress
+                            .toString() +
+                        ". Have a great day!",
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.black,
+                    ),
+                    textAlign: TextAlign.start,
+                  ),
+                ],
+              ),
+            ),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(15.0)),
             ),
@@ -267,7 +333,12 @@ class _CommuterAcceptedRideScreenState
                 },
                 child: Container(
                   padding: const EdgeInsets.all(14),
-                  child: const Text("OK"),
+                  child: const Text(
+                    "OK",
+                    style: TextStyle(
+                      color: Color(0xFF4E8C6F),
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -308,8 +379,268 @@ class _CommuterAcceptedRideScreenState
         showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
-            title: const Text("drop the fuck off"),
-            content: const Text("naog ka na pls."),
+            contentPadding: EdgeInsets.zero, // Remove the padding
+            content: SingleChildScrollView(
+              child: Center(
+                child: Column(
+                  children: [
+                    SizedBox(height: 15),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 10),
+                      child: Column(
+                        children: [
+                          Image.asset(
+                            'images/logo.png',
+                            width: 70.0,
+                            height: 70.0,
+                          ),
+                          SizedBox(height: 8),
+                          Text(
+                            "Trip Success",
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                          ),
+                          SizedBox(height: 8),
+                          Text(
+                            "You have successfully reached your destination using TrackNGo!",
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Color(0xFF737574),
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: 15),
+                          Text(
+                            "Total Payment",
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Color(0xFF737574),
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: 5),
+                          Text(
+                            "P11.00",
+                            style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Image.asset(
+                      'images/divider.png',
+                    ),
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 30, vertical: 5),
+                        child: Column(
+                          children: [
+                            Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Icons.location_pin,
+                                        color: Color(0xFFA8CEB7),
+                                        size: 30.0,
+                                      ),
+                                      Text(
+                                        "Pickup",
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xFF4E8C6F),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 32.0),
+                                    child: Text(
+                                      Provider.of<AppInfo>(context)
+                                                  .userPickUpLocation !=
+                                              null
+                                          ? Provider.of<AppInfo>(context)
+                                              .userPickUpLocation!
+                                              .locationName!
+                                          : 'Pickup location',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      maxLines: 2,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 32.0),
+                              child: Divider(
+                                  height: 10.0,
+                                  thickness: 0.5,
+                                  color: Color(0xFFB9C7C0)),
+                            ),
+                            Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Icons.location_pin,
+                                        color: Color(0xFFA8CEB7),
+                                        size: 30.0,
+                                      ),
+                                      Text(
+                                        "Drop-off",
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xFF4E8C6F),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 32),
+                                    child: Text(
+                                      Provider.of<AppInfo>(context)
+                                                  .userDropOffLocation !=
+                                              null
+                                          ? Provider.of<AppInfo>(context)
+                                              .userDropOffLocation!
+                                              .locationName!
+                                          : 'Drop-off location',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      maxLines: 2,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Image.asset(
+                      'images/divider.png',
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 30, vertical: 5),
+                      child: Image.asset(
+                        'images/barcode.png',
+                        height: 70.0,
+                      ),
+                    ),
+                    SizedBox(height: 8),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 30),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Row(
+                            children: [
+                              Container(
+                                width: 90,
+                                height: 90,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      fit: BoxFit.contain,
+                                      image: AssetImage('images/driver.png')),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      offset: Offset(0, 1),
+                                      blurRadius: 5,
+                                      color: Colors.black.withOpacity(0.2),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                width: 8,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      '${chosenDriverInformation?.driverFirstName ?? 'First Name'} ${chosenDriverInformation?.driverLastName ?? 'Last Name'}',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      maxLines: 3,
+                                    ),
+                                    SizedBox(
+                                      height: 4,
+                                    ),
+                                    Text(
+                                      chosenDriverInformation?.busNumber ??
+                                          'F4343',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                      ),
+                                      maxLines: 1,
+                                    ),
+                                    SizedBox(
+                                      height: 1.5,
+                                    ),
+                                    Text(
+                                      chosenDriverInformation
+                                              ?.driverContactNumber ??
+                                          '09473582942',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                      ),
+                                      maxLines: 1,
+                                    ),
+                                    SizedBox(
+                                      height: 1.5,
+                                    ),
+                                    Text(
+                                      chosenDriverInformation?.busType ??
+                                          'Air-Conditioned',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      maxLines: 1,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(15.0)),
             ),
@@ -318,11 +649,19 @@ class _CommuterAcceptedRideScreenState
                 onPressed: () {
                   dropOffAudio!.pause();
                   dropOffAudio!.stop();
-                  Navigator.of(ctx).pop();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const CommuterScreen()));
                 },
                 child: Container(
-                  padding: const EdgeInsets.all(14),
-                  child: const Text("OK"),
+                  padding: EdgeInsets.all(0), // Remove the padding
+                  child: const Text(
+                    "OK",
+                    style: TextStyle(
+                      color: Color(0xFF4E8C6F),
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -635,130 +974,301 @@ class _CommuterAcceptedRideScreenState
                   ),
                 ),
               )),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              height: 250,
-              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.8),
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(15.0),
-                  topRight: Radius.circular(15.0),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.3),
-                    spreadRadius: 2,
-                    blurRadius: 6,
-                  ),
-                ],
-              ),
-              child: Center(
-                child: Column(
-                  children: [
-                    Text(
-                      "Driver is on the way",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
+          DraggableScrollableSheet(
+            initialChildSize: 0.31,
+            minChildSize: 0.31,
+            maxChildSize: 0.53,
+            builder: (BuildContext context, ScrollController scrollController) {
+              return Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: Container(
+                  height: 250,
+                  padding:
+                      EdgeInsets.only(top: 25, left: 10, right: 10, bottom: 10),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.8),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20.0),
+                      topRight: Radius.circular(20.0),
                     ),
-                    SizedBox(height: 10),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Row(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.1),
+                        spreadRadius: 2,
+                        blurRadius: 6,
+                      ),
+                    ],
+                  ),
+                  child: Center(
+                    child: SingleChildScrollView(
+                      controller: scrollController,
+                      child: Column(
+                        children: [
+                          AutoSizeText(
+                            "Driver Information",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            maxLines: 3,
+                            minFontSize: 10,
+                          ),
+                          SizedBox(height: 10),
+                          // Add your non-scrollable content here
+                          Column(
                             children: [
                               Container(
-                                width: 90,
-                                height: 90,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      fit: BoxFit.contain,
-                                      image: AssetImage('images/driver.png')),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      offset: Offset(0, 1),
-                                      blurRadius: 5,
-                                      color: Colors.black.withOpacity(0.2),
-                                    ),
-                                  ],
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 0, horizontal: 20),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Row(
+                                        children: [
+                                          Container(
+                                            width: 90,
+                                            height: 90,
+                                            decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                  fit: BoxFit.contain,
+                                                  image: AssetImage(
+                                                      'images/driver.png')),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  offset: Offset(0, 1),
+                                                  blurRadius: 5,
+                                                  color: Colors.black
+                                                      .withOpacity(0.2),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              Row(
+                                                children: [
+                                                  AutoSizeText(
+                                                    '${chosenDriverInformation?.driverFirstName ?? 'First Name'} ${chosenDriverInformation?.driverLastName ?? 'Last Name'}',
+                                                    style: TextStyle(
+                                                      color: Color(0xFF006836),
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                    maxLines: 3,
+                                                    minFontSize: 10,
+                                                  ),
+                                                  SizedBox(
+                                                    width: 7,
+                                                  ),
+                                                  AutoSizeText(
+                                                    '09534535345',
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 12,
+                                                    ),
+                                                    maxLines: 3,
+                                                    minFontSize: 10,
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: 3,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  AutoSizeText(
+                                                    chosenDriverInformation
+                                                            ?.busNumber ??
+                                                        'F4343',
+                                                    style: TextStyle(
+                                                      color: Color(0xFF006836),
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                    maxLines: 1,
+                                                    minFontSize: 10,
+                                                  ),
+                                                  SizedBox(width: 15),
+                                                  AutoSizeText(
+                                                    chosenDriverInformation
+                                                            ?.busType ??
+                                                        'Air-Conditioned',
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 16,
+                                                    ),
+                                                    maxLines: 1,
+                                                    minFontSize: 10,
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: 3,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  AutoSizeText(
+                                                    chosenDriverInformation
+                                                            ?.busNumber ??
+                                                        'Booked: 1',
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 16,
+                                                    ),
+                                                    maxLines: 1,
+                                                    minFontSize: 10,
+                                                  ),
+                                                  SizedBox(width: 15),
+                                                  AutoSizeText(
+                                                    chosenDriverInformation
+                                                            ?.busType ??
+                                                        'Fare: P10.0',
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 16,
+                                                    ),
+                                                    maxLines: 1,
+                                                    minFontSize: 10,
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                              SizedBox(
-                                width: 30,
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  AutoSizeText(
-                                    '${chosenDriverInformation?.driverFirstName ?? 'First Name'} ${chosenDriverInformation?.driverLastName ?? 'Last Name'}',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    maxLines: 3,
-                                    minFontSize: 10,
-                                  ),
-                                  SizedBox(
-                                    height: 7,
-                                  ),
-                                  AutoSizeText(
-                                    chosenDriverInformation?.busNumber ??
-                                        'F4343',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                    ),
-                                    maxLines: 1,
-                                    minFontSize: 10,
-                                  ),
-                                  SizedBox(
-                                    height: 3,
-                                  ),
-                                  AutoSizeText(
-                                    chosenDriverInformation
-                                            ?.driverContactNumber ??
-                                        '09473582942',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                    ),
-                                    maxLines: 1,
-                                    minFontSize: 10,
-                                  ),
-                                  SizedBox(
-                                    height: 3,
-                                  ),
-                                  AutoSizeText(
-                                    chosenDriverInformation?.busType ??
-                                        'Air-Conditioned',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    maxLines: 1,
-                                    minFontSize: 10,
-                                  ),
-                                ],
-                              ),
                             ],
+                          ),
+                          SizedBox(height: 15),
+                          Divider(
+                            height: 1,
+                            thickness: 1.5,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 30, vertical: 5),
+                            child: Column(
+                              children: [
+                                Container(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Icon(
+                                            Icons.location_pin,
+                                            color: Color(0xFFA8CEB7),
+                                            size: 30.0,
+                                          ),
+                                          Text(
+                                            "Pickup",
+                                            style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold,
+                                              color: Color(0xFF4E8C6F),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 32.0),
+                                        child: Text(
+                                          Provider.of<AppInfo>(context)
+                                                      .userPickUpLocation !=
+                                                  null
+                                              ? Provider.of<AppInfo>(context)
+                                                  .userPickUpLocation!
+                                                  .locationName!
+                                              : 'Pickup Location',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          maxLines: 2,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 32.0),
+                                  child: Divider(
+                                      height: 10.0,
+                                      thickness: 0.5,
+                                      color: Color(0xFFB9C7C0)),
+                                ),
+                                Container(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Icon(
+                                            Icons.location_pin,
+                                            color: Color(0xFFA8CEB7),
+                                            size: 30.0,
+                                          ),
+                                          Text(
+                                            "Drop-off",
+                                            style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold,
+                                              color: Color(0xFF4E8C6F),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 32),
+                                        child: Text(
+                                          Provider.of<AppInfo>(context)
+                                                      .userDropOffLocation !=
+                                                  null
+                                              ? Provider.of<AppInfo>(context)
+                                                  .userDropOffLocation!
+                                                  .locationName!
+                                              : 'Drop-off location',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          maxLines: 2,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
+              );
+            },
           ),
         ],
       ),

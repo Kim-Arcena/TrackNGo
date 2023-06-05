@@ -6,7 +6,6 @@ import "package:trackngo/authentication/login_screen.dart";
 import "package:trackngo/mainScreen/commuter_screen.dart";
 import "package:trackngo/mainScreen/driver_screen.dart";
 
-import "../assistants/assistant_methods.dart";
 import "../global/global.dart";
 
 class MySplashScreen extends StatefulWidget {
@@ -17,10 +16,6 @@ class MySplashScreen extends StatefulWidget {
 
 class _MySplashScreenState extends State<MySplashScreen> {
   startTimer() {
-    print(fAuth.currentUser);
-    fAuth.currentUser != null
-        ? AssistantMethods.readCurrentOnlineUserInfo()
-        : null;
     Timer(const Duration(seconds: 3), () async {
       print("fAuth.currentUser: " + fAuth.currentUser.toString());
       if (fAuth.currentUser != null) {
@@ -44,9 +39,10 @@ class _MySplashScreenState extends State<MySplashScreen> {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => const CommuterScreen()));
         }
+      } else {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const LoginScreen()));
       }
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const LoginScreen()));
     });
   }
 

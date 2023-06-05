@@ -267,7 +267,7 @@ class _InnerContainerState extends State<InnerContainer> {
     };
     Map destinationLocationMap = {
       "latitude": destinationLocation!.locationLatitude.toString(),
-      "longitude": destinationLocation!.locationLongitude.toString(),
+      "longitude": destinationLocation.locationLongitude.toString(),
     };
     double passengerFare =
         AssistantMethods.calculateFairAmountFromOriginToDestination(
@@ -315,6 +315,7 @@ class _InnerContainerState extends State<InnerContainer> {
     // }
 
     await retrieveOnlineDriversInformation(onlineNearByAvailableDriversList);
+
     widget.moveToPage(1);
     print("choosenddriver id is" + chosenDriverId.toString());
     if (userResponse == "Driver Selected") {
@@ -358,6 +359,7 @@ class _InnerContainerState extends State<InnerContainer> {
     }
 
     print(dList.toString());
+    uniqueList.clear();
     uniqueList = dList.toSet().toList();
     print("length of unique list" + uniqueList.length.toString());
   }

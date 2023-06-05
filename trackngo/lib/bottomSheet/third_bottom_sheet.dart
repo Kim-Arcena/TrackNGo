@@ -348,41 +348,43 @@ class _InnerContainerState extends State<InnerContainer> {
               ),
             ),
           ),
-          Positioned(
-            top: 40,
-            left: 0,
-            right: 0,
+          Center(
             child: Padding(
-              padding: const EdgeInsets.only(top: 20, left: 40, right: 40),
-              child: Center(
-                child: Container(
-                  child: Column(
-                    children: [
-                      Image.asset('images/cardGreen.png', height: 120.0),
-                      ElevatedButton(
-                        onPressed: () {
-                          makePayment(AssistantMethods
-                              .calculateFairAmountFromOriginToDestination(
-                                  tripDrirectionDetailsInfo!));
-                        },
-                        child: Text(
-                          'Pay Now',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          primary: Color(0xFF439F74),
-                          minimumSize: Size(400, 45),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+              padding: const EdgeInsets.only(top: 130, left: 40, right: 40),
+              child: Container(
+                child: Column(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        makePayment(AssistantMethods
+                            .calculateFairAmountFromOriginToDestination(
+                                tripDrirectionDetailsInfo!));
+                      },
+                      child: Image.asset('images/cardGreen.png', width: 350.0),
+                    ),
+                    // ElevatedButton(
+                    //   onPressed: () {
+                    //     makePayment(AssistantMethods
+                    //         .calculateFairAmountFromOriginToDestination(
+                    //             tripDrirectionDetailsInfo!));
+                    //   },
+                    //   child: Text(
+                    //     'Pay Now',
+                    //     style: TextStyle(
+                    //       color: Colors.white,
+                    //       fontSize: 16,
+                    //       fontWeight: FontWeight.bold,
+                    //     ),
+                    //   ),
+                    //   style: ElevatedButton.styleFrom(
+                    //     primary: Color(0xFF53906B),
+                    //     minimumSize: Size(400, 45),
+                    //     shape: RoundedRectangleBorder(
+                    //       borderRadius: BorderRadius.circular(20.0),
+                    //     ),
+                    //   ),
+                    // ),
+                  ],
                 ),
               ),
             ),

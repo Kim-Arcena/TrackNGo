@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_geofire/flutter_geofire.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -13,6 +15,7 @@ import 'package:trackngo/global/global.dart';
 import 'package:trackngo/mainScreen/search_places_screen.dart';
 import 'package:trackngo/mainScreen/warningDialog.dart';
 import 'package:trackngo/models/active_nearby_available_drivers.dart';
+import 'package:trackngo/models/choosen_driver_information.dart';
 
 import '../assistants/assistant_methods.dart';
 import '../bottomSheet/first_bottom_sheet.dart';
@@ -66,7 +69,7 @@ class _CommuterScreenState extends State<CommuterScreen> {
 
     newGoogleMapController?.animateCamera(
       CameraUpdate.newCameraPosition(
-        CameraPosition(target: _initialcameraposition, zoom: 20),
+        CameraPosition(target: _initialcameraposition, zoom: 19),
       ),
     );
 
@@ -217,7 +220,7 @@ class _CommuterScreenState extends State<CommuterScreen> {
                                 const Align(
                                   alignment: Alignment.topLeft,
                                   child: Text(
-                                    "Dropoff",
+                                    "Drop-off",
                                     style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
@@ -257,10 +260,10 @@ class _CommuterScreenState extends State<CommuterScreen> {
                                                 ? Provider.of<AppInfo>(context)
                                                     .userDropOffLocation!
                                                     .locationName!
-                                                : 'DropOff Location',
+                                                : 'Drop-off Location',
                                           ),
                                           decoration: InputDecoration(
-                                            hintText: 'DropOff Location',
+                                            hintText: 'Drop-off Location',
                                           ),
                                           maxLines: null,
                                         ),
@@ -281,6 +284,7 @@ class _CommuterScreenState extends State<CommuterScreen> {
                             TextButton(
                               child: Text('OK'),
                               onPressed: () {
+                                Navigator.of(context).pop();
                                 if (Provider.of<AppInfo>(context, listen: false)
                                         .userDropOffLocation ==
                                     null) {
@@ -522,6 +526,23 @@ class _CommuterScreenState extends State<CommuterScreen> {
         GeoFireAssistant.activeNearbyAvailableDriversList.length.toString());
     for (ActiveNearbyAvailableDrivers eachDriver
         in GeoFireAssistant.activeNearbyAvailableDriversList) {
+      DatabaseReference usersRef =
+          await FirebaseDatabase.instance.ref().child("driver");
+      usersRef.child(eachDriver.driverId!).once().then((snap) {
+        eachDriverInformation ??= ChosenDriverInformation();
+        eachDriverInformation?.driverFirstName =
+            (snap.snapshot.value as Map)["firstName"];
+        eachDriverInformation?.driverLastName =
+            (snap.snapshot.value as Map)["lastName"];
+        eachDriverInformation?.driverContactNumber =
+            (snap.snapshot.value as Map)["contactNumber"];
+        eachDriverInformation?.busNumber =
+            (snap.snapshot.value as Map)["operatorId"];
+        eachDriverInformation?.driverPlateNumber =
+            (snap.snapshot.value as Map)["plateNumber"];
+        eachDriverInformation?.busType =
+            (snap.snapshot.value as Map)["busType"];
+      });
       LatLng eachDriverActivePosition =
           LatLng(eachDriver.locationLatitude!, eachDriver.locationLongitude!);
 
@@ -533,7 +554,144 @@ class _CommuterScreenState extends State<CommuterScreen> {
         position: eachDriverActivePosition,
         icon: busIcon,
         rotation: 360,
-        infoWindow: InfoWindow(title: "Driver", snippet: "Origin"),
+        infoWindow: InfoWindow(
+          title: eachDriverInformation!.driverFirstName!.toString() +
+              " " +
+              eachDriverInformation!.driverLastName!.toString(),
+          snippet: eachDriverInformation!.driverPlateNumber.toString(),
+          onTap: () {
+            showDialog(
+              context: context,
+              builder: (ctx) => AlertDialog(
+                content: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 7, vertical: 10),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Image.asset(
+                        'images/driver.png',
+                        width: 100.0,
+                        height: 100.0,
+                      ), // Replace 'your_image_path.png' with the actual path to your image
+                      const SizedBox(height: 7),
+                      Text(
+                        eachDriverInformation!.driverFirstName!.toString() +
+                            " " +
+                            eachDriverInformation!.driverLastName!.toString(),
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        eachDriverInformation!.driverContactNumber.toString(),
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.black,
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 10),
+                          Row(
+                            children: [
+                              AutoSizeText(
+                                "Plate Number",
+                                style: TextStyle(fontSize: 15),
+                                maxLines: 2,
+                                minFontSize: 10,
+                                maxFontSize: 15,
+                              ),
+                              Spacer(),
+                              AutoSizeText(
+                                eachDriverInformation!.driverPlateNumber
+                                    .toString(),
+                                style: TextStyle(
+                                    fontSize: 15, fontWeight: FontWeight.bold),
+                                maxLines: 2,
+                                minFontSize: 10,
+                                maxFontSize: 15,
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 10),
+                          Row(
+                            children: [
+                              AutoSizeText(
+                                "Bus Number",
+                                style: TextStyle(fontSize: 15),
+                                maxLines: 2,
+                                minFontSize: 10,
+                                maxFontSize: 15,
+                              ),
+                              Spacer(),
+                              AutoSizeText(
+                                eachDriverInformation!.busNumber.toString(),
+                                style: TextStyle(
+                                    fontSize: 15, fontWeight: FontWeight.bold),
+                                maxLines: 2,
+                                minFontSize: 10,
+                                maxFontSize: 15,
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 10),
+                          Row(
+                            children: [
+                              AutoSizeText(
+                                "Bus Type",
+                                style: TextStyle(fontSize: 15),
+                                maxLines: 2,
+                                minFontSize: 10,
+                                maxFontSize: 15,
+                              ),
+                              Spacer(),
+                              AutoSizeText(
+                                eachDriverInformation!.busType.toString(),
+                                style: TextStyle(
+                                    fontSize: 15, fontWeight: FontWeight.bold),
+                                maxLines: 2,
+                                minFontSize: 10,
+                                maxFontSize: 15,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                ),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () {
+                      arrivedAudio!.pause();
+                      arrivedAudio!.stop();
+                      Navigator.of(ctx).pop();
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(14),
+                      child: const Text(
+                        "OK",
+                        style: TextStyle(
+                          color: Color(0xFF4E8C6F),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
       );
 
       driverMarkerSet.add(driverMarker);

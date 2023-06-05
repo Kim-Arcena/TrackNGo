@@ -99,7 +99,6 @@ class _SignUpCommuter extends State<SignUpCommuter> {
       Map userDataMap = {
         "id": firebaseUser.uid,
         "email": _emailController.text.trim(),
-        "password": _passwordController.text.trim(),
       };
 
       DatabaseReference usersRef =
@@ -143,7 +142,6 @@ class _SignUpCommuter extends State<SignUpCommuter> {
       Map userDataMap = {
         "id": firebaseUser.uid,
         "email": _emailController.text.trim(),
-        "password": _passwordController.text.trim(),
       };
 
       DatabaseReference usersRef =

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -49,7 +50,6 @@ class _MainScreenState extends State<MainScreen>
   Color? buttonColor = Color(0xFF199A5D);
   String statusText = "Now Offline";
   Color stateColor = Colors.grey;
-  bool isDriverActive = false;
   TabController? tabController;
   int selectedIndex = 0;
   Position? onlineDriverCurrentPosition;
@@ -63,11 +63,9 @@ class _MainScreenState extends State<MainScreen>
   }
 
   readCurrentDriveInformation() async {
-    DatabaseReference usersRef = FirebaseDatabase(
-            databaseURL:
-                "https://trackngo-d7aa0-default-rtdb.asia-southeast1.firebasedatabase.app/")
-        .ref()
-        .child("driver");
+    print("id is " + currentFirebaseUser!.uid);
+    DatabaseReference usersRef =
+        FirebaseDatabase.instance.ref().child("driver");
     usersRef.child(currentFirebaseUser!.uid).once().then((snap) {
       if (snap.snapshot.value != null) {
         print("the current firebase user is " + currentFirebaseUser!.uid);
@@ -94,43 +92,11 @@ class _MainScreenState extends State<MainScreen>
         print("online driver data is null");
       }
     });
-
+    print("AssistantMethods readTripsKeysForOnlineUser(context) is called");
+    AssistantMethods.readTripsKeysForOnlineUser(context);
     PushNotificationSystem pushNotificationSystem = PushNotificationSystem();
     pushNotificationSystem.initializeCloudMessagin(context);
     pushNotificationSystem.generateAndGetToken();
-  }
-
-  void saveAssignedDriverDetailsToUserRideRequest() {
-    print("saveAssignedDriverDetailsToUserRideRequest" +
-        widget.userRideRequestDetails.toString());
-    // if (widget.userRideRequestDetails != null &&
-    //     widget.userRideRequestDetails!.rideRequestId != null) {
-    //   DatabaseReference databaseReference = FirebaseDatabase.instance
-    //       .ref()
-    //       .child("All Ride Requests")
-    //       .child(widget.userRideRequestDetails!.rideRequestId!);
-
-    //   print("widget.userRideRequestDetails!.rideRequestId! " +
-    //       widget.userRideRequestDetails!.rideRequestId!);
-
-    //   Map driverLocationDataMap = {
-    //     "latitude": driverCurrentPosition!.latitude,
-    //     "longitude": driverCurrentPosition!.longitude
-    //   };
-
-    //   databaseReference.child("driverLocation").set(driverLocationDataMap);
-    //   databaseReference.child("status").set("accepted");
-    //   databaseReference.child("driverId").set(onlineDriverData.id);
-    //   databaseReference
-    //       .child("driverFirstName")
-    //       .set(onlineDriverData.firstName);
-    //   databaseReference.child("driverLastName").set(onlineDriverData.lastName);
-    //   databaseReference
-    //       .child("driverContactNumber")
-    //       .set(onlineDriverData.contactNumber);
-    //   databaseReference.child("driverBusType").set(onlineDriverData.busType);
-    // }
-    // // print("saveAssignedDriverDetailsToUserRideRequest");
   }
 
   void _onMapCreated(GoogleMapController _cntlr) async {
@@ -157,7 +123,6 @@ class _MainScreenState extends State<MainScreen>
 
     var currentPosition =
         Provider.of<AppInfo>(context, listen: false).userPickUpLocation!;
-
     //originLatLng
     driverCurrentPosition = LatLng(
         currentPosition.locationLatitude!, currentPosition.locationLongitude!);
@@ -227,7 +192,7 @@ class _MainScreenState extends State<MainScreen>
     readCurrentDriveInformation();
     updateDriversLocationAtRealTime();
     drawPolyLineFromSourceToDestination();
-    saveAssignedDriverDetailsToUserRideRequest();
+
     tabController = TabController(length: 3, vsync: this);
   }
 
@@ -323,7 +288,7 @@ class _MainScreenState extends State<MainScreen>
                                   height: 50,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15),
-                                    color: Color(0xFF73AD90),
+                                    color: Color(0xFF2D9D69),
                                     boxShadow: [
                                       BoxShadow(
                                         color: statusText != "Now Online"
@@ -388,9 +353,9 @@ class _MainScreenState extends State<MainScreen>
                     )),
                 DraggableScrollableSheet(
                   initialChildSize:
-                      0.4, // Initial size of the draggable sheet (30% of the screen height)
+                      0.3, // Initial size of the draggable sheet (30% of the screen height)
                   minChildSize:
-                      0.4, // Minimum size of the draggable sheet (10% of the screen height)
+                      0.3, // Minimum size of the draggable sheet (10% of the screen height)
                   maxChildSize:
                       0.6, // Maximum size of the draggable sheet (80% of the screen height)
                   builder: (BuildContext context,
@@ -416,96 +381,48 @@ class _MainScreenState extends State<MainScreen>
                             ),
                           ],
                         ),
-                        child: Column(
-                          children: [
-                            Text(
-                              "Passengers",
-                              style: TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold,
+                        child: Padding(
+                          padding: const EdgeInsets.all(25),
+                          child: Column(
+                            children: [
+                              AutoSizeText(
+                                "Passengers",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                maxLines: 3,
+                                minFontSize: 10,
                               ),
-                            ),
-                            SizedBox(height: 10),
-                            Expanded(
-                              child: SingleChildScrollView(
-                                controller:
-                                    scrollController, // Use the scrollController from the DraggableScrollableSheet
-                                child: ListView.builder(
-                                  itemCount:
-                                      acceptedRideRequestDetailsList.length,
-                                  shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  itemBuilder: (context, index) {
-                                    // Access the current ride request object from the list
-                                    var rideRequest =
-                                        acceptedRideRequestDetailsList[index];
-
-                                    return Container(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    rideRequest.userFirstName
-                                                            .toString() +
-                                                        " " +
-                                                        rideRequest.userLastName
-                                                            .toString(),
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 17.0,
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: 5.0),
-                                                  Text(
-                                                    rideRequest.originAddress
-                                                        .toString(),
-                                                    style: TextStyle(
-                                                        fontSize: 13.0),
-                                                  ),
-                                                  SizedBox(height: 5.0),
-                                                ],
-                                              ),
-                                              ElevatedButton(
-                                                style: ElevatedButton.styleFrom(
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            15.0),
-                                                  ),
-                                                  fixedSize: Size(100, 35),
-                                                  primary:
-                                                      buttonColor, // background
-                                                ),
-                                                onPressed: () {},
-                                                child: Text(
-                                                  "Arrived",
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                              ),
-                                            ],
+                              SizedBox(height: 10),
+                              Expanded(
+                                child: SingleChildScrollView(
+                                  controller:
+                                      scrollController, // Use the scrollController from the DraggableScrollableSheet
+                                  child: ListView.builder(
+                                    itemCount: 1,
+                                    shrinkWrap: true,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemBuilder: (context, index) {
+                                      // Access the current ride request object from the list
+                                      return Center(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(10.0),
+                                          child: Container(
+                                            child: Text(
+                                              "There is currently no passenger.",
+                                              style: TextStyle(fontSize: 18),
+                                            ),
                                           ),
-                                        ],
-                                      ),
-                                    );
-                                  },
+                                        ),
+                                      );
+                                    },
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     );
@@ -537,31 +454,53 @@ class _MainScreenState extends State<MainScreen>
                         child: Material(
                           elevation: 10,
                           borderOnForeground: true,
-                          child: BottomNavigationBar(
-                            items: [
-                              BottomNavigationBarItem(
-                                icon: Icon(Icons.explore),
-                                label: 'Home',
-                              ),
-                              BottomNavigationBarItem(
-                                icon: Icon(Icons.attach_money),
-                                label: 'Earnings',
-                              ),
-                              BottomNavigationBarItem(
-                                icon: Icon(Icons.person),
-                                label: 'Profile',
-                              ),
-                            ],
-                            unselectedItemColor: Color(0xFF7c7c7c),
-                            selectedItemColor: Color(0xFF4E8C6F),
-                            backgroundColor: Color.fromARGB(255, 240, 255, 244),
-                            type: BottomNavigationBarType.fixed,
-                            selectedLabelStyle:
-                                const TextStyle(fontWeight: FontWeight.bold),
-                            showUnselectedLabels: true,
-                            currentIndex: selectedIndex,
-                            onTap: onItemSelected,
-                            elevation: 22,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Color(0xFF2D9D69),
+                            ),
+                            child: BottomNavigationBar(
+                              items: [
+                                BottomNavigationBarItem(
+                                  icon: Container(
+                                    height: 0,
+                                    child: Icon(
+                                      Icons.explore,
+                                      size: 30,
+                                    ),
+                                  ),
+                                  label: '',
+                                ),
+                                BottomNavigationBarItem(
+                                  icon: Container(
+                                    height: 0,
+                                    child: Icon(
+                                      Icons.wallet,
+                                      size: 30,
+                                    ),
+                                  ),
+                                  label: '',
+                                ),
+                                BottomNavigationBarItem(
+                                  icon: Container(
+                                    height: 0,
+                                    child: Icon(
+                                      Icons.person,
+                                      size: 30,
+                                    ),
+                                  ),
+                                  label: '',
+                                ),
+                              ],
+                              unselectedItemColor: Color(0xFFe3efe7),
+                              selectedItemColor: Colors.white,
+                              backgroundColor: Color(0xFF2D9D69),
+                              type: BottomNavigationBarType.fixed,
+                              selectedLabelStyle:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                              showUnselectedLabels: true,
+                              currentIndex: selectedIndex,
+                              onTap: onItemSelected,
+                            ),
                           ),
                         ),
                       ),
@@ -675,7 +614,7 @@ class _MainScreenState extends State<MainScreen>
     });
   }
 
-  driverIsOnlineNow() async {
+  void driverIsOnlineNow() async {
     String pathToReference = "activeDrivers";
 
     Position position = await Geolocator.getCurrentPosition(
@@ -689,8 +628,11 @@ class _MainScreenState extends State<MainScreen>
         driverCurrentPosition.longitude.toString());
 
     Geofire.initialize(pathToReference);
-    Geofire.setLocation(currentFirebaseUser!.uid,
-        driverCurrentPosition.latitude, driverCurrentPosition.longitude);
+    Geofire.setLocation(
+      currentFirebaseUser!.uid,
+      driverCurrentPosition.latitude,
+      driverCurrentPosition.longitude,
+    );
 
     print("the current user id is :: " +
         currentFirebaseUser!.uid +
@@ -699,14 +641,28 @@ class _MainScreenState extends State<MainScreen>
         "driver current position longitude is :: " +
         driverCurrentPosition.longitude.toString());
 
-    // ignore: deprecated_member_use
-    DatabaseReference usersRef = FirebaseDatabase(
-            databaseURL:
-                "https://trackngo-d7aa0-default-rtdb.asia-southeast1.firebasedatabase.app/")
+    DatabaseReference usersRef = FirebaseDatabase.instance
         .ref()
-        .child("driver");
-    usersRef.child(currentFirebaseUser!.uid).child("newRideStatus").set("idle");
-    usersRef.onValue.listen((event) {});
+        .child("driver")
+        .child(currentFirebaseUser!.uid);
+
+    usersRef.child("newRideStatus").set("idle");
+
+    // Ensure removal of value on app exit
+    // Ensure removal of value on app exit
+    SystemChannels.lifecycle.setMessageHandler((msg) {
+      if (msg == AppLifecycleState.paused.toString()) {
+        // Remove Geofire entry
+        Geofire.removeLocation(currentFirebaseUser!.uid);
+        // Remove newRideStatus value
+        usersRef.child("newRideStatus").remove();
+      }
+      return Future.value(null);
+    });
+
+    usersRef.child("newRideStatus").once().then((DataSnapshot snapshot) {
+          // Handle database changes
+        } as FutureOr Function(DatabaseEvent value));
   }
 
   updateDriversLocationAtRealTime() {
@@ -758,9 +714,5 @@ class _MainScreenState extends State<MainScreen>
     usersRef.onDisconnect();
     usersRef.remove();
     usersRef = null;
-
-    Future.delayed(const Duration(seconds: 2), () {
-      SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-    });
   }
 }
