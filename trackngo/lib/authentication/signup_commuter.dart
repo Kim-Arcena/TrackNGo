@@ -38,7 +38,7 @@ class _SignUpCommuter extends State<SignUpCommuter> {
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _confirmPasswordController = TextEditingController();
 
-  RegExp nameRegex = RegExp(r'\b[A-Z][a-z]*( [A-Z])?\b');
+  RegExp nameRegex = RegExp(r'^[\d*@*!*%***?*&* ]+$');
   RegExp digitRegex = RegExp(r'^(09)\d{9}$');
   RegExp emailRegex = RegExp(
       r"^[a-zA-Z\d.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z\d-]+(?:\.[a-zA-Z\d-]+)*$",
@@ -200,7 +200,7 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                                 validator: (isValid) {
                                   if (isValid!.isEmpty) {
                                     return 'This field requires a first name';
-                                  } else if (!nameRegex
+                                  } else if (nameRegex
                                       .hasMatch(_firstNameController.text)) {
                                     return 'Invalid First Name';
                                   }
@@ -210,6 +210,7 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                                   FilteringTextInputFormatter.deny(RegExp(
                                       r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
                                 ],
+                                textCapitalization: TextCapitalization.words,
                                 controller: _firstNameController,
                                 keyboardType: TextInputType.name,
                                 maxLength: 60,
@@ -225,6 +226,13 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                                   counterText: "",
                                   labelText: 'First Name',
                                   hintText: 'Juan',
+                                  suffixIcon: _firstNameController.text.isEmpty
+                                      ? Container(width: 0)
+                                      : IconButton(
+                                            color: Colors.green,
+                                            onPressed: () => _firstNameController.clear(),
+                                            icon: const Icon(Icons.clear)
+                                        ),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
@@ -259,7 +267,7 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                                 validator: (isValid) {
                                   if (isValid!.isEmpty) {
                                     return 'This field requires a last name';
-                                  } else if (!nameRegex
+                                  } else if (nameRegex
                                       .hasMatch(_lastNameController.text)) {
                                     return 'Invalid Last Name';
                                   }
@@ -269,6 +277,7 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                                   FilteringTextInputFormatter.deny(RegExp(
                                       r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
                                 ],
+                                textCapitalization: TextCapitalization.words,
                                 controller: _lastNameController,
                                 keyboardType: TextInputType.name,
                                 maxLength: 60,
@@ -284,6 +293,13 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                                   counterText: "",
                                   labelText: 'Last Name',
                                   hintText: 'Dela Cruz',
+                                  suffixIcon: _lastNameController.text.isEmpty
+                                      ? Container(width: 0)
+                                      : IconButton(
+                                            color: Colors.green,
+                                            onPressed: () => _lastNameController.clear(),
+                                            icon: const Icon(Icons.clear)
+                                        ),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
@@ -345,6 +361,13 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                                   counterText: "",
                                   labelText: 'Contact Number',
                                   hintText: '09XX-XXX-XXXX',
+                                  suffixIcon: _contactNumberController.text.isEmpty
+                                      ? Container(width: 0)
+                                      : IconButton(
+                                            color: Colors.green,
+                                            onPressed: () => _contactNumberController.clear(),
+                                            icon: const Icon(Icons.clear)
+                                        ),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
@@ -400,6 +423,13 @@ class _SignUpCommuter extends State<SignUpCommuter> {
                                   counterText: "",
                                   labelText: 'Email',
                                   hintText: 'email@address.com',
+                                  suffixIcon: _emailController.text.isEmpty
+                                      ? Container(width: 0)
+                                      : IconButton(
+                                          color: Colors.green,
+                                          onPressed: () => _emailController.clear(),
+                                          icon: const Icon(Icons.clear)
+                                      ),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),

@@ -46,7 +46,7 @@ class _SignUpDriver extends State<SignUpDriver> {
   List<String> busTypeList = ['Regular', 'Air-Conditioned'];
   String? selectedBusType;
 
-  RegExp nameRegex = RegExp(r'\b[A-Z][a-z]*( [A-Z])?\b');
+  RegExp nameRegex = RegExp(r'^[\d*@*!*%***?*&* ]+$');
   RegExp digitRegex = RegExp(r'^(09)\d{9}$');
   RegExp licenseRegex = RegExp(r'^[A-Z]\d{10}$');
   RegExp opcodeRegex = RegExp(r'^[A-Z]{2}\d{4}$');
@@ -237,7 +237,7 @@ class _SignUpDriver extends State<SignUpDriver> {
                                 validator: (isValid) {
                                   if (isValid!.isEmpty) {
                                     return 'This field requires a first name';
-                                  } else if (!nameRegex
+                                  } else if (nameRegex
                                       .hasMatch(_firstNameController.text)) {
                                     return 'Invalid First Name';
                                   }
@@ -247,6 +247,7 @@ class _SignUpDriver extends State<SignUpDriver> {
                                   FilteringTextInputFormatter.deny(RegExp(
                                       r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
                                 ],
+                                textCapitalization: TextCapitalization.words,
                                 controller: _firstNameController,
                                 keyboardType: TextInputType.name,
                                 maxLength: 60,
@@ -262,6 +263,13 @@ class _SignUpDriver extends State<SignUpDriver> {
                                   counterText: "",
                                   labelText: 'First Name',
                                   hintText: 'Juan',
+                                  suffixIcon: _firstNameController.text.isEmpty
+                                      ? Container(width: 0)
+                                      : IconButton(
+                                            color: Colors.green,
+                                            onPressed: () => _firstNameController.clear(),
+                                            icon: const Icon(Icons.clear)
+                                        ),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
@@ -296,7 +304,7 @@ class _SignUpDriver extends State<SignUpDriver> {
                                 validator: (isValid) {
                                   if (isValid!.isEmpty) {
                                     return 'This field requires a last name';
-                                  } else if (!nameRegex
+                                  } else if (nameRegex
                                       .hasMatch(_lastNameController.text)) {
                                     return 'Invalid Last Name';
                                   }
@@ -306,6 +314,7 @@ class _SignUpDriver extends State<SignUpDriver> {
                                   FilteringTextInputFormatter.deny(RegExp(
                                       r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
                                 ],
+                                textCapitalization: TextCapitalization.words,
                                 controller: _lastNameController,
                                 keyboardType: TextInputType.name,
                                 maxLength: 60,
@@ -321,6 +330,13 @@ class _SignUpDriver extends State<SignUpDriver> {
                                   counterText: "",
                                   labelText: 'Last Name',
                                   hintText: 'Dela Cruz',
+                                  suffixIcon: _lastNameController.text.isEmpty
+                                      ? Container(width: 0)
+                                      : IconButton(
+                                            color: Colors.green,
+                                            onPressed: () => _lastNameController.clear(),
+                                            icon: const Icon(Icons.clear)
+                                        ),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
@@ -378,6 +394,13 @@ class _SignUpDriver extends State<SignUpDriver> {
                                   counterText: "",
                                   labelText: 'Contact Number',
                                   hintText: '09XX-XXX-XXXX',
+                                  suffixIcon: _contactNumberController.text.isEmpty
+                                      ? Container(width: 0)
+                                      : IconButton(
+                                            color: Colors.green,
+                                            onPressed: () => _contactNumberController.clear(),
+                                            icon: const Icon(Icons.clear)
+                                        ),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
@@ -424,6 +447,7 @@ class _SignUpDriver extends State<SignUpDriver> {
                                   FilteringTextInputFormatter.deny(RegExp(
                                       r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
                                 ],
+                                textCapitalization: TextCapitalization.characters,
                                 controller: _licenseNumberController,
                                 keyboardType: TextInputType.text,
                                 maxLength: 60,
@@ -439,6 +463,13 @@ class _SignUpDriver extends State<SignUpDriver> {
                                   counterText: "",
                                   labelText: "Driver's License Number",
                                   hintText: 'A12-34-567890',
+                                  suffixIcon: _licenseNumberController.text.isEmpty
+                                      ? Container(width: 0)
+                                      : IconButton(
+                                            color: Colors.green,
+                                            onPressed: () => _licenseNumberController.clear(),
+                                            icon: const Icon(Icons.clear)
+                                        ),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
@@ -485,6 +516,7 @@ class _SignUpDriver extends State<SignUpDriver> {
                                   FilteringTextInputFormatter.deny(RegExp(
                                       r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
                                 ],
+                                textCapitalization: TextCapitalization.characters,
                                 controller: _operatorIdController,
                                 keyboardType: TextInputType.text,
                                 maxLength: 60,
@@ -500,6 +532,13 @@ class _SignUpDriver extends State<SignUpDriver> {
                                   counterText: "",
                                   labelText: 'Operator ID',
                                   hintText: 'AB-1234',
+                                  suffixIcon: _operatorIdController.text.isEmpty
+                                      ? Container(width: 0)
+                                      : IconButton(
+                                            color: Colors.green,
+                                            onPressed: () => _operatorIdController.clear(),
+                                            icon: const Icon(Icons.clear)
+                                        ),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
@@ -546,6 +585,7 @@ class _SignUpDriver extends State<SignUpDriver> {
                                   FilteringTextInputFormatter.deny(RegExp(
                                       r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
                                 ],
+                                textCapitalization: TextCapitalization.characters,
                                 controller: _plateNumberController,
                                 keyboardType: TextInputType.text,
                                 maxLength: 60,
@@ -561,6 +601,13 @@ class _SignUpDriver extends State<SignUpDriver> {
                                   counterText: "",
                                   labelText: 'Plate Number',
                                   hintText: 'ABC-1234',
+                                  suffixIcon: _plateNumberController.text.isEmpty
+                                      ? Container(width: 0)
+                                      : IconButton(
+                                            color: Colors.green,
+                                            onPressed: () => _plateNumberController.clear(),
+                                            icon: const Icon(Icons.clear)
+                                        ),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
@@ -680,6 +727,13 @@ class _SignUpDriver extends State<SignUpDriver> {
                                   counterText: "",
                                   labelText: 'Email',
                                   hintText: 'email@address.com',
+                                  suffixIcon: _emailController.text.isEmpty
+                                      ? Container(width: 0)
+                                      : IconButton(
+                                            color: Colors.green,
+                                            onPressed: () => _emailController.clear(),
+                                            icon: const Icon(Icons.clear)
+                                        ),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),

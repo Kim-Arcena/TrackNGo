@@ -207,6 +207,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   counterText: "",
                                   labelText: 'Email',
                                   hintText: 'email@address.com',
+                                  suffixIcon: _emailController.text.isNotEmpty
+                                      ? IconButton(
+                                          color: Colors.green,
+                                          onPressed: () => _emailController.clear(),
+                                          icon: const Icon(Icons.clear)
+                                      )
+                                      : Container(width: 0),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
