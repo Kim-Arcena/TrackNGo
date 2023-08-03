@@ -266,10 +266,10 @@ class _SignUpDriver extends State<SignUpDriver> {
                                   suffixIcon: _firstNameController.text.isEmpty
                                       ? Container(width: 0)
                                       : IconButton(
-                                            color: Colors.green,
-                                            onPressed: () => _firstNameController.clear(),
-                                            icon: const Icon(Icons.clear)
-                                        ),
+                                          color: Colors.green,
+                                          onPressed: () =>
+                                              _firstNameController.clear(),
+                                          icon: const Icon(Icons.clear)),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
@@ -333,10 +333,10 @@ class _SignUpDriver extends State<SignUpDriver> {
                                   suffixIcon: _lastNameController.text.isEmpty
                                       ? Container(width: 0)
                                       : IconButton(
-                                            color: Colors.green,
-                                            onPressed: () => _lastNameController.clear(),
-                                            icon: const Icon(Icons.clear)
-                                        ),
+                                          color: Colors.green,
+                                          onPressed: () =>
+                                              _lastNameController.clear(),
+                                          icon: const Icon(Icons.clear)),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
@@ -394,13 +394,14 @@ class _SignUpDriver extends State<SignUpDriver> {
                                   counterText: "",
                                   labelText: 'Contact Number',
                                   hintText: '09XX-XXX-XXXX',
-                                  suffixIcon: _contactNumberController.text.isEmpty
+                                  suffixIcon: _contactNumberController
+                                          .text.isEmpty
                                       ? Container(width: 0)
                                       : IconButton(
-                                            color: Colors.green,
-                                            onPressed: () => _contactNumberController.clear(),
-                                            icon: const Icon(Icons.clear)
-                                        ),
+                                          color: Colors.green,
+                                          onPressed: () =>
+                                              _contactNumberController.clear(),
+                                          icon: const Icon(Icons.clear)),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
@@ -447,7 +448,8 @@ class _SignUpDriver extends State<SignUpDriver> {
                                   FilteringTextInputFormatter.deny(RegExp(
                                       r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
                                 ],
-                                textCapitalization: TextCapitalization.characters,
+                                textCapitalization:
+                                    TextCapitalization.characters,
                                 controller: _licenseNumberController,
                                 keyboardType: TextInputType.text,
                                 maxLength: 60,
@@ -463,13 +465,14 @@ class _SignUpDriver extends State<SignUpDriver> {
                                   counterText: "",
                                   labelText: "Driver's License Number",
                                   hintText: 'A12-34-567890',
-                                  suffixIcon: _licenseNumberController.text.isEmpty
+                                  suffixIcon: _licenseNumberController
+                                          .text.isEmpty
                                       ? Container(width: 0)
                                       : IconButton(
-                                            color: Colors.green,
-                                            onPressed: () => _licenseNumberController.clear(),
-                                            icon: const Icon(Icons.clear)
-                                        ),
+                                          color: Colors.green,
+                                          onPressed: () =>
+                                              _licenseNumberController.clear(),
+                                          icon: const Icon(Icons.clear)),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
@@ -516,7 +519,8 @@ class _SignUpDriver extends State<SignUpDriver> {
                                   FilteringTextInputFormatter.deny(RegExp(
                                       r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
                                 ],
-                                textCapitalization: TextCapitalization.characters,
+                                textCapitalization:
+                                    TextCapitalization.characters,
                                 controller: _operatorIdController,
                                 keyboardType: TextInputType.text,
                                 maxLength: 60,
@@ -535,10 +539,10 @@ class _SignUpDriver extends State<SignUpDriver> {
                                   suffixIcon: _operatorIdController.text.isEmpty
                                       ? Container(width: 0)
                                       : IconButton(
-                                            color: Colors.green,
-                                            onPressed: () => _operatorIdController.clear(),
-                                            icon: const Icon(Icons.clear)
-                                        ),
+                                          color: Colors.green,
+                                          onPressed: () =>
+                                              _operatorIdController.clear(),
+                                          icon: const Icon(Icons.clear)),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
@@ -585,7 +589,8 @@ class _SignUpDriver extends State<SignUpDriver> {
                                   FilteringTextInputFormatter.deny(RegExp(
                                       r"^(\d*);(\d*);(\w+(?: \w+)?)?;(\d*);$")),
                                 ],
-                                textCapitalization: TextCapitalization.characters,
+                                textCapitalization:
+                                    TextCapitalization.characters,
                                 controller: _plateNumberController,
                                 keyboardType: TextInputType.text,
                                 maxLength: 60,
@@ -601,13 +606,14 @@ class _SignUpDriver extends State<SignUpDriver> {
                                   counterText: "",
                                   labelText: 'Plate Number',
                                   hintText: 'ABC-1234',
-                                  suffixIcon: _plateNumberController.text.isEmpty
+                                  suffixIcon: _plateNumberController
+                                          .text.isEmpty
                                       ? Container(width: 0)
                                       : IconButton(
-                                            color: Colors.green,
-                                            onPressed: () => _plateNumberController.clear(),
-                                            icon: const Icon(Icons.clear)
-                                        ),
+                                          color: Colors.green,
+                                          onPressed: () =>
+                                              _plateNumberController.clear(),
+                                          icon: const Icon(Icons.clear)),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
@@ -730,10 +736,10 @@ class _SignUpDriver extends State<SignUpDriver> {
                                   suffixIcon: _emailController.text.isEmpty
                                       ? Container(width: 0)
                                       : IconButton(
-                                            color: Colors.green,
-                                            onPressed: () => _emailController.clear(),
-                                            icon: const Icon(Icons.clear)
-                                        ),
+                                          color: Colors.green,
+                                          onPressed: () =>
+                                              _emailController.clear(),
+                                          icon: const Icon(Icons.clear)),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
@@ -923,9 +929,8 @@ class _SignUpDriver extends State<SignUpDriver> {
                                   onPressed: () {
                                     if (!_validationKey.currentState!
                                         .validate()) {
-                                      return;
+                                      saveDriverInfo();
                                     }
-                                    saveDriverInfo();
                                   },
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor: Color(0xFF4E8C6F),
