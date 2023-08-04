@@ -291,6 +291,7 @@ class _InnerContainerState extends State<InnerContainer> {
     referenceRideRequestRef!.set(userInformationMap);
     onlineNearByAvailableDriversList =
         GeoFireAssistant.activeNearbyAvailableDriversList;
+    
     print("the onlinAvailableDriversList is" +
         onlineNearByAvailableDriversList.length.toString() +
         "long");
@@ -338,7 +339,6 @@ class _InnerContainerState extends State<InnerContainer> {
   retrieveOnlineDriversInformation(List onlineNearestDriversList) async {
     DatabaseReference driverRef =
         FirebaseDatabase.instance.ref().child("driver");
-    print("driver ref" + driverRef.toString());
     dList.clear();
     print("online nearest drivers list" +
         onlineNearByAvailableDriversList.length.toString());

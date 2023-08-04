@@ -928,9 +928,8 @@ class _SignUpDriver extends State<SignUpDriver> {
                               child: ElevatedButton(
                                   onPressed: () {
                                     if (!_validationKey.currentState!
-                                        .validate()) {
-                                      saveDriverInfo();
-                                    }
+                                        .validate()) {}
+                                    saveDriverInfo();
                                   },
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor: Color(0xFF4E8C6F),

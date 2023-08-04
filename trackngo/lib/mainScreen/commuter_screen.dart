@@ -477,11 +477,27 @@ class _CommuterScreenState extends State<CommuterScreen> {
             ActiveNearbyAvailableDrivers activeNearbyAvailableDriver =
                 ActiveNearbyAvailableDrivers();
 
-            activeNearbyAvailableDriver.locationLatitude = map['latitude'];
-            activeNearbyAvailableDriver.locationLongitude = map['longitude'];
-            activeNearbyAvailableDriver.driverId = map['key'];
-            GeoFireAssistant.activeNearbyAvailableDriversList
-                .add(activeNearbyAvailableDriver);
+            //if key already exists in the list, do not add it again
+            if (GeoFireAssistant.activeNearbyAvailableDriversList
+                    .where(
+                        (element) => element.driverId == map['key'].toString())
+                    .length ==
+                0) {
+              activeNearbyAvailableDriver.locationLatitude = map['latitude'];
+              activeNearbyAvailableDriver.locationLongitude = map['longitude'];
+              activeNearbyAvailableDriver.driverId = map['key'];
+              GeoFireAssistant.activeNearbyAvailableDriversList
+                  .add(activeNearbyAvailableDriver);
+            } else {
+              //if key already exists in the list, update its location
+              int indexNumber = GeoFireAssistant
+                  .activeNearbyAvailableDriversList
+                  .indexWhere((element) => element.driverId == map['key']);
+              GeoFireAssistant.activeNearbyAvailableDriversList[indexNumber]
+                  .locationLatitude = map['latitude'];
+              GeoFireAssistant.activeNearbyAvailableDriversList[indexNumber]
+                  .locationLongitude = map['longitude'];
+            }
 
             if (activeNearbyAvailableDriversKeysLoaded == true) {
               displayActiveDriversOnMap();
@@ -498,12 +514,28 @@ class _CommuterScreenState extends State<CommuterScreen> {
             ActiveNearbyAvailableDrivers activeNearbyAvailableDriver =
                 ActiveNearbyAvailableDrivers();
 
-            activeNearbyAvailableDriver.locationLatitude = map['latitude'];
-            activeNearbyAvailableDriver.locationLongitude = map['longitude'];
-            activeNearbyAvailableDriver.driverId = map['key'];
+            //if key already exists in the list, do not add it again
+            if (GeoFireAssistant.activeNearbyAvailableDriversList
+                    .where(
+                        (element) => element.driverId == map['key'].toString())
+                    .length ==
+                0) {
+              activeNearbyAvailableDriver.locationLatitude = map['latitude'];
+              activeNearbyAvailableDriver.locationLongitude = map['longitude'];
+              activeNearbyAvailableDriver.driverId = map['key'];
+              GeoFireAssistant.activeNearbyAvailableDriversList
+                  .add(activeNearbyAvailableDriver);
+            } else {
+              //if key already exists in the list, update its location
+              int indexNumber = GeoFireAssistant
+                  .activeNearbyAvailableDriversList
+                  .indexWhere((element) => element.driverId == map['key']);
+              GeoFireAssistant.activeNearbyAvailableDriversList[indexNumber]
+                  .locationLatitude = map['latitude'];
+              GeoFireAssistant.activeNearbyAvailableDriversList[indexNumber]
+                  .locationLongitude = map['longitude'];
+            }
 
-            GeoFireAssistant.updateActiveNearbyAvailableDriverLocation(
-                activeNearbyAvailableDriver);
             displayActiveDriversOnMap();
             break;
 
