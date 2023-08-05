@@ -144,7 +144,11 @@ class _DriverTripScreenState extends State<DriverTripScreen>
 
     newGoogleMapController?.animateCamera(
       CameraUpdate.newCameraPosition(
-        CameraPosition(target: _initialcameraposition, zoom: 19),
+        CameraPosition(
+            target: _initialcameraposition,
+            zoom: 19,
+            tilt: 35,
+            bearing: position.heading),
       ),
     );
 
@@ -195,7 +199,9 @@ class _DriverTripScreenState extends State<DriverTripScreen>
         markerId: MarkerId("animatingMarkerID"),
         position: latLngLiveDriverPosition,
         icon: iconAnimatedMarker!,
-        infoWindow: InfoWindow(title: "Current Location"),
+        infoWindow: InfoWindow(
+            title: "Current Location",
+            snippet: driverCurrentPosition!.toString()),
       );
 
       setState(() {
@@ -714,6 +720,7 @@ class _DriverTripScreenState extends State<DriverTripScreen>
       markerId: const MarkerId("destinationID"),
       position: destinationLatLng,
       icon: customIconDestination,
+      infoWindow: InfoWindow(title: "Ungka Terminal 1"),
     );
 
     Circle destinationCircle = Circle(

@@ -117,7 +117,11 @@ class _MainScreenState extends State<MainScreen>
 
     newGoogleMapController?.animateCamera(
       CameraUpdate.newCameraPosition(
-        CameraPosition(target: _initialcameraposition, zoom: 19),
+        CameraPosition(
+            target: _initialcameraposition,
+            zoom: 19,
+            tilt: 35,
+            bearing: position.heading),
       ),
     );
 
@@ -525,7 +529,7 @@ class _MainScreenState extends State<MainScreen>
 
     print("this is the sourceLatLng :: $sourceLatLng");
 
-    var destinationLatLng = LatLng(11.722, 122.096);
+    var destinationLatLng = LatLng(10.720321, 122.562019);
 
     var directionDetailsInfo =
         await AssistantMethods.obtainOriginToDestinationDirectionDetails(
@@ -597,6 +601,7 @@ class _MainScreenState extends State<MainScreen>
       markerId: const MarkerId("destinationID"),
       position: destinationLatLng,
       icon: customIconDestination,
+      infoWindow: InfoWindow(title: "Ungka Terminal 1"),
     );
 
     Circle destinationCircle = Circle(
