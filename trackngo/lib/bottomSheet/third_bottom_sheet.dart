@@ -162,7 +162,7 @@ class _MyBottomSheetThreeContainerState
             ),
           ),
           SizedBox(
-            height: 30,
+            height: 35,
           ),
           //add another container box here
           InnerContainer(moveToPage),

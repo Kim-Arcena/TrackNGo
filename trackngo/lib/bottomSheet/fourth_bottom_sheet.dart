@@ -167,7 +167,7 @@ class _MyBottomSheetFourContainerState
             ),
           ),
           SizedBox(
-            height: 30,
+            height: 35,
           ),
           //add another container box here
           InnerContainer(moveToPage),

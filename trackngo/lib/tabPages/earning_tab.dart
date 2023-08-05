@@ -1,7 +1,7 @@
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:provider/provider.dart';
 import 'package:trackngo/infoHandler/app_info.dart';
-import 'package:trackngo/mainScreen/driver_trip_screen.dart';
+import 'package:trackngo/mainScreen/driver_screen.dart';
 import 'package:trackngo/tabPages/history_design_ui.dart';
 import 'package:trackngo/tabPages/profile_tab.dart';
 
@@ -25,7 +25,7 @@ class _EarningsTabPageState extends State<EarningsTabPage> {
     if (index == 0) {
       // Check if the "Earnings" item is clicked (index 1)
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => DriverTripScreen()));
+          context, MaterialPageRoute(builder: (context) => MainScreen()));
     } else if (index == 2) {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => ProfileTabPage()));

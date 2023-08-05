@@ -34,7 +34,6 @@ class MyWarningDialog {
                   onPressed: () {
                     // driverIsOfflineNow();
                     FirebaseAuth.instance.signOut();
-                    currentFirebaseUser = null;
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => MySplashScreen()),

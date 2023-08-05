@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_geofire/flutter_geofire.dart';
@@ -595,8 +594,7 @@ class _CommuterScreenState extends State<CommuterScreen> {
               context: context,
               builder: (ctx) => AlertDialog(
                 content: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 7, vertical: 10),
+                  padding: const EdgeInsets.all(8.0),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -632,64 +630,52 @@ class _CommuterScreenState extends State<CommuterScreen> {
                           SizedBox(height: 10),
                           Row(
                             children: [
-                              AutoSizeText(
+                              Text(
                                 "Plate Number",
                                 style: TextStyle(fontSize: 15),
                                 maxLines: 2,
-                                minFontSize: 10,
-                                maxFontSize: 15,
                               ),
                               Spacer(),
-                              AutoSizeText(
+                              Text(
                                 eachDriverInformation!.driverPlateNumber
                                     .toString(),
                                 style: TextStyle(
                                     fontSize: 15, fontWeight: FontWeight.bold),
                                 maxLines: 2,
-                                minFontSize: 10,
-                                maxFontSize: 15,
                               ),
                             ],
                           ),
                           SizedBox(height: 10),
                           Row(
                             children: [
-                              AutoSizeText(
+                              Text(
                                 "Bus Number",
                                 style: TextStyle(fontSize: 15),
                                 maxLines: 2,
-                                minFontSize: 10,
-                                maxFontSize: 15,
                               ),
                               Spacer(),
-                              AutoSizeText(
+                              Text(
                                 eachDriverInformation!.busNumber.toString(),
                                 style: TextStyle(
                                     fontSize: 15, fontWeight: FontWeight.bold),
                                 maxLines: 2,
-                                minFontSize: 10,
-                                maxFontSize: 15,
                               ),
                             ],
                           ),
                           SizedBox(height: 10),
                           Row(
                             children: [
-                              AutoSizeText(
+                              Text(
                                 "Bus Type",
                                 style: TextStyle(fontSize: 15),
                                 maxLines: 2,
-                                minFontSize: 10,
-                                maxFontSize: 15,
                               ),
                               Spacer(),
-                              AutoSizeText(
+                              Text(
                                 eachDriverInformation!.busType.toString(),
                                 style: TextStyle(
                                     fontSize: 15, fontWeight: FontWeight.bold),
                                 maxLines: 2,
-                                minFontSize: 10,
-                                maxFontSize: 15,
                               ),
                             ],
                           ),

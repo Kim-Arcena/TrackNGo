@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trackngo/global/global.dart';
-import 'package:trackngo/mainScreen/driver_trip_screen.dart';
+import 'package:trackngo/mainScreen/driver_screen.dart';
 import 'package:trackngo/tabPages/earning_tab.dart';
 
 class ProfileTabPage extends StatefulWidget {
@@ -24,7 +24,7 @@ class _ProfileTabPage extends State<ProfileTabPage> {
     if (index == 0) {
       // Check if the "Earnings" item is clicked (index 1)
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => DriverTripScreen()));
+          context, MaterialPageRoute(builder: (context) => MainScreen()));
     } else if (index == 1) {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => EarningsTabPage()));

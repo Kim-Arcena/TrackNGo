@@ -179,7 +179,7 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
                     ),
                   ),
                   SizedBox(
-                    height: 33,
+                    height: 35,
                   ),
                   //add another container box here
                   InnerContainer(moveToPage),
