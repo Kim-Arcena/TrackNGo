@@ -120,7 +120,7 @@ class _MainScreenState extends State<MainScreen>
         CameraPosition(
             target: _initialcameraposition,
             zoom: 19,
-            tilt: 35,
+            tilt: 40,
             bearing: position.heading),
       ),
     );
@@ -595,7 +595,7 @@ class _MainScreenState extends State<MainScreen>
 
     BitmapDescriptor customIconDestination =
         await BitmapDescriptor.fromAssetImage(
-            ImageConfiguration(devicePixelRatio: 2.5), 'images/terminal.png');
+            ImageConfiguration(devicePixelRatio: 3), 'images/term.png');
 
     Marker destinationMarker = Marker(
       markerId: const MarkerId("destinationID"),

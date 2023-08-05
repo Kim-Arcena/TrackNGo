@@ -97,6 +97,8 @@ flutter:
     - images/visa.png
     - images/bus.png
     - images/terminal.png
+    - images/term.png
+    - images/destination.png
     - images/offline.png
     - images/Dropoff.png
     - images/credit.png

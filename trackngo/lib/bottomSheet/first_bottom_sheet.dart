@@ -179,7 +179,7 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
                     ),
                   ),
                   SizedBox(
-                    height: 30,
+                    height: 33,
                   ),
                   //add another container box here
                   InnerContainer(moveToPage),
@@ -291,7 +291,7 @@ class _InnerContainerState extends State<InnerContainer> {
     referenceRideRequestRef!.set(userInformationMap);
     onlineNearByAvailableDriversList =
         GeoFireAssistant.activeNearbyAvailableDriversList;
-    
+
     print("the onlinAvailableDriversList is" +
         onlineNearByAvailableDriversList.length.toString() +
         "long");

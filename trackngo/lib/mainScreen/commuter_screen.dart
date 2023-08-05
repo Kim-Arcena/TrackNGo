@@ -433,17 +433,16 @@ class _CommuterScreenState extends State<CommuterScreen> {
 
     Marker destinationMarker = Marker(
       markerId: const MarkerId("destinationID"),
-      infoWindow: InfoWindow(
-          title: destinationPosition.locationName, snippet: "Destination"),
       position: destinationLatLng,
       icon: customIconDestination,
+      infoWindow: InfoWindow(title: destinationPosition.locationName),
     );
 
     Circle destinationCircle = Circle(
       circleId: const CircleId("destinationID"),
       fillColor: Color(0x225add6c),
       center: destinationLatLng,
-      radius: 20,
+      radius: 25,
       strokeWidth: 4,
       strokeColor: Color(0x22b0e5d9),
     );

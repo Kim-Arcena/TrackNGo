@@ -147,7 +147,7 @@ class _DriverTripScreenState extends State<DriverTripScreen>
         CameraPosition(
             target: _initialcameraposition,
             zoom: 19,
-            tilt: 35,
+            tilt: 40,
             bearing: position.heading),
       ),
     );
@@ -205,8 +205,11 @@ class _DriverTripScreenState extends State<DriverTripScreen>
       );
 
       setState(() {
-        CameraPosition cameraPosition =
-            CameraPosition(target: latLngLiveDriverPosition, zoom: 16);
+        CameraPosition cameraPosition = CameraPosition(
+            target: latLngLiveDriverPosition,
+            zoom: 16,
+            tilt: 40,
+            bearing: position.heading);
         newGoogleMapController!
             .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
 
@@ -714,7 +717,7 @@ class _DriverTripScreenState extends State<DriverTripScreen>
 
     BitmapDescriptor customIconDestination =
         await BitmapDescriptor.fromAssetImage(
-            ImageConfiguration(size: Size(10, 10)), 'images/terminal.png');
+            ImageConfiguration(size: Size(10, 10)), 'images/term.png');
 
     Marker destinationMarker = Marker(
       markerId: const MarkerId("destinationID"),
