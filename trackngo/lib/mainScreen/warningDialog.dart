@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_geofire/flutter_geofire.dart';
 
 import '../global/global.dart';
 import '../splashScreen/splash_screen.dart';
@@ -30,6 +32,7 @@ class MyWarningDialog {
                   label: Text("Logout"),
                   backgroundColor: Color(0xFF4e8c6f),
                   onPressed: () {
+                    // driverIsOfflineNow();
                     FirebaseAuth.instance.signOut();
                     currentFirebaseUser = null;
                     Navigator.push(
@@ -58,4 +61,16 @@ class MyWarningDialog {
       },
     );
   }
+}
+
+driverIsOfflineNow() {
+  Geofire.removeLocation(currentFirebaseUser!.uid);
+  // ignore: deprecated_member_use
+  DatabaseReference? usersRef = FirebaseDatabase(
+          databaseURL:
+              "https://trackngo-d7aa0-default-rtdb.asia-southeast1.firebasedatabase.app/")
+      .ref()
+      .child("activeDrivers")
+      .child(currentFirebaseUser!.uid);
+  usersRef.remove();
 }

@@ -927,9 +927,14 @@ class _SignUpDriver extends State<SignUpDriver> {
                                   const EdgeInsets.only(top: 20, bottom: 10),
                               child: ElevatedButton(
                                   onPressed: () {
-                                    if (!_validationKey.currentState!
-                                        .validate()) {}
-                                    saveDriverInfo();
+                                    if (_validationKey.currentState!
+                                        .validate()) {
+                                      saveDriverInfo();
+                                    } else {
+                                      Fluttertoast.showToast(
+                                          msg:
+                                              "Kindly fill up the form correctly.");
+                                    }
                                   },
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor: Color(0xFF4E8C6F),
