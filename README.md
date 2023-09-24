@@ -90,16 +90,26 @@
   <h2>Gallery</h2>
   <h3>App Screenshots</h3>
   <img src="https://github.com/Kim-Arcena/TrackNGo/assets/70198061/8cd8bf61-adbd-4e6e-bbe7-6c04a71e7481" alt="banner">
+
+![map](https://github.com/Kim-Arcena/TrackNGo/assets/70198061/8e8341ef-a9cd-4664-8c6f-66d7deeec2b1)
+
+![map (1)](https://github.com/Kim-Arcena/TrackNGo/assets/70198061/91befcf7-9ea0-4f8b-b23c-a0bee08f4cf7)
+
+![map (2)](https://github.com/Kim-Arcena/TrackNGo/assets/70198061/9782cb7f-0502-40ad-8acd-88559b8f9d85)
+![map (3)](https://github.com/Kim-Arcena/TrackNGo/assets/70198061/684b589c-67f3-4297-8fd9-73a8e7d289ac)
+![map (4)](https://github.com/Kim-Arcena/TrackNGo/assets/70198061/ce512fc3-e7db-4db6-9d83-ed7005b7bdf7)
+
   
-  <img src="assets/splashScreen.png" alt="Splash Screen" width="24%" height="460">
-  <img src="assets/login.png" alt="Login" width="24%" height="460" >
-  <img src="assets/register.png" alt="Register" width="24%" height="460">
-  <img src="assets/mainActivity.png" alt="Main Activity" width="24%" height="460">
+  <img src="https://github.com/Kim-Arcena/TrackNGo/assets/70198061/e9d822a5-4a94-482e-a7be-d422dbfd7ddf" alt="Splash Screen" width="24%">
+  <img src="https://github.com/Kim-Arcena/TrackNGo/assets/70198061/e0fb6654-c9e3-4f7c-b857-73df4cd01fd3" alt="Login" width="24%">
+  <img src="https://github.com/Kim-Arcena/TrackNGo/assets/70198061/2dc40142-1ee2-4a4f-b6c3-51fd091e308d" alt="Register" width="24%">
+  <img src="https://github.com/Kim-Arcena/TrackNGo/assets/70198061/13b399ac-742d-4810-91d5-b445607679a4" alt="Main Activity" width="24%">
   <br>
-  <img src="assets/sidebarMenu.png" alt="Side Bar Menu" width="24%" height="460">
-  <img src="assets/notes.png" alt="Notes" width="24%" height="460" >
-  <img src="assets/progress.png" alt="Register" width="24%" height="460">
-  <img src="assets/antiCheating.png" alt="Main Activity" width="24%" height="460">
+  <h4>Commuter's Screen Screenshots</h4>
+  <img src="https://github.com/Kim-Arcena/TrackNGo/assets/70198061/8e8341ef-a9cd-4664-8c6f-66d7deeec2b1" alt="Step 1" width="24%">
+  <img src="https://github.com/Kim-Arcena/TrackNGo/assets/70198061/91befcf7-9ea0-4f8b-b23c-a0bee08f4cf7" alt="Step 2" width="24%">
+  <img src="https://github.com/Kim-Arcena/TrackNGo/assets/70198061/684b589c-67f3-4297-8fd9-73a8e7d289ac" alt="Step 3" width="24%">
+  <img src="https://github.com/Kim-Arcena/TrackNGo/assets/70198061/684b589c-67f3-4297-8fd9-73a8e7d289ac" alt="Step 4" width="24%">
   
 </div>
 
