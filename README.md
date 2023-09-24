@@ -2,8 +2,8 @@
 <br />
 <div align="center">
   
-  <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="https://github.com/Kim-Arcena/TrackNGo/assets/70198061/6fb64fbb-6d05-48d4-906b-aa72b8794aa7" alt="Logo" width="80" height="80">
+  <a href="https://github.com/Kim-Arcena/TrackNGo/">
+    <img src="https://github.com/Kim-Arcena/TrackNGo/assets/70198061/683a97bd-41d5-4c98-8899-b7f39ce4b81e" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">TrackNGo</h3>
@@ -21,7 +21,7 @@
 <div>
   <!-- ABOUT THE PROJECT -->
   <h2>About the Project</h2>
-    <img src="https://github.com/Kim-Arcena/TrackNGo/assets/70198061/a965b226-1af8-404b-bf68-798cdb7b56a9" alt="banner">
+    <img src="https://github.com/Kim-Arcena/TrackNGo/assets/70198061/30563ee1-8cc5-4714-99ab-107e647fa616" alt="banner">
 
   <p>At TrackNGo, we envision a world where local commuting is not just a necessity but an enjoyable experience. Our mission is to foster stronger connections between riders and operators, empowering communities with a seamless, reliable, and sustainable travel solution. Join us on this journey towards smarter, hassle-free commuting with TrackNGo!</p>
 
@@ -85,32 +85,33 @@
 
 </div>
 
+
 <div>
   <!-- APP SCREENSHOT -->
   <h2>Gallery</h2>
-  <h3>App Screenshots[not all]</h3>
-  <img src="https://github.com/Kim-Arcena/TrackNGo/assets/70198061/8cd8bf61-adbd-4e6e-bbe7-6c04a71e7481" alt="banner">
+  <h3>App Screenshots [not all]</h3>
+  <img src="https://github.com/Kim-Arcena/TrackNGo/assets/70198061/c78676e5-18d4-4909-a994-70d11448cde3" alt="banner">
 
-  <img src="https://github.com/Kim-Arcena/TrackNGo/assets/70198061/1c970587-4b55-42eb-8b43-6665ddf2bab0" alt="Splash Screen" width="24%">
-  <img src="https://github.com/Kim-Arcena/TrackNGo/assets/70198061/e0fb6654-c9e3-4f7c-b857-73df4cd01fd3" alt="Login" width="24%">
-  <img src="https://github.com/Kim-Arcena/TrackNGo/assets/70198061/2dc40142-1ee2-4a4f-b6c3-51fd091e308d" alt="Register" width="24%">
-  <img src="https://github.com/Kim-Arcena/TrackNGo/assets/70198061/13b399ac-742d-4810-91d5-b445607679a4" alt="Main Activity" width="24%">
+  <img src="https://github.com/Kim-Arcena/TrackNGo/assets/70198061/e0dbf95c-e2ab-40fe-a737-3668a22438b6" alt="Splash Screen" width="24%">
+  <img src="https://github.com/Kim-Arcena/TrackNGo/assets/70198061/9d88db10-d97a-4891-ac93-dc5c5ffe0c3f" alt="Login" width="24%">
+  <img src="https://github.com/Kim-Arcena/TrackNGo/assets/70198061/8e20e3bc-e097-4b8e-93ca-f6b4a510bc2c" alt="Register" width="24%">
+  <img src="https://github.com/Kim-Arcena/TrackNGo/assets/70198061/d2250b20-b1d1-490e-b15d-7ff4e0a5e02f" alt="Main Activity" width="24%">
   <br><br>
 
   <h4>Commuter's Screen Screenshots</h4>
   
-  <img src="https://github.com/Kim-Arcena/TrackNGo/assets/70198061/8e8341ef-a9cd-4664-8c6f-66d7deeec2b1" alt="Step 1" width="24%">
-  <img src="https://github.com/Kim-Arcena/TrackNGo/assets/70198061/91befcf7-9ea0-4f8b-b23c-a0bee08f4cf7" alt="Step 2" width="24%">
-  <img src="https://github.com/Kim-Arcena/TrackNGo/assets/70198061/ce512fc3-e7db-4db6-9d83-ed7005b7bdf7" alt="Step 3" width="24%">
-  <img src="https://github.com/Kim-Arcena/TrackNGo/assets/70198061/684b589c-67f3-4297-8fd9-73a8e7d289ac" alt="Step 4" width="24%">
+  <img src="https://github.com/Kim-Arcena/TrackNGo/assets/70198061/95a78db6-bcec-4d84-bcfe-706de59876cc" alt="Step 1" width="24%">
+  <img src="https://github.com/Kim-Arcena/TrackNGo/assets/70198061/2026c43f-ee1a-44f8-89ba-35367693004c" alt="Step 2" width="24%">
+  <img src="https://github.com/Kim-Arcena/TrackNGo/assets/70198061/c7dc3553-56c1-47c2-868d-a33322b660a0" alt="Step 3" width="24%">
+  <img src="https://github.com/Kim-Arcena/TrackNGo/assets/70198061/ad4cd808-3d8d-436c-892a-d09db27bd9b3" alt="Step 4" width="24%">
   <br><br>
   
   <h4>Driver's Screen Screenshots</h4>
   
-  <img src="https://github.com/Kim-Arcena/TrackNGo/assets/70198061/94268e9f-5cb5-4e30-ae1a-20be2ba89ee0" alt="Driver Acceptance" width="24%">
-  <img src="https://github.com/Kim-Arcena/TrackNGo/assets/70198061/e7e2aff1-3b37-4b71-b490-9b882787fb5f" alt="Driver List" width="24%">
-  <img src="https://github.com/Kim-Arcena/TrackNGo/assets/70198061/69321df5-a3b2-477a-a895-9bdc0f6ee59d" alt="Earnings" width="24%">
-  <img src="https://github.com/Kim-Arcena/TrackNGo/assets/70198061/e5e3f7a2-4c98-4139-810e-213cefe94e82" alt="Ride receipt" width="24%">
+  <img src="https://github.com/Kim-Arcena/TrackNGo/assets/70198061/4059356d-6021-4455-8987-ba521c90822c" alt="Driver Acceptance" width="24%">
+  <img src="https://github.com/Kim-Arcena/TrackNGo/assets/70198061/592f49e6-09ba-4236-851c-cfc5e58c19af" alt="Driver List" width="24%">
+  <img src="https://github.com/Kim-Arcena/TrackNGo/assets/70198061/0ed9bfe7-5338-4c78-9345-3d14cec352fa" alt="Earnings" width="24%">
+  <img src="https://github.com/Kim-Arcena/TrackNGo/assets/70198061/8a5d1897-dfb0-4c83-acce-3f448ee2d1b5" alt="Ride receipt" width="24%">
 </div>
 
 <div>
