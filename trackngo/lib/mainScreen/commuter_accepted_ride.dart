@@ -760,6 +760,7 @@ class _CommuterAcceptedRideScreenState
     listenToDriverLocationChanges();
     getDriversInformation();
     checkRideStatus();
+    drawPolyLineFromSourceToDestination();
   }
 
   @override
@@ -770,8 +771,8 @@ class _CommuterAcceptedRideScreenState
           GoogleMap(
             myLocationButtonEnabled: false,
             zoomControlsEnabled: false,
-            initialCameraPosition:
-                CameraPosition(target: _initialcameraposition, zoom: 20),
+            initialCameraPosition: CameraPosition(
+                target: _initialcameraposition, zoom: 20, tilt: 40),
             cameraTargetBounds: CameraTargetBounds(
               LatLngBounds(
                 northeast: LatLng(11.689764, 123.491869),

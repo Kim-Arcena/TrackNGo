@@ -68,7 +68,7 @@ class _CommuterScreenState extends State<CommuterScreen> {
 
     newGoogleMapController?.animateCamera(
       CameraUpdate.newCameraPosition(
-        CameraPosition(target: _initialcameraposition, zoom: 19),
+        CameraPosition(target: _initialcameraposition, zoom: 19, tilt: 15, bearing: position.heading! ),
       ),
     );
 

@@ -391,7 +391,9 @@ class _DriverTripScreenState extends State<DriverTripScreen>
                                   itemBuilder: (context, index) {
                                     var rideRequest =
                                         acceptedRideRequestDetailsList[index];
-
+                                    String originAddress =
+                                        rideRequest.originAddress.toString();
+                                    bool isLongText = originAddress.length > 20;
                                     return Container(
                                       child: Column(
                                         crossAxisAlignment:
@@ -401,37 +403,43 @@ class _DriverTripScreenState extends State<DriverTripScreen>
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  AutoSizeText(
-                                                    rideRequest.userFirstName
-                                                            .toString() +
-                                                        " " +
-                                                        rideRequest.userLastName
-                                                            .toString(),
-                                                    style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.bold,
+                                              Expanded(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    AutoSizeText(
+                                                      rideRequest.userFirstName
+                                                              .toString() +
+                                                          " " +
+                                                          rideRequest
+                                                              .userLastName
+                                                              .toString(),
+                                                      style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                      maxLines: 3,
+                                                      minFontSize: 10,
                                                     ),
-                                                    maxLines: 3,
-                                                    minFontSize: 10,
-                                                  ),
-                                                  SizedBox(height: 5.0),
-                                                  AutoSizeText(
-                                                    rideRequest.originAddress
-                                                        .toString(),
-                                                    style: TextStyle(
-                                                        fontSize: 12.0),
-                                                    maxLines: 3,
-                                                    minFontSize: 10,
-                                                    maxFontSize: 12,
-                                                  ),
-                                                  SizedBox(height: 5.0),
-                                                ],
+                                                    SizedBox(height: 5.0),
+                                                    FittedBox(
+                                                      fit: BoxFit.scaleDown,
+                                                      child: AutoSizeText(
+                                                        rideRequest
+                                                            .originAddress
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                            fontSize: 12.0),
+                                                        maxLines: 2,
+                                                        minFontSize: 10,
+                                                        maxFontSize: 12,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
                                               ElevatedButton(
                                                 style: ElevatedButton.styleFrom(
@@ -651,7 +659,7 @@ class _DriverTripScreenState extends State<DriverTripScreen>
 
     print("this is the sourceLatLng :: $sourceLatLng");
 
-    var destinationLatLng = LatLng(11.722, 122.096);
+    var destinationLatLng = LatLng(10.720321, 122.562019);
 
     var directionDetailsInfo =
         await AssistantMethods.obtainOriginToDestinationDirectionDetails(
